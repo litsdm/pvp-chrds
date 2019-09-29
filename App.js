@@ -6,7 +6,6 @@ import * as Font from 'expo-font';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { bool } from 'prop-types';
 
 import AppNavigator from './src/navigation/AppNavigator';
@@ -62,8 +61,7 @@ const handleFinishLoading = setLoadingComplete => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: getStatusBarHeight()
+    backgroundColor: '#fff'
   }
 });
 

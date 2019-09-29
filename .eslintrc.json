@@ -8,6 +8,7 @@
   "extends": "erb",
   "rules": {
     "no-underscore-dangle": "off",
-    "compat/compat": "off"
+    "compat/compat": "off",
+    "react/forbid-prop-types": "off"
   }
 }
