@@ -2417,6 +2417,11 @@ expo-av@~7.0.0:
     lodash "^4.17.15"
     nullthrows "^1.1.0"
 
+expo-brightness@~7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/expo-brightness/-/expo-brightness-7.0.0.tgz#f97b53cbc6e42a85be5b5a7a654863b4978dd5b1"
+  integrity sha512-GgxASl/yP/u2dzAFlSI0HMIgn8cYFDTxHK9rl4v1hpsbEKGEDvA/f4YxOKn+xgtCK/eOrsi87KmmEUfPzO/SPw==
+
 expo-camera@~7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/expo-camera/-/expo-camera-7.0.0.tgz#3beee6c88df4d87dc3d0daefc8a9b3f5864a63bd"

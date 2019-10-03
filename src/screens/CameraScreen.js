@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { StatusBar, StyleSheet, Text, View } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
+import * as Brightness from 'expo-brightness';
 import { object } from 'prop-types';
 
 import { useAnimation } from '../helpers/hooks';
@@ -12,6 +13,8 @@ import CountdownPopup from '../components/Camera/CountdownPopup';
 
 const { front: frontType } = Camera.Constants.Type;
 const { off: flashOff, on: flashOn, torch } = Camera.Constants.FlashMode;
+
+let originalBrightness;
 
 const CameraScreen = ({ navigation }) => {
   const [hasPermissions, setPermissions] = useState(false);
@@ -29,11 +32,14 @@ const CameraScreen = ({ navigation }) => {
 
   useEffect(() => {
     checkPermissions();
+    setBrightness(true);
   }, []);
 
   useEffect(() => {
     if (isRecording) animateTo(1);
     else animateTo(0);
+
+    setBrightness();
   }, [isRecording]);
 
   const setState = newState =>
@@ -63,14 +69,32 @@ const CameraScreen = ({ navigation }) => {
       }
     });
 
+  const setBrightness = async (original = false) => {
+    const currentBrightness = await Brightness.getSystemBrightnessAsync();
+    if (original) {
+      originalBrightness = currentBrightness;
+      return;
+    }
+
+    if (isRecording && cameraType === frontType && flash === flashOn)
+      await Brightness.setSystemBrightnessAsync(1);
+    else if (!isRecording && currentBrightness === 1) {
+      await Brightness.setSystemBrightnessAsync(originalBrightness);
+    }
+  };
+
   const handleCountdownEnd = () => {
     setState({ isRecording: true, isCounting: false });
     recordVideo();
   };
 
   const checkPermissions = async () => {
-    const { CAMERA, AUDIO_RECORDING } = Permissions;
-    const { status } = await Permissions.askAsync(CAMERA, AUDIO_RECORDING);
+    const { CAMERA, AUDIO_RECORDING, SYSTEM_BRIGHTNESS } = Permissions;
+    const { status } = await Permissions.askAsync(
+      CAMERA,
+      AUDIO_RECORDING,
+      SYSTEM_BRIGHTNESS
+    );
 
     if (status !== 'granted') navigation.goBack();
     else setPermissions(true);
@@ -121,6 +145,9 @@ const CameraScreen = ({ navigation }) => {
         />
       ) : null}
       {isCounting ? <CountdownPopup onEnd={handleCountdownEnd} /> : null}
+      {isRecording && cameraType === frontType && flash === flashOn ? (
+        <View style={styles.frontFlash} />
+      ) : null}
     </View>
   );
 };
@@ -129,6 +156,16 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#000',
     flex: 1
+  },
+  frontFlash: {
+    backgroundColor: '#fff',
+    bottom: 0,
+    left: 0,
+    opacity: 0.9,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: 10
   }
 });
 
