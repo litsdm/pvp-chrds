@@ -8,6 +8,7 @@ import { useAnimation } from '../helpers/hooks';
 
 import MainControls from '../components/Camera/MainControls';
 import VideoOverlay from '../components/Camera/VideoOverlay';
+import CountdownPopup from '../components/Camera/CountdownPopup';
 
 const { front: frontType } = Camera.Constants.Type;
 const { off: flashOff, on: flashOn, torch } = Camera.Constants.FlashMode;
@@ -17,9 +18,10 @@ const CameraScreen = ({ navigation }) => {
   const [cameraType, setCameraType] = useState(frontType);
   const [flash, setFlash] = useState(flashOff);
   const [isRecording, setRecording] = useState(false);
+  const [isCounting, setCounting] = useState(false);
   const [videoUri, setVideoUri] = useState('');
   const [videos, setVideos] = useState([]);
-  const { animationValue, animateTo } = useAnimation(200);
+  const { animationValue, animateTo } = useAnimation({ duration: 200 });
 
   const camera = useRef(null);
   const cameraAnimation = useRef(null);
@@ -54,10 +56,17 @@ const CameraScreen = ({ navigation }) => {
           return setRecording(value);
         case 'videoUri':
           return setVideoUri(value);
+        case 'isCounting':
+          return setCounting(value);
         default:
           break;
       }
     });
+
+  const handleCountdownEnd = () => {
+    setState({ isRecording: true, isCounting: false });
+    recordVideo();
+  };
 
   const checkPermissions = async () => {
     const { CAMERA, AUDIO_RECORDING } = Permissions;
@@ -77,6 +86,8 @@ const CameraScreen = ({ navigation }) => {
     setState({ isRecording: false, videoUri: uri });
   };
 
+  const waitForCountdown = () => setCounting(true);
+
   return (
     <View style={styles.container}>
       <StatusBar hidden />
@@ -91,7 +102,7 @@ const CameraScreen = ({ navigation }) => {
           <MainControls
             flash={flash}
             cameraType={cameraType}
-            recordVideo={recordVideo}
+            recordVideo={waitForCountdown}
             setState={setState}
             isRecording={isRecording}
             cameraAnimationRef={cameraAnimation}
@@ -109,6 +120,7 @@ const CameraScreen = ({ navigation }) => {
           cameraType={cameraType}
         />
       ) : null}
+      {isCounting ? <CountdownPopup onEnd={handleCountdownEnd} /> : null}
     </View>
   );
 };

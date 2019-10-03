@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Animated,
   Platform,
@@ -97,10 +97,17 @@ const MainControls = ({
               </View>
             </TouchableWithoutFeedback>
           </Animated.View>
-          <TouchableWithoutFeedback onPress={recordVideo}>
+          <TouchableWithoutFeedback
+            onPress={recordVideo}
+            disabled={isRecording}
+          >
             <Animated.View style={[styles.mainButton, animateOuter]}>
               <Animated.View
-                style={[styles.innerCircle, isRecording ? styles.innerRec : {}, animateInner]}
+                style={[
+                  styles.innerCircle,
+                  isRecording ? styles.innerRec : {},
+                  animateInner
+                ]}
               />
             </Animated.View>
           </TouchableWithoutFeedback>
@@ -202,7 +209,9 @@ MainControls.propTypes = {
   setState: func.isRequired,
   isRecording: bool.isRequired,
   recordVideo: func.isRequired,
-  animationValue: object.isRequired
+  animationValue: object.isRequired,
+  cameraAnimationRef: object.isRequired,
+  flashAnimationRef: object.isRequired
 };
 
 export default MainControls;
