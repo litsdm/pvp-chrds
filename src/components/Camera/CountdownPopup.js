@@ -19,7 +19,7 @@ const CountdownPopup = ({ onEnd }) => {
     onEnd();
   };
 
-  const countDown = useCountdown(3, handleEnd);
+  const countDown = useCountdown({ onEnd: handleEnd, endAt: 1 });
 
   return (
     <Animated.View style={[styles.container, opacity]}>

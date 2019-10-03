@@ -13,6 +13,7 @@ import LottieView from 'lottie-react-native';
 import { bool, func, number, object } from 'prop-types';
 
 import WordTooltip from './WordTooltip';
+import CircularProgress from './CircularProgress';
 
 import cameraAnimation from '../../../assets/animations/selfieSwitch.json';
 import flashAnimation from '../../../assets/animations/flashSwitch.json';
@@ -109,6 +110,7 @@ const MainControls = ({
                   animateInner
                 ]}
               />
+              {isRecording ? <CircularProgress /> : null}
             </Animated.View>
           </TouchableWithoutFeedback>
           <Animated.View style={animateOpacity}>
