@@ -20,7 +20,7 @@ const VideoOverlay = ({ uri, cameraType, setState }) => {
       </View>
       <LinearGradient
         style={styles.gradient}
-        colors={['transparent', 'rgba(0, 0, 0, 0.5)']}
+        colors={['rgba(0, 0, 0, 0.3)', 'transparent']}
         pointerEvents="none"
       />
       <Video
@@ -60,8 +60,7 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
     right: 0,
-    top: 0,
-    zIndex: -1
+    top: 0
   },
   video: {
     bottom: 0,
