@@ -6,9 +6,15 @@ import * as Font from 'expo-font';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from '@apollo/react-hooks';
 import { bool } from 'prop-types';
 
 import AppNavigator from './src/navigation/AppNavigator';
+
+const client = new ApolloClient({
+  uri: 'http://localhost:8080'
+});
 
 const App = ({ skipLoadingScreen }) => {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
@@ -24,14 +30,16 @@ const App = ({ skipLoadingScreen }) => {
   }
 
   return (
-    <View style={styles.container}>
-      <SafeAreaView
-        style={{ flex: 1, backgroundColor: '#fff' }}
-        forceInset={{ top: 'never' }}
-      >
-        <AppNavigator />
-      </SafeAreaView>
-    </View>
+    <ApolloProvider client={client}>
+      <View style={styles.container}>
+        <SafeAreaView
+          style={{ flex: 1, backgroundColor: '#fff' }}
+          forceInset={{ top: 'never' }}
+        >
+          <AppNavigator />
+        </SafeAreaView>
+      </View>
+    </ApolloProvider>
   );
 };
 
@@ -43,7 +51,11 @@ const loadResourcesAsync = async () => {
       ...Ionicons.font,
       // We include SpaceMono because we use it in HomeScreen.js. Feel free to
       // remove this if you are not using it in your app
-      'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf')
+      'sf-bold': require('./assets/fonts/SF-Pro-Text-Bold.otf'),
+      'sf-medium': require('./assets/fonts/SF-Pro-Text-Medium.otf'),
+      'sf-regular': require('./assets/fonts/SF-Pro-Text-Regular.otf'),
+      'sf-light': require('./assets/fonts/SF-Pro-Text-Light.otf'),
+      'sf-thin': require('./assets/fonts/SF-Pro-Text-Thin.otf')
     })
   ]);
 };

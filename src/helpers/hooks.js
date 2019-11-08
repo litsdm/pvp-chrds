@@ -2,13 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import { Animated } from 'react-native';
 
 const initialAnimationOpts = {
-  duration: 100,
+  duration: 200,
   autoPlay: false
 };
 
 export function useAnimation(options = {}) {
   const finalOptions = { ...initialAnimationOpts, ...options };
-  const { duration, autoPlay } = finalOptions;
+  const { duration, autoPlay, delay } = finalOptions;
   const animationValue = useRef(new Animated.Value(0));
 
   const animateTo = toValue => {
@@ -21,7 +21,8 @@ export function useAnimation(options = {}) {
 
   if (autoPlay) {
     useEffect(() => {
-      animateTo(1);
+      if (delay) setTimeout(() => animateTo(1), delay);
+      else animateTo(1);
     }, []);
   }
 
