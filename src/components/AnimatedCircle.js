@@ -1,5 +1,6 @@
 import React from 'react';
 import { Animated, StyleSheet } from 'react-native';
+import { bool, number, object, shape, string } from 'prop-types';
 
 import { useAnimation } from '../helpers/hooks';
 
@@ -12,7 +13,11 @@ const AnimatedCircle = ({
   size,
   empty
 }) => {
-  const { animationValue } = useAnimation({ autoPlay: true, delay, duration: 300 });
+  const { animationValue } = useAnimation({
+    autoPlay: true,
+    delay,
+    duration: 300
+  });
 
   const animateScale = {
     transform: [
@@ -94,5 +99,25 @@ const styles = StyleSheet.create({
     position: 'absolute'
   }
 });
+
+AnimatedCircle.propTypes = {
+  circleStyle: object,
+  endPosition: shape({ x: number, y: number }),
+  animationType: string,
+  delay: number,
+  color: string,
+  size: number,
+  empty: bool
+};
+
+AnimatedCircle.defaultProps = {
+  circleStyle: {},
+  endPosition: {},
+  animationType: 'opacity',
+  delay: null,
+  color: '#7C4DFF',
+  size: 50,
+  empty: false
+};
 
 export default AnimatedCircle;
