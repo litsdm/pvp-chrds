@@ -16,6 +16,8 @@ import AnimatedCircle from '../components/AnimatedCircle';
 import ProgressBar from '../components/LevelProgressBar';
 // import MatchRow from '../components/MatchRow';
 
+import Layout from '../constants/Layout';
+
 const HomeScreen = () => {
   return (
     <ScrollView>
@@ -91,6 +93,8 @@ const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#FCFCFE',
+    minHeight: Layout.window.height - 52,
     paddingTop: getStatusBarHeight(),
     paddingBottom: 24
   },

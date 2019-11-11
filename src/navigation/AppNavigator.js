@@ -1,14 +1,12 @@
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
-import HomeScreen from '../screens/HomeScreen';
+import MainTabNavigator from './MainTabNavigator';
+
 import CameraScreen from '../screens/CameraScreen';
 
-const MainStack = createStackNavigator(
+const CameraStack = createStackNavigator(
   {
-    Home: {
-      screen: HomeScreen
-    },
     Camera: {
       screen: CameraScreen
     }
@@ -22,6 +20,7 @@ const MainStack = createStackNavigator(
 
 export default createAppContainer(
   createSwitchNavigator({
-    Main: MainStack
+    Main: MainTabNavigator,
+    Camera: CameraStack
   })
 );
