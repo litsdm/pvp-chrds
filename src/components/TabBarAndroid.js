@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { func, object } from 'prop-types';
 
-import Tab from './Tab';
+import Tab from './TabAndroid';
 
 const TabBar = ({ renderIcon, navigation, onTabPress }) => {
   const { routes, index } = navigation.state;
@@ -18,7 +18,6 @@ const TabBar = ({ renderIcon, navigation, onTabPress }) => {
       />
       <TouchableOpacity style={styles.play}>
         <Ionicons name="logo-game-controller-b" size={26} color="#999" />
-        <Text style={styles.playText}>Play</Text>
       </TouchableOpacity>
       <Tab
         renderIcon={renderIcon}
@@ -36,19 +35,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 52,
     justifyContent: 'space-around',
-    paddingHorizontal: 12,
-    borderRadius: 24
+    paddingHorizontal: 12
   },
   play: {
-    alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'center'
-  },
-  playText: {
-    color: '#000',
-    fontFamily: 'sf-medium',
-    fontSize: 10,
-    opacity: 0.4
+    width: 36
   }
 });
 

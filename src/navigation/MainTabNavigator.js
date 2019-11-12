@@ -6,7 +6,10 @@ import { createStackNavigator } from 'react-navigation-stack';
 import HomeScreen from '../screens/HomeScreen';
 import CategoriesScreen from '../screens/CategoriesScreen';
 import TabBarIcon from '../components/TabBarIcon';
-import TabBar from '../components/TabBar';
+import TabBarApple from '../components/TabBar';
+import TabBarAndroid from '../components/TabBarAndroid';
+
+const TabBar = Platform.OS === 'ios' ? TabBarApple : TabBarAndroid;
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -29,7 +32,7 @@ HomeStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      colorName="Default"
+      colorName="Home"
       name={Platform.OS === 'ios' ? 'ios-home' : 'md-home'}
     />
   )
@@ -45,12 +48,21 @@ const CategoriesStack = createStackNavigator(
 CategoriesStack.navigationOptions = {
   tabBarLabel: 'Categories',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} colorName="Default" name="ios-apps" />
+    <TabBarIcon
+      focused={focused}
+      colorName={Platform.OS === 'ios' ? 'Home' : 'Categories'}
+      name="ios-apps"
+    />
   )
 };
 
 const tabBarConfig = {
-  tabBarComponent: props => <TabBar {...props} />
+  tabBarComponent: props => <TabBar {...props} />,
+  tabBarOptions: {
+    style: {
+      borderRadius: 24
+    }
+  }
 };
 
 const tabNavigator = createBottomTabNavigator(

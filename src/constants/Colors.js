@@ -4,9 +4,11 @@ export default {
   tintColor,
   tabIconDefault: '#999',
   tabIconSelected: {
-    Default: '#7C4DFF'
+    Home: '#7C4DFF',
+    Categories: '#FFC107'
   },
   tabBackgroundSelected: {
-    Default: 'rgba(33,150,243, 0.2)'
+    Home: 'rgba(124,77,255, 0.2)',
+    Categories: 'rgba(255,193,7, 0.2)'
   }
 };
