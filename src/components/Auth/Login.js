@@ -1,13 +1,20 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { func, string } from 'prop-types';
+import { bool, func, string } from 'prop-types';
 
 import Layout from '../../constants/Layout';
 
 import Input from './Input';
 
-const Login = ({ goToSignup, setState, email, password }) => (
+const Login = ({
+  goToSignup,
+  setState,
+  email,
+  password,
+  authorize,
+  authorizing
+}) => (
   <>
     <View style={styles.logoWrapper}>
       <Image
@@ -35,8 +42,14 @@ const Login = ({ goToSignup, setState, email, password }) => (
       />
     </View>
     <View style={styles.footer}>
-      <TouchableOpacity style={styles.signupButton}>
-        <Text style={styles.signupText}>Log In</Text>
+      <TouchableOpacity
+        style={styles.signupButton}
+        onPress={authorize}
+        disabled={authorizing}
+      >
+        <Text style={styles.signupText}>
+          {authorizing ? 'Authorizing...' : 'Log In'}
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.switchButton} onPress={goToSignup}>
         <Text styles={styles.switchText}>
@@ -137,18 +150,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     borderRadius: 12,
-    height: 124,
+    height: 112,
     justifyContent: 'center',
     shadowColor: 'rgba(0, 0, 0, 0.5)',
     shadowOffset: { width: 2, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
-    width: 124
+    width: 112
   },
   logo: {
     borderRadius: 12,
-    height: 100,
-    width: 100
+    height: 88,
+    width: 88
   }
 });
 
@@ -156,7 +169,9 @@ Login.propTypes = {
   goToSignup: func.isRequired,
   setState: func.isRequired,
   email: string.isRequired,
-  password: string.isRequired
+  password: string.isRequired,
+  authorize: func.isRequired,
+  authorizing: bool.isRequired
 };
 
 export default Login;

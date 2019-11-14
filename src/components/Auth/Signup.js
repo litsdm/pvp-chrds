@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { func, string } from 'prop-types';
+import { bool, func, string } from 'prop-types';
 
 import Layout from '../../constants/Layout';
 
@@ -11,7 +11,15 @@ const IPHONE_X_HEIGHT = 812;
 const ICON_WRAPPER_SIZE = (Layout.window.height * 112) / IPHONE_X_HEIGHT;
 const ICON_SIZE = (ICON_WRAPPER_SIZE * 88) / 112;
 
-const Signup = ({ goToLogin, setState, username, email, password }) => (
+const Signup = ({
+  goToLogin,
+  setState,
+  username,
+  email,
+  password,
+  authorize,
+  authorizing
+}) => (
   <>
     <View style={styles.logoWrapper}>
       <Image
@@ -45,8 +53,14 @@ const Signup = ({ goToLogin, setState, username, email, password }) => (
       />
     </View>
     <View style={styles.footer}>
-      <TouchableOpacity style={styles.signupButton}>
-        <Text style={styles.signupText}>Sign Up</Text>
+      <TouchableOpacity
+        style={styles.signupButton}
+        onPress={authorize}
+        disabled={authorizing}
+      >
+        <Text style={styles.signupText}>
+          {authorizing ? 'Authorizing...' : 'Sign Up'}
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.switchButton} onPress={goToLogin}>
         <Text styles={styles.switchText}>
@@ -90,9 +104,8 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 24,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    marginBottom: 12,
+    paddingVertical: 6,
     width: Layout.window.width - 48
   },
   signupText: {
@@ -117,7 +130,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: 24
+    marginVertical: 12
   },
   line: {
     backgroundColor: 'rgba(0 ,0, 0, 0.1)',
@@ -167,7 +180,9 @@ Signup.propTypes = {
   setState: func.isRequired,
   username: string.isRequired,
   email: string.isRequired,
-  password: string.isRequired
+  password: string.isRequired,
+  authorize: func.isRequired,
+  authorizing: bool.isRequired
 };
 
 export default Signup;

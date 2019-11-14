@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { AsyncStorage, Keyboard, StyleSheet, View } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { object } from 'prop-types';
+import callApi from '../helpers/apiCaller';
 
 import Login from '../components/Auth/Login';
 import Signup from '../components/Auth/Signup';
@@ -13,6 +14,7 @@ const AuthEmailScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [authorizing, setAuthorizing] = useState(false);
 
   const toggleScreen = () => setNew(!isNew);
 
@@ -26,6 +28,87 @@ const AuthEmailScreen = ({ navigation }) => {
         return setPassword(value);
       default:
         break;
+    }
+  };
+
+  const callLogin = async () => {
+    try {
+      const payload = {
+        email,
+        password
+      };
+      const response = await callApi('login', payload, 'POST');
+      const { token, message } = await response.json();
+
+      if (message) throw new Error(message);
+
+      return token;
+    } catch (exception) {
+      throw new Error(exception.message);
+    }
+  };
+
+  const callSignup = async () => {
+    try {
+      const payload = {
+        email,
+        password,
+        username
+      };
+
+      const response = await callApi('signup', payload, 'POST');
+      const { token, message } = await response.json();
+
+      if (message) throw new Error(message);
+
+      return token;
+    } catch (exception) {
+      console.log(`[callSignup] ${exception.message}`);
+      throw new Error(exception.message);
+    }
+  };
+
+  const validateEmail = emailStr => {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(emailStr).toLowerCase());
+  };
+
+  const validate = () => {
+    let errorMessage = '';
+
+    if (email === '') errorMessage = 'Please enter your email.';
+    if (password === '') errorMessage = 'Please enter your password.';
+
+    if (username === '' && isNew) errorMessage = 'Please enter your username.';
+    if (!validateEmail(email) && isNew) errorMessage = 'Email is invalid.';
+    if (password.length < 3 && isNew)
+      errorMessage = 'Password must be at least 3 characters long.';
+
+    return errorMessage;
+  };
+
+  const authorize = async () => {
+    try {
+      const errorMessage = validate();
+      let token;
+
+      Keyboard.dismiss();
+      if (errorMessage) {
+        // displayBadge(errorMessage);
+        return;
+      }
+
+      setAuthorizing(true);
+
+      if (isNew) token = await callSignup();
+      else token = await callLogin();
+
+      await AsyncStorage.setItem('CHRDS_TOKEN', token);
+      navigation.navigate('Main');
+    } catch (exception) {
+      setAuthorizing(false);
+      // displayBadge(exception.message);
+      console.log(exception.message);
     }
   };
 
@@ -70,6 +153,8 @@ const AuthEmailScreen = ({ navigation }) => {
           username={username}
           email={email}
           password={password}
+          authorize={authorize}
+          authorizing={authorizing}
         />
       ) : (
         <Login
@@ -77,6 +162,8 @@ const AuthEmailScreen = ({ navigation }) => {
           setState={setState}
           email={email}
           password={password}
+          authorize={authorize}
+          authorizing={authorizing}
         />
       )}
     </View>
