@@ -12,6 +12,8 @@ import { bool } from 'prop-types';
 
 import AppNavigator from './src/navigation/AppNavigator';
 
+import PopupManager from './src/components/PopupManager';
+
 const client = new ApolloClient({
   uri: 'http://localhost:8080'
 });
@@ -36,6 +38,7 @@ const App = ({ skipLoadingScreen }) => {
           style={{ flex: 1, backgroundColor: '#fff' }}
           forceInset={{ top: 'never' }}
         >
+          <PopupManager />
           <AppNavigator />
         </SafeAreaView>
       </View>
