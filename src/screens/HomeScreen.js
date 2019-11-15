@@ -12,8 +12,10 @@ import { useLazyQuery } from '@apollo/react-hooks';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment';
+import jwtDecode from 'jwt-decode';
 
 import GET_USER from '../graphql/queries/getUserFromToken';
+import GET_USER_MATCHES from '../graphql/queries/getUserMatches';
 
 import AnimatedCircle from '../components/AnimatedCircle';
 import ProgressBar from '../components/LevelProgressBar';
@@ -23,22 +25,30 @@ import Loader from '../components/Loader';
 import Layout from '../constants/Layout';
 
 const HomeScreen = () => {
+  const [
+    getMatches,
+    { loading: loadingMatches, data: matchesData }
+  ] = useLazyQuery(GET_USER_MATCHES);
   const [getUser, { loading, data }] = useLazyQuery(GET_USER);
   const user = data ? data.user : {};
 
+  console.log(matchesData);
+
   useEffect(() => {
-    fetchUser();
+    fetchData();
   }, []);
 
-  const fetchUser = async () => {
+  const fetchData = async () => {
     const token = await AsyncStorage.getItem('CHRDS_TOKEN');
+    const { _id } = jwtDecode(token);
     getUser({ variables: { token } });
+    getMatches({ variables: { _id } });
   };
 
   return (
     <>
       <View style={styles.statusBar} />
-      {loading ? (
+      {loading && loadingMatches ? (
         <Loader />
       ) : (
         <ScrollView>
