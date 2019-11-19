@@ -11,34 +11,46 @@ import CategoryColumn from '../CategoryColumn';
 
 import Layout from '../../constants/Layout';
 
-const SelectCategory = ({ handleNext, selectCategory }) => (
-  <View style={styles.container}>
-    <Text style={styles.title}>Select Category</Text>
-    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+const SelectCategory = ({
+  handleNext,
+  selectCategory,
+  selectedCategory,
+  categories
+}) => {
+  const renderCategories = () =>
+    categories.map(({ _id, name, description, image, color }, index) => (
       <CategoryColumn
-        name="Movie Characters"
-        description="Characters from a lot of movies recent and old."
-        onPress={selectCategory(0)}
+        key={_id}
+        name={name}
+        description={description}
+        image={image}
+        color={color}
+        onPress={selectCategory(index)}
         selecting
+        selected={selectedCategory === index}
       />
-      <CategoryColumn
-        name="Movie Characters"
-        description="Characters from a lot of movies recent and old."
-        onPress={selectCategory(0)}
-        selecting
-      />
-      <CategoryColumn
-        name="Movie Characters"
-        description="Characters from a lot of movies recent and old."
-        onPress={selectCategory(0)}
-        selecting
-      />
-    </ScrollView>
-    <TouchableOpacity style={styles.button} onPress={handleNext}>
-      <Text style={styles.buttonText}>Next</Text>
-    </TouchableOpacity>
-  </View>
-);
+    ));
+
+  const disabled = selectedCategory === null;
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Select Category</Text>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {renderCategories()}
+      </ScrollView>
+      <TouchableOpacity
+        style={[styles.button, disabled ? styles.disabled : {}]}
+        onPress={handleNext}
+        disabled={disabled}
+      >
+        <Text style={[styles.buttonText, disabled ? styles.disabledText : {}]}>
+          Next
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -65,6 +77,12 @@ const styles = StyleSheet.create({
     color: '#7c4dff',
     fontFamily: 'sf-bold',
     fontSize: 22
+  },
+  disabled: {
+    backgroundColor: 'rgba(44, 44, 44, 0.2)'
+  },
+  disabledText: {
+    color: '#777'
   }
 });
 

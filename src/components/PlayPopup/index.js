@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { ScrollView } from 'react-native';
+import { useQuery } from '@apollo/react-hooks';
 import { func } from 'prop-types';
+
+import GET_CATEGORIES from '../../graphql/queries/getCategories';
 
 import Popup from '../Popup';
 import SelectCategory from './SelectCategory';
@@ -9,6 +12,7 @@ import SelectFriend from './SelectFriend';
 import Layout from '../../constants/Layout';
 
 const PlayPopup = ({ close }) => {
+  const { loading, data } = useQuery(GET_CATEGORIES);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [page, setPage] = useState(0);
   const scrollView = useRef(null);
@@ -28,10 +32,13 @@ const PlayPopup = ({ close }) => {
       });
   };
 
-  const selectCategory = index => () => setSelectedCategory(index);
+  const selectCategory = index => () => {
+    if (index === selectedCategory) setSelectedCategory(null);
+    else setSelectedCategory(index);
+  };
 
   const handleNext = () => {
-    // if (selectedCategory === null) return;
+    if (selectedCategory === null) return;
     setPage(1);
   };
 
@@ -51,6 +58,8 @@ const PlayPopup = ({ close }) => {
         <SelectCategory
           handleNext={handleNext}
           selectCategory={selectCategory}
+          selectedCategory={selectedCategory}
+          categories={data ? data.categories : []}
         />
         <SelectFriend />
       </ScrollView>

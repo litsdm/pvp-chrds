@@ -37,6 +37,12 @@ const styles = StyleSheet.create({
     color: '#7c4dff',
     fontFamily: 'sf-bold',
     fontSize: 22
+  },
+  disabled: {
+    backgroundColor: 'rgba(44, 44, 44, 0.2)'
+  },
+  disabledText: {
+    color: '#777'
   }
 });
 

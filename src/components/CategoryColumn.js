@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, TouchableOpacity, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { bool, func, string } from 'prop-types';
 
 import Layout from '../constants/Layout';
@@ -7,25 +8,33 @@ import Layout from '../constants/Layout';
 const CategoryColumn = ({
   name,
   description,
+  image,
+  color,
   onPress,
   onPressInner,
   selecting,
   selected
 }) => (
   <TouchableOpacity style={styles.container} onPress={onPress}>
-    <View style={styles.bg}>
+    <View
+      style={[styles.bg, { backgroundColor: selected ? '#4CAF50' : color }]}
+    >
       <View style={styles.cut}>
-        <View style={styles.corner} />
+        <View
+          style={[
+            styles.corner,
+            { backgroundColor: selected ? '#4CAF50' : color }
+          ]}
+        />
       </View>
     </View>
     <View style={styles.imageWrapper}>
-      <Image
-        source={{
-          uri:
-            'https://feather-static.s3-us-west-2.amazonaws.com/chrds-logo-bg.jpeg'
-        }}
-        style={styles.logo}
-      />
+      {selected ? (
+        <View style={styles.overlay}>
+          <Ionicons color="#4CAF50" size={42} name="ios-checkmark" />
+        </View>
+      ) : null}
+      <Image source={{ uri: image }} style={styles.logo} />
     </View>
     <Text style={styles.name} numberOfLines={1} ellipsizeMode="tail">
       {name}
@@ -137,13 +146,27 @@ const styles = StyleSheet.create({
       {
         rotate: '25deg'
       }
-    ],
+    ]
+  },
+  overlay: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 12,
+    bottom: 0,
+    left: 0,
+    justifyContent: 'center',
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: 1
   }
 });
 
 CategoryColumn.propTypes = {
   name: string.isRequired,
   description: string.isRequired,
+  image: string.isRequired,
+  color: string.isRequired,
   onPress: func.isRequired,
   onPressInner: func,
   selecting: bool,

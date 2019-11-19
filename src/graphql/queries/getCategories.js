@@ -6,6 +6,9 @@ export default gql`
       _id
       name
       description
+      image
+      color
+      words
     }
   }
 `;
