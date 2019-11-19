@@ -1,10 +1,10 @@
 import React from 'react';
 
-import Popup from './Popup';
+import PlayPopup from './PlayPopup';
 
 const PopupManager = () => (
   <>
-    <Popup />
+    <PlayPopup />
   </>
 );
 

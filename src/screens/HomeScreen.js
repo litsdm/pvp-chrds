@@ -32,8 +32,6 @@ const HomeScreen = () => {
   const [getUser, { loading, data }] = useLazyQuery(GET_USER);
   const user = data ? data.user : {};
 
-  console.log(matchesData);
-
   useEffect(() => {
     fetchData();
   }, []);

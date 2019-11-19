@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import {
   Animated,
   PanResponder,
+  Platform,
   StyleSheet,
   TouchableOpacity,
   View
@@ -72,7 +73,8 @@ const Popup = ({ children, close }) => {
         style={[
           styles.content,
           position.current.getTranslateTransform(),
-          animateDisplay
+          animateDisplay,
+          Platform.OS === 'ios' ? styles.posApple : styles.posAndroid
         ]}
         onLayout={handleLayout}
         {...panResponder.panHandlers}
@@ -112,9 +114,13 @@ const styles = StyleSheet.create({
     left: 0,
     minHeight: 180,
     position: 'absolute',
-    right: 0,
+    right: 0
+  },
+  posAndroid: {
     bottom: 0
-    // top: Layout.window.height
+  },
+  posApple: {
+    top: Layout.window.height
   }
 });
 
