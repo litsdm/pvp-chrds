@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     width: Layout.window.width
   },
   title: {

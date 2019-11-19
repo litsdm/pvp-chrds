@@ -4,6 +4,7 @@ import { func } from 'prop-types';
 
 import Popup from '../Popup';
 import SelectCategory from './SelectCategory';
+import SelectFriend from './SelectFriend';
 
 import Layout from '../../constants/Layout';
 
@@ -18,7 +19,6 @@ const PlayPopup = ({ close }) => {
 
   const scrollPage = () => {
     if (!scrollView.current) return;
-
     if (page === 0) scrollView.current.scrollTo({ x: 0, y: 0, animated: true });
     else
       scrollView.current.scrollTo({
@@ -31,7 +31,7 @@ const PlayPopup = ({ close }) => {
   const selectCategory = index => () => setSelectedCategory(index);
 
   const handleNext = () => {
-    if (selectedCategory === null) return;
+    // if (selectedCategory === null) return;
     setPage(1);
   };
 
@@ -52,6 +52,7 @@ const PlayPopup = ({ close }) => {
           handleNext={handleNext}
           selectCategory={selectCategory}
         />
+        <SelectFriend />
       </ScrollView>
     </Popup>
   );
