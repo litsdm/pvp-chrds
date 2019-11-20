@@ -18,6 +18,7 @@
     "no-console": "off",
     "no-use-before-define": "off",
     "no-multi-assign": "off",
+    "no-underscore-dangle": "off",
     "prettier/prettier": ["error", { "singleQuote": true, "parser": "flow" }],
     "promise/param-names": "error",
     "promise/always-return": "error",

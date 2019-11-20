@@ -4,5 +4,12 @@ export default gql`
   {
     displayPlay
     playCategory
+    displayCategory
+    selectedCategory {
+      _id
+      name
+      description
+      words
+    }
   }
 `;

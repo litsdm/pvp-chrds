@@ -7,12 +7,12 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { arrayOf, func, oneOfType, node } from 'prop-types';
+import { arrayOf, bool, func, oneOfType, node } from 'prop-types';
 
 import { useAnimation } from '../helpers/hooks';
 import Layout from '../constants/Layout';
 
-const Popup = ({ children, close }) => {
+const Popup = ({ children, close, showsDragIndicator }) => {
   const [contentHeight, setContentHeight] = useState(180);
   const [animateDisplay, setAnimateDisplay] = useState({});
   const { animationValue, animateTo } = useAnimation({ autoPlay: true });
@@ -79,7 +79,7 @@ const Popup = ({ children, close }) => {
         onLayout={handleLayout}
         {...panResponder.panHandlers}
       >
-        <View style={styles.slideIndicator} />
+        {showsDragIndicator ? <View style={styles.slideIndicator} /> : null}
         {children}
       </Animated.View>
     </View>
@@ -136,11 +136,13 @@ const styles = StyleSheet.create({
 
 Popup.propTypes = {
   children: oneOfType([arrayOf(node), node]),
-  close: func.isRequired
+  close: func.isRequired,
+  showsDragIndicator: bool
 };
 
 Popup.defaultProps = {
-  children: null
+  children: null,
+  showsDragIndicator: true
 };
 
 export default Popup;

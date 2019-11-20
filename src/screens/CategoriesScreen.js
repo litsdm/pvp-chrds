@@ -22,20 +22,27 @@ const CategoriesScreen = () => {
 
   const categories = data ? data.categories : [];
 
+  const showPopup = selectedCategory => () =>
+    client.writeData({ data: { displayCategory: true, selectedCategory } });
+
   const openPlay = _id => () =>
     client.writeData({ data: { displayPlay: true, playCategory: _id } });
 
   const renderCategories = () =>
-    categories.map(({ _id, name, description, image, color }) => (
-      <CategoryColumn
-        key={_id}
-        name={name}
-        description={description}
-        image={image}
-        color={color}
-        onPressInner={openPlay(_id)}
-      />
-    ));
+    categories.map(category => {
+      const { _id, name, description, image, color } = category;
+      return (
+        <CategoryColumn
+          key={_id}
+          name={name}
+          description={description}
+          image={image}
+          color={color}
+          onPressInner={openPlay(_id)}
+          onPress={showPopup(category)}
+        />
+      );
+    });
 
   return (
     <View style={styles.container}>
