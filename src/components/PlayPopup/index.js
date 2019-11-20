@@ -12,7 +12,7 @@ import SelectFriend from './SelectFriend';
 import Layout from '../../constants/Layout';
 
 const PlayPopup = ({ close }) => {
-  const { loading, data } = useQuery(GET_CATEGORIES);
+  const { data } = useQuery(GET_CATEGORIES);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [page, setPage] = useState(0);
   const scrollView = useRef(null);
@@ -42,6 +42,10 @@ const PlayPopup = ({ close }) => {
     setPage(1);
   };
 
+  const handleDone = () => {
+    // create match
+  };
+
   return (
     <Popup close={close}>
       <ScrollView
@@ -61,7 +65,7 @@ const PlayPopup = ({ close }) => {
           selectedCategory={selectedCategory}
           categories={data ? data.categories : []}
         />
-        <SelectFriend />
+        <SelectFriend handleDone={handleDone} />
       </ScrollView>
     </Popup>
   );

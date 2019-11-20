@@ -17,13 +17,13 @@ const CategoryColumn = ({
 }) => (
   <TouchableOpacity style={styles.container} onPress={onPress}>
     <View
-      style={[styles.bg, { backgroundColor: selected ? '#4CAF50' : color }]}
+      style={[styles.bg, { backgroundColor: selected ? '#4CD964' : color }]}
     >
       <View style={styles.cut}>
         <View
           style={[
             styles.corner,
-            { backgroundColor: selected ? '#4CAF50' : color }
+            { backgroundColor: selected ? '#4CD964' : color }
           ]}
         />
       </View>
@@ -31,10 +31,16 @@ const CategoryColumn = ({
     <View style={styles.imageWrapper}>
       {selected ? (
         <View style={styles.overlay}>
-          <Ionicons color="#4CAF50" size={42} name="ios-checkmark" />
+          <Ionicons color="#4CD964" size={42} name="ios-checkmark" />
         </View>
       ) : null}
-      <Image source={{ uri: image }} style={styles.logo} />
+      {image ? (
+        <Image source={{ uri: image }} style={styles.logo} />
+      ) : (
+        <View style={[styles.logo, { backgroundColor: color }]}>
+          <Ionicons size={42} name="ios-shuffle" color="#fff" />
+        </View>
+      )}
     </View>
     <Text style={styles.name} numberOfLines={1} ellipsizeMode="tail">
       {name}
@@ -85,8 +91,10 @@ const styles = StyleSheet.create({
     width: 72
   },
   logo: {
+    alignItems: 'center',
     borderRadius: 12,
     height: 66,
+    justifyContent: 'center',
     width: 66
   },
   name: {
@@ -165,7 +173,7 @@ const styles = StyleSheet.create({
 CategoryColumn.propTypes = {
   name: string.isRequired,
   description: string.isRequired,
-  image: string.isRequired,
+  image: string,
   color: string.isRequired,
   onPress: func.isRequired,
   onPressInner: func,
@@ -176,7 +184,8 @@ CategoryColumn.propTypes = {
 CategoryColumn.defaultProps = {
   onPressInner: () => {},
   selecting: false,
-  selected: false
+  selected: false,
+  image: ''
 };
 
 export default CategoryColumn;

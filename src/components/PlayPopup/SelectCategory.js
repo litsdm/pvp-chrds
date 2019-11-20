@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { arrayOf, func, number, shape, string } from 'prop-types';
 
 import CategoryColumn from '../CategoryColumn';
 
@@ -37,6 +38,14 @@ const SelectCategory = ({
     <View style={styles.container}>
       <Text style={styles.title}>Select Category</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <CategoryColumn
+          name="Random"
+          description="Selects a random category"
+          onPress={selectCategory(-1)}
+          color="#03A9F4"
+          selecting
+          selected={selectedCategory === -1}
+        />
         {renderCategories()}
       </ScrollView>
       <TouchableOpacity
@@ -85,5 +94,25 @@ const styles = StyleSheet.create({
     color: '#777'
   }
 });
+
+SelectCategory.propTypes = {
+  handleNext: func.isRequired,
+  selectCategory: func.isRequired,
+  selectedCategory: number,
+  categories: arrayOf(
+    shape({
+      _id: string,
+      name: string,
+      description: string,
+      image: string,
+      color: string
+    })
+  )
+};
+
+SelectCategory.defaultProps = {
+  categories: [],
+  selectedCategory: null
+};
 
 export default SelectCategory;

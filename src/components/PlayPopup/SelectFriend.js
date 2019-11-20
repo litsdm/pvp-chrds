@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { func } from 'prop-types';
 
 import Layout from '../../constants/Layout';
 
@@ -45,5 +46,9 @@ const styles = StyleSheet.create({
     color: '#777'
   }
 });
+
+SelectFriend.propTypes = {
+  handleDone: func.isRequired
+};
 
 export default SelectFriend;
