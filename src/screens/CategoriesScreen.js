@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     backgroundColor: '#fff',
-    borderRadius: 6,
+    borderRadius: 8,
     justifyContent: 'center',
     paddingVertical: 6,
     paddingHorizontal: 12,
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#7c4dff',
     fontFamily: 'sf-bold',
-    fontSize: 16
+    fontSize: 18
   },
   title: {
     fontFamily: 'sf-bold',

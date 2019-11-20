@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
-    backgroundColor: 'rgba(124,77,255, 0.2)',
+    backgroundColor: '#7c4dff',
     borderRadius: 8,
     justifyContent: 'center',
     marginVertical: 24,
@@ -83,9 +83,9 @@ const styles = StyleSheet.create({
     width: '50%'
   },
   buttonText: {
-    color: '#7c4dff',
+    color: '#fff',
     fontFamily: 'sf-bold',
-    fontSize: 22
+    fontSize: 18
   },
   disabled: {
     backgroundColor: 'rgba(44, 44, 44, 0.2)'
