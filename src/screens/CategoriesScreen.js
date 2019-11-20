@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useApolloClient } from '@apollo/react-hooks';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 import GET_CATEGORIES from '../graphql/queries/getCategories';
@@ -18,8 +18,12 @@ import Layout from '../constants/Layout';
 
 const CategoriesScreen = () => {
   const { loading, data } = useQuery(GET_CATEGORIES);
+  const client = useApolloClient();
 
   const categories = data ? data.categories : [];
+
+  const openPlay = _id => () =>
+    client.writeData({ data: { displayPlay: true, playCategory: _id } });
 
   const renderCategories = () =>
     categories.map(({ _id, name, description, image, color }) => (
@@ -29,6 +33,7 @@ const CategoriesScreen = () => {
         description={description}
         image={image}
         color={color}
+        onPressInner={openPlay(_id)}
       />
     ));
 

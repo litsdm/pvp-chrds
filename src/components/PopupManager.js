@@ -3,16 +3,23 @@ import { useApolloClient, useQuery } from '@apollo/react-hooks';
 
 import PlayPopup from './PlayPopup';
 
-import GET_VISIBLE from '../graphql/queries/getVisiblePopups';
+import GET_DATA from '../graphql/queries/getPopupData';
 
 const PopupManager = () => {
-  const { data } = useQuery(GET_VISIBLE);
+  const {
+    data: { displayPlay, playCategory }
+  } = useQuery(GET_DATA);
   const client = useApolloClient();
 
-  const closePlay = () => client.writeData({ data: { displayPlay: false } });
+  const closePlay = () =>
+    client.writeData({ data: { displayPlay: false, playCategory: null } });
 
   return (
-    <>{data && data.displayPlay ? <PlayPopup close={closePlay} /> : null}</>
+    <>
+      {displayPlay ? (
+        <PlayPopup close={closePlay} category={playCategory} />
+      ) : null}
+    </>
   );
 };
 

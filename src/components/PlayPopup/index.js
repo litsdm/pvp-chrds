@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { ScrollView } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
-import { func } from 'prop-types';
+import { func, string } from 'prop-types';
 
 import GET_CATEGORIES from '../../graphql/queries/getCategories';
 
@@ -11,10 +11,10 @@ import SelectFriend from './SelectFriend';
 
 import Layout from '../../constants/Layout';
 
-const PlayPopup = ({ close }) => {
+const PlayPopup = ({ close, category }) => {
   const { data } = useQuery(GET_CATEGORIES);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [page, setPage] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState(category);
+  const [page, setPage] = useState(category ? 1 : 0);
   const scrollView = useRef(null);
 
   useEffect(() => {
@@ -32,9 +32,9 @@ const PlayPopup = ({ close }) => {
       });
   };
 
-  const selectCategory = index => () => {
-    if (index === selectedCategory) setSelectedCategory(null);
-    else setSelectedCategory(index);
+  const selectCategory = _id => () => {
+    if (_id === selectedCategory) setSelectedCategory(null);
+    else setSelectedCategory(_id);
   };
 
   const handleNext = () => {
@@ -72,7 +72,12 @@ const PlayPopup = ({ close }) => {
 };
 
 PlayPopup.propTypes = {
-  close: func.isRequired
+  close: func.isRequired,
+  category: string
+};
+
+PlayPopup.defaultProps = {
+  category: null
 };
 
 export default PlayPopup;

@@ -79,6 +79,7 @@ const Popup = ({ children, close }) => {
         onLayout={handleLayout}
         {...panResponder.panHandlers}
       >
+        <View style={styles.slideIndicator} />
         {children}
       </Animated.View>
     </View>
@@ -121,6 +122,15 @@ const styles = StyleSheet.create({
   },
   posApple: {
     top: Layout.window.height
+  },
+  slideIndicator: {
+    alignSelf: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.15)',
+    borderRadius: 2,
+    height: 4,
+    position: 'absolute',
+    top: 12,
+    width: 60
   }
 });
 

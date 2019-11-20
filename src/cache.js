@@ -4,7 +4,8 @@ const cache = new InMemoryCache();
 
 cache.writeData({
   data: {
-    displayPlay: false
+    displayPlay: false,
+    playCategory: null
   }
 });
 
