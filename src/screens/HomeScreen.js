@@ -49,7 +49,7 @@ const HomeScreen = () => {
       {loading && loadingMatches ? (
         <Loader />
       ) : (
-        <ScrollView>
+        <ScrollView bounces={false}>
           <View style={styles.container}>
             <View style={styles.header}>
               <AnimatedCircle
@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FCFCFE',
     minHeight: Layout.window.height - 52,
+    overflow: 'hidden',
     paddingTop: getStatusBarHeight(),
     paddingBottom: 24
   },

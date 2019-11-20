@@ -11,10 +11,12 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import { bool } from 'prop-types';
 
 import AppNavigator from './src/navigation/AppNavigator';
-
 import PopupManager from './src/components/PopupManager';
 
+import cache from './src/cache';
+
 const client = new ApolloClient({
+  cache,
   uri: 'http://localhost:8080'
 });
 

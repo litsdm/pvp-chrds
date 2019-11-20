@@ -1,12 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useApolloClient } from '@apollo/react-hooks';
 import { Ionicons } from '@expo/vector-icons';
 import { func, object } from 'prop-types';
 
 import Tab from './Tab';
 
 const TabBar = ({ renderIcon, navigation, onTabPress }) => {
+  const client = useApolloClient();
   const { routes, index } = navigation.state;
+
+  const showPlay = () => client.writeData({ data: { displayPlay: true } });
 
   return (
     <View style={styles.container}>
@@ -16,7 +20,7 @@ const TabBar = ({ renderIcon, navigation, onTabPress }) => {
         isActive={index === 0}
         onTabPress={onTabPress}
       />
-      <TouchableOpacity style={styles.play}>
+      <TouchableOpacity style={styles.play} onPress={showPlay}>
         <Ionicons name="logo-game-controller-b" size={26} color="#999" />
         <Text style={styles.playText}>Play</Text>
       </TouchableOpacity>
