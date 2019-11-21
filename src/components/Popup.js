@@ -7,15 +7,24 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { arrayOf, bool, func, oneOfType, node } from 'prop-types';
+import { arrayOf, bool, func, object, oneOfType, node } from 'prop-types';
 
 import { useAnimation } from '../helpers/hooks';
 import Layout from '../constants/Layout';
 
-const Popup = ({ children, close, showsDragIndicator }) => {
+const Popup = ({
+  children,
+  close,
+  showsDragIndicator,
+  animationOptions,
+  onContentLayout
+}) => {
   const [contentHeight, setContentHeight] = useState(180);
   const [animateDisplay, setAnimateDisplay] = useState({});
-  const { animationValue, animateTo } = useAnimation({ autoPlay: true });
+  const { animationValue, animateTo } = useAnimation({
+    autoPlay: true,
+    ...animationOptions
+  });
   const position = useRef(new Animated.ValueXY());
 
   const animateOpacity = {
@@ -46,11 +55,15 @@ const Popup = ({ children, close, showsDragIndicator }) => {
     setTimeout(() => close(), 200);
   };
 
-  const handleLayout = ({
-    nativeEvent: {
-      layout: { height }
-    }
-  }) => {
+  const handleLayout = event => {
+    const {
+      nativeEvent: {
+        layout: { height }
+      }
+    } = event;
+
+    if (onContentLayout) onContentLayout(event);
+
     const transform = [
       {
         translateY: animationValue.current.interpolate({
@@ -137,12 +150,16 @@ const styles = StyleSheet.create({
 Popup.propTypes = {
   children: oneOfType([arrayOf(node), node]),
   close: func.isRequired,
-  showsDragIndicator: bool
+  showsDragIndicator: bool,
+  animationOptions: object,
+  onContentLayout: func
 };
 
 Popup.defaultProps = {
   children: null,
-  showsDragIndicator: true
+  showsDragIndicator: true,
+  animationOptions: {},
+  onContentLayout: null
 };
 
 export default Popup;

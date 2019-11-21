@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { bool, func, string } from 'prop-types';
+import { bool, func, object, string } from 'prop-types';
 
 import Layout from '../constants/Layout';
 
@@ -13,60 +13,74 @@ const CategoryColumn = ({
   onPress,
   onPressInner,
   selecting,
-  selected
-}) => (
-  <TouchableOpacity style={styles.container} onPress={onPress}>
-    <View
-      style={[styles.bg, { backgroundColor: selected ? '#4CD964' : color }]}
-    >
-      <View style={styles.cut}>
-        <View
-          style={[
-            styles.corner,
-            { backgroundColor: selected ? '#4CD964' : color }
-          ]}
-        />
+  selected,
+  logoRef,
+  hideLogo
+}) => {
+  const [logoOpacity, setLogoOpacity] = useState(1);
+
+  useEffect(() => {
+    if (!hideLogo && logoOpacity !== 1) setLogoOpacity(1);
+    else if (hideLogo) setLogoOpacity(0);
+  }, [hideLogo]);
+
+  return (
+    <TouchableOpacity style={styles.container} onPress={onPress}>
+      <View
+        style={[styles.bg, { backgroundColor: selected ? '#4CD964' : color }]}
+      >
+        <View style={styles.cut}>
+          <View
+            style={[
+              styles.corner,
+              { backgroundColor: selected ? '#4CD964' : color }
+            ]}
+          />
+        </View>
       </View>
-    </View>
-    <View style={styles.imageWrapper}>
-      {selected ? (
-        <View style={styles.overlay}>
-          <Ionicons color="#4CD964" size={42} name="ios-checkmark" />
-        </View>
-      ) : null}
-      {image ? (
-        <Image source={{ uri: image }} style={styles.logo} />
+      <View
+        style={[styles.imageWrapper, { opacity: logoOpacity }]}
+        ref={logoRef}
+      >
+        {selected ? (
+          <View style={styles.overlay}>
+            <Ionicons color="#4CD964" size={42} name="ios-checkmark" />
+          </View>
+        ) : null}
+        {image ? (
+          <Image source={{ uri: image }} style={styles.logo} />
+        ) : (
+          <View style={[styles.logo, { backgroundColor: color }]}>
+            <Ionicons size={42} name="ios-shuffle" color="#fff" />
+          </View>
+        )}
+      </View>
+      <Text style={styles.name} numberOfLines={1} ellipsizeMode="tail">
+        {name}
+      </Text>
+      <Text style={styles.description} numberOfLines={2}>
+        {description}
+      </Text>
+      {selecting ? (
+        <TouchableOpacity
+          style={styles.button}
+          onPress={selecting ? onPress : onPressInner}
+        >
+          <Text style={styles.buttonText}>
+            {selected ? 'Selected' : 'Select'}
+          </Text>
+        </TouchableOpacity>
       ) : (
-        <View style={[styles.logo, { backgroundColor: color }]}>
-          <Ionicons size={42} name="ios-shuffle" color="#fff" />
-        </View>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={selecting ? onPress : onPressInner}
+        >
+          <Text style={styles.buttonText}>Play</Text>
+        </TouchableOpacity>
       )}
-    </View>
-    <Text style={styles.name} numberOfLines={1} ellipsizeMode="tail">
-      {name}
-    </Text>
-    <Text style={styles.description} numberOfLines={2}>
-      {description}
-    </Text>
-    {selecting ? (
-      <TouchableOpacity
-        style={styles.button}
-        onPress={selecting ? onPress : onPressInner}
-      >
-        <Text style={styles.buttonText}>
-          {selected ? 'Selected' : 'Select'}
-        </Text>
-      </TouchableOpacity>
-    ) : (
-      <TouchableOpacity
-        style={styles.button}
-        onPress={selecting ? onPress : onPressInner}
-      >
-        <Text style={styles.buttonText}>Play</Text>
-      </TouchableOpacity>
-    )}
-  </TouchableOpacity>
-);
+    </TouchableOpacity>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -178,14 +192,18 @@ CategoryColumn.propTypes = {
   onPress: func.isRequired,
   onPressInner: func,
   selecting: bool,
-  selected: bool
+  selected: bool,
+  logoRef: object,
+  hideLogo: bool
 };
 
 CategoryColumn.defaultProps = {
   onPressInner: () => {},
   selecting: false,
   selected: false,
-  image: ''
+  image: '',
+  logoRef: null,
+  hideLogo: false
 };
 
 export default CategoryColumn;

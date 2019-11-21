@@ -10,6 +10,11 @@ export default gql`
       name
       description
       words
+      image
+    }
+    transitionPosition {
+      x
+      y
     }
   }
 `;

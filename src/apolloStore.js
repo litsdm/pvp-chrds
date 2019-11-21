@@ -1,3 +1,4 @@
+import gql from 'graphql-tag';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 const cache = new InMemoryCache();
@@ -7,8 +8,16 @@ cache.writeData({
     displayPlay: false,
     playCategory: null,
     displayCategory: false,
-    selectedCategory: null
+    selectedCategory: null,
+    transitionPosition: null
   }
 });
 
 export default cache;
+
+export const typeDefs = gql`
+  type Position {
+    x: Float!
+    y: Float!
+  }
+`;

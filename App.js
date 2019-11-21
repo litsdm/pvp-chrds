@@ -13,11 +13,12 @@ import { bool } from 'prop-types';
 import AppNavigator from './src/navigation/AppNavigator';
 import PopupManager from './src/components/PopupManager';
 
-import cache from './src/cache';
+import cache, { typeDefs } from './src/apolloStore';
 
 const client = new ApolloClient({
-  cache,
-  uri: 'http://localhost:8080'
+  typeDefs,
+  uri: 'http://localhost:8080',
+  cache
 });
 
 const App = ({ skipLoadingScreen }) => {

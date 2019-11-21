@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, createRef } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -10,6 +10,7 @@ import { useQuery, useApolloClient } from '@apollo/react-hooks';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 import GET_CATEGORIES from '../graphql/queries/getCategories';
+import GET_POPUP_DATA from '../graphql/queries/getPopupData';
 
 import CategoryColumn from '../components/CategoryColumn';
 import Loader from '../components/Loader';
@@ -18,31 +19,41 @@ import Layout from '../constants/Layout';
 
 const CategoriesScreen = () => {
   const { loading, data } = useQuery(GET_CATEGORIES);
+  const {
+    data: { displayCategory, selectedCategory: popupSelectedCategory }
+  } = useQuery(GET_POPUP_DATA);
   const client = useApolloClient();
+  const logoRefs = useRef([...Array(3)].map(() => createRef()));
 
   const categories = data ? data.categories : [];
 
-  const showPopup = selectedCategory => () =>
-    client.writeData({ data: { displayCategory: true, selectedCategory } });
+  const showPopup = index => () => {
+    const selectedCategory = categories[index];
+    logoRefs.current[index].current.measureInWindow((x, y) => {
+      const transitionPosition = { __typename: 'Position', x, y };
+      client.writeData({
+        data: { displayCategory: true, selectedCategory, transitionPosition }
+      });
+    });
+  };
 
   const openPlay = _id => () =>
     client.writeData({ data: { displayPlay: true, playCategory: _id } });
 
   const renderCategories = () =>
-    categories.map(category => {
-      const { _id, name, description, image, color } = category;
-      return (
-        <CategoryColumn
-          key={_id}
-          name={name}
-          description={description}
-          image={image}
-          color={color}
-          onPressInner={openPlay(_id)}
-          onPress={showPopup(category)}
-        />
-      );
-    });
+    categories.map(({ _id, name, description, image, color }, index) => (
+      <CategoryColumn
+        key={_id}
+        name={name}
+        description={description}
+        image={image}
+        color={color}
+        onPressInner={openPlay(_id)}
+        onPress={showPopup(index)}
+        logoRef={logoRefs.current[index]}
+        hideLogo={displayCategory && popupSelectedCategory._id === _id}
+      />
+    ));
 
   return (
     <View style={styles.container}>

@@ -8,7 +8,13 @@ import GET_DATA from '../graphql/queries/getPopupData';
 
 const PopupManager = () => {
   const {
-    data: { displayPlay, playCategory, displayCategory, selectedCategory }
+    data: {
+      displayPlay,
+      playCategory,
+      displayCategory,
+      selectedCategory,
+      transitionPosition
+    }
   } = useQuery(GET_DATA);
   const client = useApolloClient();
 
@@ -32,6 +38,7 @@ const PopupManager = () => {
         <CategoryPopup
           close={closeCategory}
           play={openPlay(selectedCategory._id)}
+          transitionPosition={transitionPosition}
           {...selectedCategory}
         />
       ) : null}

@@ -1,10 +1,71 @@
-import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { arrayOf, func, string } from 'prop-types';
+import React, { useState } from 'react';
+import {
+  Animated,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
+import { arrayOf, func, number, shape, string } from 'prop-types';
+import { useAnimation } from '../helpers/hooks';
 
 import Popup from './Popup';
 
-const CategoryPopup = ({ close, name, description, words, play }) => {
+import Layout from '../constants/Layout';
+
+const CategoryPopup = ({
+  close,
+  name,
+  description,
+  words,
+  image,
+  play,
+  transitionPosition
+}) => {
+  const [animateTransition, setAnimateTransition] = useState({});
+  const { animationValue, animateTo } = useAnimation({ autoPlay: true });
+  const { x, y } = transitionPosition;
+
+  const animateScale = {
+    transform: [
+      {
+        scale: animationValue.current.interpolate({
+          inputRange: [0, 1],
+          outputRange: [1, 1.25]
+        })
+      }
+    ]
+  };
+
+  const handleContentLayout = ({
+    nativeEvent: {
+      layout: { height }
+    }
+  }) => {
+    const halfWidth = Layout.window.width / 2;
+    const logoHalf = (72 * 1.25) / 2;
+    const transition = {
+      
+      transform: [
+        {
+          translateY: animationValue.current.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, -(y - (Layout.window.height - height) + logoHalf)]
+          })
+        },
+        {
+          translateX: animationValue.current.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, halfWidth - x - logoHalf + 12]
+          })
+        }
+      ]
+    };
+
+    setAnimateTransition(transition);
+  };
+
   const renderWords = () => {
     const selectedWords = {};
 
@@ -25,25 +86,46 @@ const CategoryPopup = ({ close, name, description, words, play }) => {
     ));
   };
 
+  const handleClose = () => {
+    animateTo(0);
+    setTimeout(() => close(), 200);
+  };
+
   const handlePlay = () => {
     setTimeout(() => play(), 100);
     close();
   };
 
   return (
-    <Popup close={close} showsDragIndicator={false}>
-      <View style={styles.container}>
-        <Text style={styles.title}>{name}</Text>
-        <Text style={styles.description}>{description}</Text>
-        <View style={styles.divider} />
-        <Text style={styles.wordsTitle}>Words you may play</Text>
-        {renderWords()}
-        <View style={styles.divider} />
-        <TouchableOpacity style={styles.button} onPress={handlePlay}>
-          <Text style={styles.buttonText}>Play</Text>
-        </TouchableOpacity>
-      </View>
-    </Popup>
+    <>
+      <Popup
+        close={handleClose}
+        showsDragIndicator={false}
+        onContentLayout={handleContentLayout}
+      >
+        <View style={styles.container}>
+          <Text style={styles.title}>{name}</Text>
+          <Text style={styles.description}>{description}</Text>
+          <View style={styles.divider} />
+          <Text style={styles.wordsTitle}>Words you may play</Text>
+          {renderWords()}
+          <View style={styles.divider} />
+          <TouchableOpacity style={styles.button} onPress={handlePlay}>
+            <Text style={styles.buttonText}>Play</Text>
+          </TouchableOpacity>
+        </View>
+      </Popup>
+      <Animated.View
+        style={[
+          animateTransition,
+          { position: 'absolute', left: x, top: y, zIndex: 30 }
+        ]}
+      >
+        <Animated.View style={[styles.imageWrapper, animateScale]}>
+          <Image source={{ uri: image }} style={styles.logo} />
+        </Animated.View>
+      </Animated.View>
+    </>
   );
 };
 
@@ -95,6 +177,26 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: 'sf-bold',
     fontSize: 18
+  },
+  imageWrapper: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    borderRadius: 12,
+    height: 72,
+    justifyContent: 'center',
+    marginBottom: 12,
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    width: 72
+  },
+  logo: {
+    alignItems: 'center',
+    borderRadius: 12,
+    height: 66,
+    justifyContent: 'center',
+    width: 66
   }
 });
 
@@ -102,8 +204,13 @@ CategoryPopup.propTypes = {
   close: func.isRequired,
   name: string.isRequired,
   description: string.isRequired,
+  image: string.isRequired,
   words: arrayOf(string).isRequired,
-  play: func.isRequired
+  play: func.isRequired,
+  transitionPosition: shape({
+    x: number,
+    y: number
+  }).isRequired
 };
 
 export default CategoryPopup;
