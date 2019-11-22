@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   Animated,
   Image,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -46,7 +47,6 @@ const CategoryPopup = ({
     const halfWidth = Layout.window.width / 2;
     const logoHalf = (72 * 1.25) / 2;
     const transition = {
-      
       transform: [
         {
           translateY: animationValue.current.interpolate({
@@ -88,7 +88,7 @@ const CategoryPopup = ({
 
   const handleClose = () => {
     animateTo(0);
-    setTimeout(() => close(), 200);
+    setTimeout(() => close(), 100);
   };
 
   const handlePlay = () => {
@@ -133,13 +133,13 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 18
+    padding: Platform.OS === 'ios' ? 18 : 9
   },
   title: {
     fontFamily: 'sf-bold',
     fontSize: 28,
     marginTop: 36,
-    marginBottom: 24,
+    marginBottom: Platform.OS === 'ios' ? 24 : 12,
     textAlign: 'center'
   },
   description: {
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   divider: {
     backgroundColor: 'rgba(0, 0, 0, 0.05)',
     height: 1,
-    marginVertical: 24,
+    marginVertical: Platform.OS === 'ios' ? 24 : 12,
     width: '100%'
   },
   wordsTitle: {
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   word: {
     fontFamily: 'sf-light',
     fontSize: 22,
-    marginBottom: 12
+    marginBottom: Platform.OS === 'ios' ? 12 : 6
   },
   button: {
     alignItems: 'center',
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center',
     paddingVertical: 6,
-    marginBottom: 24,
+    marginBottom: Platform.OS === 'ios' ? 24 : 12,
     width: '50%'
   },
   buttonText: {

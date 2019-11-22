@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { useQuery, useApolloClient } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 import GET_CATEGORIES from '../graphql/queries/getCategories';
@@ -18,11 +18,10 @@ import Loader from '../components/Loader';
 import Layout from '../constants/Layout';
 
 const CategoriesScreen = () => {
-  const { loading, data } = useQuery(GET_CATEGORIES);
+  const { loading, data, client } = useQuery(GET_CATEGORIES);
   const {
     data: { displayCategory, selectedCategory: popupSelectedCategory }
   } = useQuery(GET_POPUP_DATA);
-  const client = useApolloClient();
   const logoRefs = useRef([...Array(3)].map(() => createRef()));
 
   const categories = data ? data.categories : [];
@@ -52,6 +51,7 @@ const CategoriesScreen = () => {
         onPress={showPopup(index)}
         logoRef={logoRefs.current[index]}
         hideLogo={displayCategory && popupSelectedCategory._id === _id}
+        parentBackgroundColor="#FCFCFE"
       />
     ));
 
@@ -63,7 +63,6 @@ const CategoriesScreen = () => {
         <>
           <View style={styles.featured}>
             <View style={styles.bgPlacholder} />
-            {/* featured image here */}
             <Text style={styles.name}>TV Series Characters</Text>
             <Text style={styles.description}>Featured description</Text>
             <TouchableOpacity style={styles.button}>

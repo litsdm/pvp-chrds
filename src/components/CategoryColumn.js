@@ -1,9 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, TouchableOpacity, Text, View } from 'react-native';
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Text,
+  View
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { bool, func, object, string } from 'prop-types';
 
 import Layout from '../constants/Layout';
+
+const Touchable =
+  Platform.OS === 'ios' ? TouchableOpacity : TouchableWithoutFeedback;
 
 const CategoryColumn = ({
   name,
@@ -15,7 +26,8 @@ const CategoryColumn = ({
   selecting,
   selected,
   logoRef,
-  hideLogo
+  hideLogo,
+  parentBackgroundColor
 }) => {
   const [logoOpacity, setLogoOpacity] = useState(1);
 
@@ -25,60 +37,64 @@ const CategoryColumn = ({
   }, [hideLogo]);
 
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
-      <View
-        style={[styles.bg, { backgroundColor: selected ? '#4CD964' : color }]}
-      >
-        <View style={styles.cut}>
+    <Touchable onPress={onPress}>
+      <View style={styles.container}>
+        <View
+          style={[styles.bg, { backgroundColor: selected ? '#4CD964' : color }]}
+        >
           <View
-            style={[
-              styles.corner,
-              { backgroundColor: selected ? '#4CD964' : color }
-            ]}
-          />
+            style={[styles.cut, { backgroundColor: parentBackgroundColor }]}
+          >
+            <View
+              style={[
+                styles.corner,
+                { backgroundColor: selected ? '#4CD964' : color }
+              ]}
+            />
+          </View>
         </View>
-      </View>
-      <View
-        style={[styles.imageWrapper, { opacity: logoOpacity }]}
-        ref={logoRef}
-      >
-        {selected ? (
-          <View style={styles.overlay}>
-            <Ionicons color="#4CD964" size={42} name="ios-checkmark" />
-          </View>
-        ) : null}
-        {image ? (
-          <Image source={{ uri: image }} style={styles.logo} />
+        <View
+          style={[styles.imageWrapper, { opacity: logoOpacity }]}
+          ref={logoRef}
+        >
+          {selected ? (
+            <View style={styles.overlay}>
+              <Ionicons color="#4CD964" size={42} name="ios-checkmark" />
+            </View>
+          ) : null}
+          {image ? (
+            <Image source={{ uri: image }} style={styles.logo} />
+          ) : (
+            <View style={[styles.logo, { backgroundColor: color }]}>
+              <Ionicons size={42} name="ios-shuffle" color="#fff" />
+            </View>
+          )}
+        </View>
+        <Text style={styles.name} numberOfLines={1} ellipsizeMode="tail">
+          {name}
+        </Text>
+        <Text style={styles.description} numberOfLines={2}>
+          {description}
+        </Text>
+        {selecting ? (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={selecting ? onPress : onPressInner}
+          >
+            <Text style={styles.buttonText}>
+              {selected ? 'Selected' : 'Select'}
+            </Text>
+          </TouchableOpacity>
         ) : (
-          <View style={[styles.logo, { backgroundColor: color }]}>
-            <Ionicons size={42} name="ios-shuffle" color="#fff" />
-          </View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={selecting ? onPress : onPressInner}
+          >
+            <Text style={styles.buttonText}>Play</Text>
+          </TouchableOpacity>
         )}
       </View>
-      <Text style={styles.name} numberOfLines={1} ellipsizeMode="tail">
-        {name}
-      </Text>
-      <Text style={styles.description} numberOfLines={2}>
-        {description}
-      </Text>
-      {selecting ? (
-        <TouchableOpacity
-          style={styles.button}
-          onPress={selecting ? onPress : onPressInner}
-        >
-          <Text style={styles.buttonText}>
-            {selected ? 'Selected' : 'Select'}
-          </Text>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity
-          style={styles.button}
-          onPress={selecting ? onPress : onPressInner}
-        >
-          <Text style={styles.buttonText}>Play</Text>
-        </TouchableOpacity>
-      )}
-    </TouchableOpacity>
+    </Touchable>
   );
 };
 
@@ -194,7 +210,8 @@ CategoryColumn.propTypes = {
   selecting: bool,
   selected: bool,
   logoRef: object,
-  hideLogo: bool
+  hideLogo: bool,
+  parentBackgroundColor: string
 };
 
 CategoryColumn.defaultProps = {
@@ -203,7 +220,8 @@ CategoryColumn.defaultProps = {
   selected: false,
   image: '',
   logoRef: null,
-  hideLogo: false
+  hideLogo: false,
+  parentBackgroundColor: '#fff'
 };
 
 export default CategoryColumn;

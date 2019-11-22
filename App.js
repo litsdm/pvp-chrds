@@ -16,9 +16,9 @@ import PopupManager from './src/components/PopupManager';
 import cache, { typeDefs } from './src/apolloStore';
 
 const client = new ApolloClient({
-  typeDefs,
-  uri: 'http://localhost:8080',
-  cache
+  uri: 'http://192.168.15.3:8080',
+  cache,
+  typeDefs
 });
 
 const App = ({ skipLoadingScreen }) => {
