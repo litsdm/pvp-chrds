@@ -13,6 +13,7 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment';
 import jwtDecode from 'jwt-decode';
+import { object } from 'prop-types';
 
 import GET_USER from '../graphql/queries/getUserFromToken';
 import GET_USER_MATCHES from '../graphql/queries/getUserMatches';
@@ -24,7 +25,7 @@ import Loader from '../components/Loader';
 
 import Layout from '../constants/Layout';
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const [
     getMatches,
     { loading: loadingMatches, data: matchesData }
@@ -42,6 +43,8 @@ const HomeScreen = () => {
     getUser({ variables: { token } });
     getMatches({ variables: { _id } });
   };
+
+  const navigateToSettings = () => navigation.navigate('Settings');
 
   return (
     <>
@@ -81,7 +84,10 @@ const HomeScreen = () => {
                 <Text style={styles.subtitle}>Ready to Play?</Text>
               </View>
               <View style={styles.rightSide}>
-                <TouchableOpacity style={styles.imgButton}>
+                <TouchableOpacity
+                  style={styles.imgButton}
+                  onPress={navigateToSettings}
+                >
                   <Image
                     resizeMode="cover"
                     source={{ uri: 'https://thispersondoesnotexist.com/image' }}
@@ -245,5 +251,9 @@ const styles = StyleSheet.create({
     width: '100%'
   }
 });
+
+HomeScreen.propTypes = {
+  navigation: object.isRequired
+};
 
 export default HomeScreen;
