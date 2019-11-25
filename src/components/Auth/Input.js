@@ -28,6 +28,12 @@ const Input = ({
   const input = useRef(null);
 
   useEffect(() => {
+    if (value) {
+      animateTo(1);
+    }
+  }, []);
+
+  useEffect(() => {
     if (previousValue !== '' && value === '' && input.current)
       input.current.clear();
   }, [value]);
@@ -102,6 +108,7 @@ const Input = ({
           onFocus={handleFocus}
           onBlur={handleBlur}
           autoCapitalize="none"
+          defaultValue={value}
           ref={input}
         />
         {iconName ? (

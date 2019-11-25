@@ -5,7 +5,10 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 import HomeScreen from '../screens/HomeScreen';
 import CategoriesScreen from '../screens/CategoriesScreen';
+
 import SettingsScreen from '../screens/SettingsScreen';
+import GeneralScreen from '../screens/SettingsScreen/GeneralScreen';
+
 import TabBarIcon from '../components/TabBarIcon';
 import TabBar from '../components/TabBar';
 
@@ -20,7 +23,8 @@ const config = Platform.select({
 
 const SettingsStack = createStackNavigator(
   {
-    Main: SettingsScreen
+    Main: SettingsScreen,
+    General: GeneralScreen
   },
   config
 );

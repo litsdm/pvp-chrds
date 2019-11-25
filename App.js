@@ -16,7 +16,7 @@ import PopupManager from './src/components/PopupManager';
 import cache, { typeDefs } from './src/apolloStore';
 
 const client = new ApolloClient({
-  uri: 'http://192.168.15.3:8080',
+  uri: 'http://192.168.15.6:8080',
   cache,
   typeDefs
 });

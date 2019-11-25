@@ -48,7 +48,7 @@ export const getSignedUrl = async s3Filename => {
 
 export const getApiUrl = () =>
   __DEV__
-    ? 'http://192.168.15.3:8080'
+    ? 'http://192.168.15.6:8080'
     : 'https://tempo-share-web.herokuapp.com';
 
 export default callApi;

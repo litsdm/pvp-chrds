@@ -16,6 +16,7 @@
     "expo-brightness": "~7.0.0",
     "expo-camera": "~7.0.0",
     "expo-linear-gradient": "~7.0.0",
+    "expo-store-review": "~1.0.0",
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
     "jwt-decode": "^2.2.0",

@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Image,
+  Linking,
   Platform,
   ScrollView,
   StyleSheet,
@@ -9,15 +10,24 @@ import {
   View
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import * as StoreReview from 'expo-store-review';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { object } from 'prop-types';
 
-import Layout from '../constants/Layout';
+import Layout from '../../constants/Layout';
 
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 
 const SettingsScreen = ({ navigation }) => {
   const goBack = () => navigation.navigate('Home');
+
+  const rateApp = () => Linking.openURL(StoreReview.storeUrl());
+
+  const sendSMS = () => Linking.openURL('sms:+5215534889576');
+
+  const sendEmail = () => Linking.openURL('mailto:cdiezmoran@gmail.com');
+
+  const goToGeneral = () => navigation.navigate('General');
 
   return (
     <ScrollView>
@@ -39,7 +49,7 @@ const SettingsScreen = ({ navigation }) => {
         </View>
         <View style={styles.content}>
           <View style={styles.group}>
-            <TouchableOpacity style={styles.row}>
+            <TouchableOpacity style={styles.row} onPress={rateApp}>
               <View style={styles.info}>
                 <View style={[styles.iconWrap, { backgroundColor: '#FFC107' }]}>
                   <Ionicons color="#fff" name={`${PRE_ICON}-star`} size={28} />
@@ -56,7 +66,7 @@ const SettingsScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <View style={styles.group}>
-            <TouchableOpacity style={styles.row}>
+            <TouchableOpacity style={styles.row} onPress={goToGeneral}>
               <View style={styles.info}>
                 <View style={styles.iconWrap}>
                   <Ionicons color="#fff" name={`${PRE_ICON}-cog`} size={28} />
@@ -132,7 +142,7 @@ const SettingsScreen = ({ navigation }) => {
               />
             </TouchableOpacity>
             <View style={styles.divider} />
-            <TouchableOpacity style={styles.row}>
+            <TouchableOpacity style={styles.row} onPress={sendEmail}>
               <View style={styles.info}>
                 <View style={[styles.iconWrap, styles.secondary]}>
                   <Ionicons color="#fff" name={`${PRE_ICON}-mail`} size={28} />
@@ -145,7 +155,8 @@ const SettingsScreen = ({ navigation }) => {
                 size={24}
               />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.row}>
+            <View style={styles.divider} />
+            <TouchableOpacity style={styles.row} onPress={sendSMS}>
               <View style={styles.info}>
                 <View style={[styles.iconWrap, styles.secondary]}>
                   <Ionicons color="#fff" name="ios-chatboxes" size={28} />
@@ -214,6 +225,9 @@ const styles = StyleSheet.create({
   },
   group: {
     backgroundColor: '#fff',
+    borderColor: 'rgba(0,0,0,0.04)',
+    borderBottomWidth: 1,
+    borderTopWidth: 1,
     marginBottom: 36,
     width: '100%'
   },
@@ -238,8 +252,8 @@ const styles = StyleSheet.create({
     width: 36
   },
   rowText: {
-    fontFamily: 'sf-light',
-    fontSize: 22
+    fontFamily: 'sf-medium',
+    fontSize: 16
   },
   divider: {
     backgroundColor: 'rgba(0,0,0,0.05)',
