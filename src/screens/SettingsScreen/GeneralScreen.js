@@ -126,6 +126,9 @@ const GeneralScreen = ({ navigation }) => {
       });
       closePasswordModal();
 
+      setCurrentPassword('');
+      setNewPassword('');
+
       // show success badge
     } catch (exception) {
       // show error badge

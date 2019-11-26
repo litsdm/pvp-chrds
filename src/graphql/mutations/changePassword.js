@@ -1,15 +1,11 @@
+/* eslint-disable prettier/prettier */
 import gql from 'graphql-tag';
 
 export default gql`
-  mutation ChangePassword(
-    $_id: String!
-    $currentPassword: String!
-    $newPassword: String!
+  mutation ChangePassword($_id: String!, $currentPassword: String!, $newPassword: String!
   ) {
-    changePassword(
-      _id: $_id
-      currentPassword: $currentPassword
-      newPassword: $newPassword
-    )
+    changePassword(_id: $_id, currentPassword: $currentPassword, newPassword: $newPassword) {
+      _id
+    }
   }
 `;
