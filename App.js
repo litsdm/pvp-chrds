@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { bool } from 'prop-types';
 
 import AppNavigator from './src/navigation/AppNavigator';
@@ -41,6 +42,7 @@ const App = ({ skipLoadingScreen }) => {
           style={{ flex: 1, backgroundColor: '#fff' }}
           forceInset={{ top: 'never' }}
         >
+          <View style={styles.statusBar} />
           <PopupManager />
           <AppNavigator />
         </SafeAreaView>
@@ -80,6 +82,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FCFCFE'
+  },
+  statusBar: {
+    backgroundColor: '#fff',
+    left: 0,
+    height: getStatusBarHeight(),
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: 10
   }
 });
 

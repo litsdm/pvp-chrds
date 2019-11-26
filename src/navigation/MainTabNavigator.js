@@ -8,6 +8,7 @@ import CategoriesScreen from '../screens/CategoriesScreen';
 
 import SettingsScreen from '../screens/SettingsScreen';
 import GeneralScreen from '../screens/SettingsScreen/GeneralScreen';
+import FriendsScreen from '../screens/FriendsScreen';
 
 import TabBarIcon from '../components/TabBarIcon';
 import TabBar from '../components/TabBar';
@@ -24,7 +25,8 @@ const config = Platform.select({
 const SettingsStack = createStackNavigator(
   {
     Main: SettingsScreen,
-    General: GeneralScreen
+    General: GeneralScreen,
+    Friends: FriendsScreen
   },
   config
 );

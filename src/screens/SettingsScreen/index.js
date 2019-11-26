@@ -29,14 +29,11 @@ const SettingsScreen = ({ navigation }) => {
   const client = useApolloClient();
 
   const goBack = () => navigation.navigate('Home');
-
   const rateApp = () => Linking.openURL(StoreReview.storeUrl());
-
   const sendSMS = () => Linking.openURL('sms:+5215534889576');
-
   const sendEmail = () => Linking.openURL('mailto:cdiezmoran@gmail.com');
-
   const goToGeneral = () => navigation.navigate('General');
+  const goToFriends = () => navigation.navigate('Friends');
 
   const logout = async () => {
     await AsyncStorage.removeItem('CHRDS_TOKEN');
@@ -65,7 +62,6 @@ const SettingsScreen = ({ navigation }) => {
         goBack={goBack}
         uri="https://thispersondoesnotexist.com/image"
       />
-      <View style={styles.statusBar} />
       <ScrollView onScroll={handleScroll} scrollEventThrottle={8}>
         <View style={styles.container}>
           <View style={styles.header}>
@@ -137,7 +133,7 @@ const SettingsScreen = ({ navigation }) => {
               </TouchableOpacity>
             </View>
             <View style={styles.group}>
-              <TouchableOpacity style={styles.row}>
+              <TouchableOpacity style={styles.row} onPress={goToFriends}>
                 <View style={styles.info}>
                   <View style={styles.iconWrap}>
                     <Ionicons
@@ -340,15 +336,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 24,
     width: 30
-  },
-  statusBar: {
-    backgroundColor: '#fff',
-    left: 0,
-    height: getStatusBarHeight(),
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    zIndex: 10
   }
 });
 
