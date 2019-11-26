@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { AsyncStorage, Keyboard, StyleSheet, View } from 'react-native';
+import {
+  AsyncStorage,
+  Keyboard,
+  KeyboardAvoidingView,
+  StyleSheet,
+  ScrollView
+} from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { object } from 'prop-types';
 import callApi from '../helpers/apiCaller';
@@ -113,60 +119,62 @@ const AuthEmailScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <AnimatedCircle
-        color="#7C4DFF"
-        size={152}
-        animationType="position"
-        endPosition={{ y: 152, x: 152 - 152 / 3 }}
-        circleStyle={{ left: -152, top: -152 }}
-      />
-      <AnimatedCircle
-        color="#FF5252"
-        size={132}
-        animationType="position"
-        endPosition={{ y: 132 - 132 / 3, x: 132 + 24 }}
-        circleStyle={{ left: -132, top: -132 }}
-        delay={100}
-      />
-      <AnimatedCircle
-        color="#FFC107"
-        size={132}
-        animationType="position"
-        endPosition={{ y: 132 - 132 / 4, x: 132 - 132 / 4 }}
-        circleStyle={{ left: -132, top: -132 }}
-        delay={200}
-      />
-      <AnimatedCircle
-        color="#2196F3"
-        size={120}
-        animationType="position"
-        endPosition={{ y: 180, x: -120 + 120 / 1.7 }}
-        circleStyle={{ right: -120, top: -120 }}
-        delay={300}
-        empty
-      />
-      {isNew ? (
-        <Signup
-          goToLogin={toggleScreen}
-          setState={setState}
-          username={username}
-          email={email}
-          password={password}
-          authorize={authorize}
-          authorizing={authorizing}
+    <ScrollView>
+      <KeyboardAvoidingView behavior="padding" style={styles.container}>
+        <AnimatedCircle
+          color="#7C4DFF"
+          size={152}
+          animationType="position"
+          endPosition={{ y: 152, x: 152 - 152 / 3 }}
+          circleStyle={{ left: -152, top: -152 }}
         />
-      ) : (
-        <Login
-          goToSignup={toggleScreen}
-          setState={setState}
-          email={email}
-          password={password}
-          authorize={authorize}
-          authorizing={authorizing}
+        <AnimatedCircle
+          color="#FF5252"
+          size={132}
+          animationType="position"
+          endPosition={{ y: 132 - 132 / 3, x: 132 + 24 }}
+          circleStyle={{ left: -132, top: -132 }}
+          delay={100}
         />
-      )}
-    </View>
+        <AnimatedCircle
+          color="#FFC107"
+          size={132}
+          animationType="position"
+          endPosition={{ y: 132 - 132 / 4, x: 132 - 132 / 4 }}
+          circleStyle={{ left: -132, top: -132 }}
+          delay={200}
+        />
+        <AnimatedCircle
+          color="#2196F3"
+          size={120}
+          animationType="position"
+          endPosition={{ y: 180, x: -120 + 120 / 1.7 }}
+          circleStyle={{ right: -120, top: -120 }}
+          delay={300}
+          empty
+        />
+        {isNew ? (
+          <Signup
+            goToLogin={toggleScreen}
+            setState={setState}
+            username={username}
+            email={email}
+            password={password}
+            authorize={authorize}
+            authorizing={authorizing}
+          />
+        ) : (
+          <Login
+            goToSignup={toggleScreen}
+            setState={setState}
+            email={email}
+            password={password}
+            authorize={authorize}
+            authorizing={authorizing}
+          />
+        )}
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 

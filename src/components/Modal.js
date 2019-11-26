@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Animated,
+  KeyboardAvoidingView,
   StyleSheet,
   TouchableWithoutFeedback,
   View
@@ -40,9 +41,11 @@ const Modal = ({ children, close }) => {
       <TouchableWithoutFeedback onPress={handleClose}>
         <View style={styles.overlayButton} />
       </TouchableWithoutFeedback>
-      <Animated.View style={[styles.modal, animateTranslate]}>
-        {children}
-      </Animated.View>
+      <KeyboardAvoidingView behavior="position" style={{ width: '100%' }}>
+        <Animated.View style={[styles.modal, animateTranslate]}>
+          {children}
+        </Animated.View>
+      </KeyboardAvoidingView>
     </Animated.View>
   );
 };
