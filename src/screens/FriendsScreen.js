@@ -12,6 +12,7 @@ import { useLazyQuery } from '@apollo/react-hooks';
 import { Ionicons } from '@expo/vector-icons';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import jwtDecode from 'jwt-decode';
+import Fuse from 'fuse.js';
 
 import GET_FRIENDS from '../graphql/queries/getFriends';
 
@@ -19,6 +20,15 @@ import Navbar from '../components/Friends/Navbar';
 import FriendRow from '../components/Friends/FriendRow';
 
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
+const fuzzyOptions = {
+  shouldSort: true,
+  threshold: 0.6,
+  location: 0,
+  distance: 100,
+  maxPatternLength: 32,
+  minMatchCharLength: 3,
+  keys: ['username', 'email']
+}
 
 const FriendsScreen = ({ navigation }) => {
   const [getFriends, { loading, data }] = useLazyQuery(GET_FRIENDS);
@@ -26,9 +36,16 @@ const FriendsScreen = ({ navigation }) => {
   const [search, setSearch] = useState('');
   const friends = data ? data.friends : [];
 
+  const fuse = new Fuse(friends, fuzzyOptions);
+  const results = fuse.search(search);
+
   useEffect(() => {
     fetchFriends();
   }, []);
+
+  useEffect(() => {
+    if (!searching && search) setSearch('');
+  }, [searching]);
 
   const fetchFriends = async () => {
     const token = await AsyncStorage.getItem('CHRDS_TOKEN');
@@ -60,7 +77,7 @@ const FriendsScreen = ({ navigation }) => {
         <Text style={styles.rowText}>Add Friend</Text>
       </TouchableOpacity>
       <FlatList
-        data={friends}
+        data={searching ? results : friends}
         renderItem={renderItem}
         keyExtractor={item => item._id}
       />
