@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   AsyncStorage,
   Image,
@@ -17,10 +17,15 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { object } from 'prop-types';
 
 import Layout from '../../constants/Layout';
+import { useAnimation } from '../../helpers/hooks';
+
+import AnimatedSettingsNav from '../../components/AnimatedSettingsNav';
 
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 
 const SettingsScreen = ({ navigation }) => {
+  const [displayingNavbar, setDisplayingNavbar] = useState(false);
+  const { animationValue, animateTo } = useAnimation();
   const client = useApolloClient();
 
   const goBack = () => navigation.navigate('Home');
@@ -39,169 +44,205 @@ const SettingsScreen = ({ navigation }) => {
     navigation.navigate('Auth');
   };
 
+  const handleScroll = ({
+    nativeEvent: {
+      contentOffset: { y }
+    }
+  }) => {
+    if (y >= 162 && !displayingNavbar) {
+      animateTo(1);
+      setDisplayingNavbar(true);
+    } else if (y < 162 && displayingNavbar) {
+      animateTo(0);
+      setDisplayingNavbar(false);
+    }
+  };
+
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.goBack} onPress={goBack}>
-            <Ionicons name="ios-arrow-round-back" color="#000" size={30} />
-          </TouchableOpacity>
-          <View style={styles.imageWrapper}>
-            <Image
-              style={styles.profilePic}
-              source={{ uri: 'https://thispersondoesnotexist.com/image' }}
-            />
+    <>
+      <AnimatedSettingsNav
+        animationValue={animationValue}
+        goBack={goBack}
+        uri="https://thispersondoesnotexist.com/image"
+      />
+      <View style={styles.statusBar} />
+      <ScrollView onScroll={handleScroll} scrollEventThrottle={8}>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <TouchableOpacity style={styles.goBack} onPress={goBack}>
+              <Ionicons name="ios-arrow-round-back" color="#000" size={30} />
+            </TouchableOpacity>
+            <View style={styles.imageWrapper}>
+              <Image
+                style={styles.profilePic}
+                source={{ uri: 'https://thispersondoesnotexist.com/image' }}
+              />
+            </View>
+            <Text style={styles.username}>@username.1234</Text>
+            <TouchableOpacity style={styles.profileButton}>
+              <Text style={styles.pbText}>View Profile</Text>
+            </TouchableOpacity>
           </View>
-          <Text style={styles.username}>@username.1234</Text>
-          <TouchableOpacity style={styles.profileButton}>
-            <Text style={styles.pbText}>View Profile</Text>
-          </TouchableOpacity>
+          <View style={styles.content}>
+            <View style={styles.group}>
+              <TouchableOpacity style={styles.row} onPress={rateApp}>
+                <View style={styles.info}>
+                  <View
+                    style={[styles.iconWrap, { backgroundColor: '#FFC107' }]}
+                  >
+                    <Ionicons
+                      color="#fff"
+                      name={`${PRE_ICON}-star`}
+                      size={28}
+                    />
+                  </View>
+                  <Text style={[styles.rowText, { textAlign: 'center' }]}>
+                    Rate the app!
+                  </Text>
+                </View>
+                <Ionicons
+                  name="ios-arrow-forward"
+                  color="rgba(0,0,0,0.1)"
+                  size={24}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.group}>
+              <TouchableOpacity style={styles.row} onPress={goToGeneral}>
+                <View style={styles.info}>
+                  <View style={styles.iconWrap}>
+                    <Ionicons color="#fff" name={`${PRE_ICON}-cog`} size={28} />
+                  </View>
+                  <Text style={styles.rowText}>General</Text>
+                </View>
+                <Ionicons
+                  name="ios-arrow-forward"
+                  color="rgba(0,0,0,0.1)"
+                  size={24}
+                />
+              </TouchableOpacity>
+              <View style={styles.divider} />
+              <TouchableOpacity style={styles.row}>
+                <View style={styles.info}>
+                  <View style={[styles.iconWrap, styles.secondary]}>
+                    <Ionicons color="#fff" name={`${PRE_ICON}-key`} size={28} />
+                  </View>
+                  <Text style={styles.rowText}>Privacy</Text>
+                </View>
+                <Ionicons
+                  name="ios-arrow-forward"
+                  color="rgba(0,0,0,0.1)"
+                  size={24}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.group}>
+              <TouchableOpacity style={styles.row}>
+                <View style={styles.info}>
+                  <View style={styles.iconWrap}>
+                    <Ionicons
+                      color="#fff"
+                      name={`${PRE_ICON}-contacts`}
+                      size={28}
+                    />
+                  </View>
+                  <Text style={styles.rowText}>Friends</Text>
+                </View>
+                <Ionicons
+                  name="ios-arrow-forward"
+                  color="rgba(0,0,0,0.1)"
+                  size={24}
+                />
+              </TouchableOpacity>
+              <View style={styles.divider} />
+              <TouchableOpacity style={styles.row}>
+                <View style={styles.info}>
+                  <View
+                    style={[styles.iconWrap, { backgroundColor: '#3B5998' }]}
+                  >
+                    <Ionicons color="#fff" name="logo-facebook" size={28} />
+                  </View>
+                  <Text style={styles.rowText}>Connect to Facebook</Text>
+                </View>
+                <Ionicons
+                  name="ios-arrow-forward"
+                  color="rgba(0,0,0,0.1)"
+                  size={24}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.group}>
+              <TouchableOpacity style={styles.row}>
+                <View style={styles.info}>
+                  <View style={styles.iconWrap}>
+                    <Ionicons color="#fff" name="ios-chatbubbles" size={28} />
+                  </View>
+                  <Text style={styles.rowText}>Tell us what you think</Text>
+                </View>
+                <Ionicons
+                  name="ios-arrow-forward"
+                  color="rgba(0,0,0,0.1)"
+                  size={24}
+                />
+              </TouchableOpacity>
+              <View style={styles.divider} />
+              <TouchableOpacity style={styles.row} onPress={sendEmail}>
+                <View style={styles.info}>
+                  <View style={[styles.iconWrap, styles.secondary]}>
+                    <Ionicons
+                      color="#fff"
+                      name={`${PRE_ICON}-mail`}
+                      size={28}
+                    />
+                  </View>
+                  <Text style={styles.rowText}>Send us an Email</Text>
+                </View>
+                <Ionicons
+                  name="ios-arrow-forward"
+                  color="rgba(0,0,0,0.1)"
+                  size={24}
+                />
+              </TouchableOpacity>
+              <View style={styles.divider} />
+              <TouchableOpacity style={styles.row} onPress={sendSMS}>
+                <View style={styles.info}>
+                  <View style={[styles.iconWrap, styles.secondary]}>
+                    <Ionicons color="#fff" name="ios-chatboxes" size={28} />
+                  </View>
+                  <Text style={styles.rowText}>Send us a Text</Text>
+                </View>
+                <Ionicons
+                  name="ios-arrow-forward"
+                  color="rgba(0,0,0,0.1)"
+                  size={24}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={[styles.group, { marginBottom: 0 }]}>
+              <TouchableOpacity style={styles.row} onPress={logout}>
+                <View style={styles.info}>
+                  <View
+                    style={[styles.iconWrap, { backgroundColor: '#FF5252' }]}
+                  >
+                    <Ionicons
+                      color="#fff"
+                      name={`${PRE_ICON}-log-out`}
+                      size={28}
+                    />
+                  </View>
+                  <Text style={styles.rowText}>Logout</Text>
+                </View>
+                <Ionicons
+                  name="ios-arrow-forward"
+                  color="rgba(0,0,0,0.1)"
+                  size={24}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-        <View style={styles.content}>
-          <View style={styles.group}>
-            <TouchableOpacity style={styles.row} onPress={rateApp}>
-              <View style={styles.info}>
-                <View style={[styles.iconWrap, { backgroundColor: '#FFC107' }]}>
-                  <Ionicons color="#fff" name={`${PRE_ICON}-star`} size={28} />
-                </View>
-                <Text style={[styles.rowText, { textAlign: 'center' }]}>
-                  Rate the app!
-                </Text>
-              </View>
-              <Ionicons
-                name="ios-arrow-forward"
-                color="rgba(0,0,0,0.1)"
-                size={24}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.group}>
-            <TouchableOpacity style={styles.row} onPress={goToGeneral}>
-              <View style={styles.info}>
-                <View style={styles.iconWrap}>
-                  <Ionicons color="#fff" name={`${PRE_ICON}-cog`} size={28} />
-                </View>
-                <Text style={styles.rowText}>General</Text>
-              </View>
-              <Ionicons
-                name="ios-arrow-forward"
-                color="rgba(0,0,0,0.1)"
-                size={24}
-              />
-            </TouchableOpacity>
-            <View style={styles.divider} />
-            <TouchableOpacity style={styles.row}>
-              <View style={styles.info}>
-                <View style={[styles.iconWrap, styles.secondary]}>
-                  <Ionicons color="#fff" name={`${PRE_ICON}-key`} size={28} />
-                </View>
-                <Text style={styles.rowText}>Privacy</Text>
-              </View>
-              <Ionicons
-                name="ios-arrow-forward"
-                color="rgba(0,0,0,0.1)"
-                size={24}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.group}>
-            <TouchableOpacity style={styles.row}>
-              <View style={styles.info}>
-                <View style={styles.iconWrap}>
-                  <Ionicons
-                    color="#fff"
-                    name={`${PRE_ICON}-contacts`}
-                    size={28}
-                  />
-                </View>
-                <Text style={styles.rowText}>Friends</Text>
-              </View>
-              <Ionicons
-                name="ios-arrow-forward"
-                color="rgba(0,0,0,0.1)"
-                size={24}
-              />
-            </TouchableOpacity>
-            <View style={styles.divider} />
-            <TouchableOpacity style={styles.row}>
-              <View style={styles.info}>
-                <View style={[styles.iconWrap, { backgroundColor: '#3B5998' }]}>
-                  <Ionicons color="#fff" name="logo-facebook" size={28} />
-                </View>
-                <Text style={styles.rowText}>Connect to Facebook</Text>
-              </View>
-              <Ionicons
-                name="ios-arrow-forward"
-                color="rgba(0,0,0,0.1)"
-                size={24}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.group}>
-            <TouchableOpacity style={styles.row}>
-              <View style={styles.info}>
-                <View style={styles.iconWrap}>
-                  <Ionicons color="#fff" name="ios-chatbubbles" size={28} />
-                </View>
-                <Text style={styles.rowText}>Tell us what you think</Text>
-              </View>
-              <Ionicons
-                name="ios-arrow-forward"
-                color="rgba(0,0,0,0.1)"
-                size={24}
-              />
-            </TouchableOpacity>
-            <View style={styles.divider} />
-            <TouchableOpacity style={styles.row} onPress={sendEmail}>
-              <View style={styles.info}>
-                <View style={[styles.iconWrap, styles.secondary]}>
-                  <Ionicons color="#fff" name={`${PRE_ICON}-mail`} size={28} />
-                </View>
-                <Text style={styles.rowText}>Send us an Email</Text>
-              </View>
-              <Ionicons
-                name="ios-arrow-forward"
-                color="rgba(0,0,0,0.1)"
-                size={24}
-              />
-            </TouchableOpacity>
-            <View style={styles.divider} />
-            <TouchableOpacity style={styles.row} onPress={sendSMS}>
-              <View style={styles.info}>
-                <View style={[styles.iconWrap, styles.secondary]}>
-                  <Ionicons color="#fff" name="ios-chatboxes" size={28} />
-                </View>
-                <Text style={styles.rowText}>Send us a Text</Text>
-              </View>
-              <Ionicons
-                name="ios-arrow-forward"
-                color="rgba(0,0,0,0.1)"
-                size={24}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={[styles.group, { marginBottom: 0 }]}>
-            <TouchableOpacity style={styles.row} onPress={logout}>
-              <View style={styles.info}>
-                <View style={[styles.iconWrap, { backgroundColor: '#FF5252' }]}>
-                  <Ionicons
-                    color="#fff"
-                    name={`${PRE_ICON}-log-out`}
-                    size={28}
-                  />
-                </View>
-                <Text style={styles.rowText}>Logout</Text>
-              </View>
-              <Ionicons
-                name="ios-arrow-forward"
-                color="rgba(0,0,0,0.1)"
-                size={24}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </>
   );
 };
 
@@ -299,6 +340,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 24,
     width: 30
+  },
+  statusBar: {
+    backgroundColor: '#fff',
+    left: 0,
+    height: getStatusBarHeight(),
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: 10
   }
 });
 
