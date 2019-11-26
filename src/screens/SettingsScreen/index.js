@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  AsyncStorage,
   Image,
   Linking,
   Platform,
@@ -9,6 +10,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { useApolloClient } from '@apollo/react-hooks';
 import { Ionicons } from '@expo/vector-icons';
 import * as StoreReview from 'expo-store-review';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
@@ -19,6 +21,8 @@ import Layout from '../../constants/Layout';
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 
 const SettingsScreen = ({ navigation }) => {
+  const client = useApolloClient();
+
   const goBack = () => navigation.navigate('Home');
 
   const rateApp = () => Linking.openURL(StoreReview.storeUrl());
@@ -28,6 +32,12 @@ const SettingsScreen = ({ navigation }) => {
   const sendEmail = () => Linking.openURL('mailto:cdiezmoran@gmail.com');
 
   const goToGeneral = () => navigation.navigate('General');
+
+  const logout = async () => {
+    await AsyncStorage.removeItem('CHRDS_TOKEN');
+    client.cache.reset();
+    navigation.navigate('Auth');
+  };
 
   return (
     <ScrollView>
@@ -127,7 +137,7 @@ const SettingsScreen = ({ navigation }) => {
               />
             </TouchableOpacity>
           </View>
-          <View style={[styles.group, { marginBottom: 0 }]}>
+          <View style={styles.group}>
             <TouchableOpacity style={styles.row}>
               <View style={styles.info}>
                 <View style={styles.iconWrap}>
@@ -162,6 +172,25 @@ const SettingsScreen = ({ navigation }) => {
                   <Ionicons color="#fff" name="ios-chatboxes" size={28} />
                 </View>
                 <Text style={styles.rowText}>Send us a Text</Text>
+              </View>
+              <Ionicons
+                name="ios-arrow-forward"
+                color="rgba(0,0,0,0.1)"
+                size={24}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={[styles.group, { marginBottom: 0 }]}>
+            <TouchableOpacity style={styles.row} onPress={logout}>
+              <View style={styles.info}>
+                <View style={[styles.iconWrap, { backgroundColor: '#FF5252' }]}>
+                  <Ionicons
+                    color="#fff"
+                    name={`${PRE_ICON}-log-out`}
+                    size={28}
+                  />
+                </View>
+                <Text style={styles.rowText}>Logout</Text>
               </View>
               <Ionicons
                 name="ios-arrow-forward"
