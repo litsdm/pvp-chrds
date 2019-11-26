@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { func, string } from 'prop-types';
 
 const SettingsNavBar = ({ goBack, title }) => (
@@ -19,7 +20,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 54,
     justifyContent: 'flex-start',
+    left: 0,
     paddingHorizontal: 24,
+    position: 'absolute',
+    right: 0,
+    top: getStatusBarHeight(),
     width: '100%'
   },
   button: {

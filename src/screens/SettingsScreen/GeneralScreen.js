@@ -138,7 +138,7 @@ const GeneralScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <SettingsNavBar goBack={goBack} title="General" />
-      <View style={[styles.group, { marginTop: 24 }]}>
+      <View style={styles.group}>
         <Text style={styles.title}>USERNAME</Text>
         <TouchableOpacity style={styles.row} onPress={showUsernameModal}>
           <Text style={styles.rowText}>{username}</Text>
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FCFCFE',
     overflow: 'hidden',
     flex: 1,
-    paddingTop: getStatusBarHeight(),
+    paddingTop: getStatusBarHeight() + 78,
     paddingBottom: 24
   },
   group: {
