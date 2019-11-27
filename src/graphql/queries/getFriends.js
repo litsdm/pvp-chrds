@@ -8,5 +8,14 @@ export default gql`
       email
       profilePic
     }
+    friendRequests(_id: $_id) {
+      _id
+      from {
+        _id
+        username
+        email
+        profilePic
+      }
+    }
   }
 `;

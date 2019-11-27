@@ -19,7 +19,7 @@ const Empty = ({ searching, search }) => {
 
     if (!searching)
       return {
-        title: "You haven't added any friend yet.",
+        title: "You haven't added any friends yet.",
         description:
           'You can add friends by connecting with Facebook or clicking the Add Friend button above.'
       };

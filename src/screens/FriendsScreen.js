@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { AsyncStorage, FlatList, StyleSheet, View } from 'react-native';
+import {
+  AsyncStorage,
+  FlatList,
+  SectionList,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
 import { useLazyQuery } from '@apollo/react-hooks';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import jwtDecode from 'jwt-decode';
@@ -29,19 +36,32 @@ const FriendsScreen = ({ navigation }) => {
   const [searching, setSearching] = useState(false);
   const [search, setSearch] = useState('');
   const friends = data ? data.friends : [];
+  const friendRequests = data ? data.friendRequests : [];
+  const sectionsData = [
+    {
+      title: 'FRIEND REQUESTS',
+      data: friendRequests
+    },
+    {
+      title: 'FRIENDS',
+      data: friends
+    }
+  ];
+
+  console.log(friendRequests);
 
   const fuse = new Fuse(friends, fuzzyOptions);
   const results = fuse.search(search);
 
   useEffect(() => {
-    fetchFriends();
+    fetchData();
   }, []);
 
   useEffect(() => {
     if (!searching && search) setSearch('');
   }, [searching]);
 
-  const fetchFriends = async () => {
+  const fetchData = async () => {
     const token = await AsyncStorage.getItem('CHRDS_TOKEN');
     const { _id } = jwtDecode(token);
     getFriends({ variables: { _id } });
@@ -51,14 +71,27 @@ const FriendsScreen = ({ navigation }) => {
   const toggleSearch = () => setSearching(!searching);
   const goBack = () => navigation.goBack();
 
+  const resolveRequest = (requestID, type) => () => {};
+
   const renderItem = args => {
-    const { username, profilePic } = args.item;
-    return <FriendRow username={username} uri={profilePic} />;
+    const { _id, from } = args.item;
+    const { username, profilePic } = from || args.item;
+    return (
+      <FriendRow
+        username={username}
+        uri={profilePic}
+        requestID={_id}
+        resolveRequest={resolveRequest}
+      />
+    );
   };
 
   const renderContent = () => {
     if (loading) return <Loader />;
-    if (friends.length <= 0 || (searching && results.length <= 0))
+    if (
+      (friends.length <= 0 && friendRequests.length <= 0) ||
+      (searching && results.length <= 0)
+    )
       return (
         <>
           <AddFriendRow />
@@ -69,11 +102,22 @@ const FriendsScreen = ({ navigation }) => {
     return (
       <>
         <AddFriendRow />
-        <FlatList
-          data={searching ? results : friends}
-          renderItem={renderItem}
-          keyExtractor={item => item._id}
-        />
+        {friendRequests.length > 0 && !searching ? (
+          <SectionList
+            sections={sectionsData}
+            keyExtractor={item => item._id}
+            renderItem={renderItem}
+            renderSectionHeader={({ section: { title } }) => (
+              <Text style={styles.title}>{title}</Text>
+            )}
+          />
+        ) : (
+          <FlatList
+            data={searching ? results : friends}
+            renderItem={renderItem}
+            keyExtractor={item => item._id}
+          />
+        )}
       </>
     );
   };
@@ -98,6 +142,14 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: getStatusBarHeight() + 54,
     paddingBottom: 12
+  },
+  title: {
+    fontFamily: 'sf-light',
+    fontSize: 14,
+    marginBottom: 6,
+    marginLeft: 12,
+    marginTop: 12,
+    opacity: 0.4
   }
 });
 
