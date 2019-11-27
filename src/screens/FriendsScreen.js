@@ -7,13 +7,14 @@ import {
   Text,
   View
 } from 'react-native';
-import { useLazyQuery } from '@apollo/react-hooks';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import jwtDecode from 'jwt-decode';
 import Fuse from 'fuse.js';
 import { object } from 'prop-types';
 
 import GET_FRIENDS from '../graphql/queries/getFriends';
+import RESOLVE_REQUEST from '../graphql/mutations/resolveFriendRequest';
 
 import Navbar from '../components/Friends/Navbar';
 import FriendRow from '../components/Friends/FriendRow';
@@ -32,7 +33,9 @@ const fuzzyOptions = {
 };
 
 const FriendsScreen = ({ navigation }) => {
-  const [getFriends, { loading, data }] = useLazyQuery(GET_FRIENDS);
+  const [getFriends, { loading, data, refetch }] = useLazyQuery(GET_FRIENDS);
+  const [resolveFriendRequest] = useMutation(RESOLVE_REQUEST);
+  const [resolving, setResolving] = useState(false);
   const [searching, setSearching] = useState(false);
   const [search, setSearch] = useState('');
   const friends = data ? data.friends : [];
@@ -47,8 +50,6 @@ const FriendsScreen = ({ navigation }) => {
       data: friends
     }
   ];
-
-  console.log(friendRequests);
 
   const fuse = new Fuse(friends, fuzzyOptions);
   const results = fuse.search(search);
@@ -71,7 +72,14 @@ const FriendsScreen = ({ navigation }) => {
   const toggleSearch = () => setSearching(!searching);
   const goBack = () => navigation.goBack();
 
-  const resolveRequest = (requestID, type) => () => {};
+  const resolveRequest = (requestID, type) => async () => {
+    if (resolving) return;
+
+    await setResolving(true);
+    await resolveFriendRequest({ variables: { requestID, type } });
+    await refetch();
+    setResolving(false);
+  };
 
   const renderItem = args => {
     const { _id, from } = args.item;
@@ -80,7 +88,7 @@ const FriendsScreen = ({ navigation }) => {
       <FriendRow
         username={username}
         uri={profilePic}
-        requestID={_id}
+        requestID={from ? _id : null}
         resolveRequest={resolveRequest}
       />
     );
