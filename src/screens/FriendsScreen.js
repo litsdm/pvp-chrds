@@ -1,25 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import {
-  AsyncStorage,
-  FlatList,
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { AsyncStorage, FlatList, StyleSheet, View } from 'react-native';
 import { useLazyQuery } from '@apollo/react-hooks';
-import { Ionicons } from '@expo/vector-icons';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import jwtDecode from 'jwt-decode';
 import Fuse from 'fuse.js';
+import { object } from 'prop-types';
 
 import GET_FRIENDS from '../graphql/queries/getFriends';
 
 import Navbar from '../components/Friends/Navbar';
 import FriendRow from '../components/Friends/FriendRow';
+import AddFriendRow from '../components/Friends/AddFriendRow';
+import Empty from '../components/Friends/Empty';
+import Loader from '../components/Loader';
 
-const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 const fuzzyOptions = {
   shouldSort: true,
   threshold: 0.6,
@@ -28,7 +22,7 @@ const fuzzyOptions = {
   maxPatternLength: 32,
   minMatchCharLength: 3,
   keys: ['username', 'email']
-}
+};
 
 const FriendsScreen = ({ navigation }) => {
   const [getFriends, { loading, data }] = useLazyQuery(GET_FRIENDS);
@@ -62,6 +56,28 @@ const FriendsScreen = ({ navigation }) => {
     return <FriendRow username={username} uri={profilePic} />;
   };
 
+  const renderContent = () => {
+    if (loading) return <Loader />;
+    if (friends.length <= 0 || (searching && results.length <= 0))
+      return (
+        <>
+          <AddFriendRow />
+          <Empty searching={searching} search={search} />
+        </>
+      );
+
+    return (
+      <>
+        <AddFriendRow />
+        <FlatList
+          data={searching ? results : friends}
+          renderItem={renderItem}
+          keyExtractor={item => item._id}
+        />
+      </>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <Navbar
@@ -70,17 +86,7 @@ const FriendsScreen = ({ navigation }) => {
         goBack={goBack}
         onChangeText={handleTextChange}
       />
-      <TouchableOpacity style={styles.add}>
-        <View style={styles.icon}>
-          <Ionicons name={`${PRE_ICON}-person-add`} size={24} color="#fff" />
-        </View>
-        <Text style={styles.rowText}>Add Friend</Text>
-      </TouchableOpacity>
-      <FlatList
-        data={searching ? results : friends}
-        renderItem={renderItem}
-        keyExtractor={item => item._id}
-      />
+      {renderContent()}
     </View>
   );
 };
@@ -92,27 +98,11 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: getStatusBarHeight() + 54,
     paddingBottom: 12
-  },
-  add: {
-    alignItems: 'center',
-    backgroundColor: '#FDFDFF',
-    flexDirection: 'row',
-    paddingHorizontal: 12,
-    paddingVertical: 6
-  },
-  icon: {
-    alignItems: 'center',
-    backgroundColor: '#7c4dff',
-    borderRadius: 42 / 2,
-    height: 42,
-    justifyContent: 'center',
-    marginRight: 12,
-    width: 42
-  },
-  rowText: {
-    fontFamily: 'sf-medium',
-    fontSize: 18
   }
 });
+
+FriendsScreen.propTypes = {
+  navigation: object.isRequired
+};
 
 export default FriendsScreen;
