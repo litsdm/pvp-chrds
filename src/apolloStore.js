@@ -7,6 +7,7 @@ cache.writeData({
   data: {
     displayPlay: false,
     playCategory: null,
+    playFriend: null,
     displayCategory: false,
     selectedCategory: null,
     transitionPosition: null,

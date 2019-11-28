@@ -78,6 +78,8 @@ const FriendsScreen = ({ navigation }) => {
   const goBack = () => navigation.goBack();
 
   const openAdd = () => client.writeData({ data: { displayAdd: true } });
+  const openPlay = _id => () =>
+    client.writeData({ data: { displayPlay: true, playFriend: _id } });
 
   const resolveRequest = (requestID, type) => async () => {
     if (resolving) return;
@@ -97,6 +99,7 @@ const FriendsScreen = ({ navigation }) => {
         uri={profilePic}
         requestID={from ? _id : null}
         resolveRequest={resolveRequest}
+        onPress={openPlay(_id)}
       />
     );
   };

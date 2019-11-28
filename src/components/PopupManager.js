@@ -12,6 +12,7 @@ const PopupManager = () => {
     data: {
       displayPlay,
       playCategory,
+      playFriend,
       displayCategory,
       selectedCategory,
       transitionPosition,
@@ -21,7 +22,9 @@ const PopupManager = () => {
   const client = useApolloClient();
 
   const closePlay = () =>
-    client.writeData({ data: { displayPlay: false, playCategory: null } });
+    client.writeData({
+      data: { displayPlay: false, playCategory: null, playFriend: null }
+    });
 
   const openPlay = _id => () =>
     client.writeData({ data: { displayPlay: true, playCategory: _id } });
@@ -37,7 +40,11 @@ const PopupManager = () => {
     <>
       {displayAdd ? <AddFriendPopup close={closeAdd} /> : null}
       {displayPlay ? (
-        <PlayPopup close={closePlay} category={playCategory} />
+        <PlayPopup
+          close={closePlay}
+          category={playCategory}
+          friend={playFriend}
+        />
       ) : null}
       {displayCategory ? (
         <CategoryPopup

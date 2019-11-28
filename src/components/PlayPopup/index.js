@@ -24,11 +24,11 @@ const fuzzyOptions = {
   keys: ['username', 'email']
 };
 
-const PlayPopup = ({ close, category }) => {
+const PlayPopup = ({ close, category, friend }) => {
   const { data } = useQuery(GET_CATEGORIES);
   const [getFriends, { data: friendData }] = useLazyQuery(GET_FRIENDS);
   const [selectedCategory, setSelectedCategory] = useState(category);
-  const [selectedFriend, setSelectedFriend] = useState(null);
+  const [selectedFriend, setSelectedFriend] = useState(friend);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(category ? 1 : 0);
   const scrollView = useRef(null);
@@ -98,6 +98,8 @@ const PlayPopup = ({ close, category }) => {
           selectCategory={selectCategory}
           selectedCategory={selectedCategory}
           categories={data ? data.categories : []}
+          directPlay={friend !== null}
+          handleDone={handleDone}
         />
         <SelectFriend
           handleDone={handleDone}
@@ -114,11 +116,13 @@ const PlayPopup = ({ close, category }) => {
 
 PlayPopup.propTypes = {
   close: func.isRequired,
-  category: string
+  category: string,
+  friend: string
 };
 
 PlayPopup.defaultProps = {
-  category: null
+  category: null,
+  friend: null
 };
 
 export default PlayPopup;

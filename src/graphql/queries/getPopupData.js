@@ -4,6 +4,7 @@ export default gql`
   {
     displayPlay
     playCategory
+    playFriend
     displayAdd
     displayCategory
     selectedCategory {

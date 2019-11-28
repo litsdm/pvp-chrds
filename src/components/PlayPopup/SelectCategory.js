@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { arrayOf, func, shape, string } from 'prop-types';
+import { arrayOf, bool, func, shape, string } from 'prop-types';
 
 import CategoryColumn from '../CategoryColumn';
 
@@ -16,7 +16,9 @@ const SelectCategory = ({
   handleNext,
   selectCategory,
   selectedCategory,
-  categories
+  categories,
+  directPlay,
+  handleDone
 }) => {
   const renderCategories = () =>
     categories.map(({ _id, name, description, image, color }) => (
@@ -50,11 +52,11 @@ const SelectCategory = ({
       </ScrollView>
       <TouchableOpacity
         style={[styles.button, disabled ? styles.disabled : {}]}
-        onPress={handleNext}
+        onPress={directPlay ? handleDone : handleNext}
         disabled={disabled}
       >
         <Text style={[styles.buttonText, disabled ? styles.disabledText : {}]}>
-          Next
+          {directPlay ? 'Play' : 'Next'}
         </Text>
       </TouchableOpacity>
     </View>
@@ -99,6 +101,8 @@ SelectCategory.propTypes = {
   handleNext: func.isRequired,
   selectCategory: func.isRequired,
   selectedCategory: string,
+  directPlay: bool.isRequired,
+  handleDone: func.isRequired,
   categories: arrayOf(
     shape({
       _id: string,
