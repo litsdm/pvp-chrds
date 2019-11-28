@@ -74,7 +74,11 @@ const styles = StyleSheet.create({
 AnimatedSettingsNav.propTypes = {
   animationValue: object.isRequired,
   goBack: func.isRequired,
-  uri: string.isRequired
+  uri: string
+};
+
+AnimatedSettingsNav.defaultProps = {
+  uri: 'https://feather-static.s3-us-west-2.amazonaws.com/chrds-logo-bg.jpeg'
 };
 
 export default AnimatedSettingsNav;

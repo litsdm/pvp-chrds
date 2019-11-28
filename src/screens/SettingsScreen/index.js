@@ -73,7 +73,7 @@ const SettingsScreen = ({ navigation }) => {
       <AnimatedSettingsNav
         animationValue={animationValue}
         goBack={goBack}
-        uri="https://thispersondoesnotexist.com/image"
+        uri={user.profilePic}
       />
       <ScrollView onScroll={handleScroll} scrollEventThrottle={8}>
         <View style={styles.container}>
