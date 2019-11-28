@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   AsyncStorage,
   Image,
@@ -10,11 +10,13 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { useApolloClient } from '@apollo/react-hooks';
+import { useApolloClient, useLazyQuery } from '@apollo/react-hooks';
 import { Ionicons } from '@expo/vector-icons';
 import * as StoreReview from 'expo-store-review';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { object } from 'prop-types';
+
+import GET_USER from '../../graphql/queries/getUserFromToken';
 
 import Layout from '../../constants/Layout';
 import { useAnimation } from '../../helpers/hooks';
@@ -24,9 +26,20 @@ import AnimatedSettingsNav from '../../components/AnimatedSettingsNav';
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 
 const SettingsScreen = ({ navigation }) => {
+  const [getUser, { data }] = useLazyQuery(GET_USER);
   const [displayingNavbar, setDisplayingNavbar] = useState(false);
   const { animationValue, animateTo } = useAnimation();
   const client = useApolloClient();
+  const user = data ? data.user : {};
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  const fetchUser = async () => {
+    const token = await AsyncStorage.getItem('CHRDS_TOKEN');
+    getUser({ variables: { token } });
+  };
 
   const goBack = () => navigation.navigate('Home');
   const rateApp = () => Linking.openURL(StoreReview.storeUrl());
@@ -71,10 +84,10 @@ const SettingsScreen = ({ navigation }) => {
             <View style={styles.imageWrapper}>
               <Image
                 style={styles.profilePic}
-                source={{ uri: 'https://thispersondoesnotexist.com/image' }}
+                source={{ uri: user.profilePic }}
               />
             </View>
-            <Text style={styles.username}>@username.1234</Text>
+            <Text style={styles.username}>@{user.username}</Text>
             <TouchableOpacity style={styles.profileButton}>
               <Text style={styles.pbText}>View Profile</Text>
             </TouchableOpacity>

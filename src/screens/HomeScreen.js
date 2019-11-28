@@ -90,7 +90,7 @@ const HomeScreen = ({ navigation }) => {
                 >
                   <Image
                     resizeMode="cover"
-                    source={{ uri: 'https://thispersondoesnotexist.com/image' }}
+                    source={{ uri: user.profilePic }}
                     style={styles.profilePic}
                   />
                 </TouchableOpacity>
