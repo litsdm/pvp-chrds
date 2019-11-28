@@ -9,7 +9,8 @@ cache.writeData({
     playCategory: null,
     displayCategory: false,
     selectedCategory: null,
-    transitionPosition: null
+    transitionPosition: null,
+    displayAdd: false
   }
 });
 

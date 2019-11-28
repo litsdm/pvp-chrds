@@ -3,6 +3,7 @@ import { useApolloClient, useQuery } from '@apollo/react-hooks';
 
 import PlayPopup from './PlayPopup';
 import CategoryPopup from './CategoryPopup';
+import AddFriendPopup from './AddFriendPopup';
 
 import GET_DATA from '../graphql/queries/getPopupData';
 
@@ -13,7 +14,8 @@ const PopupManager = () => {
       playCategory,
       displayCategory,
       selectedCategory,
-      transitionPosition
+      transitionPosition,
+      displayAdd
     }
   } = useQuery(GET_DATA);
   const client = useApolloClient();
@@ -29,8 +31,11 @@ const PopupManager = () => {
       data: { displayCategory: false, selectedCategory: null }
     });
 
+  const closeAdd = () => client.writeData({ data: { displayAdd: false } });
+
   return (
     <>
+      {displayAdd ? <AddFriendPopup close={closeAdd} /> : null}
       {displayPlay ? (
         <PlayPopup close={closePlay} category={playCategory} />
       ) : null}

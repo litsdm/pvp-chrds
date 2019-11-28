@@ -7,7 +7,11 @@ import {
   Text,
   View
 } from 'react-native';
-import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import {
+  useLazyQuery,
+  useMutation,
+  useApolloClient
+} from '@apollo/react-hooks';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import jwtDecode from 'jwt-decode';
 import Fuse from 'fuse.js';
@@ -38,6 +42,7 @@ const FriendsScreen = ({ navigation }) => {
   const [resolving, setResolving] = useState(false);
   const [searching, setSearching] = useState(false);
   const [search, setSearch] = useState('');
+  const client = useApolloClient();
   const friends = data ? data.friends : [];
   const friendRequests = data ? data.friendRequests : [];
   const sectionsData = [
@@ -72,6 +77,8 @@ const FriendsScreen = ({ navigation }) => {
   const toggleSearch = () => setSearching(!searching);
   const goBack = () => navigation.goBack();
 
+  const openAdd = () => client.writeData({ data: { displayAdd: true } });
+
   const resolveRequest = (requestID, type) => async () => {
     if (resolving) return;
 
@@ -102,14 +109,14 @@ const FriendsScreen = ({ navigation }) => {
     )
       return (
         <>
-          <AddFriendRow />
+          <AddFriendRow openPopup={openAdd} />
           <Empty searching={searching} search={search} />
         </>
       );
 
     return (
       <>
-        <AddFriendRow />
+        <AddFriendRow openPopup={openAdd} />
         {friendRequests.length > 0 && !searching ? (
           <SectionList
             sections={sectionsData}

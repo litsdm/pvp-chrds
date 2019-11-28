@@ -17,7 +17,8 @@ const Popup = ({
   close,
   showsDragIndicator,
   animationOptions,
-  onContentLayout
+  onContentLayout,
+  contentStyles
 }) => {
   const [contentHeight, setContentHeight] = useState(180);
   const [animateDisplay, setAnimateDisplay] = useState({});
@@ -87,7 +88,8 @@ const Popup = ({
           styles.content,
           position.current.getTranslateTransform(),
           animateDisplay,
-          Platform.OS === 'ios' ? styles.posApple : styles.posAndroid
+          Platform.OS === 'ios' ? styles.posApple : styles.posAndroid,
+          contentStyles
         ]}
         onLayout={handleLayout}
         {...panResponder.panHandlers}
@@ -152,14 +154,16 @@ Popup.propTypes = {
   close: func.isRequired,
   showsDragIndicator: bool,
   animationOptions: object,
-  onContentLayout: func
+  onContentLayout: func,
+  contentStyles: object
 };
 
 Popup.defaultProps = {
   children: null,
   showsDragIndicator: true,
   animationOptions: {},
-  onContentLayout: null
+  onContentLayout: null,
+  contentStyles: null
 };
 
 export default Popup;

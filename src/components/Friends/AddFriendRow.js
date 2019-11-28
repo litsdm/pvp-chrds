@@ -7,11 +7,12 @@ import {
   View
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { func } from 'prop-types';
 
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 
-const AddFriendRow = () => (
-  <TouchableOpacity style={styles.add}>
+const AddFriendRow = ({ openPopup }) => (
+  <TouchableOpacity style={styles.add} onPress={openPopup}>
     <View style={styles.icon}>
       <Ionicons name={`${PRE_ICON}-person-add`} size={24} color="#fff" />
     </View>
@@ -41,5 +42,9 @@ const styles = StyleSheet.create({
     fontSize: 18
   }
 });
+
+AddFriendRow.propTypes = {
+  openPopup: func.isRequired
+};
 
 export default AddFriendRow;
