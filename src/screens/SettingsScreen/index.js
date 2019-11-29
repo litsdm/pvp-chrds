@@ -50,7 +50,7 @@ const SettingsScreen = ({ navigation }) => {
 
   const logout = async () => {
     await AsyncStorage.removeItem('CHRDS_TOKEN');
-    client.cache.reset();
+    client.resetStore();
     navigation.navigate('Auth');
   };
 

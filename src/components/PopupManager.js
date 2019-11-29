@@ -8,18 +8,18 @@ import AddFriendPopup from './AddFriendPopup';
 import GET_DATA from '../graphql/queries/getPopupData';
 
 const PopupManager = () => {
-  const {
-    data: {
-      displayPlay,
-      playCategory,
-      playFriend,
-      displayCategory,
-      selectedCategory,
-      transitionPosition,
-      displayAdd
-    }
-  } = useQuery(GET_DATA);
+  const { data } = useQuery(GET_DATA, { errorPolicy: 'ignore' });
   const client = useApolloClient();
+
+  const {
+    displayPlay,
+    playCategory,
+    playFriend,
+    displayCategory,
+    selectedCategory,
+    transitionPosition,
+    displayAdd
+  } = data || {};
 
   const closePlay = () =>
     client.writeData({

@@ -6,21 +6,14 @@ import * as Font from 'expo-font';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
-import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { bool } from 'prop-types';
 
+import client from './src/apolloStore';
+
 import AppNavigator from './src/navigation/AppNavigator';
 import PopupManager from './src/components/PopupManager';
-
-import cache, { typeDefs } from './src/apolloStore';
-
-const client = new ApolloClient({
-  uri: 'http://192.168.15.6:8080',
-  cache,
-  typeDefs
-});
 
 const App = ({ skipLoadingScreen }) => {
   const [isLoadingComplete, setLoadingComplete] = useState(false);

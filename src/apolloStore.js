@@ -1,25 +1,34 @@
 import gql from 'graphql-tag';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import ApolloClient from 'apollo-boost';
 
 const cache = new InMemoryCache();
 
-cache.writeData({
-  data: {
-    displayPlay: false,
-    playCategory: null,
-    playFriend: null,
-    displayCategory: false,
-    selectedCategory: null,
-    transitionPosition: null,
-    displayAdd: false
-  }
-});
+const defaultData = {
+  displayPlay: false,
+  playCategory: null,
+  playFriend: null,
+  displayCategory: false,
+  selectedCategory: null,
+  transitionPosition: null,
+  displayAdd: false
+};
 
-export default cache;
+cache.writeData({ data: defaultData });
 
-export const typeDefs = gql`
+const typeDefs = gql`
   type Position {
     x: Float!
     y: Float!
   }
 `;
+
+const client = new ApolloClient({
+  uri: 'http://192.168.15.6:8080',
+  cache,
+  typeDefs
+});
+
+client.onResetStore(() => cache.writeData({ data: defaultData }));
+
+export default client;
