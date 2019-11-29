@@ -12,6 +12,7 @@ import Popup from '../Popup';
 import Loader from '../Loader';
 import SearchBar from './SearchBar';
 import FriendRow from './FriendRow';
+import Empty from '../Empty';
 
 import Layout from '../../constants/Layout';
 
@@ -79,11 +80,20 @@ const AddFriendPopup = ({ close }) => {
       ) : (
         <View style={styles.container}>
           <SearchBar search={search} onChangeText={handleTextChange} />
-          <FlatList
-            data={results}
-            keyExtractor={item => item._id}
-            renderItem={renderItem}
-          />
+          {results.length > 0 ? (
+            <FlatList
+              data={results}
+              keyExtractor={item => item._id}
+              renderItem={renderItem}
+            />
+          ) : (
+            <Empty
+              title="No results for your search."
+              description="Are your friends not on CHRDS? Invite them!"
+              action={() => {}}
+              actionTitle="Invite a Friend"
+            />
+          )}
         </View>
       )}
     </Popup>

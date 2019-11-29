@@ -22,6 +22,7 @@ import AnimatedCircle from '../components/AnimatedCircle';
 import ProgressBar from '../components/LevelProgressBar';
 import MatchRow from '../components/MatchRow';
 import Loader from '../components/Loader';
+import Empty from '../components/Empty';
 
 import Layout from '../constants/Layout';
 
@@ -30,7 +31,7 @@ const HomeScreen = ({ navigation }) => {
     getMatches,
     { loading: loadingMatches, data: matchesData }
   ] = useLazyQuery(GET_USER_MATCHES);
-  const [getUser, { loading, data }] = useLazyQuery(GET_USER);
+  const [getUser, { loading, data, client }] = useLazyQuery(GET_USER);
   const user = data ? data.user : {};
 
   useEffect(() => {
@@ -45,6 +46,8 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const navigateToSettings = () => navigation.navigate('Settings');
+
+  const openPlay = () => client.writeData({ data: { displayPlay: true } });
 
   return (
     <>
@@ -119,6 +122,12 @@ const HomeScreen = ({ navigation }) => {
             </View>
             <View style={styles.lists}>
               {/* render lists when data is available */}
+              <Empty
+                title="No matches yet."
+                description="Click play below to start playing with your friends!"
+                action={openPlay}
+                actionTitle="Play Now"
+              />
             </View>
           </View>
         </ScrollView>
