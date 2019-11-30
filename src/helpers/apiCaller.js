@@ -36,16 +36,6 @@ export const uploadFile = (
   oReq.send(file);
 };
 
-export const getSignedUrl = async s3Filename => {
-  try {
-    const response = await callApi(`get-s3?file-name=${s3Filename}`);
-    const { signedRequest } = await response.json();
-    return signedRequest;
-  } catch (exception) {
-    throw new Error(`[apiCaller.getSignedUrl] ${exception.message}`);
-  }
-};
-
 export const getApiUrl = () =>
   __DEV__
     ? 'http://192.168.15.6:8080'

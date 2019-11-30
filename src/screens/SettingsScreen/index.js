@@ -10,13 +10,23 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { useApolloClient, useLazyQuery } from '@apollo/react-hooks';
+import {
+  useApolloClient,
+  useLazyQuery,
+  useMutation
+} from '@apollo/react-hooks';
 import { Ionicons } from '@expo/vector-icons';
 import * as StoreReview from 'expo-store-review';
+import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { object } from 'prop-types';
 
+import callApi, { uploadFile } from '../../helpers/apiCaller';
+import mime from '../../helpers/mimeTypes';
+
 import GET_USER from '../../graphql/queries/getUserFromToken';
+import UPDATE_USER from '../../graphql/mutations/updateUser';
 
 import Layout from '../../constants/Layout';
 import { useAnimation } from '../../helpers/hooks';
@@ -26,7 +36,8 @@ import AnimatedSettingsNav from '../../components/AnimatedSettingsNav';
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 
 const SettingsScreen = ({ navigation }) => {
-  const [getUser, { data }] = useLazyQuery(GET_USER);
+  const [getUser, { data, refetch }] = useLazyQuery(GET_USER);
+  const [updateProperties, { data: updateData }] = useMutation(UPDATE_USER);
   const [displayingNavbar, setDisplayingNavbar] = useState(false);
   const { animationValue, animateTo } = useAnimation();
   const client = useApolloClient();
@@ -35,6 +46,12 @@ const SettingsScreen = ({ navigation }) => {
   useEffect(() => {
     fetchUser();
   }, []);
+
+  useEffect(() => {
+    if (updateData && updateData.updateUser.token) {
+      // re store token
+    }
+  }, [updateData]);
 
   const fetchUser = async () => {
     const token = await AsyncStorage.getItem('CHRDS_TOKEN');
@@ -52,6 +69,55 @@ const SettingsScreen = ({ navigation }) => {
     await AsyncStorage.removeItem('CHRDS_TOKEN');
     client.resetStore();
     navigation.navigate('Auth');
+  };
+
+  const getSignedRequest = async ({ name, type }) => {
+    try {
+      const response = await callApi(
+        `s3/sign?file-name=${name}&file-type=${type}&folder-name=ProfilePics&static=true`
+      );
+      const { signedRequest } = await response.json();
+      return signedRequest;
+    } catch (exception) {
+      console.log(exception.message);
+    }
+  };
+
+  const handleUploadProgress = (id, progress) => {
+    console.log(progress);
+  };
+
+  const handleUploadFinish = async file => {
+    const s3Url = `https://chrds-static.s3-us-west-2.amazonaws.com/ProfilePics/${file.name}`;
+    const properties = JSON.stringify({ profilePic: s3Url });
+    await updateProperties({ variables: { id: user._id, properties } });
+    refetch();
+  };
+
+  const pickImage = async () => {
+    const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1
+    });
+
+    if (cancelled) return;
+
+    const { size } = await FileSystem.getInfoAsync(uri, { size: true });
+    const extension = uri.split('.').pop();
+    const filename = `${user._id}-pp-.${extension}`;
+
+    const file = {
+      uri,
+      size,
+      type: mime(extension),
+      name: filename
+    };
+
+    const signedRequest = await getSignedRequest(file);
+
+    uploadFile(file, signedRequest, handleUploadProgress, handleUploadFinish);
   };
 
   const handleScroll = ({
@@ -81,12 +147,12 @@ const SettingsScreen = ({ navigation }) => {
             <TouchableOpacity style={styles.goBack} onPress={goBack}>
               <Ionicons name="ios-arrow-round-back" color="#000" size={30} />
             </TouchableOpacity>
-            <View style={styles.imageWrapper}>
+            <TouchableOpacity style={styles.imageWrapper} onPress={pickImage}>
               <Image
                 style={styles.profilePic}
                 source={{ uri: user.profilePic }}
               />
-            </View>
+            </TouchableOpacity>
             <Text style={styles.username}>@{user.username}</Text>
             <TouchableOpacity style={styles.profileButton}>
               <Text style={styles.pbText}>View Profile</Text>
