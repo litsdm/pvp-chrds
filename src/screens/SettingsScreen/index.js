@@ -19,6 +19,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as StoreReview from 'expo-store-review';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
+import * as Permissions from 'expo-permissions';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { object } from 'prop-types';
 
@@ -39,12 +40,14 @@ const SettingsScreen = ({ navigation }) => {
   const [getUser, { data, refetch }] = useLazyQuery(GET_USER);
   const [updateProperties, { data: updateData }] = useMutation(UPDATE_USER);
   const [displayingNavbar, setDisplayingNavbar] = useState(false);
+  const [imageID, setImageID] = useState('');
   const { animationValue, animateTo } = useAnimation();
   const client = useApolloClient();
   const user = data ? data.user : {};
 
   useEffect(() => {
     fetchUser();
+    getImageID();
   }, []);
 
   useEffect(() => {
@@ -56,6 +59,11 @@ const SettingsScreen = ({ navigation }) => {
   const fetchUser = async () => {
     const token = await AsyncStorage.getItem('CHRDS_TOKEN');
     getUser({ variables: { token } });
+  };
+
+  const getImageID = async () => {
+    const id = await AsyncStorage.getItem('IMG_ID');
+    setImageID(id);
   };
 
   const updateUserToken = async () => {
@@ -88,6 +96,13 @@ const SettingsScreen = ({ navigation }) => {
     }
   };
 
+  const updateImageID = async () => {
+    const newID = Math.random();
+
+    setImageID(`${newID}`);
+    await AsyncStorage.setItem('IMG_ID', `${newID}`);
+  };
+
   const handleUploadProgress = (id, progress) => {
     console.log(progress);
   };
@@ -96,10 +111,18 @@ const SettingsScreen = ({ navigation }) => {
     const s3Url = `https://chrds-static.s3-us-west-2.amazonaws.com/ProfilePics/${file.name}`;
     const properties = JSON.stringify({ profilePic: s3Url });
     await updateProperties({ variables: { id: user._id, properties } });
+    await updateImageID();
     refetch();
   };
 
   const pickImage = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+    if (status !== 'granted') {
+      // display badge
+      return;
+    }
+
     const { cancelled, uri } = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -144,7 +167,7 @@ const SettingsScreen = ({ navigation }) => {
       <AnimatedSettingsNav
         animationValue={animationValue}
         goBack={goBack}
-        uri={user.profilePic}
+        uri={`${user.profilePic}?random=${imageID}`}
       />
       <ScrollView onScroll={handleScroll} scrollEventThrottle={8}>
         <View style={styles.container}>
@@ -155,7 +178,7 @@ const SettingsScreen = ({ navigation }) => {
             <TouchableOpacity style={styles.imageWrapper} onPress={pickImage}>
               <Image
                 style={styles.profilePic}
-                source={{ uri: user.profilePic }}
+                source={{ uri: `${user.profilePic}?random=${imageID}` }}
               />
             </TouchableOpacity>
             <Text style={styles.username}>@{user.username}</Text>

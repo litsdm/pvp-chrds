@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AsyncStorage,
   Image,
@@ -32,10 +32,15 @@ const HomeScreen = ({ navigation }) => {
     { loading: loadingMatches, data: matchesData }
   ] = useLazyQuery(GET_USER_MATCHES);
   const [getUser, { loading, data, client }] = useLazyQuery(GET_USER);
+  const [imageID, setImageID] = useState('');
   const user = data ? data.user : {};
 
   useEffect(() => {
+    const focusScreen = navigation.addListener('willFocus', () => getImageID());
     fetchData();
+    return () => {
+      focusScreen.remove();
+    };
   }, []);
 
   const fetchData = async () => {
@@ -43,6 +48,11 @@ const HomeScreen = ({ navigation }) => {
     const { _id } = jwtDecode(token);
     getUser({ variables: { token } });
     getMatches({ variables: { _id } });
+  };
+
+  const getImageID = async () => {
+    const id = await AsyncStorage.getItem('IMG_ID');
+    setImageID(id);
   };
 
   const navigateToSettings = () => navigation.navigate('Settings');
@@ -93,7 +103,7 @@ const HomeScreen = ({ navigation }) => {
                 >
                   <Image
                     resizeMode="cover"
-                    source={{ uri: user.profilePic }}
+                    source={{ uri: `${user.profilePic}?imgID=${imageID}` }}
                     style={styles.profilePic}
                   />
                 </TouchableOpacity>
