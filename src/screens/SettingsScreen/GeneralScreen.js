@@ -39,13 +39,18 @@ const GeneralScreen = ({ navigation }) => {
 
   useEffect(() => {
     if (updateData && updateData.updateUser.token) {
-      // re store token
+      updateUserToken();
     }
   }, [updateData]);
 
   const fetchUser = async () => {
     const token = await AsyncStorage.getItem('CHRDS_TOKEN');
     getUser({ variables: { token } });
+  };
+
+  const updateUserToken = async () => {
+    const { token } = updateData.updateUser;
+    await AsyncStorage.setItem('CHRDS_TOKEN', token);
   };
 
   const goBack = () => navigation.goBack();
