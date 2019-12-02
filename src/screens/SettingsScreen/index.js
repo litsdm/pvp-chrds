@@ -41,6 +41,8 @@ const SettingsScreen = ({ navigation }) => {
   const [updateProperties, { data: updateData }] = useMutation(UPDATE_USER);
   const [displayingNavbar, setDisplayingNavbar] = useState(false);
   const [imageID, setImageID] = useState('');
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
   const { animationValue, animateTo } = useAnimation();
   const client = useApolloClient();
   const user = data ? data.user : {};
@@ -103,8 +105,8 @@ const SettingsScreen = ({ navigation }) => {
     await AsyncStorage.setItem('IMG_ID', `${newID}`);
   };
 
-  const handleUploadProgress = (id, progress) => {
-    console.log(progress);
+  const handleUploadProgress = (id, upProgress) => {
+    setProgress(upProgress);
   };
 
   const handleUploadFinish = async file => {
@@ -113,6 +115,12 @@ const SettingsScreen = ({ navigation }) => {
     await updateProperties({ variables: { id: user._id, properties } });
     await updateImageID();
     refetch();
+    setUploading(false);
+  };
+
+  const handleUploadError = () => {
+    // display badge
+    setUploading(false);
   };
 
   const pickImage = async () => {
@@ -145,7 +153,16 @@ const SettingsScreen = ({ navigation }) => {
 
     const signedRequest = await getSignedRequest(file);
 
-    uploadFile(file, signedRequest, handleUploadProgress, handleUploadFinish);
+    setProgress(0);
+    setUploading(true);
+
+    uploadFile(
+      file,
+      signedRequest,
+      handleUploadProgress,
+      handleUploadFinish,
+      handleUploadError
+    );
   };
 
   const handleScroll = ({
@@ -176,6 +193,13 @@ const SettingsScreen = ({ navigation }) => {
               <Ionicons name="ios-arrow-round-back" color="#000" size={30} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.imageWrapper} onPress={pickImage}>
+              {uploading ? (
+                <View style={styles.progressOverlay}>
+                  <Text style={styles.progress}>
+                    {Math.round(progress * 100)}%
+                  </Text>
+                </View>
+              ) : null}
               <Image
                 style={styles.profilePic}
                 source={{ uri: `${user.profilePic}?random=${imageID}` }}
@@ -443,6 +467,23 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 24,
     width: 30
+  },
+  progressOverlay: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    borderRadius: 108 / 2,
+    bottom: 0,
+    justifyContent: 'center',
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: 2
+  },
+  progress: {
+    color: '#fff',
+    fontFamily: 'sf-medium',
+    fontSize: 18
   }
 });
 

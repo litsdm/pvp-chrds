@@ -24,7 +24,7 @@ const typeDefs = gql`
 `;
 
 const client = new ApolloClient({
-  uri: 'http://192.168.15.6:8080',
+  uri: 'http://192.168.1.126:8080',
   cache,
   typeDefs
 });
