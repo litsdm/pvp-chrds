@@ -22,7 +22,8 @@ const CategoryPopup = ({
   words,
   image,
   play,
-  transitionPosition
+  transitionPosition,
+  imageID
 }) => {
   const [animateTransition, setAnimateTransition] = useState({});
   const { animationValue, animateTo } = useAnimation({ autoPlay: true });
@@ -122,7 +123,10 @@ const CategoryPopup = ({
         ]}
       >
         <Animated.View style={[styles.imageWrapper, animateScale]}>
-          <Image source={{ uri: image }} style={styles.logo} />
+          <Image
+            source={{ uri: `${image}?rand=${imageID}` }}
+            style={styles.logo}
+          />
         </Animated.View>
       </Animated.View>
     </>
@@ -210,7 +214,12 @@ CategoryPopup.propTypes = {
   transitionPosition: shape({
     x: number,
     y: number
-  }).isRequired
+  }).isRequired,
+  imageID: number
+};
+
+CategoryPopup.defaultProps = {
+  imageID: Math.random()
 };
 
 export default CategoryPopup;

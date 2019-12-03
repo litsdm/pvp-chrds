@@ -9,7 +9,7 @@ import {
   View
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { bool, func, object, string } from 'prop-types';
+import { bool, func, number, object, string } from 'prop-types';
 
 import Layout from '../constants/Layout';
 
@@ -27,7 +27,8 @@ const CategoryColumn = ({
   selected,
   logoRef,
   hideLogo,
-  parentBackgroundColor
+  parentBackgroundColor,
+  imageID
 }) => {
   const [logoOpacity, setLogoOpacity] = useState(1);
 
@@ -63,7 +64,10 @@ const CategoryColumn = ({
             </View>
           ) : null}
           {image ? (
-            <Image source={{ uri: image }} style={styles.logo} />
+            <Image
+              source={{ uri: `${image}?rand=${imageID}` }}
+              style={styles.logo}
+            />
           ) : (
             <View style={[styles.logo, { backgroundColor: color }]}>
               <Ionicons size={42} name="ios-shuffle" color="#fff" />
@@ -211,7 +215,8 @@ CategoryColumn.propTypes = {
   selected: bool,
   logoRef: object,
   hideLogo: bool,
-  parentBackgroundColor: string
+  parentBackgroundColor: string,
+  imageID: number
 };
 
 CategoryColumn.defaultProps = {
@@ -221,7 +226,8 @@ CategoryColumn.defaultProps = {
   image: '',
   logoRef: null,
   hideLogo: false,
-  parentBackgroundColor: '#fff'
+  parentBackgroundColor: '#fff',
+  imageID: Math.random()
 };
 
 export default CategoryColumn;
