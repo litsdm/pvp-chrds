@@ -4,7 +4,16 @@ import moment from 'moment';
 import { bool, string } from 'prop-types';
 import { momentObj } from 'react-moment-proptypes';
 
-const MatchRow = ({ username, expiryDate, score, clickable }) => {
+const rand = Math.random();
+
+const MatchRow = ({
+  username,
+  expiryDate,
+  score,
+  clickable,
+  categoryUri,
+  uri
+}) => {
   const timeLeft = () => {
     const now = moment();
     const days = expiryDate.diff(now, 'days');
@@ -19,7 +28,7 @@ const MatchRow = ({ username, expiryDate, score, clickable }) => {
     <>
       <View style={styles.leftSide}>
         <Image
-          source={{ uri: 'https://thispersondoesnotexist.com/image' }}
+          source={{ uri: `${uri}?rand=${rand}` }}
           style={styles.image}
           resizeMode="cover"
         />
@@ -29,7 +38,10 @@ const MatchRow = ({ username, expiryDate, score, clickable }) => {
         </View>
       </View>
       <View style={styles.rightSide}>
-        <View style={styles.category} />
+        <Image
+          source={{ uri: `${categoryUri}?rand=${rand}` }}
+          style={styles.category}
+        />
         <Text style={styles.score}>{score}</Text>
       </View>
     </>
@@ -44,11 +56,12 @@ const MatchRow = ({ username, expiryDate, score, clickable }) => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#fff',
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 12,
-    paddingBottom: 0
+    paddingHorizontal: 24
   },
   leftSide: {
     alignItems: 'center',
@@ -89,7 +102,9 @@ MatchRow.propTypes = {
   clickable: bool,
   username: string.isRequired,
   expiryDate: momentObj.isRequired,
-  score: string.isRequired
+  score: string.isRequired,
+  categoryUri: string.isRequired,
+  uri: string.isRequired
 };
 
 MatchRow.defaultProps = {

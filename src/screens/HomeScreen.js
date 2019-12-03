@@ -3,6 +3,7 @@ import {
   AsyncStorage,
   Image,
   ScrollView,
+  SectionList,
   StyleSheet,
   TouchableOpacity,
   Text,
@@ -33,21 +34,42 @@ const HomeScreen = ({ navigation }) => {
   ] = useLazyQuery(GET_USER_MATCHES);
   const [getUser, { loading, data, client }] = useLazyQuery(GET_USER);
   const [imageID, setImageID] = useState('');
+  const [matches, setMatches] = useState(null);
   const user = data ? data.user : {};
 
   useEffect(() => {
     const focusScreen = navigation.addListener('willFocus', () => getImageID());
+    getImageID();
     fetchData();
     return () => {
       focusScreen.remove();
     };
   }, []);
 
+  useEffect(() => {
+    if (matchesData && !matches) separateMatches();
+  }, [matchesData]);
+
   const fetchData = async () => {
     const token = await AsyncStorage.getItem('CHRDS_TOKEN');
     const { _id } = jwtDecode(token);
     getUser({ variables: { token } });
     getMatches({ variables: { _id } });
+  };
+
+  const separateMatches = () => {
+    const yourTurn = matchesData.matches.filter(
+      match => match.turn === user._id
+    );
+
+    const theirTurn = matchesData.matches.filter(
+      match => match.turn !== user._id
+    );
+
+    setMatches([
+      { title: 'Your Turn', data: yourTurn },
+      { title: 'Their Turn', data: theirTurn }
+    ]);
   };
 
   const getImageID = async () => {
@@ -58,6 +80,37 @@ const HomeScreen = ({ navigation }) => {
   const navigateToSettings = () => navigation.navigate('Settings');
 
   const openPlay = () => client.writeData({ data: { displayPlay: true } });
+
+  const getOpponent = players => {
+    if (players[0]._id === user._id) return players[1];
+    return players[0];
+  };
+
+  const renderItem = args => {
+    const { title } = args.section;
+    const { _id, players, category, score, expiresOn } = args.item;
+    const opponent = getOpponent(players);
+    const jsonScore = JSON.parse(score);
+    const stringScore = `${jsonScore[user._id]} - ${jsonScore[opponent._id]}`;
+    return (
+      <MatchRow
+        score={stringScore}
+        categoryUri={category.image}
+        username={opponent.username}
+        uri={opponent.profilePic}
+        expiryDate={moment(expiresOn)}
+        clickable={title === 'Your Turn'}
+      />
+    );
+  };
+
+  const renderSectionHeader = args => {
+    const { title } = args.section;
+    if (title === 'Your Turn' && matches[0].data.length === 0) return null;
+    if (title === 'Their Turn' && matches[1].data.length === 0) return null;
+
+    return <Text style={styles.title}>{title}</Text>;
+  };
 
   return (
     <>
@@ -130,15 +183,28 @@ const HomeScreen = ({ navigation }) => {
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={styles.lists}>
-              {/* render lists when data is available */}
-              <Empty
-                title="No matches yet."
-                description="Click play below to start playing with your friends!"
-                action={openPlay}
-                actionTitle="Play Now"
-              />
-            </View>
+            {matches === null ? (
+              <Loader />
+            ) : (
+              <View style={styles.lists}>
+                {(matches[0] && matches[0].data.length > 0) ||
+                  (matches[1] && matches.data.length > 0) ? (
+                    <SectionList
+                      sections={matches}
+                      keyExtractor={item => item._id}
+                      renderItem={renderItem}
+                      renderSectionHeader={renderSectionHeader}
+                    />
+                ) : (
+                  <Empty
+                    title="No matches yet."
+                    description="Click play below to start playing with your friends!"
+                    action={openPlay}
+                    actionTitle="Play Now"
+                  />
+                )}
+              </View>
+            )}
           </View>
         </ScrollView>
       )}
@@ -254,14 +320,14 @@ const styles = StyleSheet.create({
     fontFamily: 'sf-medium',
     color: '#fff'
   },
-  lists: {
-    paddingHorizontal: 24
-  },
   title: {
-    fontFamily: 'sf-medium',
-    fontSize: 30,
+    fontFamily: 'sf-light',
+    fontSize: 16,
     marginTop: 24,
-    opacity: 0.6
+    marginLeft: 24,
+    marginBottom: 12,
+    opacity: 0.6,
+    textTransform: 'uppercase'
   },
   divider: {
     backgroundColor: 'rgba(0, 0, 0, 0.05)',
