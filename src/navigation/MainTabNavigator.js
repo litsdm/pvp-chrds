@@ -5,6 +5,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 import HomeScreen from '../screens/HomeScreen';
 import CategoriesScreen from '../screens/CategoriesScreen';
+import CameraScreen from '../screens/CameraScreen';
 
 import SettingsScreen from '../screens/SettingsScreen';
 import GeneralScreen from '../screens/SettingsScreen/GeneralScreen';
@@ -22,6 +23,19 @@ const config = Platform.select({
   }
 });
 
+const CameraStack = createStackNavigator(
+  {
+    Camera: {
+      screen: CameraScreen
+    }
+  },
+  {
+    defaultNavigationOptions: {
+      header: null
+    }
+  }
+);
+
 const SettingsStack = createStackNavigator(
   {
     Main: SettingsScreen,
@@ -34,7 +48,8 @@ const SettingsStack = createStackNavigator(
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
-    Settings: SettingsStack
+    Settings: SettingsStack,
+    Camera: CameraStack
   },
   config
 );

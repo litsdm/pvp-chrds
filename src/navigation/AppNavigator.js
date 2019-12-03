@@ -6,7 +6,6 @@ import MainTabNavigator from './MainTabNavigator';
 import AuthScreen from '../screens/AuthScreen';
 import AuthEmailScreen from '../screens/AuthEmailScreen';
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
-import CameraScreen from '../screens/CameraScreen';
 
 const AuthStack = createStackNavigator(
   {
@@ -24,24 +23,10 @@ const AuthStack = createStackNavigator(
   }
 );
 
-const CameraStack = createStackNavigator(
-  {
-    Camera: {
-      screen: CameraScreen
-    }
-  },
-  {
-    defaultNavigationOptions: {
-      header: null
-    }
-  }
-);
-
 export default createAppContainer(
   createSwitchNavigator({
     AuthLoading: AuthLoadingScreen,
     Auth: AuthStack,
-    Main: MainTabNavigator,
-    Camera: CameraStack
+    Main: MainTabNavigator
   })
 );

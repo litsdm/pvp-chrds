@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { AsyncStorage, ScrollView } from 'react-native';
-import { useQuery, useLazyQuery } from '@apollo/react-hooks';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import Fuse from 'fuse.js';
 import jwtDecode from 'jwt-decode';
 import { func, string } from 'prop-types';
 
-import GET_CATEGORIES from '../../graphql/queries/getCategories';
-import GET_FRIENDS from '../../graphql/queries/getOnlyFriends';
+import GET_DATA from '../../graphql/queries/getPlayPopupData';
+import CREATE_MATCH from '../../graphql/mutations/createMatch';
 
 import Popup from '../Popup';
 import SelectCategory from './SelectCategory';
@@ -24,15 +24,17 @@ const fuzzyOptions = {
   keys: ['username', 'email']
 };
 
-const PlayPopup = ({ close, category, friend }) => {
-  const { data } = useQuery(GET_CATEGORIES);
-  const [getFriends, { data: friendData }] = useLazyQuery(GET_FRIENDS);
+const PlayPopup = ({ close, category, friend, navigate }) => {
+  const [getData, { data }] = useLazyQuery(GET_DATA);
+  const [createMatch, { data: matchData }] = useMutation(CREATE_MATCH);
   const [selectedCategory, setSelectedCategory] = useState(category);
   const [selectedFriend, setSelectedFriend] = useState(friend);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(category ? 1 : 0);
   const scrollView = useRef(null);
-  const friends = friendData ? friendData.friends : [];
+
+  const friends = data ? data.friends : [];
+  const { categories, user } = data || {};
 
   const fuse = new Fuse(friends, fuzzyOptions);
   const results = fuse.search(search);
@@ -45,10 +47,14 @@ const PlayPopup = ({ close, category, friend }) => {
     scrollPage();
   }, [page]);
 
+  useEffect(() => {
+    if (matchData && matchData.match) navigateOnDone();
+  }, [matchData]);
+
   const fetchFriends = async () => {
     const token = await AsyncStorage.getItem('CHRDS_TOKEN');
     const { _id } = jwtDecode(token);
-    getFriends({ variables: { _id } });
+    getData({ variables: { token, _id } });
   };
 
   const handleTextChange = text => setSearch(text);
@@ -76,9 +82,32 @@ const PlayPopup = ({ close, category, friend }) => {
     setPage(1);
   };
 
-  const handleDone = () => {
-    // create match
+  const handleDone = async () => {
+    if (selectedCategory === '-1') {
+      // handleRandom category
+    }
+    if (selectedFriend === '-1') {
+      // handle random opponent
+    }
+
+    const variables = {
+      players: [user._id, selectedFriend],
+      category: selectedCategory,
+      turn: user._id,
+      score: JSON.stringify({ [user._id]: 0, [selectedFriend]: 0 })
+    };
+
+    await createMatch({ variables });
   };
+
+  const navigateOnDone = () => {
+    navigate('Camera', {
+      categoryID: selectedCategory,
+      opponentID: selectedFriend,
+      matchID: matchData.match._id
+    });
+    close();
+  }
 
   return (
     <Popup close={close}>
@@ -97,7 +126,7 @@ const PlayPopup = ({ close, category, friend }) => {
           handleNext={handleNext}
           selectCategory={selectCategory}
           selectedCategory={selectedCategory}
-          categories={data ? data.categories : []}
+          categories={categories || []}
           directPlay={friend !== null}
           handleDone={handleDone}
         />
@@ -116,6 +145,7 @@ const PlayPopup = ({ close, category, friend }) => {
 
 PlayPopup.propTypes = {
   close: func.isRequired,
+  navigate: func.isRequired,
   category: string,
   friend: string
 };

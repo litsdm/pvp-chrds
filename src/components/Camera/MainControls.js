@@ -30,7 +30,8 @@ const MainControls = ({
   cameraAnimationRef,
   flashAnimationRef,
   animationValue,
-  setState
+  setState,
+  word
 }) => {
   const handleFlash = () =>
     setState({ flash: flash === flashOn ? flashOff : flashOn });
@@ -69,7 +70,7 @@ const MainControls = ({
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        {!isRecording ? <WordTooltip word="superman" /> : null}
+        {!isRecording ? <WordTooltip word={word} /> : null}
         <View style={styles.controls}>
           <Animated.View style={animateOpacity}>
             <TouchableWithoutFeedback

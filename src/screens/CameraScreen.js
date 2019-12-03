@@ -1,15 +1,20 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import { AsyncStorage, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { useLazyQuery } from '@apollo/react-hooks';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import * as Brightness from 'expo-brightness';
+import jwtDecode from 'jwt-decode';
 import { object } from 'prop-types';
 
 import { useAnimation } from '../helpers/hooks';
 
+import GET_DATA from '../graphql/queries/getCameraData';
+
 import MainControls from '../components/Camera/MainControls';
 import VideoOverlay from '../components/Camera/VideoOverlay';
 import CountdownPopup from '../components/Camera/CountdownPopup';
+import TopControls from '../components/Camera/TopControls';
 
 const { front: frontType } = Camera.Constants.Type;
 const { off: flashOff, on: flashOn, torch } = Camera.Constants.FlashMode;
@@ -17,14 +22,20 @@ const { off: flashOff, on: flashOn, torch } = Camera.Constants.FlashMode;
 let originalBrightness;
 
 const CameraScreen = ({ navigation }) => {
+  const [getCameraData, { data }] = useLazyQuery(GET_DATA);
   const [hasPermissions, setPermissions] = useState(false);
   const [cameraType, setCameraType] = useState(frontType);
   const [flash, setFlash] = useState(flashOff);
   const [isRecording, setRecording] = useState(false);
   const [isCounting, setCounting] = useState(false);
   const [videoUri, setVideoUri] = useState('');
-  const [videos, setVideos] = useState([]);
+  const [word, setWord] = useState('');
+  const [userID, setUserID] = useState('');
   const { animationValue, animateTo } = useAnimation({ duration: 200 });
+
+  const category = data ? data.category : {};
+  const opponent = data ? data.opponent : {};
+  const match = data ? data.match : {};
 
   const camera = useRef(null);
   const cameraAnimation = useRef(null);
@@ -33,6 +44,7 @@ const CameraScreen = ({ navigation }) => {
   useEffect(() => {
     checkPermissions();
     setBrightness(true);
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -41,6 +53,25 @@ const CameraScreen = ({ navigation }) => {
 
     setBrightness();
   }, [isRecording]);
+
+  useEffect(() => {
+    if (data && data.category) getCategoryWord();
+  }, [data]);
+
+  const fetchData = async () => {
+    const categoryID = navigation.getParam('categoryID', '');
+    const opponentID = navigation.getParam('opponentID', '');
+    const matchID = navigation.getParam('matchID', '');
+    const { _id } = jwtDecode(await AsyncStorage.getItem('CHRDS_TOKEN'));
+
+    setUserID(_id);
+    getCameraData({ variables: { categoryID, opponentID, matchID } });
+  };
+
+  const getCategoryWord = () => {
+    const randomIndex = Math.floor(Math.random() * category.words.length);
+    setWord(category.words[randomIndex]);
+  };
 
   const setState = newState =>
     Object.keys(newState).forEach(property => {
@@ -88,6 +119,8 @@ const CameraScreen = ({ navigation }) => {
     recordVideo();
   };
 
+  const goBack = () => navigation.goBack();
+
   const checkPermissions = async () => {
     const { CAMERA, AUDIO_RECORDING, SYSTEM_BRIGHTNESS } = Permissions;
     const { status } = await Permissions.askAsync(
@@ -123,6 +156,15 @@ const CameraScreen = ({ navigation }) => {
           ratio="16:9"
           ref={camera}
         >
+          <TopControls
+            goBack={goBack}
+            uri={opponent.profilePic}
+            username={opponent.username}
+            userScore={match.score ? JSON.parse(match.score)[userID] : 0}
+            opponentScore={
+              match.score ? JSON.parse(match.score)[opponent._id] : 0
+            }
+          />
           <MainControls
             flash={flash}
             cameraType={cameraType}
@@ -132,6 +174,7 @@ const CameraScreen = ({ navigation }) => {
             cameraAnimationRef={cameraAnimation}
             flashAnimationRef={flashAnimation}
             animationValue={animationValue}
+            word={word}
           />
         </Camera>
       ) : (
