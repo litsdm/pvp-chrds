@@ -119,7 +119,7 @@ const CameraScreen = ({ navigation }) => {
     recordVideo();
   };
 
-  const goBack = () => navigation.goBack();
+  const goBack = () => navigation.navigate('Home');
 
   const checkPermissions = async () => {
     const { CAMERA, AUDIO_RECORDING, SYSTEM_BRIGHTNESS } = Permissions;

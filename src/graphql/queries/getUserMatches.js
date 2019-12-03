@@ -8,6 +8,7 @@ export default gql`
       turn
       video
       score
+      state
       category {
         _id
         image

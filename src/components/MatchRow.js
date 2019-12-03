@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import moment from 'moment';
-import { bool, string } from 'prop-types';
+import { func, string } from 'prop-types';
 import { momentObj } from 'react-moment-proptypes';
 
 const rand = Math.random();
@@ -10,7 +10,7 @@ const MatchRow = ({
   username,
   expiryDate,
   score,
-  clickable,
+  onPress,
   categoryUri,
   uri
 }) => {
@@ -47,8 +47,10 @@ const MatchRow = ({
     </>
   );
 
-  return clickable ? (
-    <TouchableOpacity style={styles.container}>{children}</TouchableOpacity>
+  return onPress ? (
+    <TouchableOpacity style={styles.container} onPress={onPress}>
+      {children}
+    </TouchableOpacity>
   ) : (
     <View style={styles.container}>{children}</View>
   );
@@ -99,7 +101,7 @@ const styles = StyleSheet.create({
 });
 
 MatchRow.propTypes = {
-  clickable: bool,
+  onPress: func,
   username: string.isRequired,
   expiryDate: momentObj.isRequired,
   score: string.isRequired,
@@ -108,7 +110,7 @@ MatchRow.propTypes = {
 };
 
 MatchRow.defaultProps = {
-  clickable: false
+  onPress: null
 };
 
 export default MatchRow;

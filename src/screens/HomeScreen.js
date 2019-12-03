@@ -81,6 +81,18 @@ const HomeScreen = ({ navigation }) => {
 
   const openPlay = () => client.writeData({ data: { displayPlay: true } });
 
+  const handlePlay = (match, opponent) => () => {
+    if (match.state === 'play')
+      navigation.navigate('Camera', {
+        matchID: match._id,
+        categoryID: match.category._id,
+        opponentID: opponent._id
+      });
+    else {
+      // go to matchScreen
+    }
+  };
+
   const getOpponent = players => {
     if (players[0]._id === user._id) return players[1];
     return players[0];
@@ -88,7 +100,7 @@ const HomeScreen = ({ navigation }) => {
 
   const renderItem = args => {
     const { title } = args.section;
-    const { _id, players, category, score, expiresOn } = args.item;
+    const { players, category, score, expiresOn } = args.item;
     const opponent = getOpponent(players);
     const jsonScore = JSON.parse(score);
     const stringScore = `${jsonScore[user._id]} - ${jsonScore[opponent._id]}`;
@@ -98,8 +110,8 @@ const HomeScreen = ({ navigation }) => {
         categoryUri={category.image}
         username={opponent.username}
         uri={opponent.profilePic}
-        expiryDate={moment(expiresOn)}
-        clickable={title === 'Your Turn'}
+        expiryDate={moment(new Date(expiresOn))}
+        onPress={title === 'Your Turn' ? handlePlay(args.item, opponent) : null}
       />
     );
   };
@@ -188,7 +200,7 @@ const HomeScreen = ({ navigation }) => {
             ) : (
               <View style={styles.lists}>
                 {(matches[0] && matches[0].data.length > 0) ||
-                  (matches[1] && matches.data.length > 0) ? (
+                  (matches[1] && matches[1].data.length > 0) ? (
                     <SectionList
                       sections={matches}
                       keyExtractor={item => item._id}
