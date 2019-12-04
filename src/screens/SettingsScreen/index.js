@@ -10,39 +10,41 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import {
-  useApolloClient,
-  useLazyQuery,
-  useMutation
-} from '@apollo/react-hooks';
+import { useApolloClient, useLazyQuery } from '@apollo/react-hooks';
+import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import * as StoreReview from 'expo-store-review';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { object } from 'prop-types';
+import { bool, func, number, object } from 'prop-types';
 
-import callApi, { uploadFile } from '../../helpers/apiCaller';
 import mime from '../../helpers/mimeTypes';
 
 import GET_USER from '../../graphql/queries/getUserFromToken';
-import UPDATE_USER from '../../graphql/mutations/updateUser';
 
 import Layout from '../../constants/Layout';
 import { useAnimation } from '../../helpers/hooks';
+import { uploadPic } from '../../actions/file';
 
 import AnimatedSettingsNav from '../../components/AnimatedSettingsNav';
 
+const mapDispatchToProps = dispatch => ({
+  uploadFile: (file, onFinish) => dispatch(uploadPic(file, onFinish))
+});
+
+const mapStateToProps = ({ file: { uploadingPic, picProgress } }) => ({
+  uploading: uploadingPic,
+  progress: picProgress
+});
+
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 
-const SettingsScreen = ({ navigation }) => {
-  const [getUser, { data, refetch }] = useLazyQuery(GET_USER);
-  const [updateProperties, { data: updateData }] = useMutation(UPDATE_USER);
+const SettingsScreen = ({ navigation, uploadFile, progress, uploading }) => {
+  const [getUser, { data }] = useLazyQuery(GET_USER);
   const [displayingNavbar, setDisplayingNavbar] = useState(false);
   const [imageID, setImageID] = useState('');
-  const [uploading, setUploading] = useState(false);
-  const [progress, setProgress] = useState(0);
   const { animationValue, animateTo } = useAnimation();
   const client = useApolloClient();
   const user = data ? data.user : {};
@@ -52,12 +54,6 @@ const SettingsScreen = ({ navigation }) => {
     getImageID();
   }, []);
 
-  useEffect(() => {
-    if (updateData && updateData.updateUser.token) {
-      updateUserToken();
-    }
-  }, [updateData]);
-
   const fetchUser = async () => {
     const token = await AsyncStorage.getItem('CHRDS_TOKEN');
     getUser({ variables: { token } });
@@ -66,11 +62,6 @@ const SettingsScreen = ({ navigation }) => {
   const getImageID = async () => {
     const id = await AsyncStorage.getItem('IMG_ID');
     setImageID(id);
-  };
-
-  const updateUserToken = async () => {
-    const { token } = updateData.updateUser;
-    await AsyncStorage.setItem('CHRDS_TOKEN', token);
   };
 
   const goBack = () => navigation.navigate('Home');
@@ -86,41 +77,8 @@ const SettingsScreen = ({ navigation }) => {
     navigation.navigate('Auth');
   };
 
-  const getSignedRequest = async ({ name, type }) => {
-    try {
-      const response = await callApi(
-        `s3/sign?file-name=${name}&file-type=${type}&folder-name=ProfilePics&static=true`
-      );
-      const { signedRequest } = await response.json();
-      return signedRequest;
-    } catch (exception) {
-      console.log(exception.message);
-    }
-  };
-
-  const updateImageID = async () => {
-    const newID = Math.random();
-
+  const handleFinish = async newID => {
     setImageID(`${newID}`);
-    await AsyncStorage.setItem('IMG_ID', `${newID}`);
-  };
-
-  const handleUploadProgress = (id, upProgress) => {
-    setProgress(upProgress);
-  };
-
-  const handleUploadFinish = async file => {
-    const s3Url = `https://chrds-static.s3-us-west-2.amazonaws.com/ProfilePics/${file.name}`;
-    const properties = JSON.stringify({ profilePic: s3Url });
-    await updateProperties({ variables: { id: user._id, properties } });
-    await updateImageID();
-    refetch();
-    setUploading(false);
-  };
-
-  const handleUploadError = () => {
-    // display badge
-    setUploading(false);
   };
 
   const pickImage = async () => {
@@ -148,21 +106,11 @@ const SettingsScreen = ({ navigation }) => {
       uri,
       size,
       type: mime(extension),
-      name: filename
+      name: filename,
+      userID: user._id
     };
 
-    const signedRequest = await getSignedRequest(file);
-
-    setProgress(0);
-    setUploading(true);
-
-    uploadFile(
-      file,
-      signedRequest,
-      handleUploadProgress,
-      handleUploadFinish,
-      handleUploadError
-    );
+    uploadFile(file, handleFinish);
   };
 
   const handleScroll = ({
@@ -488,7 +436,18 @@ const styles = StyleSheet.create({
 });
 
 SettingsScreen.propTypes = {
-  navigation: object.isRequired
+  navigation: object.isRequired,
+  uploadFile: func.isRequired,
+  uploading: bool,
+  progress: number
 };
 
-export default SettingsScreen;
+SettingsScreen.defaultProps = {
+  uploading: false,
+  progress: 0
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SettingsScreen);

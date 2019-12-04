@@ -1,13 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { AsyncStorage, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { useLazyQuery } from '@apollo/react-hooks';
+import { connect } from 'react-redux';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import * as Brightness from 'expo-brightness';
+import * as FileSystem from 'expo-file-system';
 import jwtDecode from 'jwt-decode';
-import { object } from 'prop-types';
+import { func, object } from 'prop-types';
 
+import mime from '../helpers/mimeTypes';
 import { useAnimation } from '../helpers/hooks';
+import { upload } from '../actions/file';
 
 import GET_DATA from '../graphql/queries/getCameraData';
 
@@ -17,12 +21,16 @@ import CountdownPopup from '../components/Camera/CountdownPopup';
 import TopControls from '../components/Camera/TopControls';
 import BottomControls from '../components/Camera/BottomControls';
 
+const mapDispatchToProps = dispatch => ({
+  uploadFile: file => dispatch(upload(file))
+});
+
 const { front: frontType } = Camera.Constants.Type;
 const { off: flashOff, on: flashOn, torch } = Camera.Constants.FlashMode;
 
 let originalBrightness;
 
-const CameraScreen = ({ navigation }) => {
+const CameraScreen = ({ navigation, uploadFile }) => {
   const [getCameraData, { data }] = useLazyQuery(GET_DATA);
   const [hasPermissions, setPermissions] = useState(false);
   const [cameraType, setCameraType] = useState(frontType);
@@ -144,6 +152,25 @@ const CameraScreen = ({ navigation }) => {
     setState({ isRecording: false, videoUri: uri });
   };
 
+  const handleSend = async () => {
+    const { size } = await FileSystem.getInfoAsync(videoUri, { size: true });
+    const extension = videoUri.split('.').pop();
+    const name = `${match._id}-round.${extension}`;
+
+    const file = {
+      uri: videoUri,
+      name,
+      size,
+      type: mime(extension),
+      matchID: match._id,
+      opponentID: opponent._id
+    };
+
+    uploadFile(file);
+
+    navigation.navigate('Home');
+  };
+
   const waitForCountdown = () => setCounting(true);
   const closeVideo = () => setVideoUri(null);
 
@@ -194,7 +221,7 @@ const CameraScreen = ({ navigation }) => {
           cameraType={cameraType}
         >
           {renderTopControls()}
-          <BottomControls />
+          <BottomControls send={handleSend} />
         </VideoOverlay>
       ) : null}
       {isCounting ? <CountdownPopup onEnd={handleCountdownEnd} /> : null}
@@ -226,7 +253,11 @@ const styles = StyleSheet.create({
 });
 
 CameraScreen.propTypes = {
-  navigation: object.isRequired
+  navigation: object.isRequired,
+  uploadFile: func.isRequired
 };
 
-export default CameraScreen;
+export default connect(
+  null,
+  mapDispatchToProps
+)(CameraScreen);

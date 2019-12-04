@@ -5,15 +5,19 @@ import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
+import { Provider } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { bool } from 'prop-types';
 
 import client from './src/apolloStore';
+import configureStore from './src/reduxStore';
 
 import AppNavigator from './src/navigation/AppNavigator';
 import PopupManager from './src/components/PopupManager';
+
+const store = configureStore();
 
 const App = ({ skipLoadingScreen }) => {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
@@ -30,19 +34,23 @@ const App = ({ skipLoadingScreen }) => {
 
   return (
     <ApolloProvider client={client}>
-      <View style={styles.container}>
-        <SafeAreaView
-          style={{ flex: 1, backgroundColor: '#fff' }}
-          forceInset={{ top: 'never' }}
-        >
-          <StatusBar
-            backgroundColor="#fff"
-            barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
-          />
-          <PopupManager />
-          <AppNavigator />
-        </SafeAreaView>
-      </View>
+      <Provider store={store}>
+        <View style={styles.container}>
+          <SafeAreaView
+            style={{ flex: 1, backgroundColor: '#fff' }}
+            forceInset={{ top: 'never' }}
+          >
+            <StatusBar
+              backgroundColor="#fff"
+              barStyle={
+                Platform.OS === 'ios' ? 'dark-content' : 'light-content'
+              }
+            />
+            <PopupManager />
+            <AppNavigator />
+          </SafeAreaView>
+        </View>
+      </Provider>
     </ApolloProvider>
   );
 };
