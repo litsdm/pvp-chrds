@@ -15,6 +15,7 @@ import MainControls from '../components/Camera/MainControls';
 import VideoOverlay from '../components/Camera/VideoOverlay';
 import CountdownPopup from '../components/Camera/CountdownPopup';
 import TopControls from '../components/Camera/TopControls';
+import BottomControls from '../components/Camera/BottomControls';
 
 const { front: frontType } = Camera.Constants.Type;
 const { off: flashOff, on: flashOn, torch } = Camera.Constants.FlashMode;
@@ -144,27 +145,33 @@ const CameraScreen = ({ navigation }) => {
   };
 
   const waitForCountdown = () => setCounting(true);
+  const closeVideo = () => setVideoUri(null);
+
+  const renderTopControls = () => (
+    <TopControls
+      goBack={videoUri ? closeVideo : goBack}
+      iconName={videoUri ? 'md-close' : 'ios-arrow-round-back'}
+      uri={opponent.profilePic}
+      username={opponent.username}
+      userScore={match.score ? JSON.parse(match.score)[userID] : 0}
+      opponentScore={match.score ? JSON.parse(match.score)[opponent._id] : 0}
+      isRecording={isRecording}
+    />
+  );
 
   return (
     <View style={styles.container}>
       <StatusBar hidden />
       {hasPermissions ? (
-        <Camera
-          style={{ flex: 1 }}
-          type={cameraType}
-          flashMode={isRecording && flash === flashOn ? torch : flashOff}
-          ratio="16:9"
-          ref={camera}
-        >
-          <TopControls
-            goBack={goBack}
-            uri={opponent.profilePic}
-            username={opponent.username}
-            userScore={match.score ? JSON.parse(match.score)[userID] : 0}
-            opponentScore={
-              match.score ? JSON.parse(match.score)[opponent._id] : 0
-            }
+        <View style={styles.cameraWrapper}>
+          <Camera
+            style={{ flex: 1 }}
+            type={cameraType}
+            flashMode={isRecording && flash === flashOn ? torch : flashOff}
+            ratio="16:9"
+            ref={camera}
           />
+          {!isRecording ? renderTopControls() : null}
           <MainControls
             flash={flash}
             cameraType={cameraType}
@@ -176,7 +183,7 @@ const CameraScreen = ({ navigation }) => {
             animationValue={animationValue}
             word={word}
           />
-        </Camera>
+        </View>
       ) : (
         <Text>Doesnt have permissions screen</Text>
       )}
@@ -185,7 +192,10 @@ const CameraScreen = ({ navigation }) => {
           uri={videoUri}
           setState={setState}
           cameraType={cameraType}
-        />
+        >
+          {renderTopControls()}
+          <BottomControls />
+        </VideoOverlay>
       ) : null}
       {isCounting ? <CountdownPopup onEnd={handleCountdownEnd} /> : null}
       {isRecording && cameraType === frontType && flash === flashOn ? (
@@ -209,6 +219,9 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     zIndex: 10
+  },
+  cameraWrapper: {
+    flex: 1
   }
 });
 

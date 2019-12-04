@@ -4,15 +4,29 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { func, number, string } from 'prop-types';
 
-const TopControls = ({ goBack, uri, username, userScore, opponentScore }) => (
+const rand = Math.random();
+
+const TopControls = ({
+  goBack,
+  uri,
+  username,
+  userScore,
+  opponentScore,
+  iconName
+}) => (
   <View style={styles.container}>
+    <LinearGradient
+      style={styles.gradient}
+      colors={['rgba(0, 0, 0, 0.5)', 'transparent']}
+      pointerEvents="none"
+    />
     <TouchableOpacity style={styles.backButton} onPress={goBack}>
-      <Ionicons name="ios-arrow-round-back" color="#fff" size={30} />
+      <Ionicons name={iconName} color="#fff" size={30} />
     </TouchableOpacity>
     <View style={styles.info}>
       <View style={styles.opponent}>
         <Image
-          source={{ uri: `${uri}?rand=${Math.random()}` }}
+          source={{ uri: `${uri}?rand=${rand}` }}
           style={styles.profilePic}
         />
         <Text style={styles.username}>{username}</Text>
@@ -24,11 +38,6 @@ const TopControls = ({ goBack, uri, username, userScore, opponentScore }) => (
         </Text>
       </View>
     </View>
-    <LinearGradient
-      style={styles.gradient}
-      colors={['rgba(0, 0, 0, 0.25)', 'transparent']}
-      pointerEvents="none"
-    />
   </View>
 );
 
@@ -50,8 +59,7 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
     right: 0,
-    top: 0,
-    zIndex: -1
+    top: 0
   },
   info: {
     alignItems: 'center',
@@ -91,7 +99,8 @@ TopControls.propTypes = {
   uri: string,
   username: string,
   userScore: number,
-  opponentScore: number
+  opponentScore: number,
+  iconName: string.isRequired
 };
 
 TopControls.defaultProps = {

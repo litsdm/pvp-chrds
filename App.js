@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
-import { StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -35,7 +35,10 @@ const App = ({ skipLoadingScreen }) => {
           style={{ flex: 1, backgroundColor: '#fff' }}
           forceInset={{ top: 'never' }}
         >
-          <StatusBar backgroundColor="#fff" barStyle="light-content" />
+          <StatusBar
+            backgroundColor="#fff"
+            barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
+          />
           <PopupManager />
           <AppNavigator />
         </SafeAreaView>

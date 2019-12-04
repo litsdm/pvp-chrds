@@ -1,41 +1,26 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Video } from 'expo-av';
 import { Camera } from 'expo-camera';
-import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
-import { func, number, string } from 'prop-types';
+import { arrayOf, node, number, oneOfType, string } from 'prop-types';
 
 const { front } = Camera.Constants.Type;
 
-const VideoOverlay = ({ uri, cameraType, setState }) => {
-  const handleClose = () => setState({ videoUri: null });
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.topControls}>
-        <TouchableOpacity style={styles.close} onPress={handleClose}>
-          <Ionicons color="#fff" size={30} name="md-close" />
-        </TouchableOpacity>
-      </View>
-      <LinearGradient
-        style={styles.gradient}
-        colors={['rgba(0, 0, 0, 0.3)', 'transparent']}
-        pointerEvents="none"
-      />
-      <Video
-        source={{ uri, androidImplementation: 'MediaPlayer' }}
-        isLooping
-        shouldPlay
-        resizeMode="cover"
-        style={[
-          styles.video,
-          cameraType === front ? { transform: [{ scaleX: -1 }] } : {}
-        ]}
-      />
-    </View>
-  );
-};
+const VideoOverlay = ({ uri, cameraType, children }) => (
+  <View style={styles.container}>
+    {children}
+    <Video
+      source={{ uri, androidImplementation: 'MediaPlayer' }}
+      isLooping
+      shouldPlay
+      resizeMode="cover"
+      style={[
+        styles.video,
+        cameraType === front ? { transform: [{ scaleX: -1 }] } : {}
+      ]}
+    />
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -74,8 +59,8 @@ const styles = StyleSheet.create({
 
 VideoOverlay.propTypes = {
   uri: string.isRequired,
-  setState: func.isRequired,
-  cameraType: number.isRequired
+  cameraType: number.isRequired,
+  children: oneOfType([arrayOf(node), node]).isRequired
 };
 
 export default VideoOverlay;

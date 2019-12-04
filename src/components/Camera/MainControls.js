@@ -154,8 +154,7 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
     right: 0,
-    top: 0,
-    zIndex: -1
+    top: 0
   },
   content: {
     zIndex: 3
