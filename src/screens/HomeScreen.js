@@ -19,6 +19,7 @@ import { func, object } from 'prop-types';
 
 import GET_USER from '../graphql/queries/getUserFromToken';
 import GET_USER_MATCHES from '../graphql/queries/getUserMatches';
+import CREATED_MATCH from '../graphql/subscriptions/createdMatch';
 
 import { togglePlay } from '../actions/popup';
 
@@ -37,11 +38,12 @@ const mapDispatchToProps = dispatch => ({
 const HomeScreen = ({ navigation, openPlay }) => {
   const [
     getMatches,
-    { loading: loadingMatches, data: matchesData }
+    { subscribeToMore, loading: loadingMatches, data: matchesData }
   ] = useLazyQuery(GET_USER_MATCHES);
   const [getUser, { loading, data }] = useLazyQuery(GET_USER);
   const [imageID, setImageID] = useState('');
   const [matches, setMatches] = useState(null);
+  const [didSubscribe, setDidSubscribe] = useState(false);
   const user = data ? data.user : {};
 
   useEffect(() => {
@@ -54,8 +56,25 @@ const HomeScreen = ({ navigation, openPlay }) => {
   }, []);
 
   useEffect(() => {
-    if (matchesData && !matches) separateMatches();
+    if (matchesData) separateMatches();
   }, [matchesData]);
+
+  useEffect(() => {
+    if (subscribeToMore && !didSubscribe) {
+      subscribeToNewMatches();
+      setDidSubscribe(true);
+    }
+  }, [subscribeToMore]);
+
+  const subscribeToNewMatches = () =>
+    subscribeToMore({
+      document: CREATED_MATCH,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev;
+        const newItem = subscriptionData.data.createdMatch;
+        return { matches: [newItem, ...prev.matches] };
+      }
+    });
 
   const fetchData = async () => {
     const token = await AsyncStorage.getItem('CHRDS_TOKEN');
