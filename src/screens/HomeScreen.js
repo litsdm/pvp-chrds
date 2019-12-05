@@ -20,6 +20,7 @@ import { func, object } from 'prop-types';
 import GET_USER from '../graphql/queries/getUserFromToken';
 import GET_USER_MATCHES from '../graphql/queries/getUserMatches';
 import CREATED_MATCH from '../graphql/subscriptions/createdMatch';
+import UPDATED_MATCH from '../graphql/subscriptions/updatedMatch';
 
 import { togglePlay } from '../actions/popup';
 
@@ -61,8 +62,8 @@ const HomeScreen = ({ navigation, openPlay }) => {
 
   useEffect(() => {
     if (subscribeToMore && !didSubscribe && data) {
-      console.log(user);
       subscribeToNewMatches();
+      subscribeToMatchUpdates();
       setDidSubscribe(true);
     }
   }, [subscribeToMore, data]);
@@ -75,6 +76,27 @@ const HomeScreen = ({ navigation, openPlay }) => {
         if (!subscriptionData.data) return prev;
         const newItem = subscriptionData.data.createdMatch;
         return { matches: [newItem, ...prev.matches] };
+      }
+    });
+
+  const subscribeToMatchUpdates = () =>
+    subscribeToMore({
+      document: UPDATED_MATCH,
+      variables: { userID: user._id },
+      updateQuery: (prevData, { subscriptionData }) => {
+        if (!subscriptionData.data) return prevData;
+        const updatedItem = subscriptionData.data.updatedMatch;
+        const index = prevData.matches.findIndex(
+          match => match._id === updatedItem._id
+        );
+        if (index === -1) return prevData;
+        return {
+          matches: [
+            ...prevData.matches.slice(0, index),
+            updatedItem,
+            ...prevData.matches.slice(index + 1)
+          ]
+        };
       }
     });
 
