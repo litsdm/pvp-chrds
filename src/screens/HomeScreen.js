@@ -9,15 +9,18 @@ import {
   Text,
   View
 } from 'react-native';
+import { connect } from 'react-redux';
 import { useLazyQuery } from '@apollo/react-hooks';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment';
 import jwtDecode from 'jwt-decode';
-import { object } from 'prop-types';
+import { func, object } from 'prop-types';
 
 import GET_USER from '../graphql/queries/getUserFromToken';
 import GET_USER_MATCHES from '../graphql/queries/getUserMatches';
+
+import { togglePlay } from '../actions/popup';
 
 import AnimatedCircle from '../components/AnimatedCircle';
 import ProgressBar from '../components/LevelProgressBar';
@@ -27,12 +30,16 @@ import Empty from '../components/Empty';
 
 import Layout from '../constants/Layout';
 
-const HomeScreen = ({ navigation }) => {
+const mapDispatchToProps = dispatch => ({
+  openPlay: () => dispatch(togglePlay(true))
+});
+
+const HomeScreen = ({ navigation, openPlay }) => {
   const [
     getMatches,
     { loading: loadingMatches, data: matchesData }
   ] = useLazyQuery(GET_USER_MATCHES);
-  const [getUser, { loading, data, client }] = useLazyQuery(GET_USER);
+  const [getUser, { loading, data }] = useLazyQuery(GET_USER);
   const [imageID, setImageID] = useState('');
   const [matches, setMatches] = useState(null);
   const user = data ? data.user : {};
@@ -78,8 +85,6 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const navigateToSettings = () => navigation.navigate('Settings');
-
-  const openPlay = () => client.writeData({ data: { displayPlay: true } });
 
   const handlePlay = (match, opponent) => () => {
     if (match.state === 'play')
@@ -350,7 +355,11 @@ const styles = StyleSheet.create({
 });
 
 HomeScreen.propTypes = {
-  navigation: object.isRequired
+  navigation: object.isRequired,
+  openPlay: func.isRequired
 };
 
-export default HomeScreen;
+export default connect(
+  null,
+  mapDispatchToProps
+)(HomeScreen);

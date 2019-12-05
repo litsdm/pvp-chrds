@@ -1,27 +1,38 @@
 import React from 'react';
-import { useApolloClient, useQuery } from '@apollo/react-hooks';
+import { connect } from 'react-redux';
+import { bool, func, object } from 'prop-types';
+
+import { toggleAdd, toggleCategory, togglePlay } from '../actions/popup';
 
 import CategoryPopup from './CategoryPopup';
 import AddFriendPopup from './AddFriendPopup';
 
-import GET_DATA from '../graphql/queries/getPopupData';
+const mapDispatchToProps = dispatch => ({
+  closeAdd: () => dispatch(toggleAdd(false)),
+  closeCategory: () =>
+    dispatch(toggleCategory(false, { selectedCategory: null })),
+  showPlay: data => dispatch(togglePlay(true, data))
+});
 
-const PopupManager = () => {
-  const { data } = useQuery(GET_DATA, { errorPolicy: 'ignore' });
-  const client = useApolloClient();
+const mapStateToProps = ({
+  popup: { displayCategory, selectedCategory, transitionPosition, displayAdd }
+}) => ({
+  displayCategory,
+  selectedCategory,
+  transitionPosition,
+  displayAdd
+});
 
-  const { displayCategory, selectedCategory, transitionPosition, displayAdd } =
-    data || {};
-
-  const openPlay = _id => () =>
-    client.writeData({ data: { displayPlay: true, playCategory: _id } });
-
-  const closeCategory = () =>
-    client.writeData({
-      data: { displayCategory: false, selectedCategory: null }
-    });
-
-  const closeAdd = () => client.writeData({ data: { displayAdd: false } });
+const PopupManager = ({
+  displayCategory,
+  selectedCategory,
+  transitionPosition,
+  displayAdd,
+  closeAdd,
+  showPlay,
+  closeCategory
+}) => {
+  const openPlay = _id => () => showPlay({ playCategory: _id });
 
   return (
     <>
@@ -38,4 +49,22 @@ const PopupManager = () => {
   );
 };
 
-export default PopupManager;
+PopupManager.propTypes = {
+  displayCategory: bool.isRequired,
+  selectedCategory: object,
+  transitionPosition: object,
+  displayAdd: bool.isRequired,
+  closeAdd: func.isRequired,
+  showPlay: func.isRequired,
+  closeCategory: func.isRequired
+};
+
+PopupManager.defaultProps = {
+  selectedCategory: null,
+  transitionPosition: null
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PopupManager);

@@ -7,21 +7,36 @@ import {
   View
 } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
+import { connect } from 'react-redux';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { bool, func, object } from 'prop-types';
 
 import GET_CATEGORIES from '../graphql/queries/getCategories';
-import GET_POPUP_DATA from '../graphql/queries/getPopupData';
+
+import { toggleCategory, togglePlay } from '../actions/popup';
 
 import CategoryColumn from '../components/CategoryColumn';
 import Loader from '../components/Loader';
 
 import Layout from '../constants/Layout';
 
-const CategoriesScreen = () => {
-  const { loading, data, client } = useQuery(GET_CATEGORIES);
-  const {
-    data: { displayCategory, selectedCategory: popupSelectedCategory }
-  } = useQuery(GET_POPUP_DATA);
+const mapDispatchToProps = dispatch => ({
+  showCategory: data => dispatch(toggleCategory(true, data)),
+  showPlay: data => dispatch(togglePlay(true, data))
+});
+
+const mapStateToProps = ({ popup: { displayCategory, selectedCategory } }) => ({
+  displayCategory,
+  popupSelectedCategory: selectedCategory
+});
+
+const CategoriesScreen = ({
+  displayCategory,
+  popupSelectedCategory,
+  showCategory,
+  showPlay
+}) => {
+  const { loading, data } = useQuery(GET_CATEGORIES);
   const logoRefs = useRef([...Array(3)].map(() => createRef()));
 
   const categories = data ? data.categories : [];
@@ -30,14 +45,11 @@ const CategoriesScreen = () => {
     const selectedCategory = categories[index];
     logoRefs.current[index].current.measureInWindow((x, y) => {
       const transitionPosition = { __typename: 'Position', x, y };
-      client.writeData({
-        data: { displayCategory: true, selectedCategory, transitionPosition }
-      });
+      showCategory({ selectedCategory, transitionPosition });
     });
   };
 
-  const openPlay = _id => () =>
-    client.writeData({ data: { displayPlay: true, playCategory: _id } });
+  const openPlay = _id => () => showPlay({ playCategory: _id });
 
   const renderCategories = () =>
     categories.map(({ _id, name, description, image, color }, index) => (
@@ -141,4 +153,18 @@ const styles = StyleSheet.create({
   }
 });
 
-export default CategoriesScreen;
+CategoriesScreen.propTypes = {
+  displayCategory: bool.isRequired,
+  popupSelectedCategory: object,
+  showCategory: func.isRequired,
+  showPlay: func.isRequired
+};
+
+CategoriesScreen.defaultProps = {
+  popupSelectedCategory: {}
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CategoriesScreen);

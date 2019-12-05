@@ -7,24 +7,28 @@ import {
   Text,
   View
 } from 'react-native';
-import {
-  useLazyQuery,
-  useMutation,
-  useApolloClient
-} from '@apollo/react-hooks';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { connect } from 'react-redux';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import jwtDecode from 'jwt-decode';
 import Fuse from 'fuse.js';
-import { object } from 'prop-types';
+import { func, object } from 'prop-types';
 
 import GET_FRIENDS from '../graphql/queries/getFriends';
 import RESOLVE_REQUEST from '../graphql/mutations/resolveFriendRequest';
+
+import { toggleAdd, togglePlay } from '../actions/popup';
 
 import Navbar from '../components/Friends/Navbar';
 import FriendRow from '../components/Friends/FriendRow';
 import AddFriendRow from '../components/Friends/AddFriendRow';
 import Empty from '../components/Friends/Empty';
 import Loader from '../components/Loader';
+
+const mapDispatchToProps = dispatch => ({
+  showPlay: data => dispatch(togglePlay(true, data)),
+  openAdd: () => dispatch(toggleAdd(true))
+});
 
 const fuzzyOptions = {
   shouldSort: true,
@@ -36,13 +40,12 @@ const fuzzyOptions = {
   keys: ['username', 'email']
 };
 
-const FriendsScreen = ({ navigation }) => {
+const FriendsScreen = ({ navigation, showPlay, openAdd }) => {
   const [getFriends, { loading, data, refetch }] = useLazyQuery(GET_FRIENDS);
   const [resolveFriendRequest] = useMutation(RESOLVE_REQUEST);
   const [resolving, setResolving] = useState(false);
   const [searching, setSearching] = useState(false);
   const [search, setSearch] = useState('');
-  const client = useApolloClient();
   const friends = data ? data.friends : [];
   const friendRequests = data ? data.friendRequests : [];
   const sectionsData = [
@@ -77,9 +80,7 @@ const FriendsScreen = ({ navigation }) => {
   const toggleSearch = () => setSearching(!searching);
   const goBack = () => navigation.goBack();
 
-  const openAdd = () => client.writeData({ data: { displayAdd: true } });
-  const openPlay = _id => () =>
-    client.writeData({ data: { displayPlay: true, playFriend: _id } });
+  const openPlay = _id => () => showPlay({ playFriend: _id });
 
   const resolveRequest = (requestID, type) => async () => {
     if (resolving) return;
@@ -172,7 +173,12 @@ const styles = StyleSheet.create({
 });
 
 FriendsScreen.propTypes = {
-  navigation: object.isRequired
+  navigation: object.isRequired,
+  showPlay: func.isRequired,
+  openAdd: func.isRequired
 };
 
-export default FriendsScreen;
+export default connect(
+  null,
+  mapDispatchToProps
+)(FriendsScreen);
