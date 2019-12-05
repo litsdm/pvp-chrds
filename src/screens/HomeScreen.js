@@ -60,15 +60,17 @@ const HomeScreen = ({ navigation, openPlay }) => {
   }, [matchesData]);
 
   useEffect(() => {
-    if (subscribeToMore && !didSubscribe) {
+    if (subscribeToMore && !didSubscribe && data) {
+      console.log(user);
       subscribeToNewMatches();
       setDidSubscribe(true);
     }
-  }, [subscribeToMore]);
+  }, [subscribeToMore, data]);
 
   const subscribeToNewMatches = () =>
     subscribeToMore({
       document: CREATED_MATCH,
+      variables: { userID: user._id },
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) return prev;
         const newItem = subscriptionData.data.createdMatch;

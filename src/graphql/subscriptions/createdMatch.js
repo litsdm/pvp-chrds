@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export default gql`
-  subscription CreatedMatch {
-    createdMatch {
+  subscription CreatedMatch($userID: String!) {
+    createdMatch(userID: $userID) {
       _id
       expiresOn
       turn
