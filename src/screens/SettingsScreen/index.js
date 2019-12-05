@@ -27,11 +27,13 @@ import GET_USER from '../../graphql/queries/getUserFromToken';
 import Layout from '../../constants/Layout';
 import { useAnimation } from '../../helpers/hooks';
 import { uploadPic } from '../../actions/file';
+import { logoutUser } from '../../actions/user';
 
 import AnimatedSettingsNav from '../../components/AnimatedSettingsNav';
 
 const mapDispatchToProps = dispatch => ({
-  uploadFile: (file, onFinish) => dispatch(uploadPic(file, onFinish))
+  uploadFile: (file, onFinish) => dispatch(uploadPic(file, onFinish)),
+  resetReduxState: () => dispatch(logoutUser())
 });
 
 const mapStateToProps = ({ file: { uploadingPic, picProgress } }) => ({
@@ -41,7 +43,13 @@ const mapStateToProps = ({ file: { uploadingPic, picProgress } }) => ({
 
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 
-const SettingsScreen = ({ navigation, uploadFile, progress, uploading }) => {
+const SettingsScreen = ({
+  navigation,
+  uploadFile,
+  progress,
+  uploading,
+  resetReduxState
+}) => {
   const [getUser, { data }] = useLazyQuery(GET_USER);
   const [displayingNavbar, setDisplayingNavbar] = useState(false);
   const [imageID, setImageID] = useState('');
@@ -74,6 +82,7 @@ const SettingsScreen = ({ navigation, uploadFile, progress, uploading }) => {
   const logout = async () => {
     await AsyncStorage.removeItem('CHRDS_TOKEN');
     client.resetStore();
+    resetReduxState();
     navigation.navigate('Auth');
   };
 
@@ -438,6 +447,7 @@ const styles = StyleSheet.create({
 SettingsScreen.propTypes = {
   navigation: object.isRequired,
   uploadFile: func.isRequired,
+  resetReduxState: func.isRequired,
   uploading: bool,
   progress: number
 };
