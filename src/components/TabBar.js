@@ -39,7 +39,7 @@ const TabBar = ({
 
   return (
     <>
-      {nestedRouteName !== 'Camera' ? (
+      {nestedRouteName !== 'Camera' && nestedRouteName !== 'Match' ? (
         <View style={styles.container}>
           <Tab
             renderIcon={renderIcon}

@@ -130,15 +130,12 @@ const HomeScreen = ({ navigation, openPlay }) => {
   const navigateToSettings = () => navigation.navigate('Settings');
 
   const handlePlay = (match, opponent) => () => {
-    if (match.state === 'play')
-      navigation.navigate('Camera', {
-        matchID: match._id,
-        categoryID: match.category._id,
-        opponentID: opponent._id
-      });
-    else {
-      // go to matchScreen
-    }
+    const route = match.state === 'play' ? 'Camera' : 'Match';
+    navigation.navigate(route, {
+      matchID: match._id,
+      categoryID: match.category._id,
+      opponentID: opponent._id
+    });
   };
 
   const getOpponent = players => {

@@ -6,6 +6,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import HomeScreen from '../screens/HomeScreen';
 import CategoriesScreen from '../screens/CategoriesScreen';
 import CameraScreen from '../screens/CameraScreen';
+import MatchScreen from '../screens/MatchScreen';
 
 import SettingsScreen from '../screens/SettingsScreen';
 import GeneralScreen from '../screens/SettingsScreen/GeneralScreen';
@@ -49,7 +50,10 @@ const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
     Settings: SettingsStack,
-    Camera: CameraStack
+    Camera: CameraStack,
+    Match: {
+      screen: MatchScreen
+    }
   },
   config
 );
