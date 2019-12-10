@@ -2,6 +2,7 @@ import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { func, number, string } from 'prop-types';
 
 const rand = Math.random();
@@ -49,10 +50,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     left: 0,
     paddingHorizontal: 24,
-    paddingTop: 24,
+    paddingTop: getStatusBarHeight() + 6,
     position: 'absolute',
     right: 0,
-    top: 0
+    top: 0,
+    zIndex: 2
   },
   gradient: {
     bottom: 0,

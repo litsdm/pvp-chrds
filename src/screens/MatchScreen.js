@@ -136,7 +136,7 @@ const MatchScreen = ({ navigation }) => {
           }
         />
         {gameState === 'guessing' ? (
-          <LetterSoup word={'yoda'.toUpperCase()} />
+          <LetterSoup word={'forrest gump'.toUpperCase()} />
         ) : null}
       </View>
     </View>
