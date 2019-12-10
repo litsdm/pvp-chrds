@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
+  ActivityIndicator,
+  AsyncStorage,
   Platform,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -13,6 +16,11 @@ import { Camera } from 'expo-camera';
 
 import GET_DATA from '../graphql/queries/getMatchData';
 
+import { getSignedUrl } from '../helpers/apiCaller';
+
+import TopControls from '../components/Camera/TopControls';
+import LetterSoup from '../components/LetterSoup';
+
 const { front } = Camera.Constants.Type;
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 
@@ -20,26 +28,66 @@ const MatchScreen = ({ navigation }) => {
   const categoryID = navigation.getParam('categoryID', '');
   const opponentID = navigation.getParam('opponentID', '');
   const matchID = navigation.getParam('matchID', '');
+  const userID = navigation.getParam('userID', '');
   const { data, loading } = useQuery(GET_DATA, {
     variables: { categoryID, opponentID, matchID }
   });
   const [gameState, setGameState] = useState('awaitUser');
   const [playCount, setPlayCount] = useState(0);
+  const [uriFlag, setUriFlag] = useState(false);
+  const [buffering, setBuffering] = useState(true);
+  const videoRef = useRef(null);
 
   const category = data ? data.category : {};
   const opponent = data ? data.opponent : {};
   const match = data ? data.match : {};
 
-  const playVideo = () => setGameState('playVideo');
+  useEffect(() => {
+    if (match.video && videoRef && !uriFlag) fetchSignedUri();
+  }, [match, videoRef]);
 
-  const handlePlaybackUpdate = status => console.log(status);
+  const fetchSignedUri = async () => {
+    const filename = match.video.split('/').pop();
+    const uri = await getSignedUrl(filename, 'Videos');
+    await videoRef.current.loadAsync(
+      { uri, androidImplementation: 'MediaPlayer' },
+      {},
+      true
+    );
+    setUriFlag(true);
+  };
+
+  const playVideo = async () => {
+    const newCount = playCount + 1;
+    setGameState('playVideo');
+    setPlayCount(newCount);
+    AsyncStorage.setItem(`${matchID}-playcount`, `${newCount}`);
+    if (newCount === 1) await videoRef.current.playAsync();
+    else if (newCount >= 2) await videoRef.current.replayAsync();
+  };
+
+  const switchToGuess = async () => {
+    await videoRef.current.stopAsync();
+    setGameState('guessing');
+  };
+
+  const handlePlaybackUpdate = status => {
+    if (status.isBuffering && !buffering) setBuffering(true);
+    if (!status.isBuffering && buffering) setBuffering(false);
+    if (status.didJustFinish && playCount === 1) setGameState('awaitUser');
+    if (status.didJustFinish && playCount === 2) setGameState('guessing');
+  };
+
+  const goBack = () => navigation.navigate('Home');
 
   return (
     <View style={styles.container}>
+      <StatusBar
+        barStyle={Platform.OS === 'ios' ? 'light-content' : 'dark-content'}
+      />
       <View style={styles.videoWrapper}>
         <Video
-          source={{ uri: match.video, androidImplementation: 'MediaPlayer' }}
-          shouldPlay={gameState === 'playVideo'}
+          ref={videoRef}
           resizeMode="cover"
           onPlaybackStatusUpdate={handlePlaybackUpdate}
           style={[
@@ -47,6 +95,12 @@ const MatchScreen = ({ navigation }) => {
             match.cameraType === front ? { transform: [{ scaleX: -1 }] } : {}
           ]}
         />
+        {buffering ? (
+          <View style={styles.videoLoader}>
+            <ActivityIndicator size="small" color="#fefefe" />
+            <Text style={styles.loadingText}>Loading video...</Text>
+          </View>
+        ) : null}
         {gameState === 'awaitUser' ? (
           <View style={styles.overlay}>
             <Text style={styles.infoText}>
@@ -54,16 +108,35 @@ const MatchScreen = ({ navigation }) => {
               guess the word after the video ends.
             </Text>
             <TouchableOpacity style={styles.button} onPress={playVideo}>
-              <Text style={styles.buttonText}>Play Video</Text>
-              <Ionicons name={`${PRE_ICON}-play`} color="#7c4dff" size={24} />
+              <Text style={styles.buttonText}>
+                {playCount < 1 ? 'Play' : 'Replay'} Video
+              </Text>
+              <Ionicons
+                name={`${PRE_ICON}-${playCount < 1 ? 'play' : 'repeat'}`}
+                color="#7c4dff"
+                size={18}
+              />
             </TouchableOpacity>
           </View>
         ) : null}
         {playCount > 0 && gameState !== 'guessing' ? (
-          <TouchableOpacity style={styles.guessButton}>
+          <TouchableOpacity style={styles.guessButton} onPress={switchToGuess}>
             <Text style={styles.buttonText}>Guess Word</Text>
-            <Ionicons name="ios-arrow-forward" color="#7c4dff" size={30} />
+            <Ionicons name="ios-arrow-forward" color="#7c4dff" size={18} />
           </TouchableOpacity>
+        ) : null}
+        <TopControls
+          goBack={goBack}
+          iconName="ios-arrow-round-back"
+          uri={opponent.profilePic}
+          username={opponent.username}
+          userScore={match.score ? JSON.parse(match.score)[userID] : 0}
+          opponentScore={
+            match.score ? JSON.parse(match.score)[opponent._id] : 0
+          }
+        />
+        {gameState === 'guessing' ? (
+          <LetterSoup word={'yoda'.toUpperCase()} />
         ) : null}
       </View>
     </View>
@@ -116,7 +189,7 @@ const styles = StyleSheet.create({
     color: '#7c4dff',
     fontFamily: 'sf-bold',
     fontSize: 18,
-    marginRight: 6
+    marginRight: 12
   },
   guessButton: {
     alignItems: 'center',
@@ -129,6 +202,18 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     position: 'absolute',
     right: 24
+  },
+  videoLoader: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    position: 'absolute',
+    right: 12,
+    top: 72
+  },
+  loadingText: {
+    color: '#fff',
+    fontFamily: 'sf-regular',
+    marginLeft: 6
   }
 });
 
