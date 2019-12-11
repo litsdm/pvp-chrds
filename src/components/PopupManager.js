@@ -6,19 +6,22 @@ import {
   toggleAdd,
   toggleCategory,
   togglePlay,
-  toggleBadge
+  toggleBadge,
+  toggleProgressBadge
 } from '../actions/popup';
 
 import CategoryPopup from './CategoryPopup';
 import AddFriendPopup from './AddFriendPopup';
 import Badge from './Badge';
+import ProgressBadge from './ProgressBadge';
 
 const mapDispatchToProps = dispatch => ({
   closeAdd: () => dispatch(toggleAdd(false)),
   closeCategory: () =>
     dispatch(toggleCategory(false, { selectedCategory: null })),
   showPlay: data => dispatch(togglePlay(true, data)),
-  closeBadge: () => dispatch(toggleBadge(false, ''))
+  closeBadge: () => dispatch(toggleBadge(false, '')),
+  closeProgressBadge: () => dispatch(toggleProgressBadge(false))
 });
 
 const mapStateToProps = ({
@@ -27,14 +30,18 @@ const mapStateToProps = ({
     selectedCategory,
     transitionPosition,
     displayAdd,
-    badge
-  }
+    badge,
+    displayProgressBadge
+  },
+  file: { videos }
 }) => ({
   displayCategory,
   selectedCategory,
   transitionPosition,
   displayAdd,
-  badge
+  badge,
+  videos,
+  displayProgressBadge
 });
 
 const PopupManager = ({
@@ -46,7 +53,10 @@ const PopupManager = ({
   showPlay,
   closeCategory,
   badge,
-  closeBadge
+  closeBadge,
+  displayProgressBadge,
+  closeProgressBadge,
+  videos
 }) => {
   const openPlay = _id => () => showPlay({ playCategory: _id });
 
@@ -62,6 +72,9 @@ const PopupManager = ({
         />
       ) : null}
       {badge.display ? <Badge close={closeBadge} {...badge} /> : null}
+      {displayProgressBadge ? (
+        <ProgressBadge close={closeProgressBadge} videos={videos} />
+      ) : null}
     </>
   );
 };
@@ -75,6 +88,9 @@ PopupManager.propTypes = {
   showPlay: func.isRequired,
   closeCategory: func.isRequired,
   closeBadge: func.isRequired,
+  displayProgressBadge: bool.isRequired,
+  closeProgressBadge: func.isRequired,
+  videos: object,
   badge: shape({
     display: bool,
     message: string,
@@ -85,7 +101,8 @@ PopupManager.propTypes = {
 PopupManager.defaultProps = {
   selectedCategory: null,
   transitionPosition: null,
-  badge: {}
+  badge: {},
+  videos: {}
 };
 
 export default connect(

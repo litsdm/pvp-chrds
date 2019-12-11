@@ -2,6 +2,7 @@ import { AsyncStorage } from 'react-native';
 
 import client from '../apolloStore';
 import callApi, { uploadFile } from '../helpers/apiCaller';
+import { toggleProgressBadge } from './popup';
 
 import UPDATE_MATCH from '../graphql/mutations/updateMatch';
 import UPDATE_USER from '../graphql/mutations/updateUser';
@@ -109,6 +110,8 @@ export const upload = file => async dispatch => {
       properties: JSON.stringify({ state: 'sending', actedWord, cameraType })
     }
   });
+
+  dispatch(toggleProgressBadge(true));
 
   const { signedRequest, url: s3Url } = await getSignedRequest(file, folder);
 
