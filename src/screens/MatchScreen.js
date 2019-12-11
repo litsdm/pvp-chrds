@@ -30,7 +30,7 @@ const MatchScreen = ({ navigation }) => {
   const opponentID = navigation.getParam('opponentID', '');
   const matchID = navigation.getParam('matchID', '');
   const userID = navigation.getParam('userID', '');
-  const { data, loading } = useQuery(GET_DATA, {
+  const { data } = useQuery(GET_DATA, {
     variables: { categoryID, opponentID, matchID }
   });
   const [gameState, setGameState] = useState('awaitUser');

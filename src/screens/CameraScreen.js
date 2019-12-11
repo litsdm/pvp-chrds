@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { AsyncStorage, StatusBar, StyleSheet, Text, View } from 'react-native';
-import { useLazyQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
@@ -31,7 +31,13 @@ const { off: flashOff, on: flashOn, torch } = Camera.Constants.FlashMode;
 let originalBrightness;
 
 const CameraScreen = ({ navigation, uploadFile }) => {
-  const [getCameraData, { data }] = useLazyQuery(GET_DATA);
+  const categoryID = navigation.getParam('categoryID', '');
+  const opponentID = navigation.getParam('opponentID', '');
+  const matchID = navigation.getParam('matchID', '');
+
+  const { data } = useQuery(GET_DATA, {
+    variables: { categoryID, opponentID, matchID }
+  });
   const [hasPermissions, setPermissions] = useState(false);
   const [cameraType, setCameraType] = useState(frontType);
   const [flash, setFlash] = useState(flashOff);
@@ -53,7 +59,7 @@ const CameraScreen = ({ navigation, uploadFile }) => {
   useEffect(() => {
     checkPermissions();
     setBrightness(true);
-    fetchData();
+    getUserID();
   }, []);
 
   useEffect(() => {
@@ -67,19 +73,24 @@ const CameraScreen = ({ navigation, uploadFile }) => {
     if (data && data.category) getCategoryWord();
   }, [data]);
 
-  const fetchData = async () => {
-    const categoryID = navigation.getParam('categoryID', '');
-    const opponentID = navigation.getParam('opponentID', '');
-    const matchID = navigation.getParam('matchID', '');
+  const getUserID = async () => {
     const { _id } = jwtDecode(await AsyncStorage.getItem('CHRDS_TOKEN'));
-
     setUserID(_id);
-    getCameraData({ variables: { categoryID, opponentID, matchID } });
   };
 
-  const getCategoryWord = () => {
+  const getCategoryWord = async () => {
+    const storedWord = await AsyncStorage.getItem(`${matchID}-word`);
+
+    if (storedWord) {
+      setWord(storedWord);
+      return;
+    }
+
     const randomIndex = Math.floor(Math.random() * category.words.length);
-    setWord(category.words[randomIndex]);
+    const randWord = category.words[randomIndex];
+
+    setWord(randWord);
+    AsyncStorage.setItem(`${matchID}-word`, randWord);
   };
 
   const setState = newState =>
