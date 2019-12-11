@@ -99,13 +99,14 @@ const uploadPicComplete = ({ userID, s3Url }, onFinish) => async dispatch => {
 };
 
 export const upload = file => async dispatch => {
+  const { matchID, actedWord, cameraType } = file;
   const folder = 'Videos';
 
   client.mutate({
     mutation: UPDATE_MATCH,
     variables: {
-      matchID: file.matchID,
-      properties: JSON.stringify({ state: 'sending' })
+      matchID,
+      properties: JSON.stringify({ state: 'sending', actedWord, cameraType })
     }
   });
 

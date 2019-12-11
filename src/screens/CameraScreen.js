@@ -174,7 +174,9 @@ const CameraScreen = ({ navigation, uploadFile }) => {
       size,
       type: mime(extension),
       matchID: match._id,
-      opponentID: opponent._id
+      opponentID: opponent._id,
+      actedWord: word,
+      cameraType
     };
 
     uploadFile(file);
