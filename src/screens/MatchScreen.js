@@ -13,6 +13,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { Ionicons } from '@expo/vector-icons';
 import { Video } from 'expo-av';
 import { Camera } from 'expo-camera';
+import { object } from 'prop-types';
 
 import GET_DATA from '../graphql/queries/getMatchData';
 
@@ -136,7 +137,7 @@ const MatchScreen = ({ navigation }) => {
           }
         />
         {gameState === 'guessing' ? (
-          <LetterSoup word={'forrest gump'.toUpperCase()} />
+          <LetterSoup word={'jar jar binks'.toUpperCase()} />
         ) : null}
       </View>
     </View>
@@ -216,5 +217,9 @@ const styles = StyleSheet.create({
     marginLeft: 6
   }
 });
+
+MatchScreen.propTypes = {
+  navigation: object.isRequired
+};
 
 export default MatchScreen;

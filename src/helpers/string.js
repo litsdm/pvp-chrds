@@ -33,11 +33,11 @@ export const whitespaces = str => {
   return { spaceCount, positions };
 };
 
-const getAllIndexes = (str, search) =>
+/* const getAllIndexes = (str, search) =>
   str.split('').reduce((result, element, index) => {
     if (element === search) result.push(index);
     return result;
-  }, []);
+  }, []); */
 
 const getAllIndexesHash = (str, search) => {
   const indexes = {};

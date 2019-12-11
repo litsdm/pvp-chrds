@@ -7,12 +7,13 @@ import {
   View
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { bool, func, number, string } from 'prop-types';
 
 import { shuffle, withRandomLetters, whitespaces } from '../helpers/string';
 
 import Layout from '../constants/Layout';
 
-const Letter = ({ character, onPress, size }) => (
+const Letter = ({ character, onPress, size, withBorder }) => (
   <View style={[styles.letterWrapper, { height: size, width: size }]}>
     {character ? (
       <Animated.View style={[styles.letter]}>
@@ -22,7 +23,7 @@ const Letter = ({ character, onPress, size }) => (
         <View style={styles.tileBottom} />
       </Animated.View>
     ) : null}
-    <View style={styles.charBG} />
+    <View style={[styles.charBG, withBorder ? styles.withBorder : {}]} />
   </View>
 );
 
@@ -97,6 +98,7 @@ const LetterSoup = ({ word }) => {
           character={character}
           onPress={removeFromResult(index)}
           size={resultSize}
+          withBorder
         />
       );
       letters.push(letter);
@@ -119,7 +121,6 @@ const LetterSoup = ({ word }) => {
   return (
     <View style={styles.container}>
       <View style={styles.result}>{renderResultCharacters()}</View>
-      <View style={styles.divider} />
       <View style={styles.soup}>{renderCharacters()}</View>
       <LinearGradient
         style={styles.gradient}
@@ -144,19 +145,21 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
     right: 0,
-    top: 0
+    top: 0,
+    zIndex: 1
   },
   soup: {
     alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
     paddingHorizontal: 3,
+    paddingVertical: 24,
     width: '100%',
-    zIndex: 1
+    zIndex: 2
   },
   result: {
     width: '100%',
-    zIndex: 1
+    zIndex: 2
   },
   resultRow: {
     alignItems: 'center',
@@ -183,15 +186,19 @@ const styles = StyleSheet.create({
     zIndex: 1
   },
   charBG: {
-    borderColor: '#7c4dff',
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
     borderRadius: 8,
-    borderStyle: 'dashed',
-    borderWidth: 1,
     bottom: 0,
     left: 0,
     position: 'absolute',
     right: 0,
     top: 0
+  },
+  withBorder: {
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    borderColor: '#7c4dff',
+    borderStyle: 'dashed',
+    borderWidth: 1
   },
   letterButton: {
     alignItems: 'center',
@@ -233,5 +240,20 @@ const styles = StyleSheet.create({
     fontSize: 16
   }
 });
+
+Letter.propTypes = {
+  character: string.isRequired,
+  onPress: func.isRequired,
+  size: number.isRequired,
+  withBorder: bool
+};
+
+Letter.defaultProps = {
+  withBorder: false
+};
+
+LetterSoup.propTypes = {
+  word: string.isRequired
+};
 
 export default LetterSoup;

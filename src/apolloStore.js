@@ -6,11 +6,11 @@ import { getMainDefinition } from 'apollo-utilities';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 const httpLink = new HttpLink({
-  uri: 'http://192.168.15.6:8080'
+  uri: 'http://192.168.15.21:8080'
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://192.168.15.6:8080/`,
+  uri: `ws://192.168.15.21:8080/`,
   options: {
     reconnect: true
   }
