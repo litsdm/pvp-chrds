@@ -28,12 +28,14 @@ import Layout from '../../constants/Layout';
 import { useAnimation } from '../../helpers/hooks';
 import { uploadPic } from '../../actions/file';
 import { logoutUser } from '../../actions/user';
+import { toggleBadge } from '../../actions/popup';
 
 import AnimatedSettingsNav from '../../components/AnimatedSettingsNav';
 
 const mapDispatchToProps = dispatch => ({
   uploadFile: (file, onFinish) => dispatch(uploadPic(file, onFinish)),
-  resetReduxState: () => dispatch(logoutUser())
+  resetReduxState: () => dispatch(logoutUser()),
+  displayBadge: (message, type) => dispatch(toggleBadge(true, message, type))
 });
 
 const mapStateToProps = ({ file: { uploadingPic, picProgress } }) => ({
@@ -48,7 +50,8 @@ const SettingsScreen = ({
   uploadFile,
   progress,
   uploading,
-  resetReduxState
+  resetReduxState,
+  displayBadge
 }) => {
   const [getUser, { data }] = useLazyQuery(GET_USER);
   const [displayingNavbar, setDisplayingNavbar] = useState(false);
@@ -94,7 +97,9 @@ const SettingsScreen = ({
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
     if (status !== 'granted') {
-      // display badge
+      displayBadge(
+        'CHRDS requires access to your camera roll to change your profile pic. Please enable it on your phone settings.'
+      );
       return;
     }
 
@@ -448,6 +453,7 @@ SettingsScreen.propTypes = {
   navigation: object.isRequired,
   uploadFile: func.isRequired,
   resetReduxState: func.isRequired,
+  displayBadge: func.isRequired,
   uploading: bool,
   progress: number
 };

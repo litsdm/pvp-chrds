@@ -6,15 +6,22 @@ import {
   StyleSheet,
   ScrollView
 } from 'react-native';
+import { connect } from 'react-redux';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { object } from 'prop-types';
+import { func, object } from 'prop-types';
 import callApi from '../helpers/apiCaller';
+
+import { toggleBadge } from '../actions/popup';
 
 import Login from '../components/Auth/Login';
 import Signup from '../components/Auth/Signup';
 import AnimatedCircle from '../components/AnimatedCircle';
 
-const AuthEmailScreen = ({ navigation }) => {
+const mapDispatchToProps = dispatch => ({
+  displayBadge: message => dispatch(toggleBadge(true, message, 'error'))
+});
+
+const AuthEmailScreen = ({ navigation, displayBadge }) => {
   const isNewParam = JSON.stringify(navigation.getParam('isNew', true));
   const [isNew, setNew] = useState(isNewParam === 'true');
   const [username, setUsername] = useState('');
@@ -100,7 +107,7 @@ const AuthEmailScreen = ({ navigation }) => {
 
       Keyboard.dismiss();
       if (errorMessage) {
-        // displayBadge(errorMessage);
+        displayBadge(errorMessage);
         return;
       }
 
@@ -113,7 +120,7 @@ const AuthEmailScreen = ({ navigation }) => {
       navigation.navigate('Main');
     } catch (exception) {
       setAuthorizing(false);
-      // displayBadge(exception.message);
+      displayBadge(exception.message);
       console.log(exception.message);
     }
   };
@@ -190,7 +197,11 @@ const styles = StyleSheet.create({
 });
 
 AuthEmailScreen.propTypes = {
-  navigation: object.isRequired
+  navigation: object.isRequired,
+  displayBadge: func.isRequired
 };
 
-export default AuthEmailScreen;
+export default connect(
+  null,
+  mapDispatchToProps
+)(AuthEmailScreen);

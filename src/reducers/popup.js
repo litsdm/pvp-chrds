@@ -1,4 +1,9 @@
-import { TOGGLE_PLAY, TOGGLE_CATEGORY, TOGGLE_ADD } from '../actions/popup';
+import {
+  TOGGLE_PLAY,
+  TOGGLE_CATEGORY,
+  TOGGLE_ADD,
+  TOGGLE_BADGE
+} from '../actions/popup';
 
 const initialState = {
   displayPlay: false,
@@ -7,10 +12,11 @@ const initialState = {
   displayCategory: false,
   selectedCategory: null,
   transitionPosition: null,
-  displayAdd: false
+  displayAdd: false,
+  badge: {}
 };
 
-const popup = (state = initialState, { type, display, data }) => {
+const popup = (state = initialState, { type, display, data, badge }) => {
   switch (type) {
     case TOGGLE_PLAY:
       return { ...state, displayPlay: display, ...data };
@@ -18,6 +24,8 @@ const popup = (state = initialState, { type, display, data }) => {
       return { ...state, displayCategory: display, ...data };
     case TOGGLE_ADD:
       return { ...state, displayAdd: display };
+    case TOGGLE_BADGE:
+      return { ...state, badge };
     default:
       return state;
   }

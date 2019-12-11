@@ -7,9 +7,12 @@ import {
   View
 } from 'react-native';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { object } from 'prop-types';
+import { func, object } from 'prop-types';
+
+import { toggleBadge } from '../../actions/popup';
 
 import SettingsNavBar from '../../components/SettingsNavBar';
 import FormModal from '../../components/FormModal';
@@ -18,7 +21,11 @@ import GET_USER from '../../graphql/queries/getUserFromToken';
 import UPDATE_USER from '../../graphql/mutations/updateUser';
 import CHANGE_PASSWORD from '../../graphql/mutations/changePassword';
 
-const GeneralScreen = ({ navigation }) => {
+const mapDispatchToProps = dispatch => ({
+  displayBadge: (message, type) => dispatch(toggleBadge(true, message, type))
+});
+
+const GeneralScreen = ({ navigation, displayBadge }) => {
   const [getUser, { data, refetch: refetchUser }] = useLazyQuery(GET_USER);
   const [updateProperties, { data: updateData }] = useMutation(UPDATE_USER);
   const [changePassword] = useMutation(CHANGE_PASSWORD);
@@ -86,7 +93,7 @@ const GeneralScreen = ({ navigation }) => {
     const errorMessage = validateUsername();
 
     if (errorMessage) {
-      // display badge
+      displayBadge(errorMessage, 'error');
       return;
     }
 
@@ -97,10 +104,10 @@ const GeneralScreen = ({ navigation }) => {
       refetchUser();
 
       closeUsernameModal();
-      // display success badge
+      displayBadge('Your username has been updated successfully!', 'success');
     } catch (exception) {
+      displayBadge('There was an error updating your username', 'error');
       console.log(exception.message);
-      // display error badge
     }
   };
 
@@ -121,7 +128,7 @@ const GeneralScreen = ({ navigation }) => {
     const errorMessage = validatePassword();
 
     if (errorMessage) {
-      // display badge
+      displayBadge(errorMessage, 'error');
       return;
     }
 
@@ -134,9 +141,9 @@ const GeneralScreen = ({ navigation }) => {
       setCurrentPassword('');
       setNewPassword('');
 
-      // show success badge
+      displayBadge('Your password has been updated successfully!', 'success');
     } catch (exception) {
-      // show error badge
+      displayBadge('There was an error updating your password.', 'error');
     }
   };
 
@@ -240,7 +247,11 @@ const styles = StyleSheet.create({
 });
 
 GeneralScreen.propTypes = {
-  navigation: object.isRequired
+  navigation: object.isRequired,
+  displayBadge: func.isRequired
 };
 
-export default GeneralScreen;
+export default connect(
+  null,
+  mapDispatchToProps
+)(GeneralScreen);
