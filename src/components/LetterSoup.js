@@ -7,20 +7,28 @@ import {
   View
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { bool, func, number, string } from 'prop-types';
+import { bool, func, number, string, shape } from 'prop-types';
 
 import { shuffle, withRandomLetters, whitespaces } from '../helpers/string';
 
 import Layout from '../constants/Layout';
 
-const Letter = ({ character, onPress, size, withBorder }) => (
+const Letter = ({ character, onPress, size, withBorder, statusStyles }) => (
   <View style={[styles.letterWrapper, { height: size, width: size }]}>
     {character ? (
       <Animated.View style={[styles.letter]}>
         <TouchableOpacity style={styles.letterButton} onPress={onPress}>
-          <Text style={styles.character}>{character}</Text>
+          <Text
+            style={[
+              styles.character,
+              statusStyles,
+              { backgroundColor: 'transparent' }
+            ]}
+          >
+            {character}
+          </Text>
         </TouchableOpacity>
-        <View style={styles.tileBottom} />
+        <View style={[styles.tileBottom, statusStyles]} />
       </Animated.View>
     ) : null}
     <View style={[styles.charBG, withBorder ? styles.withBorder : {}]} />
@@ -31,6 +39,7 @@ const LetterSoup = ({ word }) => {
   const [characters, setCharacters] = useState([]);
   const [result, setResult] = useState(Array(word.length).fill(''));
   const [selected, setSelected] = useState({});
+  const [resultStatus, setResultStatus] = useState(0);
 
   const { spaceCount, positions } = whitespaces(word);
   const totalLength = word.length - spaceCount > 12 ? 16 : 12;
@@ -47,19 +56,45 @@ const LetterSoup = ({ word }) => {
     setCharacters(shuffled.split(''));
   };
 
-  const selectCharacter = (character, index) => () => {
-    let didAdd = false;
+  const selectCharacter = (character, index) => async () => {
+    const selectedLength = Object.keys(selected).length;
+    let newResult;
+
     for (let i = 0; i < result.length; i += 1) {
       if (!result[i] && !positions[i]) {
-        didAdd = true;
+        newResult = [...result.slice(0, i), character, ...result.slice(i + 1)];
         setSelected({ ...selected, [i]: index });
-        setResult([...result.slice(0, i), character, ...result.slice(i + 1)]);
+        setResult(newResult);
         break;
       }
     }
 
-    if (!didAdd) {
-      // result is full, check answer
+    if (selectedLength + 1 === word.length) {
+      const joined = newResult.join('');
+
+      if (joined === word) setResultStatus(1);
+      else setResultStatus(2);
+    } else if (selectedLength + 1 !== word.length && resultStatus)
+      setResultStatus(0);
+  };
+
+  const statusStyles = () => {
+    switch (resultStatus) {
+      case 1:
+        return {
+          backgroundColor: 'rgba(76,217,100, 0.2)',
+          color: '#4CD964'
+        };
+      case 2:
+        return {
+          backgroundColor: 'rgba(255,82,82, 0.2)',
+          color: '#FF5252'
+        };
+      default:
+        return {
+          backgroundColor: 'rgba(124,77,255, 0.2)',
+          color: '#7c4dff'
+        };
     }
   };
 
@@ -68,6 +103,7 @@ const LetterSoup = ({ word }) => {
     delete copy[index];
     setSelected(copy);
     setResult([...result.slice(0, index), '', ...result.slice(index + 1)]);
+    if (resultStatus) setResultStatus(0);
   };
 
   const calculateResultSize = () => {
@@ -99,6 +135,7 @@ const LetterSoup = ({ word }) => {
           onPress={removeFromResult(index)}
           size={resultSize}
           withBorder
+          statusStyles={statusStyles()}
         />
       );
       letters.push(letter);
@@ -245,11 +282,16 @@ Letter.propTypes = {
   character: string.isRequired,
   onPress: func.isRequired,
   size: number.isRequired,
-  withBorder: bool
+  withBorder: bool,
+  statusStyles: shape({
+    backgroundColor: string,
+    color: string
+  })
 };
 
 Letter.defaultProps = {
-  withBorder: false
+  withBorder: false,
+  statusStyles: {}
 };
 
 LetterSoup.propTypes = {

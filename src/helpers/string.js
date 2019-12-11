@@ -7,7 +7,6 @@ export const withRandomLetters = str => {
   const length = finishLength - result.length;
 
   for (let i = 0; i < length; i += 1) {
-    console.log(i);
     result += characters.charAt(Math.floor(Math.random() * characters.length));
   }
 
