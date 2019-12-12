@@ -21,6 +21,7 @@ import { getSignedUrl } from '../helpers/apiCaller';
 
 import TopControls from '../components/Camera/TopControls';
 import LetterSoup from '../components/LetterSoup';
+import TimeBar from '../components/TimeBar';
 
 const { front } = Camera.Constants.Type;
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
@@ -70,6 +71,10 @@ const MatchScreen = ({ navigation }) => {
   const switchToGuess = async () => {
     await videoRef.current.stopAsync();
     setGameState('guessing');
+  };
+
+  const handleFailure = () => {
+    console.log('failed');
   };
 
   const handlePlaybackUpdate = status => {
@@ -137,7 +142,10 @@ const MatchScreen = ({ navigation }) => {
           }
         />
         {gameState === 'guessing' ? (
-          <LetterSoup word={match.actedWord.toUpperCase()} />
+          <>
+            <TimeBar onEnd={handleFailure} time={300} />
+            <LetterSoup word={match.actedWord.toUpperCase()} />
+          </>
         ) : null}
       </View>
     </View>
