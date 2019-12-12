@@ -69,10 +69,11 @@ const LetterSoup = ({ word }) => {
       }
     }
 
-    if (selectedLength + 1 === word.length) {
+    if (selectedLength + 1 + spaceCount === word.length) {
       const joined = newResult.join('');
+      const checkWord = word.replace(/\s/g, '');
 
-      if (joined === word) setResultStatus(1);
+      if (joined === checkWord) setResultStatus(1);
       else setResultStatus(2);
     } else if (selectedLength + 1 !== word.length && resultStatus)
       setResultStatus(0);

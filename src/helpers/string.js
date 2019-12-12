@@ -28,7 +28,7 @@ export const shuffle = str => {
 
 export const whitespaces = str => {
   const positions = getAllIndexesHash(str, ' ');
-  const spaceCount = positions.length;
+  const spaceCount = Object.keys(positions).length;
   return { spaceCount, positions };
 };
 
