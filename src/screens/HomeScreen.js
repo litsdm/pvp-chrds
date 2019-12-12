@@ -15,14 +15,14 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment';
 import jwtDecode from 'jwt-decode';
-import { func, object } from 'prop-types';
+import { bool, func, object } from 'prop-types';
 
 import GET_USER from '../graphql/queries/getUserFromToken';
 import GET_USER_MATCHES from '../graphql/queries/getUserMatches';
 import CREATED_MATCH from '../graphql/subscriptions/createdMatch';
 import UPDATED_MATCH from '../graphql/subscriptions/updatedMatch';
 
-import { togglePlay } from '../actions/popup';
+import { togglePlay, toggleNetworkModal } from '../actions/popup';
 
 import AnimatedCircle from '../components/AnimatedCircle';
 import ProgressBar from '../components/LevelProgressBar';
@@ -33,10 +33,20 @@ import Empty from '../components/Empty';
 import Layout from '../constants/Layout';
 
 const mapDispatchToProps = dispatch => ({
-  openPlay: () => dispatch(togglePlay(true))
+  openPlay: () => dispatch(togglePlay(true)),
+  closeNetworkModal: () => dispatch(toggleNetworkModal(false))
 });
 
-const HomeScreen = ({ navigation, openPlay }) => {
+const mapStateToProps = ({ popup: { displayNetworkModal } }) => ({
+  displayNetworkModal
+});
+
+const HomeScreen = ({
+  navigation,
+  openPlay,
+  closeNetworkModal,
+  displayNetworkModal
+}) => {
   const [
     getMatches,
     { subscribeToMore, loading: loadingMatches, data: matchesData }
@@ -67,6 +77,10 @@ const HomeScreen = ({ navigation, openPlay }) => {
       setDidSubscribe(true);
     }
   }, [subscribeToMore, data]);
+
+  useEffect(() => {
+    if (!loading && data && displayNetworkModal) closeNetworkModal();
+  }, [loading, data]);
 
   const subscribeToNewMatches = () =>
     subscribeToMore({
@@ -246,13 +260,13 @@ const HomeScreen = ({ navigation, openPlay }) => {
             ) : (
               <View style={styles.lists}>
                 {(matches[0] && matches[0].data.length > 0) ||
-                  (matches[1] && matches[1].data.length > 0) ? (
-                    <SectionList
-                      sections={matches}
-                      keyExtractor={item => item._id}
-                      renderItem={renderItem}
-                      renderSectionHeader={renderSectionHeader}
-                    />
+                (matches[1] && matches[1].data.length > 0) ? (
+                  <SectionList
+                    sections={matches}
+                    keyExtractor={item => item._id}
+                    renderItem={renderItem}
+                    renderSectionHeader={renderSectionHeader}
+                  />
                 ) : (
                   <Empty
                     title="No matches yet."
@@ -397,10 +411,12 @@ const styles = StyleSheet.create({
 
 HomeScreen.propTypes = {
   navigation: object.isRequired,
-  openPlay: func.isRequired
+  openPlay: func.isRequired,
+  closeNetworkModal: func.isRequired,
+  displayNetworkModal: bool.isRequired
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(HomeScreen);

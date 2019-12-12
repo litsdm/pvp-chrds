@@ -3,6 +3,7 @@ export const TOGGLE_CATEGORY = 'TOGGLE_CATEGORY';
 export const TOGGLE_ADD = 'TOGGLE_ADD';
 export const TOGGLE_BADGE = 'TOGGLE_BADGE';
 export const TOGGLE_PROGRESS_BADGE = 'TOGGLE_PROGRESS_BADGE';
+export const TOGGLE_NETWORK_MODAL = 'TOGGLE_NETWORK_MODAL';
 
 export const togglePlay = (display, data = {}) => ({
   display,
@@ -24,6 +25,11 @@ export const toggleAdd = display => ({
 export const toggleProgressBadge = display => ({
   display,
   type: TOGGLE_PROGRESS_BADGE
+});
+
+export const toggleNetworkModal = display => ({
+  display,
+  type: TOGGLE_NETWORK_MODAL
 });
 
 export const toggleBadge = (

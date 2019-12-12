@@ -1,9 +1,13 @@
 import { ApolloClient } from 'apollo-client';
-import { split } from 'apollo-link';
+import { split, from } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
+import { onError } from 'apollo-link-error';
 import { getMainDefinition } from 'apollo-utilities';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+
+import store from './reduxStore';
+import { toggleBadge, toggleNetworkModal } from './actions/popup';
 
 const httpLink = new HttpLink({
   uri: 'http://192.168.1.126:8080'
@@ -16,7 +20,7 @@ const wsLink = new WebSocketLink({
   }
 });
 
-const link = split(
+const links = split(
   ({ query }) => {
     const { kind, operation } = getMainDefinition(query);
     return kind === 'OperationDefinition' && operation === 'subscription';
@@ -24,6 +28,20 @@ const link = split(
   wsLink,
   httpLink
 );
+
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    graphQLErrors.map(({ message }) =>
+      store.dispatch(toggleBadge(true, message, 'error'))
+    );
+
+  if (networkError) {
+    store.dispatch(toggleBadge(true, 'Network Error', 'error'));
+    store.dispatch(toggleNetworkModal(true));
+  }
+});
+
+const link = from([errorLink, links]);
 
 const client = new ApolloClient({
   link,

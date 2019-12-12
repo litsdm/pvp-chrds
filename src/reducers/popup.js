@@ -3,7 +3,8 @@ import {
   TOGGLE_CATEGORY,
   TOGGLE_ADD,
   TOGGLE_BADGE,
-  TOGGLE_PROGRESS_BADGE
+  TOGGLE_PROGRESS_BADGE,
+  TOGGLE_NETWORK_MODAL
 } from '../actions/popup';
 
 const initialState = {
@@ -15,7 +16,8 @@ const initialState = {
   transitionPosition: null,
   displayAdd: false,
   badge: {},
-  displayProgressBadge: false
+  displayProgressBadge: false,
+  displayNetworkModal: false
 };
 
 const popup = (state = initialState, { type, display, data, badge }) => {
@@ -30,6 +32,8 @@ const popup = (state = initialState, { type, display, data, badge }) => {
       return { ...state, badge };
     case TOGGLE_PROGRESS_BADGE:
       return { ...state, displayProgressBadge: display };
+    case TOGGLE_NETWORK_MODAL:
+      return { ...state, displayNetworkModal: display };
     default:
       return state;
   }

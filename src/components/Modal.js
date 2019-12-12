@@ -32,6 +32,8 @@ const Modal = ({ children, close }) => {
   };
 
   const handleClose = () => {
+    if (!close) return;
+
     animateTo(0);
     setTimeout(() => close(), 200);
   };
@@ -79,7 +81,11 @@ const styles = StyleSheet.create({
 
 Modal.propTypes = {
   children: oneOfType([arrayOf(node), node]).isRequired,
-  close: func.isRequired
+  close: func
+};
+
+Modal.defaultProps = {
+  close: null
 };
 
 export default Modal;

@@ -14,6 +14,7 @@ import CategoryPopup from './CategoryPopup';
 import AddFriendPopup from './AddFriendPopup';
 import Badge from './Badge';
 import ProgressBadge from './ProgressBadge';
+import NetworkErrorModal from './NetworkErrorModal';
 
 const mapDispatchToProps = dispatch => ({
   closeAdd: () => dispatch(toggleAdd(false)),
@@ -31,7 +32,8 @@ const mapStateToProps = ({
     transitionPosition,
     displayAdd,
     badge,
-    displayProgressBadge
+    displayProgressBadge,
+    displayNetworkModal
   },
   file: { videos }
 }) => ({
@@ -41,7 +43,8 @@ const mapStateToProps = ({
   displayAdd,
   badge,
   videos,
-  displayProgressBadge
+  displayProgressBadge,
+  displayNetworkModal
 });
 
 const PopupManager = ({
@@ -56,7 +59,8 @@ const PopupManager = ({
   closeBadge,
   displayProgressBadge,
   closeProgressBadge,
-  videos
+  videos,
+  displayNetworkModal
 }) => {
   const openPlay = _id => () => showPlay({ playCategory: _id });
 
@@ -75,6 +79,7 @@ const PopupManager = ({
       {displayProgressBadge ? (
         <ProgressBadge close={closeProgressBadge} videos={videos} />
       ) : null}
+      {displayNetworkModal ? <NetworkErrorModal /> : null}
     </>
   );
 };
@@ -90,6 +95,7 @@ PopupManager.propTypes = {
   closeBadge: func.isRequired,
   displayProgressBadge: bool.isRequired,
   closeProgressBadge: func.isRequired,
+  displayNetworkModal: bool.isRequired,
   videos: object,
   badge: shape({
     display: bool,

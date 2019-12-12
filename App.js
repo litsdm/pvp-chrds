@@ -11,13 +11,11 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { bool } from 'prop-types';
 
+import store from './src/reduxStore';
 import client from './src/apolloStore';
-import configureStore from './src/reduxStore';
 
 import AppNavigator from './src/navigation/AppNavigator';
 import PopupManager from './src/components/PopupManager';
-
-const store = configureStore();
 
 const App = ({ skipLoadingScreen }) => {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
