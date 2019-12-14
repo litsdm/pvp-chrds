@@ -1,12 +1,21 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { number } from 'prop-types';
+import { bool, number } from 'prop-types';
 
 import MedalIcon from '../../assets/icons/ribbon.svg';
 
-const LevelProgressBar = ({ progress }) => (
+const LevelProgressBar = ({ progress, darkBG }) => (
   <View style={styles.container}>
-    <View style={styles.wrapper}>
+    <View
+      style={[
+        styles.wrapper,
+        {
+          backgroundColor: darkBG
+            ? 'rgba(255, 255, 255, 0.2)'
+            : 'rgba(0, 0, 0, 0.1)'
+        }
+      ]}
+    >
       <View style={[styles.progress, { width: `${progress}%` }]} />
     </View>
     <MedalIcon width={24} height={24} />
@@ -33,11 +42,13 @@ const styles = StyleSheet.create({
 });
 
 LevelProgressBar.propTypes = {
-  progress: number
+  progress: number,
+  darkBG: bool
 };
 
 LevelProgressBar.defaultProps = {
-  progress: 0
+  progress: 0,
+  darkBG: false
 };
 
 export default LevelProgressBar;

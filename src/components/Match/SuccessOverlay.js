@@ -14,6 +14,7 @@ import { usePrevious, useAnimation } from '../../helpers/hooks';
 import lvlAnimation from '../../../assets/animations/motion.json';
 
 import LevelProgressBar from '../LevelProgressBar';
+import Medals from './Medals';
 
 const SuccessOverlay = ({ user, goHome, playNext }) => {
   const animation = useRef(null);
@@ -72,14 +73,15 @@ const SuccessOverlay = ({ user, goHome, playNext }) => {
             <Text style={styles.lvl}>{user.level}</Text>
           </View>
         </View>
-        <LevelProgressBar progress={10} />
+        <LevelProgressBar progress={10} darkBG />
       </Animated.View>
       <Animated.Text style={[styles.title, animateTitle]}>
-        You got it!
+        Nice guess!
       </Animated.Text>
+      <Medals medalCount={1} />
       <Animated.View style={animateRest}>
         <TouchableOpacity style={styles.buttonPrimary} onPress={playNext}>
-          <Text style={styles.buttonPrimaryText}>Play your Turn</Text>
+          <Text style={styles.buttonPrimaryText}>Play next round</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonSecondary} onPress={goHome}>
           <Text style={styles.buttonSecondaryText}>Go to Home</Text>
@@ -112,7 +114,7 @@ const styles = StyleSheet.create({
   title: {
     color: '#fff',
     fontFamily: 'sf-bold',
-    fontSize: 24,
+    fontSize: 22,
     marginVertical: 48
   },
   lvlContainer: {
