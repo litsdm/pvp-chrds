@@ -27,6 +27,7 @@ import SuccessOverlay from '../components/Match/SuccessOverlay';
 
 const { front } = Camera.Constants.Type;
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
+const TIME = 300;
 
 const MatchScreen = ({ navigation }) => {
   const categoryID = navigation.getParam('categoryID', '');
@@ -42,6 +43,8 @@ const MatchScreen = ({ navigation }) => {
   const [uriFlag, setUriFlag] = useState(false);
   const [buffering, setBuffering] = useState(true);
   const [resultStatus, setResultStatus] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(TIME);
+  const [medalCount, setMedalCount] = useState(3);
   const videoRef = useRef(null);
 
   const category = data ? data.category : {};
@@ -73,6 +76,15 @@ const MatchScreen = ({ navigation }) => {
     else if (newCount >= 2) await videoRef.current.replayAsync();
   };
 
+  const getMedalCount = () => {
+    let medals = 3;
+
+    if (timeLeft <= TIME / 2 && timeLeft > TIME / 6) medals = 2;
+    else if (timeLeft <= TIME / 6) medals = 1;
+
+    return medals;
+  };
+
   const switchToGuess = async () => {
     await videoRef.current.stopAsync();
     setGameState('guessing');
@@ -82,7 +94,8 @@ const MatchScreen = ({ navigation }) => {
     setGameState('finished');
   };
 
-  const handleSuccess = () => {
+  const handleSuccess = async () => {
+    await setMedalCount(getMedalCount());
     setGameState('finished');
   };
 
@@ -157,7 +170,11 @@ const MatchScreen = ({ navigation }) => {
         />
         {gameState === 'guessing' ? (
           <>
-            <TimeBar onEnd={handleFailure} time={300} />
+            <TimeBar
+              onEnd={handleFailure}
+              timeLeft={timeLeft}
+              setTimeLeft={setTimeLeft}
+            />
             <LetterSoup
               word={match.actedWord.toUpperCase()}
               resultStatus={resultStatus}
@@ -167,7 +184,12 @@ const MatchScreen = ({ navigation }) => {
           </>
         ) : null}
         {gameState === 'finished' && resultStatus === 1 ? (
-          <SuccessOverlay user={user} goHome={goBack} playNext={goToCamera} />
+          <SuccessOverlay
+            user={user}
+            goHome={goBack}
+            playNext={goToCamera}
+            medalCount={medalCount}
+          />
         ) : null}
       </View>
     </View>

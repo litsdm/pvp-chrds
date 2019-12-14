@@ -16,7 +16,7 @@ import lvlAnimation from '../../../assets/animations/motion.json';
 import LevelProgressBar from '../LevelProgressBar';
 import Medals from './Medals';
 
-const SuccessOverlay = ({ user, goHome, playNext }) => {
+const SuccessOverlay = ({ user, goHome, playNext, medalCount }) => {
   const animation = useRef(null);
   const previousLevel = usePrevious(user.level);
   const { animationValue } = useAnimation({
@@ -78,7 +78,7 @@ const SuccessOverlay = ({ user, goHome, playNext }) => {
       <Animated.Text style={[styles.title, animateTitle]}>
         Nice guess!
       </Animated.Text>
-      <Medals medalCount={1} />
+      <Medals medalCount={medalCount} />
       <Animated.View style={animateRest}>
         <TouchableOpacity style={styles.buttonPrimary} onPress={playNext}>
           <Text style={styles.buttonPrimaryText}>Play next round</Text>
@@ -182,6 +182,7 @@ const styles = StyleSheet.create({
 SuccessOverlay.propTypes = {
   goHome: func.isRequired,
   playNext: func.isRequired,
+  medalCount: number.isRequired,
   user: shape({
     level: number,
     xp: number

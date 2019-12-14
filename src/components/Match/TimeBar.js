@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -6,11 +6,11 @@ import { func, number } from 'prop-types';
 
 import Layout from '../../constants/Layout';
 
-const TimeBar = ({ time, onEnd }) => {
-  const timeLeft = useCountdown(time, onEnd);
+const TimeBar = ({ timeLeft, setTimeLeft, onEnd }) => {
+  useCountdown(timeLeft, setTimeLeft, onEnd);
   return (
     <View style={styles.timeBarWrapper}>
-      <View style={[styles.timeBar, { width: `${(timeLeft * 100) / time}%` }]}>
+      <View style={[styles.timeBar, { width: `${(timeLeft * 100) / 300}%` }]}>
         <LinearGradient
           style={styles.gradient}
           colors={['#FF5252', '#7c4dff']}
@@ -23,8 +23,7 @@ const TimeBar = ({ time, onEnd }) => {
   );
 };
 
-function useCountdown(time, onEnd) {
-  const [timeLeft, setTimeLeft] = useState(time);
+function useCountdown(timeLeft, setTimeLeft, onEnd) {
   let interval;
 
   useEffect(() => {
@@ -38,7 +37,7 @@ function useCountdown(time, onEnd) {
 
         return current - 1;
       });
-    }, 100);
+    }, 75);
 
     return () => clearInterval(interval);
   });
@@ -69,11 +68,12 @@ const styles = StyleSheet.create({
 
 TimeBar.propTypes = {
   onEnd: func.isRequired,
-  time: number
+  timeLeft: number,
+  setTimeLeft: func.isRequired
 };
 
 TimeBar.defaultProps = {
-  time: 300
+  timeLeft: 300
 };
 
 export default TimeBar;
