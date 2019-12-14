@@ -16,12 +16,14 @@ import { Camera } from 'expo-camera';
 import { object } from 'prop-types';
 
 import GET_DATA from '../graphql/queries/getMatchData';
+import GET_USER from '../graphql/queries/getMatchUser';
 
 import { getSignedUrl } from '../helpers/apiCaller';
 
 import TopControls from '../components/Camera/TopControls';
-import LetterSoup from '../components/LetterSoup';
-import TimeBar from '../components/TimeBar';
+import LetterSoup from '../components/Match/LetterSoup';
+import TimeBar from '../components/Match/TimeBar';
+import SuccessOverlay from '../components/Match/SuccessOverlay';
 
 const { front } = Camera.Constants.Type;
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
@@ -34,15 +36,18 @@ const MatchScreen = ({ navigation }) => {
   const { data } = useQuery(GET_DATA, {
     variables: { categoryID, opponentID, matchID }
   });
+  const { data: userData } = useQuery(GET_USER, { variables: { _id: userID } });
   const [gameState, setGameState] = useState('awaitUser');
   const [playCount, setPlayCount] = useState(0);
   const [uriFlag, setUriFlag] = useState(false);
   const [buffering, setBuffering] = useState(true);
+  const [resultStatus, setResultStatus] = useState(0);
   const videoRef = useRef(null);
 
   const category = data ? data.category : {};
   const opponent = data ? data.opponent : {};
   const match = data ? data.match : {};
+  const user = userData ? userData.user : {};
 
   useEffect(() => {
     if (match.video && videoRef && !uriFlag) fetchSignedUri();
@@ -74,7 +79,11 @@ const MatchScreen = ({ navigation }) => {
   };
 
   const handleFailure = () => {
-    console.log('failed');
+    setGameState('finished');
+  };
+
+  const handleSuccess = () => {
+    setGameState('finished');
   };
 
   const handlePlaybackUpdate = status => {
@@ -85,6 +94,9 @@ const MatchScreen = ({ navigation }) => {
   };
 
   const goBack = () => navigation.navigate('Home');
+
+  const goToCamera = () =>
+    navigation.navigate('Camera', { matchID, categoryID, opponentID });
 
   return (
     <View style={styles.container}>
@@ -125,7 +137,9 @@ const MatchScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         ) : null}
-        {playCount > 0 && gameState !== 'guessing' ? (
+        {playCount > 0 &&
+        gameState !== 'guessing' &&
+        gameState !== 'finished' ? (
           <TouchableOpacity style={styles.guessButton} onPress={switchToGuess}>
             <Text style={styles.buttonText}>Guess Word</Text>
             <Ionicons name="ios-arrow-forward" color="#7c4dff" size={18} />
@@ -144,8 +158,16 @@ const MatchScreen = ({ navigation }) => {
         {gameState === 'guessing' ? (
           <>
             <TimeBar onEnd={handleFailure} time={300} />
-            <LetterSoup word={match.actedWord.toUpperCase()} />
+            <LetterSoup
+              word={match.actedWord.toUpperCase()}
+              resultStatus={resultStatus}
+              setResultStatus={setResultStatus}
+              onSuccess={handleSuccess}
+            />
           </>
+        ) : null}
+        {gameState === 'finished' && resultStatus === 1 ? (
+          <SuccessOverlay user={user} goHome={goBack} playNext={goToCamera} />
         ) : null}
       </View>
     </View>

@@ -4,7 +4,7 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { LinearGradient } from 'expo-linear-gradient';
 import { func, number } from 'prop-types';
 
-import Layout from '../constants/Layout';
+import Layout from '../../constants/Layout';
 
 const TimeBar = ({ time, onEnd }) => {
   const timeLeft = useCountdown(time, onEnd);

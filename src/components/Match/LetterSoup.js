@@ -9,9 +9,9 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { bool, func, number, string, shape } from 'prop-types';
 
-import { shuffle, withRandomLetters, whitespaces } from '../helpers/string';
+import { shuffle, withRandomLetters, whitespaces } from '../../helpers/string';
 
-import Layout from '../constants/Layout';
+import Layout from '../../constants/Layout';
 
 const Letter = ({ character, onPress, size, withBorder, statusStyles }) => (
   <View style={[styles.letterWrapper, { height: size, width: size }]}>
@@ -35,11 +35,10 @@ const Letter = ({ character, onPress, size, withBorder, statusStyles }) => (
   </View>
 );
 
-const LetterSoup = ({ word }) => {
+const LetterSoup = ({ word, resultStatus, setResultStatus, onSuccess }) => {
   const [characters, setCharacters] = useState([]);
   const [result, setResult] = useState(Array(word.length).fill(''));
   const [selected, setSelected] = useState({});
-  const [resultStatus, setResultStatus] = useState(0);
 
   const { spaceCount, positions } = whitespaces(word);
   const totalLength = word.length - spaceCount > 12 ? 16 : 12;
@@ -73,8 +72,10 @@ const LetterSoup = ({ word }) => {
       const joined = newResult.join('');
       const checkWord = word.replace(/\s/g, '');
 
-      if (joined === checkWord) setResultStatus(1);
-      else setResultStatus(2);
+      if (joined === checkWord) {
+        setResultStatus(1);
+        onSuccess();
+      } else setResultStatus(2);
     } else if (selectedLength + 1 !== word.length && resultStatus)
       setResultStatus(0);
   };
@@ -296,7 +297,10 @@ Letter.defaultProps = {
 };
 
 LetterSoup.propTypes = {
-  word: string.isRequired
+  word: string.isRequired,
+  setResultStatus: func.isRequired,
+  resultStatus: number.isRequired,
+  onSuccess: func.isRequired
 };
 
 export default LetterSoup;
