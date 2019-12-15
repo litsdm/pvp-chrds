@@ -239,8 +239,10 @@ const HomeScreen = ({
                 <Text style={styles.lvlTxtWrapper}>
                   Lvl <Text style={styles.lvlTxt}>{user.level}</Text>
                 </Text>
-                <ProgressBar progress={90} />
-                <Text style={styles.progressTxt}>10 until next level</Text>
+                <ProgressBar progress={(user.xp * 100) / user.nextXP} />
+                <Text style={styles.progressTxt}>
+                  {user.nextXP - user.xp} until next level
+                </Text>
               </View>
               <View style={styles.verticalDivider} />
               <View style={styles.moneySection}>

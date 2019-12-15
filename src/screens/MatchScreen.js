@@ -111,7 +111,7 @@ const MatchScreen = ({ navigation }) => {
     const userProperties = JSON.stringify({ xp: user.xp + medals });
 
     await setMedalCount(medals);
-    setGameState('finished');
+    await setGameState('finished');
 
     await updateData({
       variables: { userID, matchID, userProperties, matchProperties }

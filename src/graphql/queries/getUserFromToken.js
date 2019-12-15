@@ -10,6 +10,7 @@ export default gql`
       coins
       level
       xp
+      nextXP
     }
   }
 `;

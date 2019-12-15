@@ -73,7 +73,7 @@ const SuccessOverlay = ({ user, goHome, playNext, medalCount }) => {
             <Text style={styles.lvl}>{user.level}</Text>
           </View>
         </View>
-        <LevelProgressBar progress={10} darkBG />
+        <LevelProgressBar progress={(user.xp * 100) / user.nextXP} darkBG />
       </Animated.View>
       <Animated.Text style={[styles.title, animateTitle]}>
         Nice guess!
