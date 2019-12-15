@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Ionicons } from '@expo/vector-icons';
 import { Video } from 'expo-av';
 import { Camera } from 'expo-camera';
@@ -17,6 +17,7 @@ import { object } from 'prop-types';
 
 import GET_DATA from '../graphql/queries/getMatchData';
 import GET_USER from '../graphql/queries/getMatchUser';
+import UPDATE_DATA from '../graphql/mutations/updateMatchScreenData';
 
 import { getSignedUrl } from '../helpers/apiCaller';
 
@@ -37,7 +38,10 @@ const MatchScreen = ({ navigation }) => {
   const { data } = useQuery(GET_DATA, {
     variables: { categoryID, opponentID, matchID }
   });
-  const { data: userData } = useQuery(GET_USER, { variables: { _id: userID } });
+  const { data: userData, refetch: refetchUser } = useQuery(GET_USER, {
+    variables: { _id: userID }
+  });
+  const [updateData] = useMutation(UPDATE_DATA);
   const [gameState, setGameState] = useState('awaitUser');
   const [playCount, setPlayCount] = useState(0);
   const [uriFlag, setUriFlag] = useState(false);
@@ -95,8 +99,25 @@ const MatchScreen = ({ navigation }) => {
   };
 
   const handleSuccess = async () => {
-    await setMedalCount(getMedalCount());
+    const score = JSON.parse(match.score);
+    const newScore = JSON.stringify({ ...score, [userID]: score[userID] + 1 });
+    const medals = getMedalCount();
+
+    const matchProperties = JSON.stringify({
+      state: 'play',
+      score: newScore,
+      actedWord: ''
+    });
+    const userProperties = JSON.stringify({ xp: user.xp + medals });
+
+    await setMedalCount(medals);
     setGameState('finished');
+
+    await updateData({
+      variables: { userID, matchID, userProperties, matchProperties }
+    });
+
+    refetchUser();
   };
 
   const handlePlaybackUpdate = status => {
