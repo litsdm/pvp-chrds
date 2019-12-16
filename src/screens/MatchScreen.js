@@ -25,6 +25,7 @@ import TopControls from '../components/Camera/TopControls';
 import LetterSoup from '../components/Match/LetterSoup';
 import TimeBar from '../components/Match/TimeBar';
 import SuccessOverlay from '../components/Match/SuccessOverlay';
+import FailOverlay from '../components/Match/FailOverlay';
 
 const { front } = Camera.Constants.Type;
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
@@ -94,8 +95,13 @@ const MatchScreen = ({ navigation }) => {
     setGameState('guessing');
   };
 
-  const handleFailure = () => {
+  const handleFailure = async () => {
+    const matchProperties = JSON.stringify({ state: 'play' });
+    const userProperties = JSON.stringify({});
     setGameState('finished');
+    updateData({
+      variables: { userID, matchID, userProperties, matchProperties }
+    });
   };
 
   const handleSuccess = async () => {
@@ -119,6 +125,8 @@ const MatchScreen = ({ navigation }) => {
 
     refetchUser();
   };
+
+  const handleReplay = () => {};
 
   const handlePlaybackUpdate = status => {
     if (status.isBuffering && !buffering) setBuffering(true);
@@ -210,6 +218,14 @@ const MatchScreen = ({ navigation }) => {
             goHome={goBack}
             playNext={goToCamera}
             medalCount={medalCount}
+          />
+        ) : null}
+        {gameState === 'finished' && resultStatus !== 1 ? (
+          <FailOverlay
+            username={opponent.username}
+            goHome={goBack}
+            playNext={goToCamera}
+            handleReplay={handleReplay}
           />
         ) : null}
       </View>
