@@ -5,6 +5,7 @@ export default gql`
     user(token: $token) {
       _id
       username
+      displayName
       profilePic
       coins
       level

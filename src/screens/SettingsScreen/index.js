@@ -167,7 +167,7 @@ const SettingsScreen = ({
                 source={{ uri: `${user.profilePic}?random=${imageID}` }}
               />
             </TouchableOpacity>
-            <Text style={styles.username}>@{user.username}</Text>
+            <Text style={styles.username}>@{user.displayName}</Text>
             <TouchableOpacity style={styles.profileButton}>
               <Text style={styles.pbText}>View Profile</Text>
             </TouchableOpacity>

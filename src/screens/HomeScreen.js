@@ -218,7 +218,7 @@ const HomeScreen = ({
                 empty
               />
               <View style={styles.leftSide}>
-                <Text style={styles.greeting}>Hello {user.username},</Text>
+                <Text style={styles.greeting}>Hello {user.displayName},</Text>
                 <Text style={styles.subtitle}>Ready to Play?</Text>
               </View>
               <View style={styles.rightSide}>

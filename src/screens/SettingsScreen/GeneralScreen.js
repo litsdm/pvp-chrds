@@ -34,14 +34,14 @@ const GeneralScreen = ({ navigation, displayBadge }) => {
   const [newUsername, setNewUsername] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const { _id, username } = data ? data.user : {};
+  const { _id, displayName } = data ? data.user : {};
 
   useEffect(() => {
     fetchUser();
   }, []);
 
   useEffect(() => {
-    if (data && data.user.username) setNewUsername(data.user.username);
+    if (data && data.user.displayName) setNewUsername(data.user.displayName);
   }, [data]);
 
   useEffect(() => {
@@ -83,7 +83,7 @@ const GeneralScreen = ({ navigation, displayBadge }) => {
     let errorMessage = '';
 
     if (!newUsername) errorMessage = "Username can't be empty.";
-    if (newUsername === username)
+    if (newUsername === displayName)
       errorMessage = 'You are already using that username.';
 
     return errorMessage;
@@ -98,7 +98,10 @@ const GeneralScreen = ({ navigation, displayBadge }) => {
     }
 
     try {
-      const properties = JSON.stringify({ username: newUsername });
+      const properties = JSON.stringify({
+        username: newUsername.toLowerCase(),
+        displayName: newUsername
+      });
 
       await updateProperties({ variables: { id: _id, properties } });
       refetchUser();
@@ -106,7 +109,10 @@ const GeneralScreen = ({ navigation, displayBadge }) => {
       closeUsernameModal();
       displayBadge('Your username has been updated successfully!', 'success');
     } catch (exception) {
-      displayBadge('There was an error updating your username', 'error');
+      const message = exception.message.startsWith('GraphQL error: ')
+        ? exception.message.substring(14)
+        : 'There was an error updating your username';
+      displayBadge(message, 'error');
       console.log(exception.message);
     }
   };
@@ -153,7 +159,7 @@ const GeneralScreen = ({ navigation, displayBadge }) => {
       <View style={styles.group}>
         <Text style={styles.title}>USERNAME</Text>
         <TouchableOpacity style={styles.row} onPress={showUsernameModal}>
-          <Text style={styles.rowText}>{username}</Text>
+          <Text style={styles.rowText}>{displayName}</Text>
           <Ionicons
             name="ios-arrow-forward"
             color="rgba(0,0,0,0.1)"

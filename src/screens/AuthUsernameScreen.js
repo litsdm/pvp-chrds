@@ -44,7 +44,8 @@ const AuthUsernameScreen = ({ navigation, displayBadge }) => {
   const callLogin = async () => {
     try {
       const payload = {
-        username,
+        displayName: username,
+        username: username.toLowerCase(),
         password
       };
       const response = await callApi('login', payload, 'POST');
@@ -62,7 +63,8 @@ const AuthUsernameScreen = ({ navigation, displayBadge }) => {
     try {
       const payload = {
         password,
-        username
+        displayName: username,
+        username: username.toLowerCase()
       };
 
       const response = await callApi('signup', payload, 'POST');
