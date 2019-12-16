@@ -19,6 +19,7 @@ export default gql`
     match(_id: $matchID) {
       _id
       score
+      replayWord
     }
   }
 `;

@@ -4,23 +4,28 @@ import { func, string } from 'prop-types';
 
 import Modal from '../Modal';
 
-const ReplayModal = ({ close, username, handleReplay }) => (
-  <Modal close={close}>
-    <View style={styles.container}>
-      <Text style={styles.question}>
-        Ask {username} to replay the same word next round?
-      </Text>
-      <View style={styles.buttons}>
-        <TouchableOpacity style={styles.button} onPress={handleReplay}>
-          <Text style={styles.yesText}>Yes</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={close}>
-          <Text style={styles.noText}>No</Text>
-        </TouchableOpacity>
+const ReplayModal = ({ close, question, handleReplay }) => {
+  const onReplayPress = () => {
+    handleReplay();
+    close();
+  };
+
+  return (
+    <Modal close={close}>
+      <View style={styles.container}>
+        <Text style={styles.question}>{question}</Text>
+        <View style={styles.buttons}>
+          <TouchableOpacity style={styles.button} onPress={onReplayPress}>
+            <Text style={styles.yesText}>Yes</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={close}>
+            <Text style={styles.noText}>No</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
-  </Modal>
-);
+    </Modal>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -54,7 +59,7 @@ const styles = StyleSheet.create({
 
 ReplayModal.propTypes = {
   close: func.isRequired,
-  username: string.isRequired,
+  question: string.isRequired,
   handleReplay: func.isRequired
 };
 

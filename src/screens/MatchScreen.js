@@ -18,6 +18,7 @@ import { object } from 'prop-types';
 import GET_DATA from '../graphql/queries/getMatchData';
 import GET_USER from '../graphql/queries/getMatchUser';
 import UPDATE_DATA from '../graphql/mutations/updateMatchScreenData';
+import UPDATE_MATCH from '../graphql/mutations/updateMatch';
 
 import { getSignedUrl } from '../helpers/apiCaller';
 
@@ -43,6 +44,7 @@ const MatchScreen = ({ navigation }) => {
     variables: { _id: userID }
   });
   const [updateData] = useMutation(UPDATE_DATA);
+  const [updateMatch] = useMutation(UPDATE_MATCH);
   const [gameState, setGameState] = useState('awaitUser');
   const [playCount, setPlayCount] = useState(0);
   const [uriFlag, setUriFlag] = useState(false);
@@ -96,12 +98,9 @@ const MatchScreen = ({ navigation }) => {
   };
 
   const handleFailure = async () => {
-    const matchProperties = JSON.stringify({ state: 'play' });
-    const userProperties = JSON.stringify({});
+    const properties = JSON.stringify({ state: 'play' });
     setGameState('finished');
-    updateData({
-      variables: { userID, matchID, userProperties, matchProperties }
-    });
+    updateMatch({ variables: { matchID, properties } });
   };
 
   const handleSuccess = async () => {
@@ -126,7 +125,10 @@ const MatchScreen = ({ navigation }) => {
     refetchUser();
   };
 
-  const handleReplay = () => {};
+  const handleReplay = () => {
+    const properties = JSON.stringify({ replayWord: match.actedWord });
+    updateMatch({ variables: { matchID, properties } });
+  };
 
   const handlePlaybackUpdate = status => {
     if (status.isBuffering && !buffering) setBuffering(true);

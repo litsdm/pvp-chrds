@@ -39,7 +39,7 @@ const FailOverlay = ({ goHome, playNext, handleReplay, username }) => {
         <ReplayModal
           close={closeReplay}
           handleReplay={handleReplay}
-          username={username}
+          question={`Ask ${username} to replay the same word next round?`}
         />
       ) : null}
     </View>

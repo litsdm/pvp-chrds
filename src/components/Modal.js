@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     top: 0,
-    zIndex: 3
+    zIndex: 5
   },
   overlayButton: {
     backgroundColor: 'rgba(0,0,0,0.6)',

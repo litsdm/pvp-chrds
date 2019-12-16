@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { AsyncStorage, StatusBar, StyleSheet, Text, View } from 'react-native';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
@@ -14,12 +14,14 @@ import { useAnimation } from '../helpers/hooks';
 import { upload } from '../actions/file';
 
 import GET_DATA from '../graphql/queries/getCameraData';
+import UPDATE_MATCH from '../graphql/mutations/updateMatch';
 
 import MainControls from '../components/Camera/MainControls';
 import VideoOverlay from '../components/Camera/VideoOverlay';
 import CountdownPopup from '../components/Camera/CountdownPopup';
 import TopControls from '../components/Camera/TopControls';
 import BottomControls from '../components/Camera/BottomControls';
+import ReplayModal from '../components/Match/ReplayModal';
 
 const mapDispatchToProps = dispatch => ({
   uploadFile: file => dispatch(upload(file))
@@ -43,9 +45,11 @@ const CameraScreen = ({ navigation, uploadFile }) => {
   const [flash, setFlash] = useState(flashOff);
   const [isRecording, setRecording] = useState(false);
   const [isCounting, setCounting] = useState(false);
+  const [displayReplay, setDisplayReplay] = useState(false);
   const [videoUri, setVideoUri] = useState('');
   const [word, setWord] = useState('');
   const [userID, setUserID] = useState('');
+  const [updateMatch] = useMutation(UPDATE_MATCH);
   const { animationValue, animateTo } = useAnimation({ duration: 200 });
 
   const category = data ? data.category : {};
@@ -71,6 +75,7 @@ const CameraScreen = ({ navigation, uploadFile }) => {
 
   useEffect(() => {
     if (data && data.category) getCategoryWord();
+    if (data && data.match) displayReplayIfNeeded();
   }, [data]);
 
   const getUserID = async () => {
@@ -91,6 +96,15 @@ const CameraScreen = ({ navigation, uploadFile }) => {
 
     setWord(randWord);
     AsyncStorage.setItem(`${matchID}-word`, randWord);
+  };
+
+  const displayReplayIfNeeded = () => {
+    if (match.replayWord) setDisplayReplay(true);
+  };
+
+  const closeReplay = () => {
+    setDisplayReplay(false);
+    removeReplayWord();
   };
 
   const setState = newState =>
@@ -180,8 +194,20 @@ const CameraScreen = ({ navigation, uploadFile }) => {
     };
 
     uploadFile(file);
+    await AsyncStorage.removeItem(`${matchID}-word`);
 
     navigation.navigate('Home');
+  };
+
+  const handleReplay = async () => {
+    await AsyncStorage.setItem(`${matchID}-word`, match.replayWord);
+    setWord(match.replayWord);
+    removeReplayWord();
+  };
+
+  const removeReplayWord = () => {
+    const properties = JSON.stringify({ replayWord: '' });
+    updateMatch({ variables: { matchID, properties } });
   };
 
   const waitForCountdown = () => setCounting(true);
@@ -240,6 +266,13 @@ const CameraScreen = ({ navigation, uploadFile }) => {
       {isCounting ? <CountdownPopup onEnd={handleCountdownEnd} /> : null}
       {isRecording && cameraType === frontType && flash === flashOn ? (
         <View style={styles.frontFlash} />
+      ) : null}
+      {displayReplay ? (
+        <ReplayModal
+          question={`${opponent.username} couldn't guess ${match.replayWord} and asked you to replay it. Do you want to replay that word?`}
+          close={closeReplay}
+          handleReplay={handleReplay}
+        />
       ) : null}
     </View>
   );
