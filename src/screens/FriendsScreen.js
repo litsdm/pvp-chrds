@@ -37,7 +37,7 @@ const fuzzyOptions = {
   distance: 100,
   maxPatternLength: 32,
   minMatchCharLength: 3,
-  keys: ['username', 'email']
+  keys: ['username']
 };
 
 const FriendsScreen = ({ navigation, showPlay, openAdd }) => {

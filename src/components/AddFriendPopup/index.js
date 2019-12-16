@@ -23,7 +23,7 @@ const fuzzyOptions = {
   distance: 100,
   maxPatternLength: 32,
   minMatchCharLength: 3,
-  keys: ['username', 'email']
+  keys: ['username']
 };
 
 const AddFriendPopup = ({ close }) => {

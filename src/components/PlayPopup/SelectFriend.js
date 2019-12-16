@@ -115,7 +115,6 @@ SelectFriend.propTypes = {
     shape({
       _id: string,
       username: string,
-      email: string,
       profilePic: string
     })
   )

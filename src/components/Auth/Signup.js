@@ -15,7 +15,6 @@ const Signup = ({
   goToLogin,
   setState,
   username,
-  email,
   password,
   authorize,
   authorizing
@@ -37,12 +36,6 @@ const Signup = ({
         value={username}
         label="Username"
         iconName="contact"
-      />
-      <Input
-        onChangeText={text => setState('email', text)}
-        value={email}
-        label="Email"
-        iconName="mail"
       />
       <Input
         onChangeText={text => setState('password', text)}
@@ -179,7 +172,6 @@ Signup.propTypes = {
   goToLogin: func.isRequired,
   setState: func.isRequired,
   username: string.isRequired,
-  email: string.isRequired,
   password: string.isRequired,
   authorize: func.isRequired,
   authorizing: bool.isRequired

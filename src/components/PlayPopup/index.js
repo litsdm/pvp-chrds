@@ -21,7 +21,7 @@ const fuzzyOptions = {
   distance: 100,
   maxPatternLength: 32,
   minMatchCharLength: 3,
-  keys: ['username', 'email']
+  keys: ['username']
 };
 
 const PlayPopup = ({ close, category, friend, navigate }) => {
@@ -107,7 +107,7 @@ const PlayPopup = ({ close, category, friend, navigate }) => {
       matchID: matchData.match._id
     });
     close();
-  }
+  };
 
   return (
     <Popup close={close}>

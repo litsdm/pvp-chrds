@@ -5,7 +5,6 @@ export default gql`
     friends(_id: $_id) {
       _id
       username
-      email
       profilePic
     }
   }

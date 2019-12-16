@@ -8,13 +8,13 @@ const Empty = ({ searching, search }) => {
       return {
         title: 'No matches for your search.',
         description:
-          "We couldn't find a friend that matches your search. You can search by email or username."
+          "We couldn't find a friend that matches your search. You can search by username."
       };
 
     if (searching && !search)
       return {
         title: 'Search your already added friends.',
-        description: 'You can search for friends using their email or username'
+        description: 'You can search for friends using their username'
       };
 
     if (!searching)

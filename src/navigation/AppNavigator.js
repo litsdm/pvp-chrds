@@ -4,7 +4,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import MainTabNavigator from './MainTabNavigator';
 
 import AuthScreen from '../screens/AuthScreen';
-import AuthEmailScreen from '../screens/AuthEmailScreen';
+import AuthUsernameScreen from '../screens/AuthUsernameScreen';
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 
 const AuthStack = createStackNavigator(
@@ -13,7 +13,7 @@ const AuthStack = createStackNavigator(
       screen: AuthScreen
     },
     AuthEmail: {
-      screen: AuthEmailScreen
+      screen: AuthUsernameScreen
     }
   },
   {

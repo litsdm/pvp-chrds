@@ -4,7 +4,6 @@ export default gql`
   {
     users {
       _id
-      email
       username
       profilePic
     }

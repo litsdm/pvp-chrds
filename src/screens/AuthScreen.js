@@ -28,9 +28,9 @@ const AuthScreen = ({ navigation }) => {
           <Ionicons name="logo-facebook" size={30} color="#fff" />
           <Text style={styles.fbText}>Sign up with Facebook</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.emailButton} onPress={goToSignUp}>
-          <Ionicons name={`${PRE_ICON}-mail`} size={30} color="#7C4DFF" />
-          <Text style={styles.emailText}>Sign up with email</Text>
+        <TouchableOpacity style={styles.usernameButton} onPress={goToSignUp}>
+          <Ionicons name={`${PRE_ICON}-contact`} size={30} color="#7C4DFF" />
+          <Text style={styles.usernameText}>Sign up with username</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.loginButton} onPress={goToLogin}>
           <Text style={styles.loginText}>
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     marginLeft: 12
   },
-  emailButton: {
+  usernameButton: {
     alignItems: 'center',
     borderWidth: 1,
     borderColor: '#7C4DFF',
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     width: Layout.window.width - 48
   },
-  emailText: {
+  usernameText: {
     color: '#7C4DFF',
     fontFamily: 'sf-medium',
     fontSize: 22,

@@ -10,7 +10,7 @@ import Input from './Input';
 const Login = ({
   goToSignup,
   setState,
-  email,
+  username,
   password,
   authorize,
   authorizing
@@ -25,13 +25,13 @@ const Login = ({
         style={styles.logo}
       />
     </View>
-    <Text style={styles.title}>Login with Email</Text>
+    <Text style={styles.title}>Login with Username</Text>
     <View style={styles.content}>
       <Input
-        onChangeText={text => setState('email', text)}
-        value={email}
-        label="Email"
-        iconName="mail"
+        onChangeText={text => setState('username', text)}
+        value={username}
+        label="Username"
+        iconName="contact"
       />
       <Input
         onChangeText={text => setState('password', text)}
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
 Login.propTypes = {
   goToSignup: func.isRequired,
   setState: func.isRequired,
-  email: string.isRequired,
+  username: string.isRequired,
   password: string.isRequired,
   authorize: func.isRequired,
   authorizing: bool.isRequired

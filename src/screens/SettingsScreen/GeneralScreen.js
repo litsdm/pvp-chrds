@@ -34,7 +34,7 @@ const GeneralScreen = ({ navigation, displayBadge }) => {
   const [newUsername, setNewUsername] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const { _id, email, username } = data ? data.user : {};
+  const { _id, username } = data ? data.user : {};
 
   useEffect(() => {
     fetchUser();
@@ -160,16 +160,6 @@ const GeneralScreen = ({ navigation, displayBadge }) => {
             size={24}
           />
         </TouchableOpacity>
-      </View>
-      <View style={styles.group}>
-        <Text style={styles.title}>EMAIL</Text>
-        <View style={styles.row}>
-          <Text style={[styles.rowText, styles.disabled]}>{email}</Text>
-        </View>
-        <Text style={styles.note}>
-          Emails are unchangeable at the moment, if you have any issue please
-          contact support.
-        </Text>
       </View>
       <TouchableOpacity style={styles.row} onPress={showPasswordModal}>
         <Text style={styles.rowText}>Change Password</Text>

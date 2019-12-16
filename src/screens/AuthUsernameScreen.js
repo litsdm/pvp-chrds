@@ -21,11 +21,10 @@ const mapDispatchToProps = dispatch => ({
   displayBadge: message => dispatch(toggleBadge(true, message, 'error'))
 });
 
-const AuthEmailScreen = ({ navigation, displayBadge }) => {
+const AuthUsernameScreen = ({ navigation, displayBadge }) => {
   const isNewParam = JSON.stringify(navigation.getParam('isNew', true));
   const [isNew, setNew] = useState(isNewParam === 'true');
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [authorizing, setAuthorizing] = useState(false);
 
@@ -35,8 +34,6 @@ const AuthEmailScreen = ({ navigation, displayBadge }) => {
     switch (property) {
       case 'username':
         return setUsername(value);
-      case 'email':
-        return setEmail(value);
       case 'password':
         return setPassword(value);
       default:
@@ -47,7 +44,7 @@ const AuthEmailScreen = ({ navigation, displayBadge }) => {
   const callLogin = async () => {
     try {
       const payload = {
-        email,
+        username,
         password
       };
       const response = await callApi('login', payload, 'POST');
@@ -64,7 +61,6 @@ const AuthEmailScreen = ({ navigation, displayBadge }) => {
   const callSignup = async () => {
     try {
       const payload = {
-        email,
         password,
         username
       };
@@ -81,19 +77,12 @@ const AuthEmailScreen = ({ navigation, displayBadge }) => {
     }
   };
 
-  const validateEmail = emailStr => {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(emailStr).toLowerCase());
-  };
-
   const validate = () => {
     let errorMessage = '';
 
-    if (email === '') errorMessage = 'Please enter your email.';
+    if (username === '') errorMessage = 'Please enter your username.';
     if (password === '') errorMessage = 'Please enter your password.';
 
-    if (username === '' && isNew) errorMessage = 'Please enter your username.';
-    if (!validateEmail(email) && isNew) errorMessage = 'Email is invalid.';
     if (password.length < 3 && isNew)
       errorMessage = 'Password must be at least 3 characters long.';
 
@@ -165,7 +154,6 @@ const AuthEmailScreen = ({ navigation, displayBadge }) => {
             goToLogin={toggleScreen}
             setState={setState}
             username={username}
-            email={email}
             password={password}
             authorize={authorize}
             authorizing={authorizing}
@@ -174,7 +162,7 @@ const AuthEmailScreen = ({ navigation, displayBadge }) => {
           <Login
             goToSignup={toggleScreen}
             setState={setState}
-            email={email}
+            username={username}
             password={password}
             authorize={authorize}
             authorizing={authorizing}
@@ -196,7 +184,7 @@ const styles = StyleSheet.create({
   }
 });
 
-AuthEmailScreen.propTypes = {
+AuthUsernameScreen.propTypes = {
   navigation: object.isRequired,
   displayBadge: func.isRequired
 };
@@ -204,4 +192,4 @@ AuthEmailScreen.propTypes = {
 export default connect(
   null,
   mapDispatchToProps
-)(AuthEmailScreen);
+)(AuthUsernameScreen);
