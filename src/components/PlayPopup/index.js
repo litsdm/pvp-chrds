@@ -83,8 +83,11 @@ const PlayPopup = ({ close, category, friend, navigate }) => {
   };
 
   const handleDone = async () => {
+    let finalCategory = selectedCategory;
     if (selectedCategory === '-1') {
-      // handleRandom category
+      const randomIndex = Math.floor(Math.random() * categories.length);
+      finalCategory = categories[randomIndex]._id;
+      await setSelectedCategory(finalCategory);
     }
     if (selectedFriend === '-1') {
       // handle random opponent
@@ -92,7 +95,7 @@ const PlayPopup = ({ close, category, friend, navigate }) => {
 
     const variables = {
       players: [user._id, selectedFriend],
-      category: selectedCategory,
+      category: finalCategory,
       turn: user._id,
       score: JSON.stringify({ [user._id]: 0, [selectedFriend]: 0 })
     };
