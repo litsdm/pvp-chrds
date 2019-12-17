@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { func, number } from 'prop-types';
 
 import { useAnimation } from '../../helpers/hooks';
@@ -49,6 +49,12 @@ const EndOverlay = ({ medalCount, remove, goHome }) => {
           <Text style={styles.count}>{medalCount + 3}</Text>
           <MedalIcon width={18} height={18} />
           <Text style={styles.rowText}>Medals</Text>
+        </View>
+        <View style={styles.row}>
+          <Ionicons size={16} color="#fff" name={`${PRE_ICON}-add`} />
+          <Text style={styles.count}>5</Text>
+          <FontAwesome5 name="coins" size={18} color="#FFC107" />
+          <Text style={styles.rowText}>Coins</Text>
         </View>
       </View>
       <TouchableOpacity style={styles.buttonPrimary} onPress={goHome}>

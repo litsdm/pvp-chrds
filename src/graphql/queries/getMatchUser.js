@@ -8,6 +8,7 @@ export default gql`
       xp
       nextXP
       wonGames
+      coins
     }
   }
 `;

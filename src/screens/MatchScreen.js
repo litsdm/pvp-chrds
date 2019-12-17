@@ -138,13 +138,14 @@ const MatchScreen = ({ navigation }) => {
     const gameWon = userScore === 3;
     const xp = gameWon ? user.xp + medals : user.xp + medals + 3;
     const wonGames = gameWon ? user.wonGames + 1 : user.wonGames;
+    const coins = gameWon ? user.coins + 5 : user.coins
 
     const matchProperties = JSON.stringify({
       state: gameWon ? 'end' : 'play',
       score: newScore,
       actedWord: ''
     });
-    const userProperties = JSON.stringify({ xp, wonGames });
+    const userProperties = JSON.stringify({ xp, wonGames, coins });
 
     await setMedalCount(medals);
     await setGameState(gameWon ? 'end' : 'finished');
