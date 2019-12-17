@@ -8,6 +8,8 @@ import { func, string } from 'prop-types';
 import GET_DATA from '../../graphql/queries/getPlayPopupData';
 import CREATE_MATCH from '../../graphql/mutations/createMatch';
 
+import callApi from '../../helpers/apiCaller';
+
 import Popup from '../Popup';
 import SelectCategory from './SelectCategory';
 import SelectFriend from './SelectFriend';
@@ -82,22 +84,36 @@ const PlayPopup = ({ close, category, friend, navigate }) => {
     setPage(1);
   };
 
+  const fetchRandomOpponent = async () => {
+    try {
+      const response = await callApi(`randomOpponent?userID=${user._id}`);
+      const { opponent } = await response.json();
+      return opponent;
+    } catch (exception) {
+      // display badge
+    }
+  };
+
   const handleDone = async () => {
     let finalCategory = selectedCategory;
+    let opponent = selectedFriend;
     if (selectedCategory === '-1') {
       const randomIndex = Math.floor(Math.random() * categories.length);
       finalCategory = categories[randomIndex]._id;
       await setSelectedCategory(finalCategory);
     }
     if (selectedFriend === '-1') {
-      // handle random opponent
+      opponent = await fetchRandomOpponent();
+      await setSelectedFriend(opponent);
     }
 
+    if (!opponent) return;
+
     const variables = {
-      players: [user._id, selectedFriend],
+      players: [user._id, opponent],
       category: finalCategory,
       turn: user._id,
-      score: JSON.stringify({ [user._id]: 0, [selectedFriend]: 0 })
+      score: JSON.stringify({ [user._id]: 0, [opponent]: 0 })
     };
 
     await createMatch({ variables });
