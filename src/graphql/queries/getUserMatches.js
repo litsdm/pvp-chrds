@@ -9,6 +9,7 @@ export default gql`
       video
       score
       state
+      removedBy
       category {
         _id
         image

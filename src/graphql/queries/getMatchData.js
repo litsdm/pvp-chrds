@@ -20,6 +20,7 @@ export default gql`
       score
       video
       actedWord
+      removedBy
     }
   }
 `;

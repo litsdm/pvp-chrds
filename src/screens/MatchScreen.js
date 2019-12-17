@@ -19,14 +19,16 @@ import GET_DATA from '../graphql/queries/getMatchData';
 import GET_USER from '../graphql/queries/getMatchUser';
 import UPDATE_DATA from '../graphql/mutations/updateMatchScreenData';
 import UPDATE_MATCH from '../graphql/mutations/updateMatch';
+import DELETE_MATCH from '../graphql/mutations/deleteMatch';
 
-import { getSignedUrl } from '../helpers/apiCaller';
+import callApi, { getSignedUrl } from '../helpers/apiCaller';
 
 import TopControls from '../components/Camera/TopControls';
 import LetterSoup from '../components/Match/LetterSoup';
 import TimeBar from '../components/Match/TimeBar';
 import SuccessOverlay from '../components/Match/SuccessOverlay';
 import FailOverlay from '../components/Match/FailOverlay';
+import EndOverlay from '../components/Match/EndOverlay';
 
 const { front } = Camera.Constants.Type;
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
@@ -45,6 +47,7 @@ const MatchScreen = ({ navigation }) => {
   });
   const [updateData] = useMutation(UPDATE_DATA);
   const [updateMatch] = useMutation(UPDATE_MATCH);
+  const [deleteMatch] = useMutation(DELETE_MATCH);
   const [gameState, setGameState] = useState('awaitUser');
   const [playCount, setPlayCount] = useState(0);
   const [uriFlag, setUriFlag] = useState(false);
@@ -103,20 +106,48 @@ const MatchScreen = ({ navigation }) => {
     updateMatch({ variables: { matchID, properties } });
   };
 
+  const handleDelete = async () => {
+    const removedBy = [...match.removedBy, userID];
+    const properties = JSON.stringify({ removedBy });
+
+    await updateMatch({ variables: { matchID, properties } });
+
+    if (match.removedBy.length >= 1)
+      deleteMatch({ variables: { _id: matchID } });
+
+    handleGoHome();
+  };
+
+  const handleGoHome = () => {
+    const payload = {
+      folder: 'Videos',
+      isStatic: false,
+      filename: `${matchID}-round`
+    };
+
+    callApi('s3/delete', payload, 'POST');
+
+    goBack();
+  };
+
   const handleSuccess = async () => {
     const score = JSON.parse(match.score);
-    const newScore = JSON.stringify({ ...score, [userID]: score[userID] + 1 });
+    const userScore = score[userID] + 1;
+    const newScore = JSON.stringify({ ...score, [userID]: userScore });
     const medals = getMedalCount();
+    const gameWon = userScore === 3;
+    const xp = gameWon ? user.xp + medals : user.xp + medals + 3;
+    const wonGames = gameWon ? user.wonGames + 1 : user.wonGames;
 
     const matchProperties = JSON.stringify({
-      state: 'play',
+      state: gameWon ? 'end' : 'play',
       score: newScore,
       actedWord: ''
     });
-    const userProperties = JSON.stringify({ xp: user.xp + medals });
+    const userProperties = JSON.stringify({ xp, wonGames });
 
     await setMedalCount(medals);
-    await setGameState('finished');
+    await setGameState(gameWon ? 'end' : 'finished');
 
     await updateData({
       variables: { userID, matchID, userProperties, matchProperties }
@@ -182,13 +213,13 @@ const MatchScreen = ({ navigation }) => {
           </View>
         ) : null}
         {playCount > 0 &&
-        gameState !== 'guessing' &&
-        gameState !== 'finished' ? (
-          <TouchableOpacity style={styles.guessButton} onPress={switchToGuess}>
-            <Text style={styles.buttonText}>Guess Word</Text>
-            <Ionicons name="ios-arrow-forward" color="#7c4dff" size={18} />
-          </TouchableOpacity>
-        ) : null}
+          gameState !== 'guessing' &&
+          gameState !== 'finished' ? (
+            <TouchableOpacity style={styles.guessButton} onPress={switchToGuess}>
+              <Text style={styles.buttonText}>Guess Word</Text>
+              <Ionicons name="ios-arrow-forward" color="#7c4dff" size={18} />
+            </TouchableOpacity>
+          ) : null}
         <TopControls
           goBack={goBack}
           iconName="ios-arrow-round-back"
@@ -229,6 +260,9 @@ const MatchScreen = ({ navigation }) => {
             playNext={goToCamera}
             handleReplay={handleReplay}
           />
+        ) : null}
+        {gameState === 'end' ? (
+          <EndOverlay goHome={handleGoHome} medalCount={medalCount} remove={handleDelete} />
         ) : null}
       </View>
     </View>

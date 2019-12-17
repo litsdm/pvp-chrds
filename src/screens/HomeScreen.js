@@ -104,6 +104,13 @@ const HomeScreen = ({
           match => match._id === updatedItem._id
         );
         if (index === -1) return prevData;
+        if (updatedItem.removedBy.includes(user._id))
+          return {
+            matches: [
+              ...prevData.matches.slice(0, index),
+              ...prevData.matches.slice(index + 1)
+            ]
+          };
         return {
           matches: [
             ...prevData.matches.slice(0, index),
