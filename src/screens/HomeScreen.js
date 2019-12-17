@@ -10,7 +10,7 @@ import {
   View
 } from 'react-native';
 import { connect } from 'react-redux';
-import { useLazyQuery } from '@apollo/react-hooks';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment';
@@ -21,12 +21,15 @@ import GET_USER from '../graphql/queries/getUserFromToken';
 import GET_USER_MATCHES from '../graphql/queries/getUserMatches';
 import CREATED_MATCH from '../graphql/subscriptions/createdMatch';
 import UPDATED_MATCH from '../graphql/subscriptions/updatedMatch';
+import UPDATE_MATCH from '../graphql/mutations/updateMatch';
+import DELETE_MATCH from '../graphql/mutations/deleteMatch';
 
 import { togglePlay, toggleNetworkModal } from '../actions/popup';
 
 import AnimatedCircle from '../components/AnimatedCircle';
 import ProgressBar from '../components/LevelProgressBar';
 import MatchRow from '../components/MatchRow';
+import FinishedMatchRow from '../components/FinishedMatchRow';
 import Loader from '../components/Loader';
 import Empty from '../components/Empty';
 
@@ -55,6 +58,8 @@ const HomeScreen = ({
   const [imageID, setImageID] = useState('');
   const [matches, setMatches] = useState(null);
   const [didSubscribe, setDidSubscribe] = useState(false);
+  const [updateMatch] = useMutation(UPDATE_MATCH);
+  const [deleteMatch] = useMutation(DELETE_MATCH);
   const user = data ? data.user : {};
 
   useEffect(() => {
@@ -130,16 +135,19 @@ const HomeScreen = ({
 
   const separateMatches = () => {
     const yourTurn = matchesData.matches.filter(
-      match => match.turn === user._id
+      match => match.turn === user._id && match.state !== 'end'
     );
 
     const theirTurn = matchesData.matches.filter(
-      match => match.turn !== user._id
+      match => match.turn !== user._id && match.state !== 'end'
     );
+
+    const finished = matchesData.matches.filter(match => match.state === 'end');
 
     setMatches([
       { title: 'Your Turn', data: yourTurn },
-      { title: 'Their Turn', data: theirTurn }
+      { title: 'Their Turn', data: theirTurn },
+      { title: 'Finished Matches', data: finished }
     ]);
   };
 
@@ -160,6 +168,16 @@ const HomeScreen = ({
     });
   };
 
+  const handleDelete = match => async () => {
+    const removedBy = [...match.removedBy, user._id];
+    const properties = JSON.stringify({ removedBy });
+
+    await updateMatch({ variables: { matchID: match._id, properties } });
+
+    if (match.removedBy.length >= 1)
+      deleteMatch({ variables: { _id: match._id } });
+  };
+
   const getOpponent = players => {
     if (players[0]._id === user._id) return players[1];
     return players[0];
@@ -171,7 +189,7 @@ const HomeScreen = ({
     const opponent = getOpponent(players);
     const jsonScore = JSON.parse(score);
     const stringScore = `${jsonScore[user._id]} - ${jsonScore[opponent._id]}`;
-    return (
+    return title !== 'Finished Matches' ? (
       <MatchRow
         score={stringScore}
         categoryUri={category.image}
@@ -180,6 +198,13 @@ const HomeScreen = ({
         expiryDate={moment(new Date(expiresOn))}
         onPress={title === 'Your Turn' ? handlePlay(args.item, opponent) : null}
       />
+    ) : (
+      <FinishedMatchRow
+        score={stringScore}
+        username={opponent.username}
+        uri={opponent.profilePic}
+        onPress={handleDelete(args.item)}
+      />
     );
   };
 
@@ -187,6 +212,8 @@ const HomeScreen = ({
     const { title } = args.section;
     if (title === 'Your Turn' && matches[0].data.length === 0) return null;
     if (title === 'Their Turn' && matches[1].data.length === 0) return null;
+    if (title === 'Finished Matches' && matches[2].data.length === 0)
+      return null;
 
     return <Text style={styles.title}>{title}</Text>;
   };
@@ -269,7 +296,8 @@ const HomeScreen = ({
             ) : (
               <View style={styles.lists}>
                 {(matches[0] && matches[0].data.length > 0) ||
-                (matches[1] && matches[1].data.length > 0) ? (
+                (matches[1] && matches[1].data.length > 0) ||
+                (matches[2] && matches[2].data.length > 0) ? (
                   <SectionList
                     sections={matches}
                     keyExtractor={item => item._id}

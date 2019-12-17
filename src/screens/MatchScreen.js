@@ -48,7 +48,7 @@ const MatchScreen = ({ navigation }) => {
   const [updateData] = useMutation(UPDATE_DATA);
   const [updateMatch] = useMutation(UPDATE_MATCH);
   const [deleteMatch] = useMutation(DELETE_MATCH);
-  const [gameState, setGameState] = useState('awaitUser');
+  const [gameState, setGameState] = useState('end');
   const [playCount, setPlayCount] = useState(0);
   const [uriFlag, setUriFlag] = useState(false);
   const [buffering, setBuffering] = useState(true);
@@ -122,7 +122,7 @@ const MatchScreen = ({ navigation }) => {
     const payload = {
       folder: 'Videos',
       isStatic: false,
-      filename: `${matchID}-round`
+      filename: `${matchID}-round.mp4`
     };
 
     callApi('s3/delete', payload, 'POST');
@@ -213,13 +213,13 @@ const MatchScreen = ({ navigation }) => {
           </View>
         ) : null}
         {playCount > 0 &&
-          gameState !== 'guessing' &&
-          gameState !== 'finished' ? (
-            <TouchableOpacity style={styles.guessButton} onPress={switchToGuess}>
-              <Text style={styles.buttonText}>Guess Word</Text>
-              <Ionicons name="ios-arrow-forward" color="#7c4dff" size={18} />
-            </TouchableOpacity>
-          ) : null}
+        gameState !== 'guessing' &&
+        gameState !== 'finished' ? (
+          <TouchableOpacity style={styles.guessButton} onPress={switchToGuess}>
+            <Text style={styles.buttonText}>Guess Word</Text>
+            <Ionicons name="ios-arrow-forward" color="#7c4dff" size={18} />
+          </TouchableOpacity>
+        ) : null}
         <TopControls
           goBack={goBack}
           iconName="ios-arrow-round-back"
@@ -262,7 +262,11 @@ const MatchScreen = ({ navigation }) => {
           />
         ) : null}
         {gameState === 'end' ? (
-          <EndOverlay goHome={handleGoHome} medalCount={medalCount} remove={handleDelete} />
+          <EndOverlay
+            goHome={handleGoHome}
+            medalCount={medalCount}
+            remove={handleDelete}
+          />
         ) : null}
       </View>
     </View>
