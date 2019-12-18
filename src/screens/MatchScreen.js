@@ -29,6 +29,7 @@ import TimeBar from '../components/Match/TimeBar';
 import SuccessOverlay from '../components/Match/SuccessOverlay';
 import FailOverlay from '../components/Match/FailOverlay';
 import EndOverlay from '../components/Match/EndOverlay';
+import PowerUps from '../components/Match/PowerUps';
 
 const { front } = Camera.Constants.Type;
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
@@ -48,7 +49,7 @@ const MatchScreen = ({ navigation }) => {
   const [updateData] = useMutation(UPDATE_DATA);
   const [updateMatch] = useMutation(UPDATE_MATCH);
   const [deleteMatch] = useMutation(DELETE_MATCH);
-  const [gameState, setGameState] = useState('end');
+  const [gameState, setGameState] = useState('awaitUser');
   const [playCount, setPlayCount] = useState(0);
   const [uriFlag, setUriFlag] = useState(false);
   const [buffering, setBuffering] = useState(true);
@@ -214,13 +215,13 @@ const MatchScreen = ({ navigation }) => {
           </View>
         ) : null}
         {playCount > 0 &&
-        gameState !== 'guessing' &&
-        gameState !== 'finished' ? (
-          <TouchableOpacity style={styles.guessButton} onPress={switchToGuess}>
-            <Text style={styles.buttonText}>Guess Word</Text>
-            <Ionicons name="ios-arrow-forward" color="#7c4dff" size={18} />
-          </TouchableOpacity>
-        ) : null}
+          gameState !== 'guessing' &&
+          gameState !== 'finished' ? (
+            <TouchableOpacity style={styles.guessButton} onPress={switchToGuess}>
+              <Text style={styles.buttonText}>Guess Word</Text>
+              <Ionicons name="ios-arrow-forward" color="#7c4dff" size={18} />
+            </TouchableOpacity>
+          ) : null}
         <TopControls
           goBack={goBack}
           iconName="ios-arrow-round-back"
@@ -244,6 +245,7 @@ const MatchScreen = ({ navigation }) => {
               setResultStatus={setResultStatus}
               onSuccess={handleSuccess}
             />
+            <PowerUps />
           </>
         ) : null}
         {gameState === 'finished' && resultStatus === 1 ? (

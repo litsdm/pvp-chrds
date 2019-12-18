@@ -171,7 +171,8 @@ const CameraScreen = ({ navigation, uploadFile }) => {
     if (camera.current === null) return;
     setRecording(true);
     const { uri } = await camera.current.recordAsync({
-      maxDuration: 5,
+      quality: Camera.Constants.VideoQuality['480p'],
+      maxDuration: 6,
       mute: true
     });
     setState({ isRecording: false, videoUri: uri });
