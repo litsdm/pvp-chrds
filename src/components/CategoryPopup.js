@@ -72,7 +72,7 @@ const CategoryPopup = ({
 
     while (Object.keys(selectedWords).length < 3) {
       const randomIndex = Math.floor(Math.random() * words.length);
-      const randomWord = words[randomIndex];
+      const randomWord = words[randomIndex].text;
 
       if (!selectedWords[randomWord]) selectedWords[randomWord] = 1;
     }
@@ -209,7 +209,13 @@ CategoryPopup.propTypes = {
   name: string.isRequired,
   description: string.isRequired,
   image: string.isRequired,
-  words: arrayOf(string).isRequired,
+  words: arrayOf(
+    shape({
+      _id: string,
+      hint: string,
+      text: string
+    })
+  ).isRequired,
   play: func.isRequired,
   transitionPosition: shape({
     x: number,

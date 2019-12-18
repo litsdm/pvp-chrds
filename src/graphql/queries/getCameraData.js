@@ -9,7 +9,11 @@ export default gql`
     category(_id: $categoryID) {
       _id
       image
-      words
+      words {
+        _id
+        text
+        hint
+      }
     }
     opponent: userByID(_id: $opponentID) {
       _id
@@ -19,7 +23,11 @@ export default gql`
     match(_id: $matchID) {
       _id
       score
-      replayWord
+      replayWord {
+        _id
+        text
+        hint
+      }
     }
   }
 `;

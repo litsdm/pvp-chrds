@@ -162,7 +162,7 @@ const MatchScreen = ({ navigation }) => {
   const handleSlowDown = () => setMilis(150);
 
   const handleReplay = () => {
-    const properties = JSON.stringify({ replayWord: match.actedWord });
+    const properties = JSON.stringify({ replayWord: match.actedWord._id });
     updateMatch({ variables: { matchID, properties } });
   };
 
@@ -244,7 +244,7 @@ const MatchScreen = ({ navigation }) => {
               milis={milis}
             />
             <LetterSoup
-              word={match.actedWord.toUpperCase()}
+              word={match.actedWord.text.toUpperCase()}
               resultStatus={resultStatus}
               setResultStatus={setResultStatus}
               onSuccess={handleSuccess}

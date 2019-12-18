@@ -19,7 +19,11 @@ export default gql`
       _id
       score
       video
-      actedWord
+      actedWord {
+        _id
+        text
+        hint
+      }
       removedBy
     }
   }

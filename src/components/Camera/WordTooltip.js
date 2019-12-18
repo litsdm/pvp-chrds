@@ -53,7 +53,11 @@ const styles = StyleSheet.create({
 });
 
 WordTooltip.propTypes = {
-  word: string.isRequired
+  word: string
+};
+
+WordTooltip.defaultProps = {
+  word: ''
 };
 
 export default WordTooltip;

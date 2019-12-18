@@ -8,7 +8,11 @@ export default gql`
       description
       image
       color
-      words
+      words {
+        _id
+        text
+        hint
+      }
     }
   }
 `;

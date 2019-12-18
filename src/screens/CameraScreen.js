@@ -87,7 +87,7 @@ const CameraScreen = ({ navigation, uploadFile }) => {
     const storedWord = await AsyncStorage.getItem(`${matchID}-word`);
 
     if (storedWord) {
-      setWord(storedWord);
+      setWord(JSON.parse(storedWord));
       return;
     }
 
@@ -95,7 +95,7 @@ const CameraScreen = ({ navigation, uploadFile }) => {
     const randWord = category.words[randomIndex];
 
     setWord(randWord);
-    AsyncStorage.setItem(`${matchID}-word`, randWord);
+    AsyncStorage.setItem(`${matchID}-word`, JSON.stringify(randWord));
   };
 
   const displayReplayIfNeeded = () => {
@@ -190,7 +190,7 @@ const CameraScreen = ({ navigation, uploadFile }) => {
       type: mime(extension),
       matchID: match._id,
       opponentID: opponent._id,
-      actedWord: word,
+      actedWord: word._id,
       cameraType
     };
 
@@ -201,7 +201,10 @@ const CameraScreen = ({ navigation, uploadFile }) => {
   };
 
   const handleReplay = async () => {
-    await AsyncStorage.setItem(`${matchID}-word`, match.replayWord);
+    await AsyncStorage.setItem(
+      `${matchID}-word`,
+      JSON.stringify(match.replayWord)
+    );
     setWord(match.replayWord);
     removeReplayWord();
   };
@@ -248,7 +251,7 @@ const CameraScreen = ({ navigation, uploadFile }) => {
             cameraAnimationRef={cameraAnimation}
             flashAnimationRef={flashAnimation}
             animationValue={animationValue}
-            word={word}
+            word={word.text}
           />
         </View>
       ) : (
