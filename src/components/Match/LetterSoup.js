@@ -9,7 +9,12 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { bool, func, number, string, shape } from 'prop-types';
 
-import { shuffle, withRandomLetters, whitespaces } from '../../helpers/string';
+import {
+  shuffle,
+  withRandomLetters,
+  whitespaces,
+  getAllIndexes
+} from '../../helpers/string';
 
 import Layout from '../../constants/Layout';
 
@@ -35,10 +40,17 @@ const Letter = ({ character, onPress, size, withBorder, statusStyles }) => (
   </View>
 );
 
-const LetterSoup = ({ word, resultStatus, setResultStatus, onSuccess }) => {
+const LetterSoup = ({
+  word,
+  resultStatus,
+  setResultStatus,
+  onSuccess,
+  exploded
+}) => {
   const [characters, setCharacters] = useState([]);
   const [result, setResult] = useState(Array(word.length).fill(''));
   const [selected, setSelected] = useState({});
+  const [wordIndexes, setWordIndexes] = useState({});
 
   const { spaceCount, positions } = whitespaces(word);
   const totalLength = word.length - spaceCount > 12 ? 16 : 12;
@@ -49,10 +61,34 @@ const LetterSoup = ({ word, resultStatus, setResultStatus, onSuccess }) => {
     prepareWord();
   }, []);
 
+  useEffect(() => {
+    if (characters.length > 0) findWordIndexes();
+  }, [characters]);
+
   const prepareWord = () => {
     const withRandom = withRandomLetters(word);
     const shuffled = shuffle(withRandom);
     setCharacters(shuffled.split(''));
+  };
+
+  const findWordIndexes = () => {
+    const searchLetters = word.split('');
+    const hash = {};
+
+    searchLetters.forEach(letter => {
+      if (letter === ' ') return;
+
+      const indexes = getAllIndexes(characters, letter);
+
+      for (let i = 0; i < indexes.length; i += 1) {
+        if (!hash[indexes[0]]) {
+          hash[indexes[0]] = true;
+          break;
+        }
+      }
+    });
+
+    setWordIndexes(hash);
   };
 
   const selectCharacter = (character, index) => async () => {
@@ -151,7 +187,12 @@ const LetterSoup = ({ word, resultStatus, setResultStatus, onSuccess }) => {
   const renderCharacters = () =>
     characters.map((character, index) => (
       <Letter
-        character={Object.values(selected).includes(index) ? '' : character}
+        character={
+          Object.values(selected).includes(index) ||
+          (exploded && !wordIndexes[index])
+            ? ''
+            : character
+        }
         onPress={selectCharacter(character, index)}
         size={letterSize}
       />
@@ -300,7 +341,12 @@ LetterSoup.propTypes = {
   word: string.isRequired,
   setResultStatus: func.isRequired,
   resultStatus: number.isRequired,
-  onSuccess: func.isRequired
+  onSuccess: func.isRequired,
+  exploded: bool
+};
+
+LetterSoup.defaultProps = {
+  exploded: false
 };
 
 export default LetterSoup;

@@ -59,6 +59,7 @@ const MatchScreen = ({ navigation }) => {
   const [milis, setMilis] = useState(10);
   const [medalCount, setMedalCount] = useState(3);
   const [displayHint, setDisplayHint] = useState(false);
+  const [exploded, setExploded] = useState(false);
   const videoRef = useRef(null);
 
   const category = data ? data.category : {};
@@ -164,6 +165,7 @@ const MatchScreen = ({ navigation }) => {
   const handleSlowDown = () => setMilis(150);
   const showHint = () => setDisplayHint(true);
   const closeHint = () => setDisplayHint(false);
+  const handleBomb = () => setExploded(true);
 
   const handleReplay = () => {
     const properties = JSON.stringify({ replayWord: match.actedWord._id });
@@ -256,8 +258,13 @@ const MatchScreen = ({ navigation }) => {
               resultStatus={resultStatus}
               setResultStatus={setResultStatus}
               onSuccess={handleSuccess}
+              exploded={exploded}
             />
-            <PowerUps slowDown={handleSlowDown} showHint={showHint} />
+            <PowerUps
+              slowDown={handleSlowDown}
+              showHint={showHint}
+              explode={handleBomb}
+            />
           </>
         ) : null}
         {gameState === 'finished' && resultStatus === 1 ? (
