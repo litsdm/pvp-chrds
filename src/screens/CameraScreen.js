@@ -210,7 +210,7 @@ const CameraScreen = ({ navigation, uploadFile }) => {
   };
 
   const removeReplayWord = () => {
-    const properties = JSON.stringify({ replayWord: '' });
+    const properties = JSON.stringify({ replayWord: null });
     updateMatch({ variables: { matchID, properties } });
   };
 

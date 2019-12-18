@@ -30,6 +30,7 @@ import SuccessOverlay from '../components/Match/SuccessOverlay';
 import FailOverlay from '../components/Match/FailOverlay';
 import EndOverlay from '../components/Match/EndOverlay';
 import PowerUps from '../components/Match/PowerUps';
+import Hint from '../components/Match/HintModal';
 
 const { front } = Camera.Constants.Type;
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
@@ -57,6 +58,7 @@ const MatchScreen = ({ navigation }) => {
   const [timeLeft, setTimeLeft] = useState(TIME);
   const [milis, setMilis] = useState(10);
   const [medalCount, setMedalCount] = useState(3);
+  const [displayHint, setDisplayHint] = useState(false);
   const videoRef = useRef(null);
 
   const category = data ? data.category : {};
@@ -145,7 +147,7 @@ const MatchScreen = ({ navigation }) => {
     const matchProperties = JSON.stringify({
       state: gameWon ? 'end' : 'play',
       score: newScore,
-      actedWord: ''
+      actedWord: null
     });
     const userProperties = JSON.stringify({ xp, wonGames, coins });
 
@@ -160,6 +162,8 @@ const MatchScreen = ({ navigation }) => {
   };
 
   const handleSlowDown = () => setMilis(150);
+  const showHint = () => setDisplayHint(true);
+  const closeHint = () => setDisplayHint(false);
 
   const handleReplay = () => {
     const properties = JSON.stringify({ replayWord: match.actedWord._id });
@@ -237,11 +241,15 @@ const MatchScreen = ({ navigation }) => {
         />
         {gameState === 'guessing' ? (
           <>
+            {displayHint ? (
+              <Hint hint={match.actedWord.hint} close={closeHint} />
+            ) : null}
             <TimeBar
               onEnd={handleFailure}
               timeLeft={timeLeft}
               setTimeLeft={setTimeLeft}
               milis={milis}
+              isPaused={displayHint}
             />
             <LetterSoup
               word={match.actedWord.text.toUpperCase()}
@@ -249,7 +257,7 @@ const MatchScreen = ({ navigation }) => {
               setResultStatus={setResultStatus}
               onSuccess={handleSuccess}
             />
-            <PowerUps slowDown={handleSlowDown} />
+            <PowerUps slowDown={handleSlowDown} showHint={showHint} />
           </>
         ) : null}
         {gameState === 'finished' && resultStatus === 1 ? (

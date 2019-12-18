@@ -12,7 +12,7 @@ import { func } from 'prop-types';
 
 import { useAnimation } from '../../helpers/hooks';
 
-const PowerUps = ({ slowDown }) => {
+const PowerUps = ({ slowDown, showHint }) => {
   const { animationValue, animateTo } = useAnimation();
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const PowerUps = ({ slowDown }) => {
           <Text style={styles.infoText}>Hint</Text>
           <View style={styles.triangle} />
         </Animated.View>
-        <TouchableOpacity style={styles.iconButton}>
+        <TouchableOpacity style={styles.iconButton} onPress={showHint}>
           <FontAwesome5 name="info-circle" size={30} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -118,7 +118,8 @@ const styles = StyleSheet.create({
 });
 
 PowerUps.propTypes = {
-  slowDown: func.isRequired
+  slowDown: func.isRequired,
+  showHint: func.isRequired
 };
 
 export default PowerUps;

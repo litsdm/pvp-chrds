@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { LinearGradient } from 'expo-linear-gradient';
-import { func, number } from 'prop-types';
+import { bool, func, number } from 'prop-types';
 
 import Layout from '../../constants/Layout';
 
-const TimeBar = ({ timeLeft, setTimeLeft, onEnd, milis }) => {
-  useCountdown(timeLeft, setTimeLeft, onEnd, milis);
+const TimeBar = ({ timeLeft, setTimeLeft, onEnd, milis, isPaused }) => {
+  useCountdown(timeLeft, setTimeLeft, onEnd, milis, isPaused);
   return (
     <View style={styles.timeBarWrapper}>
       <View style={[styles.timeBar, { width: `${(timeLeft * 100) / 300}%` }]}>
@@ -23,7 +23,7 @@ const TimeBar = ({ timeLeft, setTimeLeft, onEnd, milis }) => {
   );
 };
 
-function useCountdown(timeLeft, setTimeLeft, onEnd, milis) {
+function useCountdown(timeLeft, setTimeLeft, onEnd, milis, isPaused) {
   let interval;
 
   useEffect(() => {
@@ -33,6 +33,7 @@ function useCountdown(timeLeft, setTimeLeft, onEnd, milis) {
   useEffect(() => {
     interval = setInterval(() => {
       setTimeLeft(current => {
+        if (isPaused) return current;
         if (current <= 0) {
           clearInterval(interval);
           onEnd();
@@ -74,12 +75,14 @@ TimeBar.propTypes = {
   onEnd: func.isRequired,
   timeLeft: number,
   setTimeLeft: func.isRequired,
-  milis: number
+  milis: number,
+  isPaused: bool
 };
 
 TimeBar.defaultProps = {
   timeLeft: 300,
-  milis: 10
+  milis: 10,
+  isPaused: false
 };
 
 export default TimeBar;
