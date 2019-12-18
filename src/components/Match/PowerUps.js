@@ -8,10 +8,11 @@ import {
 } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { func } from 'prop-types';
 
 import { useAnimation } from '../../helpers/hooks';
 
-const PowerUps = () => {
+const PowerUps = ({ slowDown }) => {
   const { animationValue, animateTo } = useAnimation();
 
   useEffect(() => {
@@ -41,7 +42,7 @@ const PowerUps = () => {
           <Text style={styles.infoText}>Hourglass - Slower countdown.</Text>
           <View style={styles.triangle} />
         </Animated.View>
-        <TouchableOpacity style={styles.iconButton}>
+        <TouchableOpacity style={styles.iconButton} onPress={slowDown}>
           <FontAwesome5 name="hourglass-half" size={30} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -115,5 +116,9 @@ const styles = StyleSheet.create({
     width: 0
   }
 });
+
+PowerUps.propTypes = {
+  slowDown: func.isRequired
+};
 
 export default PowerUps;

@@ -55,6 +55,7 @@ const MatchScreen = ({ navigation }) => {
   const [buffering, setBuffering] = useState(true);
   const [resultStatus, setResultStatus] = useState(0);
   const [timeLeft, setTimeLeft] = useState(TIME);
+  const [milis, setMilis] = useState(10);
   const [medalCount, setMedalCount] = useState(3);
   const videoRef = useRef(null);
 
@@ -139,7 +140,7 @@ const MatchScreen = ({ navigation }) => {
     const gameWon = userScore === 3;
     const xp = gameWon ? user.xp + medals : user.xp + medals + 3;
     const wonGames = gameWon ? user.wonGames + 1 : user.wonGames;
-    const coins = gameWon ? user.coins + 5 : user.coins
+    const coins = gameWon ? user.coins + 5 : user.coins;
 
     const matchProperties = JSON.stringify({
       state: gameWon ? 'end' : 'play',
@@ -157,6 +158,8 @@ const MatchScreen = ({ navigation }) => {
 
     refetchUser();
   };
+
+  const handleSlowDown = () => setMilis(150);
 
   const handleReplay = () => {
     const properties = JSON.stringify({ replayWord: match.actedWord });
@@ -238,6 +241,7 @@ const MatchScreen = ({ navigation }) => {
               onEnd={handleFailure}
               timeLeft={timeLeft}
               setTimeLeft={setTimeLeft}
+              milis={milis}
             />
             <LetterSoup
               word={match.actedWord.toUpperCase()}
@@ -245,7 +249,7 @@ const MatchScreen = ({ navigation }) => {
               setResultStatus={setResultStatus}
               onSuccess={handleSuccess}
             />
-            <PowerUps />
+            <PowerUps slowDown={handleSlowDown} />
           </>
         ) : null}
         {gameState === 'finished' && resultStatus === 1 ? (

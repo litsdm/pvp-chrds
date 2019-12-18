@@ -6,8 +6,8 @@ import { func, number } from 'prop-types';
 
 import Layout from '../../constants/Layout';
 
-const TimeBar = ({ timeLeft, setTimeLeft, onEnd }) => {
-  useCountdown(timeLeft, setTimeLeft, onEnd);
+const TimeBar = ({ timeLeft, setTimeLeft, onEnd, milis }) => {
+  useCountdown(timeLeft, setTimeLeft, onEnd, milis);
   return (
     <View style={styles.timeBarWrapper}>
       <View style={[styles.timeBar, { width: `${(timeLeft * 100) / 300}%` }]}>
@@ -23,8 +23,12 @@ const TimeBar = ({ timeLeft, setTimeLeft, onEnd }) => {
   );
 };
 
-function useCountdown(timeLeft, setTimeLeft, onEnd) {
+function useCountdown(timeLeft, setTimeLeft, onEnd, milis) {
   let interval;
+
+  useEffect(() => {
+    if (interval) clearInterval(interval);
+  }, [milis]);
 
   useEffect(() => {
     interval = setInterval(() => {
@@ -37,7 +41,7 @@ function useCountdown(timeLeft, setTimeLeft, onEnd) {
 
         return current - 1;
       });
-    }, 75);
+    }, milis);
 
     return () => clearInterval(interval);
   });
@@ -69,11 +73,13 @@ const styles = StyleSheet.create({
 TimeBar.propTypes = {
   onEnd: func.isRequired,
   timeLeft: number,
-  setTimeLeft: func.isRequired
+  setTimeLeft: func.isRequired,
+  milis: number
 };
 
 TimeBar.defaultProps = {
-  timeLeft: 300
+  timeLeft: 300,
+  milis: 10
 };
 
 export default TimeBar;
