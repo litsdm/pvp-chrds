@@ -45,7 +45,9 @@ const LetterSoup = ({
   resultStatus,
   setResultStatus,
   onSuccess,
-  exploded
+  exploded,
+  fillActive,
+  setFillActive
 }) => {
   const [characters, setCharacters] = useState([]);
   const [result, setResult] = useState(Array(word.length).fill(''));
@@ -65,6 +67,13 @@ const LetterSoup = ({
     if (characters.length > 0) findWordIndexes();
   }, [characters]);
 
+  useEffect(() => {
+    if (fillActive) {
+      fillLetters();
+      setFillActive(false);
+    }
+  }, [fillActive]);
+
   const prepareWord = () => {
     const withRandom = withRandomLetters(word);
     const shuffled = shuffle(withRandom);
@@ -81,14 +90,47 @@ const LetterSoup = ({
       const indexes = getAllIndexes(characters, letter);
 
       for (let i = 0; i < indexes.length; i += 1) {
-        if (!hash[indexes[0]]) {
-          hash[indexes[0]] = true;
+        if (!hash[indexes[i]]) {
+          hash[indexes[i]] = characters[indexes[i]];
           break;
         }
       }
     });
 
     setWordIndexes(hash);
+  };
+
+  const fillLetters = () => {
+    const indexes = Object.keys(wordIndexes);
+    const selectedArr = Object.values(selected);
+    let newResult = [...result];
+    let newSelected = { ...selected };
+    let count = 0;
+
+    for (let i = 0; i < indexes.length; i += 1) {
+      const index = parseInt(indexes[i], 10);
+      if (!selectedArr.includes(index)) {
+        const char = wordIndexes[index];
+        const charIndex = word.indexOf(char);
+
+        if (result[charIndex] !== '') continue;
+
+        newResult = [
+          ...newResult.slice(0, charIndex),
+          char,
+          ...newResult.slice(charIndex + 1)
+        ];
+        newSelected = { ...newSelected, [charIndex]: index };
+
+        count += 1;
+        if (count === 2) break;
+      }
+    }
+
+    setResult(newResult);
+    setSelected(newSelected);
+
+    checkCompletedWord(Object.keys(newSelected).length - 1, newResult);
   };
 
   const selectCharacter = (character, index) => async () => {
@@ -104,6 +146,10 @@ const LetterSoup = ({
       }
     }
 
+    checkCompletedWord(selectedLength, newResult);
+  };
+
+  const checkCompletedWord = (selectedLength, newResult) => {
     if (selectedLength + 1 + spaceCount === word.length) {
       const joined = newResult.join('');
       const checkWord = word.replace(/\s/g, '');
@@ -112,7 +158,7 @@ const LetterSoup = ({
         setResultStatus(1);
         onSuccess();
       } else setResultStatus(2);
-    } else if (selectedLength + 1 !== word.length && resultStatus)
+    } else if (selectedLength + 1 + spaceCount !== word.length && resultStatus)
       setResultStatus(0);
   };
 
@@ -342,11 +388,14 @@ LetterSoup.propTypes = {
   setResultStatus: func.isRequired,
   resultStatus: number.isRequired,
   onSuccess: func.isRequired,
-  exploded: bool
+  exploded: bool,
+  fillActive: bool,
+  setFillActive: func.isRequired
 };
 
 LetterSoup.defaultProps = {
-  exploded: false
+  exploded: false,
+  fillActive: false
 };
 
 export default LetterSoup;

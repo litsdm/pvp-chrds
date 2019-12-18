@@ -60,6 +60,7 @@ const MatchScreen = ({ navigation }) => {
   const [medalCount, setMedalCount] = useState(3);
   const [displayHint, setDisplayHint] = useState(false);
   const [exploded, setExploded] = useState(false);
+  const [fillActive, setFillActive] = useState(false);
   const videoRef = useRef(null);
 
   const category = data ? data.category : {};
@@ -166,6 +167,7 @@ const MatchScreen = ({ navigation }) => {
   const showHint = () => setDisplayHint(true);
   const closeHint = () => setDisplayHint(false);
   const handleBomb = () => setExploded(true);
+  const handleFill = () => setFillActive(true);
 
   const handleReplay = () => {
     const properties = JSON.stringify({ replayWord: match.actedWord._id });
@@ -259,11 +261,14 @@ const MatchScreen = ({ navigation }) => {
               setResultStatus={setResultStatus}
               onSuccess={handleSuccess}
               exploded={exploded}
+              fillActive={fillActive}
+              setFillActive={setFillActive}
             />
             <PowerUps
               slowDown={handleSlowDown}
               showHint={showHint}
               explode={handleBomb}
+              fill={handleFill}
             />
           </>
         ) : null}
