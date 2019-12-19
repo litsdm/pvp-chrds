@@ -1,5 +1,3 @@
-import { AsyncStorage } from 'react-native';
-
 import client from '../apolloStore';
 import callApi, { uploadFile } from '../helpers/apiCaller';
 import { toggleProgressBadge } from './popup';
@@ -87,14 +85,13 @@ const uploadVideoComplete = ({ matchID, opponentID, s3Url }) => async (
 
 const uploadPicComplete = ({ userID, s3Url }, onFinish) => async dispatch => {
   const newID = Math.random();
-  const properties = JSON.stringify({ profilePic: s3Url });
+  const properties = JSON.stringify({ profilePic: `${s3Url}?rand=${newID}` });
   await client.mutate({
     mutation: UPDATE_USER,
     variables: { id: userID, properties }
   });
 
-  if (onFinish) onFinish(newID);
-  await AsyncStorage.setItem('IMG_ID', `${newID}`);
+  if (onFinish) onFinish();
 
   dispatch(finishPicUpload());
 };

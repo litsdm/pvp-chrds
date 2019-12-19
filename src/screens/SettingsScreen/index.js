@@ -55,24 +55,17 @@ const SettingsScreen = ({
 }) => {
   const [getUser, { data }] = useLazyQuery(GET_USER);
   const [displayingNavbar, setDisplayingNavbar] = useState(false);
-  const [imageID, setImageID] = useState('');
   const { animationValue, animateTo } = useAnimation();
   const client = useApolloClient();
   const user = data ? data.user : {};
 
   useEffect(() => {
     fetchUser();
-    getImageID();
   }, []);
 
   const fetchUser = async () => {
     const token = await AsyncStorage.getItem('CHRDS_TOKEN');
     getUser({ variables: { token } });
-  };
-
-  const getImageID = async () => {
-    const id = await AsyncStorage.getItem('IMG_ID');
-    setImageID(id);
   };
 
   const goBack = () => navigation.navigate('Home');
@@ -87,10 +80,6 @@ const SettingsScreen = ({
     client.resetStore();
     resetReduxState();
     navigation.navigate('Auth');
-  };
-
-  const handleFinish = async newID => {
-    setImageID(`${newID}`);
   };
 
   const pickImage = async () => {
@@ -124,7 +113,7 @@ const SettingsScreen = ({
       userID: user._id
     };
 
-    uploadFile(file, handleFinish);
+    uploadFile(file);
   };
 
   const handleScroll = ({
@@ -152,7 +141,7 @@ const SettingsScreen = ({
       <AnimatedSettingsNav
         animationValue={animationValue}
         goBack={goBack}
-        uri={`${user.profilePic}?random=${imageID}`}
+        uri={user.profilePic}
       />
       <ScrollView onScroll={handleScroll} scrollEventThrottle={8}>
         <View style={styles.container}>
@@ -170,7 +159,7 @@ const SettingsScreen = ({
               ) : null}
               <Image
                 style={styles.profilePic}
-                source={{ uri: `${user.profilePic}?random=${imageID}` }}
+                source={{ uri: user.profilePic }}
               />
             </TouchableOpacity>
             <Text style={styles.username}>@{user.displayName}</Text>

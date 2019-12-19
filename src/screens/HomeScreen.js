@@ -55,7 +55,6 @@ const HomeScreen = ({
     { subscribeToMore, loading: loadingMatches, data: matchesData }
   ] = useLazyQuery(GET_USER_MATCHES);
   const [getUser, { loading, data }] = useLazyQuery(GET_USER);
-  const [imageID, setImageID] = useState('');
   const [matches, setMatches] = useState(null);
   const [didSubscribe, setDidSubscribe] = useState(false);
   const [updateMatch] = useMutation(UPDATE_MATCH);
@@ -63,12 +62,7 @@ const HomeScreen = ({
   const user = data ? data.user : {};
 
   useEffect(() => {
-    const focusScreen = navigation.addListener('willFocus', () => getImageID());
-    getImageID();
     fetchData();
-    return () => {
-      focusScreen.remove();
-    };
   }, []);
 
   useEffect(() => {
@@ -149,11 +143,6 @@ const HomeScreen = ({
       { title: 'Their Turn', data: theirTurn },
       { title: 'Finished Matches', data: finished }
     ]);
-  };
-
-  const getImageID = async () => {
-    const id = await AsyncStorage.getItem('IMG_ID');
-    setImageID(id);
   };
 
   const navigateToSettings = () => navigation.navigate('Settings');
@@ -262,7 +251,7 @@ const HomeScreen = ({
                 >
                   <Image
                     resizeMode="cover"
-                    source={{ uri: `${user.profilePic}?imgID=${imageID}` }}
+                    source={{ uri: user.profilePic }}
                     style={styles.profilePic}
                   />
                 </TouchableOpacity>

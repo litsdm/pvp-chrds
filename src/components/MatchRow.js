@@ -4,8 +4,6 @@ import moment from 'moment';
 import { func, string } from 'prop-types';
 import { momentObj } from 'react-moment-proptypes';
 
-const rand = Math.random();
-
 const MatchRow = ({
   username,
   expiryDate,
@@ -27,21 +25,14 @@ const MatchRow = ({
   const children = (
     <>
       <View style={styles.leftSide}>
-        <Image
-          source={{ uri: `${uri}?rand=${rand}` }}
-          style={styles.image}
-          resizeMode="cover"
-        />
+        <Image source={{ uri }} style={styles.image} resizeMode="cover" />
         <View style={styles.info}>
           <Text style={styles.username}>{username}</Text>
           <Text style={styles.date}>{timeLeft()} left to play</Text>
         </View>
       </View>
       <View style={styles.rightSide}>
-        <Image
-          source={{ uri: `${categoryUri}?rand=${rand}` }}
-          style={styles.category}
-        />
+        <Image source={{ uri: categoryUri }} style={styles.category} />
         <Text style={styles.score}>{score}</Text>
       </View>
     </>
