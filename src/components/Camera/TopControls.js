@@ -3,7 +3,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { func, number, string } from 'prop-types';
+import { bool, func, number, string } from 'prop-types';
 
 const rand = Math.random();
 
@@ -13,7 +13,8 @@ const TopControls = ({
   username,
   userScore,
   opponentScore,
-  iconName
+  iconName,
+  preventBack
 }) => (
   <View style={styles.container}>
     <LinearGradient
@@ -21,9 +22,13 @@ const TopControls = ({
       colors={['rgba(0, 0, 0, 0.5)', 'transparent']}
       pointerEvents="none"
     />
-    <TouchableOpacity style={styles.backButton} onPress={goBack}>
-      <Ionicons name={iconName} color="#fff" size={30} />
-    </TouchableOpacity>
+    {!preventBack ? (
+      <TouchableOpacity style={styles.backButton} onPress={goBack}>
+        <Ionicons name={iconName} color="#fff" size={30} />
+      </TouchableOpacity>
+    ) : (
+      <View style={styles.buttonPlaceholder} />
+    )}
     <View style={styles.info}>
       <View style={styles.opponent}>
         <Image
@@ -93,6 +98,11 @@ const styles = StyleSheet.create({
     height: 16,
     marginHorizontal: 12,
     width: 1
+  },
+  buttonPlaceholder: {
+    backgroundColor: 'transparent',
+    height: 30,
+    width: 30
   }
 });
 
@@ -102,14 +112,16 @@ TopControls.propTypes = {
   username: string,
   userScore: number,
   opponentScore: number,
-  iconName: string.isRequired
+  iconName: string.isRequired,
+  preventBack: bool
 };
 
 TopControls.defaultProps = {
   uri: '',
   username: '',
   userScore: 0,
-  opponentScore: 0
+  opponentScore: 0,
+  preventBack: false
 };
 
 export default TopControls;

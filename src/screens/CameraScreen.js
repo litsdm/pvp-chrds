@@ -167,6 +167,13 @@ const CameraScreen = ({ navigation, uploadFile }) => {
     else setPermissions(true);
   };
 
+  const stopRecording = () => {
+    if (camera.current === null) return;
+
+    camera.current.stopRecording();
+    setRecording(false);
+  };
+
   const recordVideo = async () => {
     if (camera.current === null) return;
     setRecording(true);
@@ -222,7 +229,7 @@ const CameraScreen = ({ navigation, uploadFile }) => {
       goBack={videoUri ? closeVideo : goBack}
       iconName={videoUri ? 'md-close' : 'ios-arrow-round-back'}
       uri={opponent.profilePic}
-      username={opponent.username}
+      username={opponent.displayName}
       userScore={match.score ? JSON.parse(match.score)[userID] : 0}
       opponentScore={match.score ? JSON.parse(match.score)[opponent._id] : 0}
       isRecording={isRecording}
@@ -252,6 +259,7 @@ const CameraScreen = ({ navigation, uploadFile }) => {
             flashAnimationRef={flashAnimation}
             animationValue={animationValue}
             word={word.text}
+            stopRecording={stopRecording}
           />
         </View>
       ) : (

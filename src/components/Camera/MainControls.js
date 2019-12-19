@@ -10,7 +10,7 @@ import { Camera } from 'expo-camera';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
-import { bool, func, number, object } from 'prop-types';
+import { bool, func, number, object, string } from 'prop-types';
 
 import WordTooltip from './WordTooltip';
 import CircularProgress from './CircularProgress';
@@ -31,7 +31,8 @@ const MainControls = ({
   flashAnimationRef,
   animationValue,
   setState,
-  word
+  word,
+  stopRecording
 }) => {
   const handleFlash = () =>
     setState({ flash: flash === flashOn ? flashOff : flashOn });
@@ -100,8 +101,7 @@ const MainControls = ({
             </TouchableWithoutFeedback>
           </Animated.View>
           <TouchableWithoutFeedback
-            onPress={recordVideo}
-            disabled={isRecording}
+            onPress={isRecording ? stopRecording : recordVideo}
           >
             <Animated.View style={[styles.mainButton, animateOuter]}>
               <Animated.View
@@ -213,7 +213,13 @@ MainControls.propTypes = {
   recordVideo: func.isRequired,
   animationValue: object.isRequired,
   cameraAnimationRef: object.isRequired,
-  flashAnimationRef: object.isRequired
+  flashAnimationRef: object.isRequired,
+  stopRecording: func.isRequired,
+  word: string
+};
+
+MainControls.defaultProps = {
+  word: ''
 };
 
 export default MainControls;

@@ -129,7 +129,7 @@ const HomeScreen = ({
   const fetchData = async () => {
     const token = await AsyncStorage.getItem('CHRDS_TOKEN');
     const { _id } = jwtDecode(token);
-    getUser({ variables: { token } });
+    await getUser({ variables: { token } });
     getMatches({ variables: { _id } });
   };
 
@@ -193,7 +193,7 @@ const HomeScreen = ({
       <MatchRow
         score={stringScore}
         categoryUri={category.image}
-        username={opponent.username}
+        username={opponent.displayName}
         uri={opponent.profilePic}
         expiryDate={moment(new Date(expiresOn))}
         onPress={title === 'Your Turn' ? handlePlay(args.item, opponent) : null}

@@ -14,6 +14,7 @@ export default gql`
       _id
       profilePic
       username
+      displayName
     }
     match(_id: $matchID) {
       _id

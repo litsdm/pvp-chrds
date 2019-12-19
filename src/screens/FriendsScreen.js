@@ -93,10 +93,10 @@ const FriendsScreen = ({ navigation, showPlay, openAdd }) => {
 
   const renderItem = args => {
     const { _id, from } = args.item;
-    const { username, profilePic } = from || args.item;
+    const { displayName, profilePic } = from || args.item;
     return (
       <FriendRow
-        username={username}
+        username={displayName}
         uri={profilePic}
         requestID={from ? _id : null}
         resolveRequest={resolveRequest}

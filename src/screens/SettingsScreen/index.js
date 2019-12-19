@@ -143,6 +143,12 @@ const SettingsScreen = ({
 
   return (
     <>
+      <View
+        style={[
+          styles.statusBar,
+          { backgroundColor: displayingNavbar ? '#fff' : '#FCFCFE' }
+        ]}
+      />
       <AnimatedSettingsNav
         animationValue={animationValue}
         goBack={goBack}
@@ -168,9 +174,11 @@ const SettingsScreen = ({
               />
             </TouchableOpacity>
             <Text style={styles.username}>@{user.displayName}</Text>
-            <TouchableOpacity style={styles.profileButton}>
-              <Text style={styles.pbText}>View Profile</Text>
-            </TouchableOpacity>
+            {/*
+              <TouchableOpacity style={styles.profileButton}>
+                <Text style={styles.pbText}>View Profile</Text>
+              </TouchableOpacity>
+            */}
           </View>
           <View style={styles.content}>
             <View style={styles.group}>
@@ -446,6 +454,15 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: 'sf-medium',
     fontSize: 18
+  },
+  statusBar: {
+    backgroundColor: '#FCFCFE',
+    height: getStatusBarHeight(),
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: 5
   }
 });
 

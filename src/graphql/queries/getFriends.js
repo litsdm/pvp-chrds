@@ -5,6 +5,7 @@ export default gql`
     friends(_id: $_id) {
       _id
       username
+      displayName
       profilePic
     }
     friendRequests(_id: $_id) {
@@ -12,6 +13,7 @@ export default gql`
       from {
         _id
         username
+        displayName
         profilePic
       }
     }

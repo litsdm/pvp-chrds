@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   ActivityIndicator,
   AsyncStorage,
+  BackHandler,
   Platform,
   StatusBar,
   StyleSheet,
@@ -76,6 +77,13 @@ const MatchScreen = ({ navigation }) => {
     if (match.video && videoRef && !uriFlag) fetchSignedUri();
   }, [match, videoRef]);
 
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+    return () => BackHandler.removeEventListener('hardwareBackPress');
+  }, []);
+
+  const handleBackPress = () => gameState !== 'guessing';
+
   const fetchSignedUri = async () => {
     const filename = match.video.split('/').pop();
     const uri = await getSignedUrl(filename, 'Videos');
@@ -107,6 +115,7 @@ const MatchScreen = ({ navigation }) => {
 
   const switchToGuess = async () => {
     await videoRef.current.stopAsync();
+    videoRef.current.unloadAsync();
     setGameState('guessing');
   };
 
@@ -268,7 +277,8 @@ const MatchScreen = ({ navigation }) => {
           goBack={goBack}
           iconName="ios-arrow-round-back"
           uri={opponent.profilePic}
-          username={opponent.username}
+          username={opponent.displayName}
+          preventBack={gameState === 'guessing'}
           userScore={match.score ? JSON.parse(match.score)[userID] : 0}
           opponentScore={
             match.score ? JSON.parse(match.score)[opponent._id] : 0
