@@ -12,7 +12,7 @@ import { func } from 'prop-types';
 
 import { useAnimation } from '../../helpers/hooks';
 
-const PowerUps = ({ slowDown, showHint, explode, fill }) => {
+const PowerUps = ({ onPress }) => {
   const { animationValue, animateTo } = useAnimation();
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const PowerUps = ({ slowDown, showHint, explode, fill }) => {
           <Text style={styles.infoText}>Bomb - Blast unnecessary letters.</Text>
           <View style={styles.triangle} />
         </Animated.View>
-        <TouchableOpacity style={styles.iconButton} onPress={explode}>
+        <TouchableOpacity style={styles.iconButton} onPress={onPress('bomb')}>
           <FontAwesome5 name="bomb" size={30} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -42,7 +42,10 @@ const PowerUps = ({ slowDown, showHint, explode, fill }) => {
           <Text style={styles.infoText}>Hourglass - Slower countdown.</Text>
           <View style={styles.triangle} />
         </Animated.View>
-        <TouchableOpacity style={styles.iconButton} onPress={slowDown}>
+        <TouchableOpacity
+          style={styles.iconButton}
+          onPress={onPress('hourglass')}
+        >
           <FontAwesome5 name="hourglass-half" size={30} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -51,7 +54,7 @@ const PowerUps = ({ slowDown, showHint, explode, fill }) => {
           <Text style={styles.infoText}>Hint</Text>
           <View style={styles.triangle} />
         </Animated.View>
-        <TouchableOpacity style={styles.iconButton} onPress={showHint}>
+        <TouchableOpacity style={styles.iconButton} onPress={onPress('hint')}>
           <FontAwesome5 name="info-circle" size={30} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -60,7 +63,7 @@ const PowerUps = ({ slowDown, showHint, explode, fill }) => {
           <Text style={styles.infoText}>Fill - 2 random letters.</Text>
           <View style={styles.triangle} />
         </Animated.View>
-        <TouchableOpacity style={styles.iconButton} onPress={fill}>
+        <TouchableOpacity style={styles.iconButton} onPress={onPress('fill')}>
           <FontAwesome5 name="fill-drip" size={30} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -118,10 +121,7 @@ const styles = StyleSheet.create({
 });
 
 PowerUps.propTypes = {
-  slowDown: func.isRequired,
-  showHint: func.isRequired,
-  explode: func.isRequired,
-  fill: func.isRequired
+  onPress: func.isRequired
 };
 
 export default PowerUps;

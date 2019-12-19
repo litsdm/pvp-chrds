@@ -52,7 +52,7 @@ const EndOverlay = ({ medalCount, remove, goHome }) => {
         </View>
         <View style={styles.row}>
           <Ionicons size={16} color="#fff" name={`${PRE_ICON}-add`} />
-          <Text style={styles.count}>5</Text>
+          <Text style={styles.count}>50</Text>
           <FontAwesome5 name="coins" size={18} color="#FFC107" />
           <Text style={styles.rowText}>Coins</Text>
         </View>

@@ -19,6 +19,7 @@ import GET_DATA from '../graphql/queries/getMatchData';
 import GET_USER from '../graphql/queries/getMatchUser';
 import UPDATE_DATA from '../graphql/mutations/updateMatchScreenData';
 import UPDATE_MATCH from '../graphql/mutations/updateMatch';
+import UPDATE_USER from '../graphql/mutations/updateUser';
 import DELETE_MATCH from '../graphql/mutations/deleteMatch';
 
 import callApi, { getSignedUrl } from '../helpers/apiCaller';
@@ -31,6 +32,7 @@ import FailOverlay from '../components/Match/FailOverlay';
 import EndOverlay from '../components/Match/EndOverlay';
 import PowerUps from '../components/Match/PowerUps';
 import Hint from '../components/Match/HintModal';
+import PurchaseModal from '../components/Match/PurchaseModal';
 
 const { front } = Camera.Constants.Type;
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
@@ -50,6 +52,7 @@ const MatchScreen = ({ navigation }) => {
   const [updateData] = useMutation(UPDATE_DATA);
   const [updateMatch] = useMutation(UPDATE_MATCH);
   const [deleteMatch] = useMutation(DELETE_MATCH);
+  const [updateUser] = useMutation(UPDATE_USER);
   const [gameState, setGameState] = useState('awaitUser');
   const [playCount, setPlayCount] = useState(0);
   const [uriFlag, setUriFlag] = useState(false);
@@ -58,6 +61,7 @@ const MatchScreen = ({ navigation }) => {
   const [timeLeft, setTimeLeft] = useState(TIME);
   const [milis, setMilis] = useState(10);
   const [medalCount, setMedalCount] = useState(3);
+  const [powerup, setPowerup] = useState('');
   const [displayHint, setDisplayHint] = useState(false);
   const [exploded, setExploded] = useState(false);
   const [fillActive, setFillActive] = useState(false);
@@ -144,7 +148,7 @@ const MatchScreen = ({ navigation }) => {
     const gameWon = userScore === 3;
     const xp = gameWon ? user.xp + medals : user.xp + medals + 3;
     const wonGames = gameWon ? user.wonGames + 1 : user.wonGames;
-    const coins = gameWon ? user.coins + 5 : user.coins;
+    const coins = gameWon ? user.coins + 50 : user.coins;
 
     const matchProperties = JSON.stringify({
       state: gameWon ? 'end' : 'play',
@@ -168,6 +172,33 @@ const MatchScreen = ({ navigation }) => {
   const closeHint = () => setDisplayHint(false);
   const handleBomb = () => setExploded(true);
   const handleFill = () => setFillActive(true);
+  const showPurchase = selectedPowerup => () => setPowerup(selectedPowerup);
+  const closePurchase = () => setPowerup('');
+
+  const handlePurchase = cost => () => {
+    const properties = JSON.stringify({ coins: user.coins - cost });
+
+    switch (powerup) {
+      case 'bomb':
+        handleBomb();
+        break;
+      case 'hourglass':
+        handleSlowDown();
+        break;
+      case 'hint':
+        showHint();
+        break;
+      case 'fill':
+        handleFill();
+        break;
+      default:
+        break;
+    }
+
+    updateUser({ variables: { _id: userID, properties } });
+
+    closePurchase();
+  };
 
   const handleReplay = () => {
     const properties = JSON.stringify({ replayWord: match.actedWord._id });
@@ -226,13 +257,13 @@ const MatchScreen = ({ navigation }) => {
           </View>
         ) : null}
         {playCount > 0 &&
-          gameState !== 'guessing' &&
-          gameState !== 'finished' ? (
-            <TouchableOpacity style={styles.guessButton} onPress={switchToGuess}>
-              <Text style={styles.buttonText}>Guess Word</Text>
-              <Ionicons name="ios-arrow-forward" color="#7c4dff" size={18} />
-            </TouchableOpacity>
-          ) : null}
+        gameState !== 'guessing' &&
+        gameState !== 'finished' ? (
+          <TouchableOpacity style={styles.guessButton} onPress={switchToGuess}>
+            <Text style={styles.buttonText}>Guess Word</Text>
+            <Ionicons name="ios-arrow-forward" color="#7c4dff" size={18} />
+          </TouchableOpacity>
+        ) : null}
         <TopControls
           goBack={goBack}
           iconName="ios-arrow-round-back"
@@ -248,12 +279,20 @@ const MatchScreen = ({ navigation }) => {
             {displayHint ? (
               <Hint hint={match.actedWord.hint} close={closeHint} />
             ) : null}
+            {powerup ? (
+              <PurchaseModal
+                powerup={powerup}
+                close={closePurchase}
+                coins={user.coins}
+                handlePurchase={handlePurchase}
+              />
+            ) : null}
             <TimeBar
               onEnd={handleFailure}
               timeLeft={timeLeft}
               setTimeLeft={setTimeLeft}
               milis={milis}
-              isPaused={displayHint}
+              isPaused={displayHint || powerup !== ''}
             />
             <LetterSoup
               word={match.actedWord.text.toUpperCase()}
@@ -264,12 +303,7 @@ const MatchScreen = ({ navigation }) => {
               fillActive={fillActive}
               setFillActive={setFillActive}
             />
-            <PowerUps
-              slowDown={handleSlowDown}
-              showHint={showHint}
-              explode={handleBomb}
-              fill={handleFill}
-            />
+            <PowerUps onPress={showPurchase} />
           </>
         ) : null}
         {gameState === 'finished' && resultStatus === 1 ? (
