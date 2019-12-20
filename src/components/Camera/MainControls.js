@@ -32,7 +32,10 @@ const MainControls = ({
   animationValue,
   setState,
   word,
-  stopRecording
+  stopRecording,
+  roll,
+  rollCount,
+  categoryColor
 }) => {
   const handleFlash = () =>
     setState({ flash: flash === flashOn ? flashOff : flashOn });
@@ -71,7 +74,14 @@ const MainControls = ({
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        {!isRecording ? <WordTooltip word={word} /> : null}
+        {!isRecording ? (
+          <WordTooltip
+            word={word}
+            roll={roll}
+            rollCount={rollCount}
+            color={categoryColor}
+          />
+        ) : null}
         <View style={styles.controls}>
           <Animated.View style={animateOpacity}>
             <TouchableWithoutFeedback
@@ -215,11 +225,15 @@ MainControls.propTypes = {
   cameraAnimationRef: object.isRequired,
   flashAnimationRef: object.isRequired,
   stopRecording: func.isRequired,
-  word: string
+  roll: func.isRequired,
+  rollCount: number.isRequired,
+  word: string,
+  categoryColor: string
 };
 
 MainControls.defaultProps = {
-  word: ''
+  word: '',
+  categoryColor: '#26282D'
 };
 
 export default MainControls;

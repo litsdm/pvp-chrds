@@ -1,14 +1,19 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { string } from 'prop-types';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { func, number, string } from 'prop-types';
 
-const WordTooltip = ({ word }) => (
+const WordTooltip = ({ word, rollCount, roll, color }) => (
   <View style={styles.container}>
-    <View style={styles.card}>
+    <View style={[styles.card, { backgroundColor: color }]}>
       <Text style={styles.title}>Act out the word</Text>
       <Text style={styles.word}>{word}</Text>
+      <TouchableOpacity style={styles.rollButton} onPress={roll}>
+        <FontAwesome5 name="dice" size={16} color="#fff" />
+        <Text style={styles.buttonText}>{rollCount} Re-roll</Text>
+      </TouchableOpacity>
     </View>
-    <View style={styles.triangle} />
+    <View style={[styles.triangle, { borderBottomColor: color }]} />
   </View>
 );
 
@@ -19,7 +24,6 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: 12,
-    backgroundColor: '#26282D',
     paddingHorizontal: 24,
     paddingVertical: 12
   },
@@ -49,11 +53,28 @@ const styles = StyleSheet.create({
     height: 0,
     transform: [{ rotate: '180deg' }],
     width: 0
+  },
+  rollButton: {
+    alignItems: 'center',
+    borderRadius: 24,
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 12,
+    padding: 6
+  },
+  buttonText: {
+    color: '#fff',
+    fontFamily: 'sf-regular',
+    marginLeft: 6
   }
 });
 
 WordTooltip.propTypes = {
-  word: string
+  word: string,
+  rollCount: number.isRequired,
+  roll: func.isRequired,
+  color: string.isRequired
 };
 
 WordTooltip.defaultProps = {

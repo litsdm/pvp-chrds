@@ -49,6 +49,7 @@ const CameraScreen = ({ navigation, uploadFile }) => {
   const [videoUri, setVideoUri] = useState('');
   const [word, setWord] = useState('');
   const [userID, setUserID] = useState('');
+  const [rollCount, setRollCount] = useState(2);
   const [updateMatch] = useMutation(UPDATE_MATCH);
   const { animationValue, animateTo } = useAnimation({ duration: 200 });
 
@@ -64,6 +65,7 @@ const CameraScreen = ({ navigation, uploadFile }) => {
     checkPermissions();
     setBrightness(true);
     getUserID();
+    getRolls();
   }, []);
 
   useEffect(() => {
@@ -83,6 +85,18 @@ const CameraScreen = ({ navigation, uploadFile }) => {
     setUserID(_id);
   };
 
+  const getRandomWord = () => {
+    let randWord;
+
+    do {
+      const randomIndex = Math.floor(Math.random() * category.words.length);
+      randWord = category.words[randomIndex];
+    } while (randWord.text === word.text);
+
+    setWord(randWord);
+    AsyncStorage.setItem(`${matchID}-word`, JSON.stringify(randWord));
+  };
+
   const getCategoryWord = async () => {
     const storedWord = await AsyncStorage.getItem(`${matchID}-word`);
 
@@ -91,11 +105,12 @@ const CameraScreen = ({ navigation, uploadFile }) => {
       return;
     }
 
-    const randomIndex = Math.floor(Math.random() * category.words.length);
-    const randWord = category.words[randomIndex];
+    getRandomWord();
+  };
 
-    setWord(randWord);
-    AsyncStorage.setItem(`${matchID}-word`, JSON.stringify(randWord));
+  const getRolls = async () => {
+    const rolls = await AsyncStorage.getItem(`${matchID}-rolls`);
+    if (rolls) setRollCount(parseInt(rolls, 10));
   };
 
   const displayReplayIfNeeded = () => {
@@ -216,6 +231,15 @@ const CameraScreen = ({ navigation, uploadFile }) => {
     removeReplayWord();
   };
 
+  const handleRoll = async () => {
+    if (rollCount <= 0) return;
+    const newRollCount = rollCount - 1;
+
+    getRandomWord();
+    setRollCount(newRollCount);
+    await AsyncStorage.setItem(`${matchID}-rolls`, `${newRollCount}`);
+  };
+
   const removeReplayWord = () => {
     const properties = JSON.stringify({ replayWord: null });
     updateMatch({ variables: { matchID, properties } });
@@ -260,6 +284,9 @@ const CameraScreen = ({ navigation, uploadFile }) => {
             animationValue={animationValue}
             word={word.text}
             stopRecording={stopRecording}
+            rollCount={rollCount}
+            roll={handleRoll}
+            categoryColor={category.color}
           />
         </View>
       ) : (
