@@ -22,6 +22,7 @@ import CountdownPopup from '../components/Camera/CountdownPopup';
 import TopControls from '../components/Camera/TopControls';
 import BottomControls from '../components/Camera/BottomControls';
 import ReplayModal from '../components/Match/ReplayModal';
+import PowerUps from '../components/Camera/PowerUps';
 
 const mapDispatchToProps = dispatch => ({
   uploadFile: file => dispatch(upload(file))
@@ -49,6 +50,7 @@ const CameraScreen = ({ navigation, uploadFile }) => {
   const [videoUri, setVideoUri] = useState('');
   const [word, setWord] = useState('');
   const [userID, setUserID] = useState('');
+  const [powerup, setPowerup] = useState('');
   const [rollCount, setRollCount] = useState(2);
   const [updateMatch] = useMutation(UPDATE_MATCH);
   const { animationValue, animateTo } = useAnimation({ duration: 200 });
@@ -240,6 +242,8 @@ const CameraScreen = ({ navigation, uploadFile }) => {
     await AsyncStorage.setItem(`${matchID}-rolls`, `${newRollCount}`);
   };
 
+  const showPurchase = selectedPowerup => () => setPowerup(selectedPowerup);
+
   const removeReplayWord = () => {
     const properties = JSON.stringify({ replayWord: null });
     updateMatch({ variables: { matchID, properties } });
@@ -272,7 +276,12 @@ const CameraScreen = ({ navigation, uploadFile }) => {
             ratio="16:9"
             ref={camera}
           />
-          {!isRecording ? renderTopControls() : null}
+          {!isRecording ? (
+            <>
+              {renderTopControls()}
+              <PowerUps onPress={showPurchase} />
+            </>
+          ) : null}
           <MainControls
             flash={flash}
             cameraType={cameraType}

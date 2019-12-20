@@ -3,30 +3,20 @@ import { StyleSheet, View } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { func } from 'prop-types';
 
-import PowerUp from './PowerUp';
+import PowerUp from '../Match/PowerUp';
 
 const PowerUps = ({ onPress }) => {
   return (
     <View style={styles.container}>
       <PowerUp
-        icon="bomb"
-        text="Bomb - Blast unnecessary letters."
-        onPress={onPress('bomb')}
+        icon="microphone-alt"
+        text="Mic - Record your video w/ sound."
+        onPress={onPress('mic')}
       />
       <PowerUp
-        icon="hourglass-half"
-        text="Hourglass - Slower countdown."
-        onPress={onPress('hourglass')}
-      />
-      <PowerUp
-        icon="info-circle"
-        onPress={onPress('hint')}
-        text="Hint - Get a small but useful hint."
-      />
-      <PowerUp
-        icon="fill-drip"
-        text="Fill - 2 random letters."
-        onPress={onPress('fill')}
+        icon="hand-pointer"
+        text="Hand - Select the word you want."
+        onPress={onPress('hand')}
       />
     </View>
   );
