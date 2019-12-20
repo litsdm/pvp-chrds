@@ -204,7 +204,7 @@ const MatchScreen = ({ navigation }) => {
         break;
     }
 
-    updateUser({ variables: { _id: userID, properties } });
+    updateUser({ variables: { id: userID, properties } });
 
     closePurchase();
   };

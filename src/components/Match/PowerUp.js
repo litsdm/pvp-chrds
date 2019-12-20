@@ -7,10 +7,11 @@ import {
   View
 } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { func, string } from 'prop-types';
 
 import { useAnimation } from '../../helpers/hooks';
 
-const PowerUpInfo = ({ text, onPress, icon }) => {
+const PowerUp = ({ text, onPress, icon }) => {
   const { animationValue, animateTo } = useAnimation();
 
   useEffect(() => {
@@ -79,4 +80,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default PowerUpInfo
+PowerUp.propTypes = {
+  onPress: func.isRequired,
+  text: string.isRequired,
+  icon: string.isRequired
+};
+
+export default PowerUp;

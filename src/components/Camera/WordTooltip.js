@@ -3,14 +3,26 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { func, number, string } from 'prop-types';
 
-const WordTooltip = ({ word, rollCount, roll, color }) => (
+const WordTooltip = ({ word, rollCount, roll, color, openPurchase }) => (
   <View style={styles.container}>
     <View style={[styles.card, { backgroundColor: color }]}>
       <Text style={styles.title}>Act out the word</Text>
       <Text style={styles.word}>{word}</Text>
-      <TouchableOpacity style={styles.rollButton} onPress={roll}>
-        <FontAwesome5 name="dice" size={16} color="#fff" />
-        <Text style={styles.buttonText}>{rollCount} Re-roll</Text>
+      <TouchableOpacity
+        style={styles.rollButton}
+        onPress={rollCount === 0 ? openPurchase : roll}
+      >
+        {rollCount > 0 ? (
+          <>
+            <FontAwesome5 name="dice" size={16} color="#fff" />
+            <Text style={styles.buttonText}>{rollCount} Re-roll</Text>
+          </>
+        ) : (
+          <>
+            <FontAwesome5 name="hand-pointer" size={16} color="#fff" />
+            <Text style={styles.buttonText}>Pick word</Text>
+          </>
+        )}
       </TouchableOpacity>
     </View>
     <View style={[styles.triangle, { borderBottomColor: color }]} />
@@ -74,7 +86,8 @@ WordTooltip.propTypes = {
   word: string,
   rollCount: number.isRequired,
   roll: func.isRequired,
-  color: string.isRequired
+  color: string.isRequired,
+  openPurchase: func.isRequired
 };
 
 WordTooltip.defaultProps = {

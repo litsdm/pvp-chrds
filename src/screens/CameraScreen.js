@@ -15,6 +15,7 @@ import { toggleBadge } from '../actions/popup';
 
 import GET_DATA from '../graphql/queries/getCameraData';
 import UPDATE_MATCH from '../graphql/mutations/updateMatch';
+import UPDATE_USER from '../graphql/mutations/updateUser';
 
 import MainControls from '../components/Camera/MainControls';
 import VideoOverlay from '../components/Camera/VideoOverlay';
@@ -24,6 +25,7 @@ import BottomControls from '../components/Camera/BottomControls';
 import ReplayModal from '../components/Match/ReplayModal';
 import PowerUps from '../components/Camera/PowerUps';
 import PurchaseModal from '../components/Match/PurchaseModal';
+import PickWordModal from '../components/Camera/PickWordModal';
 
 const mapDispatchToProps = dispatch => ({
   uploadFile: file => dispatch(upload(file)),
@@ -54,8 +56,10 @@ const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
   const [word, setWord] = useState('');
   const [powerup, setPowerup] = useState('');
   const [useAudio, setUseAudio] = useState(false);
+  const [pickWord, setPickWord] = useState(false);
   const [rollCount, setRollCount] = useState(2);
   const [updateMatch] = useMutation(UPDATE_MATCH);
+  const [updateUser] = useMutation(UPDATE_USER);
   const { animationValue, animateTo } = useAnimation({ duration: 200 });
 
   const category = data ? data.category : {};
@@ -240,9 +244,19 @@ const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
     await AsyncStorage.setItem(`${matchID}-rolls`, `${newRollCount}`);
   };
 
+  const handleHand = () => setPickWord(true);
   const handleMic = () => setUseAudio(true);
   const showPurchase = selectedPowerup => () => setPowerup(selectedPowerup);
   const closePurchase = () => setPowerup('');
+
+  const handlePickWord = async wordIndex => {
+    const pickedWord = category.words[wordIndex];
+
+    AsyncStorage.setItem(`${matchID}-word`, JSON.stringify(pickedWord));
+    await setWord(pickedWord);
+
+    setPickWord(false);
+  };
 
   const handlePurchase = cost => () => {
     if (powerup === 'mic' && useAudio) {
@@ -258,13 +272,13 @@ const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
         displayBadge('Audio recording activated!', 'success');
         break;
       case 'hand':
-        // handleSlowDown();
+        handleHand();
         break;
       default:
         break;
     }
 
-    // updateUser({ variables: { _id: userID, properties } });
+    updateUser({ variables: { id: userID, properties } });
 
     closePurchase();
   };
@@ -321,6 +335,7 @@ const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
             rollCount={rollCount}
             roll={handleRoll}
             categoryColor={category.color}
+            openPurchase={showPurchase}
           />
         </View>
       ) : (
@@ -343,6 +358,9 @@ const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
           coins={user.coins}
           handlePurchase={handlePurchase}
         />
+      ) : null}
+      {pickWord ? (
+        <PickWordModal words={category.words} handleDone={handlePickWord} />
       ) : null}
       {isCounting ? <CountdownPopup onEnd={handleCountdownEnd} /> : null}
       {isRecording && cameraType === frontType && flash === flashOn ? (

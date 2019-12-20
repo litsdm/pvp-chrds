@@ -35,7 +35,8 @@ const MainControls = ({
   stopRecording,
   roll,
   rollCount,
-  categoryColor
+  categoryColor,
+  openPurchase
 }) => {
   const handleFlash = () =>
     setState({ flash: flash === flashOn ? flashOff : flashOn });
@@ -80,6 +81,7 @@ const MainControls = ({
             roll={roll}
             rollCount={rollCount}
             color={categoryColor}
+            openPurchase={openPurchase('hand')}
           />
         ) : null}
         <View style={styles.controls}>
@@ -227,6 +229,7 @@ MainControls.propTypes = {
   stopRecording: func.isRequired,
   roll: func.isRequired,
   rollCount: number.isRequired,
+  openPurchase: func.isRequired,
   word: string,
   categoryColor: string
 };
