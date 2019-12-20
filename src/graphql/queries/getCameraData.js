@@ -5,6 +5,7 @@ export default gql`
     $categoryID: String!
     $opponentID: String!
     $matchID: String!
+    $userID: String!
   ) {
     category(_id: $categoryID) {
       _id
@@ -21,6 +22,10 @@ export default gql`
       profilePic
       username
       displayName
+    }
+    user: userByID(_id: $userID) {
+      _id
+      coins
     }
     match(_id: $matchID) {
       _id

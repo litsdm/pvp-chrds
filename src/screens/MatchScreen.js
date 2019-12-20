@@ -224,7 +224,7 @@ const MatchScreen = ({ navigation }) => {
   const goBack = () => navigation.navigate('Home');
 
   const goToCamera = () =>
-    navigation.navigate('Camera', { matchID, categoryID, opponentID });
+    navigation.navigate('Camera', { matchID, categoryID, opponentID, userID });
 
   return (
     <View style={styles.container}>

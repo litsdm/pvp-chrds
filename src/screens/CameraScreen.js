@@ -6,12 +6,12 @@ import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import * as Brightness from 'expo-brightness';
 import * as FileSystem from 'expo-file-system';
-import jwtDecode from 'jwt-decode';
 import { func, object } from 'prop-types';
 
 import mime from '../helpers/mimeTypes';
 import { useAnimation } from '../helpers/hooks';
 import { upload } from '../actions/file';
+import { toggleBadge } from '../actions/popup';
 
 import GET_DATA from '../graphql/queries/getCameraData';
 import UPDATE_MATCH from '../graphql/mutations/updateMatch';
@@ -23,9 +23,11 @@ import TopControls from '../components/Camera/TopControls';
 import BottomControls from '../components/Camera/BottomControls';
 import ReplayModal from '../components/Match/ReplayModal';
 import PowerUps from '../components/Camera/PowerUps';
+import PurchaseModal from '../components/Match/PurchaseModal';
 
 const mapDispatchToProps = dispatch => ({
-  uploadFile: file => dispatch(upload(file))
+  uploadFile: file => dispatch(upload(file)),
+  displayBadge: (message, type) => dispatch(toggleBadge(true, message, type))
 });
 
 const { front: frontType } = Camera.Constants.Type;
@@ -33,13 +35,14 @@ const { off: flashOff, on: flashOn, torch } = Camera.Constants.FlashMode;
 
 let originalBrightness;
 
-const CameraScreen = ({ navigation, uploadFile }) => {
+const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
   const categoryID = navigation.getParam('categoryID', '');
   const opponentID = navigation.getParam('opponentID', '');
   const matchID = navigation.getParam('matchID', '');
+  const userID = navigation.getParam('userID', '');
 
   const { data } = useQuery(GET_DATA, {
-    variables: { categoryID, opponentID, matchID }
+    variables: { categoryID, opponentID, matchID, userID }
   });
   const [hasPermissions, setPermissions] = useState(false);
   const [cameraType, setCameraType] = useState(frontType);
@@ -49,8 +52,8 @@ const CameraScreen = ({ navigation, uploadFile }) => {
   const [displayReplay, setDisplayReplay] = useState(false);
   const [videoUri, setVideoUri] = useState('');
   const [word, setWord] = useState('');
-  const [userID, setUserID] = useState('');
   const [powerup, setPowerup] = useState('');
+  const [useAudio, setUseAudio] = useState(false);
   const [rollCount, setRollCount] = useState(2);
   const [updateMatch] = useMutation(UPDATE_MATCH);
   const { animationValue, animateTo } = useAnimation({ duration: 200 });
@@ -58,6 +61,7 @@ const CameraScreen = ({ navigation, uploadFile }) => {
   const category = data ? data.category : {};
   const opponent = data ? data.opponent : {};
   const match = data ? data.match : {};
+  const user = data ? data.user : {};
 
   const camera = useRef(null);
   const cameraAnimation = useRef(null);
@@ -66,7 +70,6 @@ const CameraScreen = ({ navigation, uploadFile }) => {
   useEffect(() => {
     checkPermissions();
     setBrightness(true);
-    getUserID();
     getRolls();
   }, []);
 
@@ -81,11 +84,6 @@ const CameraScreen = ({ navigation, uploadFile }) => {
     if (data && data.category) getCategoryWord();
     if (data && data.match) displayReplayIfNeeded();
   }, [data]);
-
-  const getUserID = async () => {
-    const { _id } = jwtDecode(await AsyncStorage.getItem('CHRDS_TOKEN'));
-    setUserID(_id);
-  };
 
   const getRandomWord = () => {
     let randWord;
@@ -197,7 +195,7 @@ const CameraScreen = ({ navigation, uploadFile }) => {
     const { uri } = await camera.current.recordAsync({
       quality: Camera.Constants.VideoQuality['480p'],
       maxDuration: 6,
-      mute: true
+      mute: !useAudio
     });
     setState({ isRecording: false, videoUri: uri });
   };
@@ -242,7 +240,34 @@ const CameraScreen = ({ navigation, uploadFile }) => {
     await AsyncStorage.setItem(`${matchID}-rolls`, `${newRollCount}`);
   };
 
+  const handleMic = () => setUseAudio(true);
   const showPurchase = selectedPowerup => () => setPowerup(selectedPowerup);
+  const closePurchase = () => setPowerup('');
+
+  const handlePurchase = cost => () => {
+    if (powerup === 'mic' && useAudio) {
+      displayBadge('Audio is already activated.', 'error');
+      return;
+    }
+
+    const properties = JSON.stringify({ coins: user.coins - cost });
+
+    switch (powerup) {
+      case 'mic':
+        handleMic();
+        displayBadge('Audio recording activated!', 'success');
+        break;
+      case 'hand':
+        // handleSlowDown();
+        break;
+      default:
+        break;
+    }
+
+    // updateUser({ variables: { _id: userID, properties } });
+
+    closePurchase();
+  };
 
   const removeReplayWord = () => {
     const properties = JSON.stringify({ replayWord: null });
@@ -311,6 +336,14 @@ const CameraScreen = ({ navigation, uploadFile }) => {
           <BottomControls send={handleSend} />
         </VideoOverlay>
       ) : null}
+      {powerup ? (
+        <PurchaseModal
+          powerup={powerup}
+          close={closePurchase}
+          coins={user.coins}
+          handlePurchase={handlePurchase}
+        />
+      ) : null}
       {isCounting ? <CountdownPopup onEnd={handleCountdownEnd} /> : null}
       {isRecording && cameraType === frontType && flash === flashOn ? (
         <View style={styles.frontFlash} />
@@ -348,7 +381,8 @@ const styles = StyleSheet.create({
 
 CameraScreen.propTypes = {
   navigation: object.isRequired,
-  uploadFile: func.isRequired
+  uploadFile: func.isRequired,
+  displayBadge: func.isRequired
 };
 
 export default connect(

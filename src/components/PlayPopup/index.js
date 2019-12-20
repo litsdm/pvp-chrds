@@ -123,7 +123,8 @@ const PlayPopup = ({ close, category, friend, navigate }) => {
     navigate('Camera', {
       categoryID: selectedCategory,
       opponentID: selectedFriend,
-      matchID: matchData.match._id
+      matchID: matchData.match._id,
+      userID: user._id
     });
     close();
   };

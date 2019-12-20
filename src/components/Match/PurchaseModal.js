@@ -38,6 +38,20 @@ const PurchaseModal = ({ close, coins, powerup, handlePurchase }) => {
           icon: 'fill-drip',
           cost: 70
         };
+      case 'mic':
+        return {
+          title: 'Microphone Power-Up',
+          description: 'Allows you to record your video with sound.',
+          icon: 'microphone-alt',
+          cost: 70
+        };
+      case 'hand':
+        return {
+          title: 'Hand Power-Up',
+          description: "Select any word from the category you're playing.",
+          icon: 'hand-pointer',
+          cost: 50
+        };
       default:
         return {};
     }
