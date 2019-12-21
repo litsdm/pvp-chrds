@@ -17,15 +17,11 @@ export default gql`
         hint
       }
     }
-    opponent: userByID(_id: $opponentID) {
+    opponent: user(_id: $opponentID) {
       _id
       profilePic
       username
       displayName
-    }
-    user: userByID(_id: $userID) {
-      _id
-      coins
     }
     match(_id: $matchID) {
       _id

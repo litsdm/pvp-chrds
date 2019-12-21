@@ -10,7 +10,7 @@ export default gql`
       _id
       image
     }
-    opponent: userByID(_id: $opponentID) {
+    opponent: user(_id: $opponentID) {
       _id
       profilePic
       username

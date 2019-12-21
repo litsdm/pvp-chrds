@@ -10,6 +10,7 @@ import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import jwtDecode from 'jwt-decode';
 import { func, object } from 'prop-types';
 
 import { toggleBadge } from '../../actions/popup';
@@ -17,7 +18,7 @@ import { toggleBadge } from '../../actions/popup';
 import SettingsNavBar from '../../components/SettingsNavBar';
 import FormModal from '../../components/FormModal';
 
-import GET_USER from '../../graphql/queries/getUserFromToken';
+import GET_USER from '../../graphql/queries/getUser';
 import UPDATE_USER from '../../graphql/mutations/updateUser';
 import CHANGE_PASSWORD from '../../graphql/mutations/changePassword';
 
@@ -52,7 +53,8 @@ const GeneralScreen = ({ navigation, displayBadge }) => {
 
   const fetchUser = async () => {
     const token = await AsyncStorage.getItem('CHRDS_TOKEN');
-    getUser({ variables: { token } });
+    const { _id: id } = jwtDecode(token);
+    getUser({ variables: { _id: id } });
   };
 
   const updateUserToken = async () => {

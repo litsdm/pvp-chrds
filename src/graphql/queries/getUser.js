@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export default gql`
-  query User($token: String!) {
-    user(token: $token) {
+  query User($_id: String!) {
+    user(_id: $_id) {
       _id
       username
       displayName

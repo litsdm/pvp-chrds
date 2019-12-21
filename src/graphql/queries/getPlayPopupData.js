@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export default gql`
-  query GetPlayPopupData($token: String!, $_id: String!) {
+  query GetPlayPopupData($_id: String!) {
     categories {
       _id
       name
@@ -14,7 +14,7 @@ export default gql`
       username
       profilePic
     }
-    user(token: $token) {
+    user(_id: $_id) {
       _id
     }
   }

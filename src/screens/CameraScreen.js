@@ -14,6 +14,7 @@ import { upload } from '../actions/file';
 import { toggleBadge } from '../actions/popup';
 
 import GET_DATA from '../graphql/queries/getCameraData';
+import GET_USER from '../graphql/queries/getCameraUser';
 import UPDATE_MATCH from '../graphql/mutations/updateMatch';
 import UPDATE_USER from '../graphql/mutations/updateUser';
 
@@ -46,6 +47,9 @@ const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
   const { data } = useQuery(GET_DATA, {
     variables: { categoryID, opponentID, matchID, userID }
   });
+  const { data: userData, refetch } = useQuery(GET_USER, {
+    variables: { userID }
+  });
   const [hasPermissions, setPermissions] = useState(false);
   const [cameraType, setCameraType] = useState(frontType);
   const [flash, setFlash] = useState(flashOff);
@@ -65,7 +69,7 @@ const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
   const category = data ? data.category : {};
   const opponent = data ? data.opponent : {};
   const match = data ? data.match : {};
-  const user = data ? data.user : {};
+  const user = userData ? userData.user : {};
 
   const camera = useRef(null);
   const cameraAnimation = useRef(null);
@@ -258,7 +262,7 @@ const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
     setPickWord(false);
   };
 
-  const handlePurchase = cost => () => {
+  const handlePurchase = cost => async () => {
     if (powerup === 'mic' && useAudio) {
       displayBadge('Audio is already activated.', 'error');
       return;
@@ -278,9 +282,11 @@ const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
         break;
     }
 
-    updateUser({ variables: { id: userID, properties } });
-
     closePurchase();
+
+    await updateUser({ variables: { id: userID, properties } });
+
+    refetch();
   };
 
   const removeReplayWord = () => {

@@ -56,7 +56,7 @@ const PlayPopup = ({ close, category, friend, navigate }) => {
   const fetchFriends = async () => {
     const token = await AsyncStorage.getItem('CHRDS_TOKEN');
     const { _id } = jwtDecode(token);
-    getData({ variables: { token, _id } });
+    getData({ variables: { _id } });
   };
 
   const handleTextChange = text => setSearch(text);

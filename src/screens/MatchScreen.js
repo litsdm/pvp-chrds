@@ -184,7 +184,7 @@ const MatchScreen = ({ navigation }) => {
   const showPurchase = selectedPowerup => () => setPowerup(selectedPowerup);
   const closePurchase = () => setPowerup('');
 
-  const handlePurchase = cost => () => {
+  const handlePurchase = cost => async () => {
     const properties = JSON.stringify({ coins: user.coins - cost });
 
     switch (powerup) {
@@ -204,9 +204,11 @@ const MatchScreen = ({ navigation }) => {
         break;
     }
 
-    updateUser({ variables: { id: userID, properties } });
-
     closePurchase();
+
+    await updateUser({ variables: { id: userID, properties } });
+
+    refetchUser();
   };
 
   const handleReplay = () => {

@@ -18,11 +18,12 @@ import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import jwtDecode from 'jwt-decode';
 import { bool, func, number, object } from 'prop-types';
 
 import mime from '../../helpers/mimeTypes';
 
-import GET_USER from '../../graphql/queries/getUserFromToken';
+import GET_USER from '../../graphql/queries/getUser';
 
 import Layout from '../../constants/Layout';
 import { useAnimation } from '../../helpers/hooks';
@@ -65,7 +66,8 @@ const SettingsScreen = ({
 
   const fetchUser = async () => {
     const token = await AsyncStorage.getItem('CHRDS_TOKEN');
-    getUser({ variables: { token } });
+    const { _id } = jwtDecode(token);
+    getUser({ variables: { _id } });
   };
 
   const goBack = () => navigation.navigate('Home');

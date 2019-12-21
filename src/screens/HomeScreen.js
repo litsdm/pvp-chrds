@@ -17,7 +17,7 @@ import moment from 'moment';
 import jwtDecode from 'jwt-decode';
 import { bool, func, object } from 'prop-types';
 
-import GET_USER from '../graphql/queries/getUserFromToken';
+import GET_USER from '../graphql/queries/getUser';
 import GET_USER_MATCHES from '../graphql/queries/getUserMatches';
 import CREATED_MATCH from '../graphql/subscriptions/createdMatch';
 import UPDATED_MATCH from '../graphql/subscriptions/updatedMatch';
@@ -123,7 +123,7 @@ const HomeScreen = ({
   const fetchData = async () => {
     const token = await AsyncStorage.getItem('CHRDS_TOKEN');
     const { _id } = jwtDecode(token);
-    await getUser({ variables: { token } });
+    await getUser({ variables: { _id } });
     getMatches({ variables: { _id } });
   };
 

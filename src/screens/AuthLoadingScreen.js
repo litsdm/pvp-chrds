@@ -6,9 +6,10 @@ import {
   View
 } from 'react-native';
 import { useLazyQuery } from '@apollo/react-hooks';
+import jwtDecode from 'jwt-decode';
 import { object } from 'prop-types';
 
-import GET_USER from '../graphql/queries/getUserFromToken';
+import GET_USER from '../graphql/queries/getUser';
 
 const AuthLoadingScreen = ({ navigation }) => {
   const [getUser] = useLazyQuery(GET_USER);
@@ -18,7 +19,12 @@ const AuthLoadingScreen = ({ navigation }) => {
 
   const checkUserToken = async () => {
     const token = await AsyncStorage.getItem('CHRDS_TOKEN');
-    if (token) getUser({ variables: { token } });
+
+    if (token) {
+      const { _id } = jwtDecode(token);
+      getUser({ variables: { _id } });
+    }
+
     navigation.navigate(token ? 'Main' : 'Auth');
   };
 
