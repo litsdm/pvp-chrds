@@ -129,11 +129,16 @@ const HomeScreen = ({
 
   const separateMatches = () => {
     const yourTurn = matchesData.matches.filter(
-      match => match.turn === user._id && match.state !== 'end'
+      match =>
+        match.turn === user._id &&
+        match.state !== 'end' &&
+        match.state !== 'sending'
     );
 
     const theirTurn = matchesData.matches.filter(
-      match => match.turn !== user._id && match.state !== 'end'
+      match =>
+        (match.turn !== user._id && match.state !== 'end') ||
+        match.state === 'sending'
     );
 
     const finished = matchesData.matches.filter(match => match.state === 'end');
