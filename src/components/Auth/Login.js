@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: 'sf-bold',
     fontSize: 24,
+    marginTop: 24,
     marginBottom: 24,
     textAlign: 'center'
   },
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
   signupText: {
     color: '#fff',
     fontFamily: 'sf-medium',
-    fontSize: 22
+    fontSize: 20
   },
   switchButton: {
     alignItems: 'center',
@@ -136,6 +137,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#3B5998',
     borderRadius: 6,
     flexDirection: 'row',
+    justifyContent: 'center',
     paddingHorizontal: 12,
     paddingVertical: 6,
     width: Layout.window.width - 48
@@ -143,7 +145,7 @@ const styles = StyleSheet.create({
   fbText: {
     color: '#fff',
     fontFamily: 'sf-medium',
-    fontSize: 22,
+    fontSize: 16,
     marginLeft: 12
   },
   logoWrapper: {

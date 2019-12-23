@@ -117,7 +117,7 @@ const AuthUsernameScreen = ({ navigation, displayBadge }) => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={styles.contentContainer}>
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <AnimatedCircle
           color="#7C4DFF"
@@ -176,12 +176,14 @@ const AuthUsernameScreen = ({ navigation, displayBadge }) => {
 };
 
 const styles = StyleSheet.create({
+  contentContainer: {
+    flex: 1
+  },
   container: {
     alignItems: 'center',
     backgroundColor: '#FCFCFE',
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     paddingTop: getStatusBarHeight() + 48
   }
 });

@@ -7,10 +7,6 @@ import Layout from '../../constants/Layout';
 
 import Input from './Input';
 
-const IPHONE_X_HEIGHT = 812;
-const ICON_WRAPPER_SIZE = (Layout.window.height * 112) / IPHONE_X_HEIGHT;
-const ICON_SIZE = (ICON_WRAPPER_SIZE * 88) / 112;
-
 const Signup = ({
   goToLogin,
   setState,
@@ -29,7 +25,7 @@ const Signup = ({
         style={styles.logo}
       />
     </View>
-    <Text style={styles.title}>Sign Up with Email</Text>
+    <Text style={styles.title}>Sign Up with Username</Text>
     <View style={styles.content}>
       <Input
         onChangeText={text => setState('username', text)}
@@ -83,6 +79,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: 'sf-bold',
     fontSize: 24,
+    marginTop: 24,
     marginBottom: 24,
     textAlign: 'center'
   },
@@ -97,14 +94,14 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 12,
+    marginBottom: 24,
     paddingVertical: 6,
     width: Layout.window.width - 48
   },
   signupText: {
     color: '#fff',
     fontFamily: 'sf-medium',
-    fontSize: 22
+    fontSize: 20
   },
   switchButton: {
     alignItems: 'center',
@@ -123,7 +120,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: 12
+    marginVertical: 24
   },
   line: {
     backgroundColor: 'rgba(0 ,0, 0, 0.1)',
@@ -139,6 +136,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#3B5998',
     borderRadius: 6,
     flexDirection: 'row',
+    justifyContent: 'center',
     paddingHorizontal: 12,
     paddingVertical: 6,
     width: Layout.window.width - 48
@@ -146,25 +144,25 @@ const styles = StyleSheet.create({
   fbText: {
     color: '#fff',
     fontFamily: 'sf-medium',
-    fontSize: 22,
+    fontSize: 16,
     marginLeft: 12
   },
   logoWrapper: {
     alignItems: 'center',
     backgroundColor: '#fff',
     borderRadius: 12,
-    height: ICON_WRAPPER_SIZE,
+    height: 112,
     justifyContent: 'center',
     shadowColor: 'rgba(0, 0, 0, 0.5)',
     shadowOffset: { width: 2, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
-    width: ICON_WRAPPER_SIZE
+    width: 112
   },
   logo: {
     borderRadius: 12,
-    height: ICON_SIZE,
-    width: ICON_SIZE
+    height: 88,
+    width: 88
   }
 });
 

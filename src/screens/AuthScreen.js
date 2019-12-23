@@ -62,15 +62,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#3B5998',
     borderRadius: 6,
     flexDirection: 'row',
+    justifyContent: 'center',
     marginBottom: 24,
-    paddingHorizontal: 12,
+    paddingHorizontal: 8,
     paddingVertical: 6,
     width: Layout.window.width - 48
   },
   fbText: {
     color: '#fff',
     fontFamily: 'sf-medium',
-    fontSize: 22,
+    fontSize: 16,
     marginLeft: 12
   },
   usernameButton: {
@@ -79,18 +80,18 @@ const styles = StyleSheet.create({
     borderColor: '#7C4DFF',
     borderRadius: 6,
     flexDirection: 'row',
+    justifyContent: 'center',
     marginBottom: 24,
-    paddingHorizontal: 12,
+    paddingHorizontal: 8,
     paddingVertical: 6,
     width: Layout.window.width - 48
   },
   usernameText: {
     color: '#7C4DFF',
     fontFamily: 'sf-medium',
-    fontSize: 22,
+    fontSize: 16,
     marginLeft: 12,
-    textAlign: 'center',
-    flexBasis: '75%'
+    textAlign: 'center'
   },
   loginButton: {
     alignItems: 'center',
