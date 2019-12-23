@@ -86,8 +86,15 @@ const Popup = ({
       <Animated.View
         style={[
           styles.content,
-          position.current.getTranslateTransform(),
-          animateDisplay,
+          {
+            transform:
+              position.current && animateDisplay.transform
+                ? [
+                    ...animateDisplay.transform,
+                    ...position.current.getTranslateTransform()
+                  ]
+                : []
+          },
           Platform.OS === 'ios' ? styles.posApple : styles.posAndroid,
           contentStyles
         ]}
@@ -130,12 +137,7 @@ const styles = StyleSheet.create({
     left: 0,
     minHeight: 180,
     position: 'absolute',
-    right: 0
-  },
-  posAndroid: {
-    bottom: 0
-  },
-  posApple: {
+    right: 0,
     top: Layout.window.height
   },
   slideIndicator: {
