@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { func } from 'prop-types';
 
 const BottomControls = ({ send }) => (
   <View style={styles.container}>
@@ -12,7 +13,8 @@ const BottomControls = ({ send }) => (
     />
     <View style={styles.bottom}>
       <TouchableOpacity style={styles.send} onPress={send}>
-        <FontAwesome5 name="paper-plane" color="#fff" size={30} />
+        <Text style={styles.sendText}>Send</Text>
+        <FontAwesome5 name="paper-plane" color="#7c4dff" size={18} />
       </TouchableOpacity>
     </View>
   </View>
@@ -39,9 +41,23 @@ const styles = StyleSheet.create({
     top: 0
   },
   send: {
-    height: 36,
-    width: 36
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 24,
+    flexDirection: 'row',
+    paddingHorizontal: 24,
+    paddingVertical: 6
+  },
+  sendText: {
+    color: '#7c4dff',
+    fontFamily: 'sf-medium',
+    fontSize: 16,
+    marginRight: 6
   }
 });
+
+BottomControls.propTypes = {
+  send: func.isRequired
+};
 
 export default BottomControls;
