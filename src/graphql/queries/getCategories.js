@@ -8,6 +8,8 @@ export default gql`
       description
       image
       color
+      isFeatured
+      featureImage
       words {
         _id
         text

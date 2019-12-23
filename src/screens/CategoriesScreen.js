@@ -1,5 +1,6 @@
-import React, { useRef, createRef } from 'react';
+import React, { useEffect, useState, useRef, createRef } from 'react';
 import {
+  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -36,10 +37,20 @@ const CategoriesScreen = ({
   showCategory,
   showPlay
 }) => {
+  const [featuredCategory, setFeaturedCategory] = useState(null);
   const { loading, data } = useQuery(GET_CATEGORIES);
   const logoRefs = useRef([...Array(3)].map(() => createRef()));
 
   const categories = data ? data.categories : [];
+
+  useEffect(() => {
+    if (data && data.categories) getFeaturedCategory();
+  }, [data]);
+
+  const getFeaturedCategory = () => {
+    const featured = categories.find(category => category.isFeatured);
+    setFeaturedCategory(featured || null);
+  };
 
   const showPopup = index => () => {
     const selectedCategory = categories[index];
@@ -48,6 +59,13 @@ const CategoriesScreen = ({
       showCategory({ selectedCategory, transitionPosition });
     });
   };
+
+  const verticalStyles =
+    featuredCategory === null
+      ? {
+          marginBottom: 12
+        }
+      : null;
 
   const openPlay = _id => () => showPlay({ playCategory: _id });
 
@@ -64,6 +82,7 @@ const CategoriesScreen = ({
         logoRef={logoRefs.current[index]}
         hideLogo={displayCategory && popupSelectedCategory._id === _id}
         parentBackgroundColor="#FCFCFE"
+        containerStyles={verticalStyles}
       />
     ));
 
@@ -73,18 +92,40 @@ const CategoriesScreen = ({
         <Loader />
       ) : (
         <>
-          <View style={styles.featured}>
-            <View style={styles.bgPlacholder} />
-            <Text style={styles.name}>TV Series Characters</Text>
-            <Text style={styles.description}>Featured description</Text>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Play</Text>
-            </TouchableOpacity>
-          </View>
+          {featuredCategory !== null ? (
+            <View style={styles.featured}>
+              {featuredCategory.featureImage ? (
+                <Image
+                  source={{ uri: featuredCategory.featureImage }}
+                  style={styles.bgImage}
+                  resizeMode="cover"
+                />
+              ) : (
+                <View style={styles.bgPlacholder} />
+              )}
+              <Text style={styles.name}>{featuredCategory.name}</Text>
+              <Text style={styles.description}>
+                {featuredCategory.description}
+              </Text>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={openPlay(featuredCategory._id)}
+              >
+                <Text style={styles.buttonText}>Play</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
           <View>
             <Text style={styles.title}>Let&#39;s Play</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              {renderCategories()}
+            <ScrollView
+              horizontal={featuredCategory !== null}
+              showsHorizontalScrollIndicator={false}
+            >
+              {featuredCategory ? (
+                renderCategories()
+              ) : (
+                <View style={styles.vertical}>{renderCategories()}</View>
+              )}
             </ScrollView>
           </View>
         </>
@@ -116,12 +157,19 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0
   },
+  bgImage: {
+    bottom: 0,
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0
+  },
   name: {
     color: '#fff',
     fontFamily: 'sf-bold',
     fontSize: 20,
     marginBottom: 12,
-    maxWidth: '50%'
+    maxWidth: '70%'
   },
   description: {
     color: '#fff',
@@ -150,6 +198,10 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 12,
     marginLeft: 12
+  },
+  vertical: {
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   }
 });
 

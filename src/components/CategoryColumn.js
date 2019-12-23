@@ -27,7 +27,8 @@ const CategoryColumn = ({
   selected,
   logoRef,
   hideLogo,
-  parentBackgroundColor
+  parentBackgroundColor,
+  containerStyles
 }) => {
   const [logoOpacity, setLogoOpacity] = useState(1);
 
@@ -38,7 +39,7 @@ const CategoryColumn = ({
 
   return (
     <Touchable onPress={onPress}>
-      <View style={styles.container}>
+      <View style={[styles.container, containerStyles]}>
         <View
           style={[styles.bg, { backgroundColor: selected ? '#4CD964' : color }]}
         >
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     overflow: 'hidden',
     marginHorizontal: 12,
-    width: Layout.window.width / 2.3
+    width: Layout.window.width / 2.308
   },
   imageWrapper: {
     alignItems: 'center',
@@ -211,11 +212,13 @@ CategoryColumn.propTypes = {
   selected: bool,
   logoRef: object,
   hideLogo: bool,
-  parentBackgroundColor: string
+  parentBackgroundColor: string,
+  containerStyles: object
 };
 
 CategoryColumn.defaultProps = {
   onPressInner: () => {},
+  containerStyles: {},
   selecting: false,
   selected: false,
   image: '',
