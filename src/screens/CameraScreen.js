@@ -45,7 +45,7 @@ const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
   const userID = navigation.getParam('userID', '');
 
   const { data } = useQuery(GET_DATA, {
-    variables: { categoryID, opponentID, matchID, userID }
+    variables: { categoryID, opponentID, matchID }
   });
   const { data: userData, refetch } = useQuery(GET_USER, {
     variables: { userID }

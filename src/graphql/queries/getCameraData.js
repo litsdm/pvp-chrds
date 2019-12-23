@@ -5,7 +5,6 @@ export default gql`
     $categoryID: String!
     $opponentID: String!
     $matchID: String!
-    $userID: String!
   ) {
     category(_id: $categoryID) {
       _id
