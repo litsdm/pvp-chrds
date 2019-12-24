@@ -9,6 +9,7 @@ export default gql`
     category(_id: $categoryID) {
       _id
       image
+      name
       color
       words {
         _id

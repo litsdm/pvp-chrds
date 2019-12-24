@@ -8,6 +8,7 @@ export default gql`
   ) {
     category(_id: $categoryID) {
       _id
+      name
       image
     }
     opponent: user(_id: $opponentID) {

@@ -306,6 +306,7 @@ const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
       userScore={match.score ? JSON.parse(match.score)[userID] : 0}
       opponentScore={match.score ? JSON.parse(match.score)[opponent._id] : 0}
       isRecording={isRecording}
+      category={category}
     />
   );
 

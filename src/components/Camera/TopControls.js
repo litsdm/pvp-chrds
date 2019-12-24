@@ -3,9 +3,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { bool, func, number, string } from 'prop-types';
-
-const rand = Math.random();
+import { bool, func, number, object, string } from 'prop-types';
 
 const TopControls = ({
   goBack,
@@ -14,7 +12,8 @@ const TopControls = ({
   userScore,
   opponentScore,
   iconName,
-  preventBack
+  preventBack,
+  category
 }) => (
   <View style={styles.container}>
     <LinearGradient
@@ -22,26 +21,44 @@ const TopControls = ({
       colors={['rgba(0, 0, 0, 0.5)', 'transparent']}
       pointerEvents="none"
     />
-    {!preventBack ? (
-      <TouchableOpacity style={styles.backButton} onPress={goBack}>
-        <Ionicons name={iconName} color="#fff" size={30} />
-      </TouchableOpacity>
-    ) : (
-      <View style={styles.buttonPlaceholder} />
-    )}
-    <View style={styles.info}>
-      <View style={styles.opponent}>
-        <Image
-          source={{ uri: `${uri}?rand=${rand}` }}
-          style={styles.profilePic}
-        />
-        <Text style={styles.username}>{username}</Text>
+    <View style={styles.content}>
+      <View style={styles.left}>
+        {!preventBack ? (
+          <TouchableOpacity style={styles.backButton} onPress={goBack}>
+            <Ionicons name={iconName} color="#fff" size={30} />
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.buttonPlaceholder} />
+        )}
+        {category.image ? (
+          <>
+            <Image
+              source={{ uri: category.image }}
+              style={styles.categoryImage}
+            />
+            <Text
+              style={styles.categoryName}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {category.name}
+            </Text>
+          </>
+        ) : null}
       </View>
-      <View style={styles.verticalDivider} />
-      <View style={styles.scoreWrapper}>
-        <Text style={styles.score}>
-          {userScore} - {opponentScore}
-        </Text>
+      <View style={styles.info}>
+        <View style={styles.opponent}>
+          <Image source={{ uri }} style={styles.profilePic} />
+          <Text style={styles.username} numberOfLines={1} ellipsizeMode="tail">
+            {username}
+          </Text>
+        </View>
+        <View style={styles.verticalDivider} />
+        <View style={styles.scoreWrapper}>
+          <Text style={styles.score}>
+            {userScore} - {opponentScore}
+          </Text>
+        </View>
       </View>
     </View>
   </View>
@@ -52,7 +69,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     flexDirection: 'row',
     height: '50%',
-    justifyContent: 'space-between',
     left: 0,
     paddingHorizontal: 24,
     paddingTop: getStatusBarHeight() + 6,
@@ -61,6 +77,12 @@ const styles = StyleSheet.create({
     top: 0,
     zIndex: 2
   },
+  content: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%'
+  },
   gradient: {
     bottom: 0,
     left: 0,
@@ -68,30 +90,42 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0
   },
+  left: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    flexBasis: '50%'
+  },
   info: {
     alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    flexBasis: '50%'
   },
   opponent: {
     alignItems: 'center',
     flexDirection: 'row'
   },
   profilePic: {
-    borderRadius: 30 / 2,
-    height: 30,
+    borderRadius: 24 / 2,
+    height: 24,
     marginRight: 6,
-    width: 30
+    width: 24
+  },
+  categoryImage: {
+    borderRadius: 6,
+    height: 24,
+    marginLeft: 8,
+    marginRight: 6,
+    width: 24
   },
   username: {
     color: '#fff',
-    fontFamily: 'sf-medium',
-    fontSize: 16
+    fontFamily: 'sf-medium'
   },
   score: {
     color: '#fff',
-    fontFamily: 'sf-medium',
-    fontSize: 16
+    fontFamily: 'sf-medium'
   },
   verticalDivider: {
     backgroundColor: '#fff',
@@ -103,6 +137,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     height: 30,
     width: 30
+  },
+  categoryName: {
+    color: '#fff',
+    fontFamily: 'sf-light',
+    maxWidth: '70%'
   }
 });
 
@@ -113,7 +152,8 @@ TopControls.propTypes = {
   userScore: number,
   opponentScore: number,
   iconName: string.isRequired,
-  preventBack: bool
+  preventBack: bool,
+  category: object
 };
 
 TopControls.defaultProps = {
@@ -121,7 +161,8 @@ TopControls.defaultProps = {
   username: '',
   userScore: 0,
   opponentScore: 0,
-  preventBack: false
+  preventBack: false,
+  category: {}
 };
 
 export default TopControls;
