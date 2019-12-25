@@ -9,8 +9,9 @@ import {
 import { connect } from 'react-redux';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { func, object } from 'prop-types';
-import callApi from '../helpers/apiCaller';
 
+import callApi from '../helpers/apiCaller';
+import { facebookAuth } from './AuthScreen';
 import { toggleBadge } from '../actions/popup';
 
 import Login from '../components/Auth/Login';
@@ -39,6 +40,15 @@ const AuthUsernameScreen = ({ navigation, displayBadge }) => {
       default:
         break;
     }
+  };
+
+  const loginWithFacebook = async () => {
+    const user = await facebookAuth();
+    const response = await callApi('facebook', { user }, 'POST');
+    const { token } = await response.json();
+
+    await AsyncStorage.setItem('CHRDS_TOKEN', token);
+    navigation.navigate('Main');
   };
 
   const callLogin = async () => {
@@ -159,6 +169,7 @@ const AuthUsernameScreen = ({ navigation, displayBadge }) => {
             password={password}
             authorize={authorize}
             authorizing={authorizing}
+            handleFB={loginWithFacebook}
           />
         ) : (
           <Login
@@ -168,6 +179,7 @@ const AuthUsernameScreen = ({ navigation, displayBadge }) => {
             password={password}
             authorize={authorize}
             authorizing={authorizing}
+            handleFB={loginWithFacebook}
           />
         )}
       </KeyboardAvoidingView>

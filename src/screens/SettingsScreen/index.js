@@ -10,7 +10,11 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { useApolloClient, useLazyQuery } from '@apollo/react-hooks';
+import {
+  useApolloClient,
+  useLazyQuery,
+  useMutation
+} from '@apollo/react-hooks';
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import * as StoreReview from 'expo-store-review';
@@ -22,8 +26,10 @@ import jwtDecode from 'jwt-decode';
 import { bool, func, number, object } from 'prop-types';
 
 import mime from '../../helpers/mimeTypes';
+import { facebookAuth } from '../AuthScreen';
 
 import GET_USER from '../../graphql/queries/getUser';
+import UPDATE_USER from '../../graphql/mutations/updateUser';
 
 import Layout from '../../constants/Layout';
 import { useAnimation } from '../../helpers/hooks';
@@ -54,7 +60,8 @@ const SettingsScreen = ({
   resetReduxState,
   displayBadge
 }) => {
-  const [getUser, { data }] = useLazyQuery(GET_USER);
+  const [getUser, { data, refetch }] = useLazyQuery(GET_USER);
+  const [updateUser] = useMutation(UPDATE_USER);
   const [displayingNavbar, setDisplayingNavbar] = useState(false);
   const { animationValue, animateTo } = useAnimation();
   const client = useApolloClient();
@@ -82,6 +89,17 @@ const SettingsScreen = ({
     client.resetStore();
     resetReduxState();
     navigation.navigate('Auth');
+  };
+
+  const connectWithFacebook = async () => {
+    const fbUser = await facebookAuth();
+    const properties = JSON.stringify({ facebookID: fbUser.id });
+
+    // ADD FB FRIENDS
+
+    await updateUser({ variables: { id: user._id, properties } });
+
+    refetch();
   };
 
   const pickImage = async () => {
@@ -243,7 +261,10 @@ const SettingsScreen = ({
                 />
               </TouchableOpacity>
               <View style={styles.divider} />
-              <TouchableOpacity style={styles.row}>
+              <TouchableOpacity
+                style={styles.row}
+                onPress={connectWithFacebook}
+              >
                 <View style={styles.info}>
                   <View
                     style={[styles.iconWrap, { backgroundColor: '#3B5998' }]}

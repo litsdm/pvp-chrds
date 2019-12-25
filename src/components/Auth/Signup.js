@@ -13,7 +13,8 @@ const Signup = ({
   username,
   password,
   authorize,
-  authorizing
+  authorizing,
+  handleFB
 }) => (
   <>
     <View style={styles.logoWrapper}>
@@ -62,7 +63,7 @@ const Signup = ({
         <Text style={styles.dividerText}>OR</Text>
         <View style={styles.line} />
       </View>
-      <TouchableOpacity style={styles.fbButton}>
+      <TouchableOpacity style={styles.fbButton} onPress={handleFB}>
         <Ionicons name="logo-facebook" size={30} color="#fff" />
         <Text style={styles.fbText}>Sign up with Facebook</Text>
       </TouchableOpacity>
@@ -172,7 +173,8 @@ Signup.propTypes = {
   username: string.isRequired,
   password: string.isRequired,
   authorize: func.isRequired,
-  authorizing: bool.isRequired
+  authorizing: bool.isRequired,
+  handleFB: func.isRequired
 };
 
 export default Signup;

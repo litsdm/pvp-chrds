@@ -30,7 +30,7 @@ const TopControls = ({
         ) : (
           <View style={styles.buttonPlaceholder} />
         )}
-        {category.image ? (
+        {category && category.image ? (
           <>
             <Image
               source={{ uri: category.image }}
@@ -157,12 +157,12 @@ TopControls.propTypes = {
 };
 
 TopControls.defaultProps = {
-  uri: '',
+  uri: '?',
   username: '',
   userScore: 0,
   opponentScore: 0,
   preventBack: false,
-  category: {}
+  category: null
 };
 
 export default TopControls;

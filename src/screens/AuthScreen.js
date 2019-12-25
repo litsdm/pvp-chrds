@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  AsyncStorage,
   Platform,
   StyleSheet,
   Text,
@@ -8,7 +9,10 @@ import {
 } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Ionicons } from '@expo/vector-icons';
+import * as Facebook from 'expo-facebook';
 import { object } from 'prop-types';
+
+import callApi from '../helpers/apiCaller';
 
 import OnBoarding from '../components/Auth/OnBoarding';
 
@@ -20,11 +24,20 @@ const AuthScreen = ({ navigation }) => {
   const goToSignUp = () => navigation.navigate('AuthEmail', { isNew: true });
   const goToLogin = () => navigation.navigate('AuthEmail', { isNew: false });
 
+  const loginWithFacebook = async () => {
+    const user = await facebookAuth();
+    const response = await callApi('facebook', { user }, 'POST');
+    const { token } = await response.json();
+
+    await AsyncStorage.setItem('CHRDS_TOKEN', token);
+    navigation.navigate('Main');
+  };
+
   return (
     <View style={styles.container}>
       <OnBoarding />
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.fbButton}>
+        <TouchableOpacity style={styles.fbButton} onPress={loginWithFacebook}>
           <Ionicons name="logo-facebook" size={30} color="#fff" />
           <Text style={styles.fbText}>Sign up with Facebook</Text>
         </TouchableOpacity>
@@ -41,6 +54,37 @@ const AuthScreen = ({ navigation }) => {
       </View>
     </View>
   );
+};
+
+export const facebookAuth = async () => {
+  try {
+    await Facebook.initializeAsync('2531655210451972');
+    const {
+      type,
+      token,
+      permissions,
+      declinedPermissions
+    } = await Facebook.logInWithReadPermissionsAsync({
+      permissions: ['public_profile', 'user_friends']
+    });
+    if (type === 'success') {
+      const response = await fetch(
+        `https://graph.facebook.com/me?access_token=${token}`
+      );
+      const friendsResponse = await fetch(
+        `https://graph.facebook.com/me/friends?access_token=${token}`
+      );
+
+      const friends = await friendsResponse.json();
+      const user = await response.json();
+
+      console.log(friends);
+
+      return { ...user, friends };
+    }
+  } catch (exception) {
+    console.log(exception.message);
+  }
 };
 
 const styles = StyleSheet.create({
