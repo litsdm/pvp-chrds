@@ -102,6 +102,8 @@ const SettingsScreen = ({
     refetch();
   };
 
+  const handleUploadFinish = () => refetch();
+
   const pickImage = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
@@ -133,7 +135,7 @@ const SettingsScreen = ({
       userID: user._id
     };
 
-    uploadFile(file);
+    uploadFile(file, handleUploadFinish);
   };
 
   const handleScroll = ({
