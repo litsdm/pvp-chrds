@@ -231,7 +231,6 @@ const MatchScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <StatusBar
-        hidden
         barStyle={Platform.OS === 'ios' ? 'light-content' : 'dark-content'}
       />
       <View style={styles.videoWrapper}>
@@ -269,13 +268,13 @@ const MatchScreen = ({ navigation }) => {
           </View>
         ) : null}
         {playCount > 0 &&
-          gameState !== 'guessing' &&
-          gameState !== 'finished' ? (
-            <TouchableOpacity style={styles.guessButton} onPress={switchToGuess}>
-              <Text style={styles.buttonText}>Guess Word</Text>
-              <Ionicons name="ios-arrow-forward" color="#7c4dff" size={18} />
-            </TouchableOpacity>
-          ) : null}
+        gameState !== 'guessing' &&
+        gameState !== 'finished' ? (
+          <TouchableOpacity style={styles.guessButton} onPress={switchToGuess}>
+            <Text style={styles.buttonText}>Guess Word</Text>
+            <Ionicons name="ios-arrow-forward" color="#7c4dff" size={18} />
+          </TouchableOpacity>
+        ) : null}
         <TopControls
           goBack={goBack}
           iconName="ios-arrow-round-back"

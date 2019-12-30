@@ -93,7 +93,7 @@ const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
     if (data && data.match) displayReplayIfNeeded();
   }, [data]);
 
-  const getRandomWord = () => {
+  const getRandomWord = async () => {
     let randWord;
 
     do {
@@ -101,8 +101,8 @@ const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
       randWord = category.words[randomIndex];
     } while (randWord.text === word.text);
 
-    setWord(randWord);
     AsyncStorage.setItem(`${matchID}-word`, JSON.stringify(randWord));
+    await setWord(randWord);
   };
 
   const getCategoryWord = async () => {
@@ -224,8 +224,10 @@ const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
       cameraType
     };
 
-    uploadFile(file);
     await AsyncStorage.removeItem(`${matchID}-word`);
+    await AsyncStorage.removeItem(`${matchID}-rolls`);
+
+    uploadFile(file);
 
     navigation.navigate('Home');
   };
@@ -243,7 +245,7 @@ const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
     if (rollCount <= 0) return;
     const newRollCount = rollCount - 1;
 
-    getRandomWord();
+    await getRandomWord();
     setRollCount(newRollCount);
     await AsyncStorage.setItem(`${matchID}-rolls`, `${newRollCount}`);
   };
