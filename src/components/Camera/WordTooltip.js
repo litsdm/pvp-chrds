@@ -1,11 +1,21 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { func, number, string } from 'prop-types';
 
-const WordTooltip = ({ word, rollCount, roll, color, openPurchase }) => (
+const WordTooltip = ({
+  word,
+  rollCount,
+  roll,
+  color,
+  openPurchase,
+  openHint
+}) => (
   <View style={styles.container}>
     <View style={[styles.card, { backgroundColor: color }]}>
+      <TouchableOpacity style={styles.hintButton} onPress={openHint}>
+        <Ionicons name="ios-help" color="rgba(255,255,255,0.8)" size={24} />
+      </TouchableOpacity>
       <Text style={styles.title}>Act out the word</Text>
       <Text style={styles.word}>{word}</Text>
       <TouchableOpacity
@@ -79,6 +89,17 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: 'sf-regular',
     marginLeft: 6
+  },
+  hintButton: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    borderRadius: 24 / 2,
+    justifyContent: 'center',
+    position: 'absolute',
+    height: 24,
+    right: 6,
+    top: 10,
+    width: 24
   }
 });
 

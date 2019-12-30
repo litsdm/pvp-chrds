@@ -27,6 +27,7 @@ import ReplayModal from '../components/Match/ReplayModal';
 import PowerUps from '../components/Camera/PowerUps';
 import PurchaseModal from '../components/Match/PurchaseModal';
 import PickWordModal from '../components/Camera/PickWordModal';
+import Hint from '../components/Match/HintModal';
 
 const mapDispatchToProps = dispatch => ({
   uploadFile: file => dispatch(upload(file)),
@@ -62,6 +63,7 @@ const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
   const [useAudio, setUseAudio] = useState(false);
   const [pickWord, setPickWord] = useState(false);
   const [rollCount, setRollCount] = useState(2);
+  const [displayHint, setDisplayHint] = useState(false);
   const [updateMatch] = useMutation(UPDATE_MATCH);
   const [updateUser] = useMutation(UPDATE_USER);
   const { animationValue, animateTo } = useAnimation({ duration: 200 });
@@ -298,6 +300,8 @@ const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
 
   const waitForCountdown = () => setCounting(true);
   const closeVideo = () => setVideoUri(null);
+  const openHint = () => setDisplayHint(true);
+  const closeHint = () => setDisplayHint(false);
 
   const renderTopControls = () => (
     <TopControls
@@ -345,6 +349,7 @@ const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
             roll={handleRoll}
             categoryColor={category.color}
             openPurchase={showPurchase}
+            openHint={openHint}
           />
         </View>
       ) : (
@@ -381,6 +386,9 @@ const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
           close={closeReplay}
           handleReplay={handleReplay}
         />
+      ) : null}
+      {displayHint ? (
+        <Hint hint={word.actorHint || word.hint} close={closeHint} />
       ) : null}
     </View>
   );
