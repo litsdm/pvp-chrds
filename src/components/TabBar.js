@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { bool, func, object, string } from 'prop-types';
 
-import { togglePlay } from '../actions/popup';
+import { togglePlay, toggleAdd } from '../actions/popup';
 
 import Tab from './Tab';
 import PlayPopup from './PlayPopup';
@@ -12,7 +12,8 @@ import PlayPopup from './PlayPopup';
 const mapDispatchToProps = dispatch => ({
   showPlay: () => dispatch(togglePlay(true)),
   closePlay: () =>
-    dispatch(togglePlay(false, { playCategory: null, playFriend: null }))
+    dispatch(togglePlay(false, { playCategory: null, playFriend: null })),
+  openAdd: () => dispatch(toggleAdd(true))
 });
 
 const mapStateToProps = ({
@@ -31,7 +32,8 @@ const TabBar = ({
   playCategory,
   playFriend,
   closePlay,
-  showPlay
+  showPlay,
+  openAdd
 }) => {
   const { routes, index } = navigation.state;
   const homeStack = routes[index];
@@ -65,6 +67,7 @@ const TabBar = ({
           category={playCategory}
           friend={playFriend}
           navigate={navigation.navigate}
+          openAdd={openAdd}
         />
       ) : null}
     </>
@@ -101,7 +104,8 @@ TabBar.propTypes = {
   playCategory: string,
   playFriend: string,
   closePlay: func.isRequired,
-  showPlay: func.isRequired
+  showPlay: func.isRequired,
+  openAdd: func.isRequired
 };
 
 TabBar.defaultProps = {

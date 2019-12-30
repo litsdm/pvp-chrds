@@ -19,7 +19,8 @@ const SelectFriend = ({
   search,
   onChangeText,
   selected,
-  select
+  select,
+  openAdd
 }) => {
   const renderItem = args => {
     const { _id, username, profilePic } = args.item;
@@ -40,6 +41,7 @@ const SelectFriend = ({
       <View style={styles.content}>
         <Text style={styles.title}>Select an opponent</Text>
         <SearchBar search={search} onChangeText={onChangeText} />
+        <FriendRow username="Add Friend" onPress={openAdd} selected={false} />
         <FriendRow
           username="Random Opponent"
           onPress={select('-1')}
@@ -108,6 +110,7 @@ const styles = StyleSheet.create({
 SelectFriend.propTypes = {
   handleDone: func.isRequired,
   onChangeText: func.isRequired,
+  openAdd: func.isRequired,
   select: func.isRequired,
   selected: string,
   search: string.isRequired,

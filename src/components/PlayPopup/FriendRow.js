@@ -1,7 +1,16 @@
 import React from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { bool, func, string } from 'prop-types';
+
+const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 
 const FriendRow = ({ username, uri, onPress, selected }) => (
   <TouchableOpacity
@@ -17,8 +26,23 @@ const FriendRow = ({ username, uri, onPress, selected }) => (
       {uri ? (
         <Image style={styles.image} source={{ uri }} />
       ) : (
-        <View style={styles.icon}>
-          <Ionicons size={36} name="ios-shuffle" color="#fff" />
+        <View
+          style={[
+            styles.icon,
+            {
+              backgroundColor: username.startsWith('A') ? '#7c4dff' : '#03A9F4'
+            }
+          ]}
+        >
+          <Ionicons
+            size={username.startsWith('A') ? 24 : 36}
+            name={
+              username.startsWith('A')
+                ? `${PRE_ICON}-person-add`
+                : 'ios-shuffle'
+            }
+            color="#fff"
+          />
         </View>
       )}
     </View>

@@ -26,7 +26,7 @@ const fuzzyOptions = {
   keys: ['username']
 };
 
-const PlayPopup = ({ close, category, friend, navigate }) => {
+const PlayPopup = ({ close, category, friend, navigate, openAdd }) => {
   const [getData, { data }] = useLazyQuery(GET_DATA);
   const [createMatch, { data: matchData }] = useMutation(CREATE_MATCH);
   const [selectedCategory, setSelectedCategory] = useState(category);
@@ -157,6 +157,7 @@ const PlayPopup = ({ close, category, friend, navigate }) => {
           selected={selectedFriend}
           select={selectFriend}
           search={search}
+          openAdd={openAdd}
         />
       </ScrollView>
     </Popup>
@@ -166,6 +167,7 @@ const PlayPopup = ({ close, category, friend, navigate }) => {
 PlayPopup.propTypes = {
   close: func.isRequired,
   navigate: func.isRequired,
+  openAdd: func.isRequired,
   category: string,
   friend: string
 };
