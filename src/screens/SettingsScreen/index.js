@@ -102,6 +102,12 @@ const SettingsScreen = ({
     refetch();
   };
 
+  const disconnectFB = async () => {
+    const properties = JSON.stringify({ facebookID: '' });
+    await updateUser({ variables: { id: user._id, properties } });
+    refetch();
+  };
+
   const handleUploadFinish = () => refetch();
 
   const pickImage = async () => {
@@ -265,7 +271,7 @@ const SettingsScreen = ({
               <View style={styles.divider} />
               <TouchableOpacity
                 style={styles.row}
-                onPress={connectWithFacebook}
+                onPress={user.facebookID ? disconnectFB : connectWithFacebook}
               >
                 <View style={styles.info}>
                   <View
@@ -273,7 +279,11 @@ const SettingsScreen = ({
                   >
                     <Ionicons color="#fff" name="logo-facebook" size={28} />
                   </View>
-                  <Text style={styles.rowText}>Connect to Facebook</Text>
+                  <Text style={styles.rowText}>
+                    {user.facebookID
+                      ? 'Disconnect from Facebook'
+                      : 'Connect to Facebook'}
+                  </Text>
                 </View>
                 <Ionicons
                   name="ios-arrow-forward"

@@ -78,9 +78,7 @@ export const facebookAuth = async () => {
       const friends = await friendsResponse.json();
       const user = await response.json();
 
-      console.log(friends);
-
-      return { ...user, friends };
+      return { ...user, friends: friends.data };
     }
   } catch (exception) {
     console.log(exception.message);

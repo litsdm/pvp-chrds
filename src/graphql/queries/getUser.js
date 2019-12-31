@@ -11,6 +11,7 @@ export default gql`
       level
       xp
       nextXP
+      facebookID
     }
   }
 `;
