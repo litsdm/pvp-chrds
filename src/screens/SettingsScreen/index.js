@@ -30,6 +30,7 @@ import { facebookAuth } from '../AuthScreen';
 
 import GET_USER from '../../graphql/queries/getUser';
 import UPDATE_USER from '../../graphql/mutations/updateUser';
+import ADD_FRIENDS from '../../graphql/mutations/addFBFriends';
 
 import Layout from '../../constants/Layout';
 import { useAnimation } from '../../helpers/hooks';
@@ -62,6 +63,7 @@ const SettingsScreen = ({
 }) => {
   const [getUser, { data, refetch }] = useLazyQuery(GET_USER);
   const [updateUser] = useMutation(UPDATE_USER);
+  const [addFriends] = useMutation(ADD_FRIENDS);
   const [displayingNavbar, setDisplayingNavbar] = useState(false);
   const { animationValue, animateTo } = useAnimation();
   const client = useApolloClient();
@@ -95,7 +97,8 @@ const SettingsScreen = ({
     const fbUser = await facebookAuth();
     const properties = JSON.stringify({ facebookID: fbUser.id });
 
-    // ADD FB FRIENDS
+    const friendIDs = fbUser.friends.map(friend => friend.id);
+    await addFriends({ variables: { _id: user._id, friendIDs } });
 
     await updateUser({ variables: { id: user._id, properties } });
 
