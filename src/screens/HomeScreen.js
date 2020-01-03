@@ -118,7 +118,12 @@ const HomeScreen = ({
 }) => {
   const [
     getMatches,
-    { subscribeToMore, loading: loadingMatches, data: matchesData }
+    {
+      subscribeToMore,
+      loading: loadingMatches,
+      data: matchesData,
+      refetch: refetchMatches
+    }
   ] = useLazyQuery(GET_USER_MATCHES);
   const [getUser, { loading, data }] = useLazyQuery(GET_USER);
   const [matches, setMatches] = useState(null);
@@ -132,7 +137,10 @@ const HomeScreen = ({
   }, []);
 
   useEffect(() => {
-    if (matchesData) separateMatches();
+    if (matchesData) {
+      separateMatches();
+      checkExpiredMatches();
+    }
   }, [matchesData]);
 
   useEffect(() => {
@@ -193,6 +201,20 @@ const HomeScreen = ({
     getMatches({ variables: { _id } });
   };
 
+  const checkExpiredMatches = async () => {
+    if (!matchesData.matches) return;
+    const deletePromises = [];
+
+    matchesData.matches.forEach(({ _id, expiresOn, state }) => {
+      if (moment().diff(new Date(expiresOn)) > 0 && state !== 'end')
+        deletePromises.push(deleteMatch({ variables: { _id } }));
+    });
+
+    await Promise.all(deletePromises);
+
+    refetchMatches();
+  };
+
   const separateMatches = () => {
     const yourTurn = matchesData.matches.filter(
       match =>
@@ -245,10 +267,13 @@ const HomeScreen = ({
 
   const renderItem = args => {
     const { title } = args.section;
-    const { players, category, score, expiresOn } = args.item;
+    const { players, category, score, expiresOn, state } = args.item;
     const opponent = getOpponent(players);
     const jsonScore = JSON.parse(score);
     const stringScore = `${jsonScore[user._id]} - ${jsonScore[opponent._id]}`;
+
+    if (moment().diff(new Date(expiresOn)) > 0 && state !== 'end') return null;
+
     return title !== 'Finished Matches' ? (
       <MatchRow
         score={stringScore}
