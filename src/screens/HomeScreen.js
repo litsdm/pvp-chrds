@@ -203,16 +203,22 @@ const HomeScreen = ({
 
   const checkExpiredMatches = async () => {
     if (!matchesData.matches) return;
+    let deleteFlag = false;
     const deletePromises = [];
 
     matchesData.matches.forEach(({ _id, expiresOn, state }) => {
-      if (moment().diff(new Date(expiresOn)) > 0 && state !== 'end')
+      if (moment().diff(new Date(expiresOn)) > 0 && state !== 'end') {
         deletePromises.push(deleteMatch({ variables: { _id } }));
+        deleteFlag = true;
+      }
     });
 
     await Promise.all(deletePromises);
 
-    refetchMatches();
+    if (deleteFlag) {
+      await refetchMatches();
+      separateMatches();
+    }
   };
 
   const separateMatches = () => {
@@ -303,6 +309,12 @@ const HomeScreen = ({
     return <Text style={styles.title}>{title}</Text>;
   };
 
+  const condition =
+    matches &&
+    matches[0].data.length === 0 &&
+    matches[1].data.length === 0 &&
+    matches[2].data.length === 0;
+
   return (
     <>
       <View style={styles.statusBar} />
@@ -311,10 +323,11 @@ const HomeScreen = ({
       ) : (
         <View style={styles.container}>
           <SectionList
-            sections={matches}
+            sections={condition ? null : matches}
             keyExtractor={item => item._id}
             renderItem={renderItem}
             renderSectionHeader={renderSectionHeader}
+            extraData={[matchesData, condition]}
             ListHeaderComponent={() => (
               <Header user={user} navigateToSettings={navigateToSettings} />
             )}
