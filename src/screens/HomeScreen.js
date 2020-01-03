@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {
   AsyncStorage,
   Image,
-  ScrollView,
   SectionList,
   StyleSheet,
   TouchableOpacity,
@@ -15,7 +14,7 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment';
 import jwtDecode from 'jwt-decode';
-import { bool, func, object } from 'prop-types';
+import { bool, func, number, object, shape, string } from 'prop-types';
 
 import GET_USER from '../graphql/queries/getUser';
 import GET_USER_MATCHES from '../graphql/queries/getUserMatches';
@@ -43,6 +42,73 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = ({ popup: { displayNetworkModal } }) => ({
   displayNetworkModal
 });
+
+const Header = ({ user, navigateToSettings }) => (
+  <>
+    <View style={styles.header}>
+      <AnimatedCircle
+        color="#7C4DFF"
+        size={152}
+        animationType="position-opacity"
+        endPosition={{ y: 152 - 152 / 4, x: -152 + 152 / 3 }}
+        circleStyle={{ right: -152, top: -152 }}
+      />
+      <AnimatedCircle
+        color="#FFC107"
+        size={115}
+        animationType="position-opacity"
+        delay={150}
+        endPosition={{ y: 115 - 115 / 3.5, x: 0 }}
+        circleStyle={{ top: -115, right: 42 }}
+      />
+      <AnimatedCircle
+        color="#FF5252"
+        size={90}
+        animationType="position-opacity"
+        delay={300}
+        endPosition={{ y: 90 - 90 / 1.8, x: 0 }}
+        circleStyle={{ top: -90, left: 42 }}
+        empty
+      />
+      <View style={styles.leftSide}>
+        <Text style={styles.greeting}>Hello {user.displayName},</Text>
+        <Text style={styles.subtitle}>Ready to Play?</Text>
+      </View>
+      <View style={styles.rightSide}>
+        <TouchableOpacity style={styles.imgButton} onPress={navigateToSettings}>
+          <Image
+            resizeMode="cover"
+            source={{ uri: user.profilePic }}
+            style={styles.profilePic}
+          />
+        </TouchableOpacity>
+      </View>
+    </View>
+    <View style={styles.info}>
+      <View style={styles.levelSection}>
+        <Text style={styles.lvlTxtWrapper}>
+          Lvl <Text style={styles.lvlTxt}>{user.level}</Text>
+        </Text>
+        <ProgressBar progress={(user.xp * 100) / user.nextXP} />
+        <Text style={styles.progressTxt}>
+          {user.nextXP - user.xp} until next level
+        </Text>
+      </View>
+      <View style={styles.verticalDivider} />
+      <View style={styles.moneySection}>
+        <View style={styles.coinWrapper}>
+          <FontAwesome5 name="coins" size={30} color="#FFC107" />
+          <Text style={styles.coins}>
+            {user.coins} <Text style={styles.coinWord}>coins</Text>
+          </Text>
+        </View>
+        <TouchableOpacity style={styles.getMore}>
+          <Text style={styles.getMoreText}>Get More</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  </>
+);
 
 const HomeScreen = ({
   navigation,
@@ -218,98 +284,25 @@ const HomeScreen = ({
       {loading && loadingMatches ? (
         <Loader />
       ) : (
-        <ScrollView bounces={false}>
-          <View style={styles.container}>
-            <View style={styles.header}>
-              <AnimatedCircle
-                color="#7C4DFF"
-                size={152}
-                animationType="position-opacity"
-                endPosition={{ y: 152 - 152 / 4, x: -152 + 152 / 3 }}
-                circleStyle={{ right: -152, top: -152 }}
-              />
-              <AnimatedCircle
-                color="#FFC107"
-                size={115}
-                animationType="position-opacity"
-                delay={150}
-                endPosition={{ y: 115 - 115 / 3.5, x: 0 }}
-                circleStyle={{ top: -115, right: 42 }}
-              />
-              <AnimatedCircle
-                color="#FF5252"
-                size={90}
-                animationType="position-opacity"
-                delay={300}
-                endPosition={{ y: 90 - 90 / 1.8, x: 0 }}
-                circleStyle={{ top: -90, left: 42 }}
-                empty
-              />
-              <View style={styles.leftSide}>
-                <Text style={styles.greeting}>Hello {user.displayName},</Text>
-                <Text style={styles.subtitle}>Ready to Play?</Text>
-              </View>
-              <View style={styles.rightSide}>
-                <TouchableOpacity
-                  style={styles.imgButton}
-                  onPress={navigateToSettings}
-                >
-                  <Image
-                    resizeMode="cover"
-                    source={{ uri: user.profilePic }}
-                    style={styles.profilePic}
-                  />
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={styles.info}>
-              <View style={styles.levelSection}>
-                <Text style={styles.lvlTxtWrapper}>
-                  Lvl <Text style={styles.lvlTxt}>{user.level}</Text>
-                </Text>
-                <ProgressBar progress={(user.xp * 100) / user.nextXP} />
-                <Text style={styles.progressTxt}>
-                  {user.nextXP - user.xp} until next level
-                </Text>
-              </View>
-              <View style={styles.verticalDivider} />
-              <View style={styles.moneySection}>
-                <View style={styles.coinWrapper}>
-                  <FontAwesome5 name="coins" size={30} color="#FFC107" />
-                  <Text style={styles.coins}>
-                    {user.coins} <Text style={styles.coinWord}>coins</Text>
-                  </Text>
-                </View>
-                <TouchableOpacity style={styles.getMore}>
-                  <Text style={styles.getMoreText}>Get More</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            {matches === null ? (
-              <Loader />
-            ) : (
-              <View style={styles.lists}>
-                {(matches[0] && matches[0].data.length > 0) ||
-                (matches[1] && matches[1].data.length > 0) ||
-                (matches[2] && matches[2].data.length > 0) ? (
-                  <SectionList
-                    sections={matches}
-                    keyExtractor={item => item._id}
-                    renderItem={renderItem}
-                    renderSectionHeader={renderSectionHeader}
-                  />
-                ) : (
-                  <Empty
-                    title="No matches yet."
-                    description="Click play below to start playing with your friends!"
-                    action={openPlay}
-                    actionTitle="Play Now"
-                  />
-                )}
-              </View>
+        <View style={styles.container}>
+          <SectionList
+            sections={matches}
+            keyExtractor={item => item._id}
+            renderItem={renderItem}
+            renderSectionHeader={renderSectionHeader}
+            ListHeaderComponent={() => (
+              <Header user={user} navigateToSettings={navigateToSettings} />
             )}
-          </View>
-        </ScrollView>
+            ListEmptyComponent={() => (
+              <Empty
+                title="No matches yet."
+                description="Click play below to start playing with your friends!"
+                action={openPlay}
+                actionTitle="Play Now"
+              />
+            )}
+          />
+        </View>
       )}
     </>
   );
@@ -445,6 +438,19 @@ HomeScreen.propTypes = {
   openPlay: func.isRequired,
   closeNetworkModal: func.isRequired,
   displayNetworkModal: bool.isRequired
+};
+
+Header.propTypes = {
+  navigateToSettings: func.isRequired,
+  user: shape({
+    _id: string,
+    displayName: string,
+    profilePic: string,
+    coins: number,
+    level: number,
+    xp: number,
+    nextXP: number
+  }).isRequired
 };
 
 export default connect(
