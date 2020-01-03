@@ -4,6 +4,7 @@ import {
   Platform,
   StyleSheet,
   TextInput,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   View
 } from 'react-native';
@@ -11,6 +12,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { bool, func, object, string } from 'prop-types';
 
 import { usePrevious, useAnimation } from '../../helpers/hooks';
+
+const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 
 const Input = ({
   value,
@@ -23,6 +26,7 @@ const Input = ({
 }) => {
   const [animateText, setAnimateText] = useState({});
   const [isFocused, setFocused] = useState(false);
+  const [textVisibility, setTextVisibility] = useState(secureTextEntry);
   const { animationValue, animateTo } = useAnimation();
   const previousValue = usePrevious(value);
   const input = useRef(null);
@@ -45,6 +49,7 @@ const Input = ({
 
   const handleFocus = () => setFocused(true);
   const handleBlur = () => setFocused(false);
+  const toggleVisibility = () => setTextVisibility(!textVisibility);
 
   const focus = () => {
     if (input.current) input.current.focus();
@@ -103,7 +108,7 @@ const Input = ({
           onChangeText={onChangeText}
           underlineColorAndroid="transparent"
           selectionColor="#7C4DFF"
-          secureTextEntry={secureTextEntry}
+          secureTextEntry={secureTextEntry && textVisibility}
           keyboardType={keyboardType}
           onFocus={handleFocus}
           onBlur={handleBlur}
@@ -119,6 +124,18 @@ const Input = ({
               name={`${Platform.OS === 'ios' ? 'ios' : 'md'}-${iconName}`}
             />
           </View>
+        ) : null}
+        {secureTextEntry ? (
+          <TouchableOpacity
+            style={styles.visibility}
+            onPress={toggleVisibility}
+          >
+            <Ionicons
+              size={26}
+              name={`${PRE_ICON}-${textVisibility ? 'eye' : 'eye-off'}`}
+              color="rgba(0,0,0,0.5)"
+            />
+          </TouchableOpacity>
         ) : null}
       </View>
     </TouchableWithoutFeedback>
@@ -140,7 +157,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: 'bold',
     color: '#6A6D70',
     position: 'absolute',
     bottom: '40%',
@@ -148,17 +165,25 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: 'bold',
     height: 40,
     width: '100%'
   },
   iconContainer: {
     alignItems: 'center',
     height: 62,
-    position: 'absolute',
     justifyContent: 'center',
+    position: 'absolute',
     right: 0,
     width: 50
+  },
+  visibility: {
+    alignItems: 'center',
+    height: 62,
+    justifyContent: 'center',
+    position: 'absolute',
+    right: 50,
+    width: 36
   }
 });
 
