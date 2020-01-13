@@ -1,0 +1,46 @@
+dependencies: \
+  /Users/leetos/Dev/charades-mobile/node_modules/expo-facebook/ios/EXFacebook/EXFacebook.m \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Target\ Support\ Files/EXFacebook/EXFacebook-prefix.pch \
+  /Users/leetos/Dev/charades-mobile/node_modules/expo-facebook/ios/EXFacebook/EXFacebook.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/UMCore/UMExportedModule.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/UMCore/UMDefines.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/UMCore/UMInternalModule.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/UMConstantsInterface/UMConstantsInterface.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKCoreKit.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKAccessToken.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKCopying.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKGraphRequestConnection.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKAppEvents.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKApplicationDelegate.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKButton.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKConstants.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKGraphRequest.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKGraphRequestDataAttachment.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKSettings.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKTestUsersManager.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKUtility.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKAppLink.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKAppLinkTarget.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKAppLinkNavigation.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKAppLinkResolving.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKAppLinkResolver.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKAppLinkReturnToRefererController.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKAppLinkReturnToRefererView.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKAppLinkUtility.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKGraphErrorRecoveryProcessor.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKMeasurementEvent.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKMutableCopying.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKProfile.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKProfilePictureView.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKURL.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKCoreKit/FBSDKWebViewAppLinkResolver.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKLoginKit/FBSDKLoginKit.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKLoginKit/FBSDKDeviceLoginCodeInfo.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKLoginKit/FBSDKDeviceLoginManager.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKLoginKit/FBSDKDeviceLoginManagerResult.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKLoginKit/FBSDKLoginConstants.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKLoginKit/FBSDKLoginButton.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKLoginKit/FBSDKLoginManager.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKLoginKit/FBSDKTooltipView.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKLoginKit/FBSDKLoginManagerLoginResult.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Private/FBSDKLoginKit/FBSDKLoginTooltipView.h

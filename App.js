@@ -1,6 +1,5 @@
 /* eslint-disable global-require */
 import React, { useState } from 'react';
-import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
@@ -20,14 +19,19 @@ import PopupManager from './src/components/PopupManager';
 const App = ({ skipLoadingScreen }) => {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
 
+  const runAsync = async () => {
+    try {
+      await loadResourcesAsync();
+      handleFinishLoading(setLoadingComplete);
+      // SplashScreen.hide();
+    } catch (exception) {
+      handleLoadingError(exception);
+    }
+  };
+
   if (!isLoadingComplete && !skipLoadingScreen) {
-    return (
-      <AppLoading
-        startAsync={loadResourcesAsync}
-        onError={handleLoadingError}
-        onFinish={() => handleFinishLoading(setLoadingComplete)}
-      />
-    );
+    runAsync();
+    return null;
   }
 
   return (
@@ -39,7 +43,6 @@ const App = ({ skipLoadingScreen }) => {
             forceInset={{ top: 'never' }}
           >
             <StatusBar
-              backgroundColor="#fff"
               barStyle={
                 Platform.OS === 'ios' ? 'dark-content' : 'light-content'
               }

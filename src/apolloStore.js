@@ -10,11 +10,11 @@ import store from './reduxStore';
 import { toggleBadge, toggleNetworkModal } from './actions/popup';
 
 const httpLink = new HttpLink({
-  uri: 'http://192.168.15.30:8080'
+  uri: 'http://192.168.15.7:8080'
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://192.168.15.30:8080/`,
+  uri: `ws://192.168.15.7:8080/`,
   options: {
     reconnect: true
   }

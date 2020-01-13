@@ -1,0 +1,6 @@
+module Pods_charades {
+  umbrella header "Pods-charades-umbrella.h"
+
+  export *
+  module * { export * }
+}

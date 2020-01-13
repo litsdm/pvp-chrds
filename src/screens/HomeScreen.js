@@ -317,7 +317,6 @@ const HomeScreen = ({
 
   return (
     <>
-      <View style={styles.statusBar} />
       {loading && loadingMatches ? (
         <Loader />
       ) : (

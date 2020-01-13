@@ -1,0 +1,43 @@
+dependencies: \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/Unicode.cpp \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Target\ Support\ Files/Folly/Folly-prefix.pch \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/Unicode.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/Conv.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/DoubleConversion/double-conversion/double-conversion.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/DoubleConversion/double-conversion/utils.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/Demangle.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/FBString.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/CppAttributes.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/Portability.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/portability/Config.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/CPortability.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/Traits.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/hash/Hash.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/Utility.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/functional/ApplyTuple.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/functional/Invoke.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/Preprocessor.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/hash/SpookyHashV1.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/hash/SpookyHashV2.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/lang/Bits.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/ConstexprMath.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/lang/Assume.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/portability/Builtins.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/lang/Exception.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/memory/Malloc.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/memory/detail/MallocImpl.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/Expected.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/Likely.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/Optional.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/Unit.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/lang/ColdClass.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/Range.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/portability/Constexpr.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/portability/String.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/CpuId.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/detail/RangeCommon.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/glog/glog/logging.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/glog/glog/log_severity.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/glog/glog/vlog_is_on.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/detail/RangeSse42.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/portability/Math.h

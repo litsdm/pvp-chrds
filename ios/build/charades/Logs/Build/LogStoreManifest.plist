@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>logFormatVersion</key>
+	<integer>10</integer>
+	<key>logs</key>
+	<dict>
+		<key>F35C7A23-E83D-4E80-9CFB-61DEFA1FDBD9</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>F35C7A23-E83D-4E80-9CFB-61DEFA1FDBD9.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>charades project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>charades</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building workspace charades with scheme charades and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>600633995.75207996</real>
+			<key>timeStoppedRecording</key>
+			<real>600634067.73311496</real>
+			<key>title</key>
+			<string>Building workspace charades with scheme charades and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>F35C7A23-E83D-4E80-9CFB-61DEFA1FDBD9</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

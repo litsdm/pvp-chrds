@@ -1,0 +1,10 @@
+#Mon Jan 13 12:55:22 CST 2020
+base.2=/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/transforms/dexMerger/debug/0
+path.2=classes2.dex
+base.1=/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/transforms/dexMerger/debug/0
+path.1=classes.dex
+base.0=/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/transforms/dexMerger/debug/1
+renamed.2=classes3.dex
+renamed.1=classes2.dex
+renamed.0=classes.dex
+path.0=classes.dex

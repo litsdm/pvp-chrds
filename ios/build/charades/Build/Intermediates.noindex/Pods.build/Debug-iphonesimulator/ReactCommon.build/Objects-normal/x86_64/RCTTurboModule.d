@@ -1,0 +1,45 @@
+dependencies: \
+  /Users/leetos/Dev/charades-mobile/node_modules/react-native/ReactCommon/turbomodule/core/platform/ios/RCTTurboModule.mm \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Target\ Support\ Files/ReactCommon/ReactCommon-prefix.pch \
+  /Users/leetos/Dev/charades-mobile/node_modules/react-native/ReactCommon/turbomodule/core/platform/ios/RCTTurboModule.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTBridge.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTBridgeDelegate.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTJavaScriptLoader.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTDefines.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTInspectorDevServerHelper.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTPackagerConnection.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTBridgeModule.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTFrameUpdate.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTInvalidating.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTModuleMethod.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTBridgeMethod.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTNullability.h \
+  /Users/leetos/Dev/charades-mobile/node_modules/react-native/ReactCommon/jscallinvoker/ReactCommon/JSCallInvoker.h \
+  /Users/leetos/Dev/charades-mobile/node_modules/react-native/ReactCommon/turbomodule/core/TurboModule.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-jsi/jsi/jsi.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-jsi/jsi/jsi-inl.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-cxxreact/cxxreact/MessageQueueThread.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTConvert.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTAnimationType.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTBorderStyle.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTLog.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTAssert.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTUtils.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTPointerEvents.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTTextDecorationLineType.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/Yoga/yoga/Yoga.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/Yoga/yoga/YGEnums.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/Yoga/yoga/YGMacros.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/Yoga/yoga/YGValue.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTCxxConvert.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Headers/Public/React-Core/React/RCTManagedPointer.h \
+  /Users/leetos/Dev/charades-mobile/node_modules/react-native/ReactCommon/turbomodule/core/LongLivedObject.h \
+  /Users/leetos/Dev/charades-mobile/node_modules/react-native/ReactCommon/turbomodule/core/TurboModuleUtils.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/Optional.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/Portability.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/portability/Config.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/CPortability.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/Traits.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/Utility.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/lang/Exception.h \
+  /Users/leetos/Dev/charades-mobile/ios/Pods/Folly/folly/CppAttributes.h
