@@ -1,4 +1,4 @@
-#Mon Jan 13 21:21:51 CST 2020
+#Tue Jan 14 11:38:19 CST 2020
 base.2=/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/transforms/dexMerger/debug/0
 path.2=classes2.dex
 base.1=/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/transforms/dexMerger/debug/0

@@ -2432,12 +2432,12 @@
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xxhdpi-v4/abc_ic_menu_copy_mtrl_am_alpha.png"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher_round.png.flat",
-        "source": "/Users/leetos/Dev/charades-mobile/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png"
-    },
-    {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_notification_bg_low_normal.9.png.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/core-1.1.0.aar/0d62cc704e7271397e63503abe0ccd5c/res/drawable-mdpi-v4/notification_bg_low_normal.9.png"
+    },
+    {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/leetos/Dev/charades-mobile/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_text_select_handle_middle_mtrl_dark.png.flat",
