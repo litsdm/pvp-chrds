@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   AsyncStorage,
   Image,
+  Platform,
   SectionList,
   StyleSheet,
   TouchableOpacity,
@@ -23,7 +24,11 @@ import UPDATED_MATCH from '../graphql/subscriptions/updatedMatch';
 import UPDATE_MATCH from '../graphql/mutations/updateMatch';
 import DELETE_MATCH from '../graphql/mutations/deleteMatch';
 
-import { togglePlay, toggleNetworkModal } from '../actions/popup';
+import {
+  togglePlay,
+  toggleNetworkModal,
+  togglePurchaseModal
+} from '../actions/popup';
 
 import AnimatedCircle from '../components/AnimatedCircle';
 import ProgressBar from '../components/LevelProgressBar';
@@ -36,14 +41,15 @@ import Layout from '../constants/Layout';
 
 const mapDispatchToProps = dispatch => ({
   openPlay: () => dispatch(togglePlay(true)),
-  closeNetworkModal: () => dispatch(toggleNetworkModal(false))
+  closeNetworkModal: () => dispatch(toggleNetworkModal(false)),
+  openPurchase: () => dispatch(togglePurchaseModal(true))
 });
 
 const mapStateToProps = ({ popup: { displayNetworkModal } }) => ({
   displayNetworkModal
 });
 
-const Header = ({ user, navigateToSettings }) => (
+const Header = ({ user, navigateToSettings, openPurchase }) => (
   <>
     <View style={styles.header}>
       <AnimatedCircle
@@ -102,7 +108,7 @@ const Header = ({ user, navigateToSettings }) => (
             {user.coins} <Text style={styles.coinWord}>coins</Text>
           </Text>
         </View>
-        <TouchableOpacity style={styles.getMore}>
+        <TouchableOpacity style={styles.getMore} onPress={openPurchase}>
           <Text style={styles.getMoreText}>Get More</Text>
         </TouchableOpacity>
       </View>
@@ -114,7 +120,8 @@ const HomeScreen = ({
   navigation,
   openPlay,
   closeNetworkModal,
-  displayNetworkModal
+  displayNetworkModal,
+  openPurchase
 }) => {
   const [
     getMatches,
@@ -317,7 +324,6 @@ const HomeScreen = ({
 
   return (
     <>
-      <View style={styles.statusBar} />
       {loading && loadingMatches ? (
         <Loader />
       ) : (
@@ -329,7 +335,11 @@ const HomeScreen = ({
             renderSectionHeader={renderSectionHeader}
             extraData={[matchesData, condition]}
             ListHeaderComponent={() => (
-              <Header user={user} navigateToSettings={navigateToSettings} />
+              <Header
+                user={user}
+                navigateToSettings={navigateToSettings}
+                openPurchase={openPurchase}
+              />
             )}
             ListEmptyComponent={() => (
               <Empty
@@ -351,17 +361,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FCFCFE',
     minHeight: Layout.window.height - 52,
     overflow: 'hidden',
-    paddingTop: getStatusBarHeight(),
+    paddingTop: Platform.OS === 'ios' ? getStatusBarHeight() : 0,
     paddingBottom: 24
-  },
-  statusBar: {
-    backgroundColor: '#FCFCFE',
-    height: getStatusBarHeight(),
-    left: 0,
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    zIndex: 5
   },
   header: {
     flexDirection: 'row'
@@ -475,7 +476,8 @@ HomeScreen.propTypes = {
   navigation: object.isRequired,
   openPlay: func.isRequired,
   closeNetworkModal: func.isRequired,
-  displayNetworkModal: bool.isRequired
+  displayNetworkModal: bool.isRequired,
+  openPurchase: func.isRequired
 };
 
 Header.propTypes = {
@@ -488,7 +490,8 @@ Header.propTypes = {
     level: number,
     xp: number,
     nextXP: number
-  }).isRequired
+  }).isRequired,
+  openPurchase: func.isRequired
 };
 
 export default connect(

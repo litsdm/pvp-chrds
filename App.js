@@ -1,14 +1,15 @@
 /* eslint-disable global-require */
 import React, { useState } from 'react';
-import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { setPurchaseListener } from 'expo-in-app-purchases';
+import SplashScreen from 'react-native-splash-screen';
 import { bool } from 'prop-types';
 
 import store from './src/reduxStore';
@@ -20,14 +21,23 @@ import PopupManager from './src/components/PopupManager';
 const App = ({ skipLoadingScreen }) => {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
 
+  setPurchaseListener(result => {
+    console.log(result);
+  });
+
+  const runAsync = async () => {
+    try {
+      await loadResourcesAsync();
+      handleFinishLoading(setLoadingComplete);
+      SplashScreen.hide();
+    } catch (exception) {
+      handleLoadingError(exception);
+    }
+  };
+
   if (!isLoadingComplete && !skipLoadingScreen) {
-    return (
-      <AppLoading
-        startAsync={loadResourcesAsync}
-        onError={handleLoadingError}
-        onFinish={() => handleFinishLoading(setLoadingComplete)}
-      />
-    );
+    runAsync();
+    return null;
   }
 
   return (
@@ -38,12 +48,7 @@ const App = ({ skipLoadingScreen }) => {
             style={{ flex: 1, backgroundColor: '#fff' }}
             forceInset={{ top: 'never' }}
           >
-            <StatusBar
-              backgroundColor="#fff"
-              barStyle={
-                Platform.OS === 'ios' ? 'dark-content' : 'light-content'
-              }
-            />
+            <StatusBar backgroundColor="#fff" barStyle="dark-content" />
             <PopupManager />
             <AppNavigator />
           </SafeAreaView>

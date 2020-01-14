@@ -1,0 +1,5 @@
+version: "Apple Swift version 5.1.3 (swiftlang-1100.0.282.1 clang-1100.0.33.15)"
+options: "f59333d27f24371383ecfb64432b9e0e"
+build_time: [1579022158, 406855000]
+inputs:
+  "/Users/leetos/Dev/charades-mobile/ios/File.swift": [1578947910, 494335668]

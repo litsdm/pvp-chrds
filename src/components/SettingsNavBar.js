@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { func, string } from 'prop-types';
@@ -24,7 +30,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     position: 'absolute',
     right: 0,
-    top: getStatusBarHeight(),
+    top: Platform.OS === 'ios' ? getStatusBarHeight() : 0,
     width: '100%'
   },
   button: {

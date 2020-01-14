@@ -11,7 +11,7 @@ import { func, object } from 'prop-types';
 import mime from '../helpers/mimeTypes';
 import { useAnimation } from '../helpers/hooks';
 import { upload } from '../actions/file';
-import { toggleBadge } from '../actions/popup';
+import { toggleBadge, togglePurchaseModal } from '../actions/popup';
 
 import GET_DATA from '../graphql/queries/getCameraData';
 import GET_USER from '../graphql/queries/getCameraUser';
@@ -31,7 +31,8 @@ import Hint from '../components/Match/HintModal';
 
 const mapDispatchToProps = dispatch => ({
   uploadFile: file => dispatch(upload(file)),
-  displayBadge: (message, type) => dispatch(toggleBadge(true, message, type))
+  displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),
+  openCoinShop: () => dispatch(togglePurchaseModal(true))
 });
 
 const { front: frontType } = Camera.Constants.Type;
@@ -39,7 +40,12 @@ const { off: flashOff, on: flashOn, torch } = Camera.Constants.FlashMode;
 
 let originalBrightness;
 
-const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
+const CameraScreen = ({
+  navigation,
+  uploadFile,
+  displayBadge,
+  openCoinShop
+}) => {
   const categoryID = navigation.getParam('categoryID', '');
   const opponentID = navigation.getParam('opponentID', '');
   const matchID = navigation.getParam('matchID', '');
@@ -371,6 +377,7 @@ const CameraScreen = ({ navigation, uploadFile, displayBadge }) => {
           close={closePurchase}
           coins={user.coins}
           handlePurchase={handlePurchase}
+          openCoinShop={openCoinShop}
         />
       ) : null}
       {pickWord ? (
@@ -417,7 +424,8 @@ const styles = StyleSheet.create({
 CameraScreen.propTypes = {
   navigation: object.isRequired,
   uploadFile: func.isRequired,
-  displayBadge: func.isRequired
+  displayBadge: func.isRequired,
+  openCoinShop: func.isRequired
 };
 
 export default connect(

@@ -163,12 +163,14 @@ const SettingsScreen = ({
 
   return (
     <>
-      <View
-        style={[
-          styles.statusBar,
-          { backgroundColor: displayingNavbar ? '#fff' : '#FCFCFE' }
-        ]}
-      />
+      {Platform.OS === 'ios' ? (
+        <View
+          style={[
+            styles.statusBar,
+            { backgroundColor: displayingNavbar ? '#fff' : '#FCFCFE' }
+          ]}
+        />
+      ) : null}
       <AnimatedSettingsNav
         animationValue={animationValue}
         goBack={goBack}
@@ -375,7 +377,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FCFCFE',
     overflow: 'hidden',
     flex: 1,
-    paddingTop: getStatusBarHeight(),
+    paddingTop: Platform.OS === 'ios' ? getStatusBarHeight() : 0,
     paddingBottom: 24
   },
   header: {
