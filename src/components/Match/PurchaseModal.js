@@ -5,7 +5,13 @@ import { func, number, string } from 'prop-types';
 
 import Modal from '../Modal';
 
-const PurchaseModal = ({ close, coins, powerup, handlePurchase }) => {
+const PurchaseModal = ({
+  close,
+  coins,
+  powerup,
+  handlePurchase,
+  openCoinShop
+}) => {
   const getInfo = () => {
     switch (powerup) {
       case 'bomb':
@@ -13,7 +19,7 @@ const PurchaseModal = ({ close, coins, powerup, handlePurchase }) => {
           title: 'Bomb Power-Up',
           description: 'Blows up all unecessary letters for 50 coins.',
           icon: 'bomb',
-          cost: 50
+          cost: 20
         };
       case 'hourglass':
         return {
@@ -21,7 +27,7 @@ const PurchaseModal = ({ close, coins, powerup, handlePurchase }) => {
           description:
             'Slows down the countdown giving you more time to think up the right answer for only 30 coins.',
           icon: 'hourglass-half',
-          cost: 30
+          cost: 15
         };
       case 'hint':
         return {
@@ -29,28 +35,28 @@ const PurchaseModal = ({ close, coins, powerup, handlePurchase }) => {
           description:
             'Gives you a hint about the word that you need to guess. Only costs 10 coins!',
           icon: 'info-circle',
-          cost: 10
+          cost: 5
         };
       case 'fill':
         return {
           title: 'Fill Power-Up',
           description: 'Fills 2 random letters for you for 70 coins',
           icon: 'fill-drip',
-          cost: 70
+          cost: 30
         };
       case 'mic':
         return {
           title: 'Microphone Power-Up',
           description: 'Allows you to record your video with sound.',
           icon: 'microphone-alt',
-          cost: 70
+          cost: 30
         };
       case 'hand':
         return {
           title: 'Hand Power-Up',
           description: "Select any word from the category you're playing.",
           icon: 'hand-pointer',
-          cost: 50
+          cost: 20
         };
       default:
         return {};
@@ -92,7 +98,7 @@ const PurchaseModal = ({ close, coins, powerup, handlePurchase }) => {
               You have {coins} coins and this item costs {cost} coins. Get more
               now to buy this item.
             </Text>
-            <TouchableOpacity style={styles.getMore}>
+            <TouchableOpacity style={styles.getMore} onPress={openCoinShop}>
               <Text style={styles.getMoreText}>Get More</Text>
             </TouchableOpacity>
           </View>
@@ -185,7 +191,8 @@ PurchaseModal.propTypes = {
   close: func.isRequired,
   coins: number.isRequired,
   powerup: string.isRequired,
-  handlePurchase: func.isRequired
+  handlePurchase: func.isRequired,
+  openCoinShop: func.isRequired
 };
 
 export default PurchaseModal;

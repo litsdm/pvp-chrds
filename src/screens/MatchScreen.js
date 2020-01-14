@@ -11,10 +11,11 @@ import {
   View
 } from 'react-native';
 import { useQuery, useMutation } from '@apollo/react-hooks';
+import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { Video } from 'expo-av';
 import { Camera } from 'expo-camera';
-import { object } from 'prop-types';
+import { func, object } from 'prop-types';
 
 import GET_DATA from '../graphql/queries/getMatchData';
 import GET_USER from '../graphql/queries/getMatchUser';
@@ -24,6 +25,7 @@ import UPDATE_USER from '../graphql/mutations/updateUser';
 import DELETE_MATCH from '../graphql/mutations/deleteMatch';
 
 import callApi, { getSignedUrl } from '../helpers/apiCaller';
+import { togglePurchaseModal } from '../actions/popup';
 
 import TopControls from '../components/Camera/TopControls';
 import LetterSoup from '../components/Match/LetterSoup';
@@ -39,7 +41,11 @@ const { front } = Camera.Constants.Type;
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 const TIME = 300;
 
-const MatchScreen = ({ navigation }) => {
+const mapDispatchToProps = dispatch => ({
+  openCoinShop: () => dispatch(togglePurchaseModal(true))
+});
+
+const MatchScreen = ({ navigation, openCoinShop }) => {
   const categoryID = navigation.getParam('categoryID', '');
   const opponentID = navigation.getParam('opponentID', '');
   const matchID = navigation.getParam('matchID', '');
@@ -157,7 +163,7 @@ const MatchScreen = ({ navigation }) => {
     const gameWon = userScore === 3;
     const xp = gameWon ? user.xp + medals : user.xp + medals + 3;
     const wonGames = gameWon ? user.wonGames + 1 : user.wonGames;
-    const coins = gameWon ? user.coins + 50 : user.coins;
+    const coins = gameWon ? user.coins + 10 : user.coins;
 
     const matchProperties = JSON.stringify({
       state: gameWon ? 'end' : 'play',
@@ -298,6 +304,7 @@ const MatchScreen = ({ navigation }) => {
                 close={closePurchase}
                 coins={user.coins}
                 handlePurchase={handlePurchase}
+                openCoinShop={openCoinShop}
               />
             ) : null}
             <TimeBar
@@ -422,7 +429,11 @@ const styles = StyleSheet.create({
 });
 
 MatchScreen.propTypes = {
-  navigation: object.isRequired
+  navigation: object.isRequired,
+  openCoinShop: func.isRequired
 };
 
-export default MatchScreen;
+export default connect(
+  null,
+  mapDispatchToProps
+)(MatchScreen);
