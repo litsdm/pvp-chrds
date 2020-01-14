@@ -17,6 +17,7 @@
     "expo-camera": "~8.0.0",
     "expo-facebook": "~8.0.0",
     "expo-image-picker": "~8.0.1",
+    "expo-in-app-purchases": "^8.0.0",
     "expo-linear-gradient": "~8.0.0",
     "expo-store-review": "~2.0.0",
     "fuse.js": "^3.4.6",

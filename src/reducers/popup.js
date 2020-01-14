@@ -4,7 +4,8 @@ import {
   TOGGLE_ADD,
   TOGGLE_BADGE,
   TOGGLE_PROGRESS_BADGE,
-  TOGGLE_NETWORK_MODAL
+  TOGGLE_NETWORK_MODAL,
+  TOGGLE_PURCHASE_MODAL
 } from '../actions/popup';
 
 const initialState = {
@@ -17,7 +18,8 @@ const initialState = {
   displayAdd: false,
   badge: {},
   displayProgressBadge: false,
-  displayNetworkModal: false
+  displayNetworkModal: false,
+  displayPurchaseModal: false
 };
 
 const popup = (state = initialState, { type, display, data, badge }) => {
@@ -34,6 +36,8 @@ const popup = (state = initialState, { type, display, data, badge }) => {
       return { ...state, displayProgressBadge: display };
     case TOGGLE_NETWORK_MODAL:
       return { ...state, displayNetworkModal: display };
+    case TOGGLE_PURCHASE_MODAL:
+      return { ...state, displayPurchaseModal: display };
     default:
       return state;
   }

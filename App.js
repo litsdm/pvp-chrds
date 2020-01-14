@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { setPurchaseListener } from 'expo-in-app-purchases';
 import { bool } from 'prop-types';
 
 import store from './src/reduxStore';
@@ -18,6 +19,10 @@ import PopupManager from './src/components/PopupManager';
 
 const App = ({ skipLoadingScreen }) => {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
+
+  setPurchaseListener(result => {
+    console.log(result);
+  });
 
   const runAsync = async () => {
     try {

@@ -7,7 +7,8 @@ import {
   toggleCategory,
   togglePlay,
   toggleBadge,
-  toggleProgressBadge
+  toggleProgressBadge,
+  togglePurchaseModal
 } from '../actions/popup';
 
 import CategoryPopup from './CategoryPopup';
@@ -15,6 +16,7 @@ import AddFriendPopup from './AddFriendPopup';
 import Badge from './Badge';
 import ProgressBadge from './ProgressBadge';
 import NetworkErrorModal from './NetworkErrorModal';
+import PurchaseModal from './PurchaseModal';
 
 const mapDispatchToProps = dispatch => ({
   closeAdd: () => dispatch(toggleAdd(false)),
@@ -22,7 +24,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(toggleCategory(false, { selectedCategory: null })),
   showPlay: data => dispatch(togglePlay(true, data)),
   closeBadge: () => dispatch(toggleBadge(false, '')),
-  closeProgressBadge: () => dispatch(toggleProgressBadge(false))
+  closeProgressBadge: () => dispatch(toggleProgressBadge(false)),
+  closePurchaseModal: () => dispatch(togglePurchaseModal(false))
 });
 
 const mapStateToProps = ({
@@ -33,7 +36,8 @@ const mapStateToProps = ({
     displayAdd,
     badge,
     displayProgressBadge,
-    displayNetworkModal
+    displayNetworkModal,
+    displayPurchaseModal
   },
   file: { videos }
 }) => ({
@@ -44,7 +48,8 @@ const mapStateToProps = ({
   badge,
   videos,
   displayProgressBadge,
-  displayNetworkModal
+  displayNetworkModal,
+  displayPurchaseModal
 });
 
 const PopupManager = ({
@@ -60,7 +65,9 @@ const PopupManager = ({
   displayProgressBadge,
   closeProgressBadge,
   videos,
-  displayNetworkModal
+  displayNetworkModal,
+  closePurchaseModal,
+  displayPurchaseModal
 }) => {
   const openPlay = _id => () => showPlay({ playCategory: _id });
 
@@ -80,6 +87,9 @@ const PopupManager = ({
         <ProgressBadge close={closeProgressBadge} videos={videos} />
       ) : null}
       {displayNetworkModal ? <NetworkErrorModal /> : null}
+      {displayPurchaseModal ? (
+        <PurchaseModal close={closePurchaseModal} />
+      ) : null}
     </>
   );
 };
@@ -96,6 +106,8 @@ PopupManager.propTypes = {
   displayProgressBadge: bool.isRequired,
   closeProgressBadge: func.isRequired,
   displayNetworkModal: bool.isRequired,
+  closePurchaseModal: func.isRequired,
+  displayPurchaseModal: bool.isRequired,
   videos: object,
   badge: shape({
     display: bool,
