@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     position: 'absolute',
     right: 0,
-    top: getStatusBarHeight(),
+    top: Platform.OS === 'ios' ? getStatusBarHeight() : 0,
     width: '100%'
   },
   search: {

@@ -6,6 +6,40 @@
 	<integer>10</integer>
 	<key>logs</key>
 	<dict>
+		<key>D98D8CCA-1FB2-44F8-861C-CDBB2BDBD44C</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>D98D8CCA-1FB2-44F8-861C-CDBB2BDBD44C.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>charades project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>charades</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building workspace charades with scheme charades and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>600725100.750085</real>
+			<key>timeStoppedRecording</key>
+			<real>600725104.13042998</real>
+			<key>title</key>
+			<string>Building workspace charades with scheme charades and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>D98D8CCA-1FB2-44F8-861C-CDBB2BDBD44C</string>
+		</dict>
 		<key>F35C7A23-E83D-4E80-9CFB-61DEFA1FDBD9</key>
 		<dict>
 			<key>className</key>

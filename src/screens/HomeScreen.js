@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   AsyncStorage,
   Image,
+  Platform,
   SectionList,
   StyleSheet,
   TouchableOpacity,
@@ -360,17 +361,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FCFCFE',
     minHeight: Layout.window.height - 52,
     overflow: 'hidden',
-    paddingTop: getStatusBarHeight(),
+    paddingTop: Platform.OS === 'ios' ? getStatusBarHeight() : 0,
     paddingBottom: 24
-  },
-  statusBar: {
-    backgroundColor: '#FCFCFE',
-    height: getStatusBarHeight(),
-    left: 0,
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    zIndex: 5
   },
   header: {
     flexDirection: 'row'

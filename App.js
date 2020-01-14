@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
@@ -48,11 +48,7 @@ const App = ({ skipLoadingScreen }) => {
             style={{ flex: 1, backgroundColor: '#fff' }}
             forceInset={{ top: 'never' }}
           >
-            <StatusBar
-              barStyle={
-                Platform.OS === 'ios' ? 'dark-content' : 'light-content'
-              }
-            />
+            <StatusBar backgroundColor="#fff" barStyle="dark-content" />
             <PopupManager />
             <AppNavigator />
           </SafeAreaView>

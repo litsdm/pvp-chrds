@@ -108,12 +108,12 @@
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.0.1.aar/b9c3d6af516c59ed87a413c9f3bbe4f0/res/drawable-xhdpi-v4/com_facebook_tooltip_black_xout.png"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_googleg_disabled_color_18.png.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/4fe4132f934d0ac41d94716dee4a29c7/res/drawable-xhdpi-v4/googleg_disabled_color_18.png"
-    },
-    {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_btn_switch_to_on_mtrl_00012.9.png.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xxxhdpi-v4/abc_btn_switch_to_on_mtrl_00012.9.png"
+    },
+    {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_googleg_disabled_color_18.png.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/4fe4132f934d0ac41d94716dee4a29c7/res/drawable-xhdpi-v4/googleg_disabled_color_18.png"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_btn_radio_to_on_mtrl_015.png.flat",
@@ -192,12 +192,12 @@
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-cameraview-1.0.0.aar/d7ecd85b18a7e39c4a9b10f6a759f143/res/layout/surface_view.xml"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable_ic_mtrl_chip_checked_black.xml.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/material-1.0.0.aar/352b6a3790ac8b0cf76dd4eb511d4b1d/res/drawable/ic_mtrl_chip_checked_black.xml"
-    },
-    {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_scrubber_control_off_mtrl_alpha.png.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xhdpi-v4/abc_scrubber_control_off_mtrl_alpha.png"
+    },
+    {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable_ic_mtrl_chip_checked_black.xml.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/material-1.0.0.aar/352b6a3790ac8b0cf76dd4eb511d4b1d/res/drawable/ic_mtrl_chip_checked_black.xml"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_exo_icon_rewind.png.flat",
@@ -308,12 +308,12 @@
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xxxhdpi-v4/abc_spinner_mtrl_am_alpha.9.png"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable_abc_switch_thumb_material.xml.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable/abc_switch_thumb_material.xml"
-    },
-    {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_list_pressed_holo_light.9.png.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-hdpi-v4/abc_list_pressed_holo_light.9.png"
+    },
+    {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable_abc_switch_thumb_material.xml.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable/abc_switch_thumb_material.xml"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_exo_controls_repeat_one.png.flat",
@@ -324,24 +324,24 @@
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.0.1.aar/f32570668c7747bd8050c5f78d1ea14c/res/drawable-mdpi-v4/com_facebook_button_like_icon_selected.png"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/color_common_google_signin_btn_text_dark.xml.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/4fe4132f934d0ac41d94716dee4a29c7/res/color/common_google_signin_btn_text_dark.xml"
-    },
-    {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_ic_fullscreen_exit_32dp.png.flat",
         "source": "/Users/leetos/Dev/charades-mobile/node_modules/expo-av/android/build/intermediates/packaged_res/debug/drawable-mdpi-v4/ic_fullscreen_exit_32dp.png"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_common_google_signin_btn_icon_light_normal_background.9.png.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/4fe4132f934d0ac41d94716dee4a29c7/res/drawable-xhdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png"
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/color_common_google_signin_btn_text_dark.xml.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/4fe4132f934d0ac41d94716dee4a29c7/res/color/common_google_signin_btn_text_dark.xml"
+    },
+    {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable_abc_ratingbar_material.xml.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable/abc_ratingbar_material.xml"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable_common_google_signin_btn_icon_light_normal.xml.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/4fe4132f934d0ac41d94716dee4a29c7/res/drawable/common_google_signin_btn_icon_light_normal.xml"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable_abc_ratingbar_material.xml.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable/abc_ratingbar_material.xml"
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_common_google_signin_btn_icon_light_normal_background.9.png.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/4fe4132f934d0ac41d94716dee4a29c7/res/drawable-xhdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/anim_abc_slide_in_bottom.xml.flat",
@@ -352,24 +352,24 @@
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-ldrtl-mdpi-v17/abc_ic_menu_cut_mtrl_alpha.png"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable_com_facebook_button_login_background.xml.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.0.1.aar/b9c3d6af516c59ed87a413c9f3bbe4f0/res/drawable/com_facebook_button_login_background.xml"
-    },
-    {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_ic_star_black_48dp.png.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xhdpi-v4/abc_ic_star_black_48dp.png"
+    },
+    {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable_com_facebook_button_login_background.xml.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.0.1.aar/b9c3d6af516c59ed87a413c9f3bbe4f0/res/drawable/com_facebook_button_login_background.xml"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_scrubber_primary_mtrl_alpha.9.png.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-hdpi-v4/abc_scrubber_primary_mtrl_alpha.9.png"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_exo_controls_fullscreen_enter.png.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-ui-2.9.2.aar/42ee38bb331fad1a387aefda08afd269/res/drawable-hdpi-v4/exo_controls_fullscreen_enter.png"
-    },
-    {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_textfield_search_default_mtrl_alpha.9.png.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-hdpi-v4/abc_textfield_search_default_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_exo_controls_fullscreen_enter.png.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-ui-2.9.2.aar/42ee38bb331fad1a387aefda08afd269/res/drawable-hdpi-v4/exo_controls_fullscreen_enter.png"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_com_facebook_button_send_icon_blue.png.flat",
@@ -380,20 +380,20 @@
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-ui-2.9.2.aar/42ee38bb331fad1a387aefda08afd269/res/drawable-xxhdpi-v4/exo_icon_play.png"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-ldpi-v4_exo_controls_repeat_one.png.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-ui-2.9.2.aar/42ee38bb331fad1a387aefda08afd269/res/drawable-ldpi-v4/exo_controls_repeat_one.png"
-    },
-    {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_exo_icon_stop.png.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-ui-2.9.2.aar/42ee38bb331fad1a387aefda08afd269/res/drawable-mdpi-v4/exo_icon_stop.png"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable_abc_btn_radio_material_anim.xml.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable/abc_btn_radio_material_anim.xml"
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-ldpi-v4_exo_controls_repeat_one.png.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-ui-2.9.2.aar/42ee38bb331fad1a387aefda08afd269/res/drawable-ldpi-v4/exo_controls_repeat_one.png"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-ldpi-v4_exo_controls_fullscreen_exit.png.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-ui-2.9.2.aar/42ee38bb331fad1a387aefda08afd269/res/drawable-ldpi-v4/exo_controls_fullscreen_exit.png"
+    },
+    {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable_abc_btn_radio_material_anim.xml.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable/abc_btn_radio_material_anim.xml"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_list_selector_disabled_holo_light.9.png.flat",
@@ -436,12 +436,12 @@
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-mdpi-v4/abc_list_divider_mtrl_alpha.9.png"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_common_google_signin_btn_icon_light_normal_background.9.png.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/4fe4132f934d0ac41d94716dee4a29c7/res/drawable-xxhdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png"
-    },
-    {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/animator_mtrl_chip_state_list_anim.xml.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/material-1.0.0.aar/352b6a3790ac8b0cf76dd4eb511d4b1d/res/animator/mtrl_chip_state_list_anim.xml"
+    },
+    {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_common_google_signin_btn_icon_light_normal_background.9.png.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/4fe4132f934d0ac41d94716dee4a29c7/res/drawable-xxhdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/color_mtrl_chip_background_color.xml.flat",
@@ -612,28 +612,28 @@
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.0.1.aar/f32570668c7747bd8050c5f78d1ea14c/res/drawable/com_facebook_auth_dialog_background.xml"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_ic_menu_share_mtrl_alpha.png.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xxxhdpi-v4/abc_ic_menu_share_mtrl_alpha.png"
-    },
-    {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/layout_abc_select_dialog_material.xml.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/layout/abc_select_dialog_material.xml"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_cab_background_top_mtrl_alpha.9.png.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xxhdpi-v4/abc_cab_background_top_mtrl_alpha.9.png"
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xxxhdpi-v4_abc_ic_menu_share_mtrl_alpha.png.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xxxhdpi-v4/abc_ic_menu_share_mtrl_alpha.png"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/color-v21_abc_btn_colored_borderless_text_material.xml.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/color-v21/abc_btn_colored_borderless_text_material.xml"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_textfield_activated_mtrl_alpha.9.png.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xhdpi-v4/abc_textfield_activated_mtrl_alpha.9.png"
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_cab_background_top_mtrl_alpha.9.png.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xxhdpi-v4/abc_cab_background_top_mtrl_alpha.9.png"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/color_switch_thumb_material_light.xml.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/color/switch_thumb_material_light.xml"
+    },
+    {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_textfield_activated_mtrl_alpha.9.png.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xhdpi-v4/abc_textfield_activated_mtrl_alpha.9.png"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/anim_catalyst_fade_in.xml.flat",
@@ -684,12 +684,12 @@
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-mdpi-v4/abc_text_select_handle_middle_mtrl_light.png"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/color_abc_tint_switch_track.xml.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/color/abc_tint_switch_track.xml"
-    },
-    {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_exo_controls_fullscreen_enter.png.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-ui-2.9.2.aar/42ee38bb331fad1a387aefda08afd269/res/drawable-xhdpi-v4/exo_controls_fullscreen_enter.png"
+    },
+    {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/color_abc_tint_switch_track.xml.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/color/abc_tint_switch_track.xml"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_exo_controls_fullscreen_exit.png.flat",
@@ -820,20 +820,20 @@
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-ui-2.9.2.aar/42ee38bb331fad1a387aefda08afd269/res/drawable-hdpi-v4/exo_icon_play.png"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/layout_notification_media_cancel_action.xml.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/media-1.0.0.aar/af20f06b0ab2dfa1be816c4de9657304/res/layout/notification_media_cancel_action.xml"
-    },
-    {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable_notification_tile_bg.xml.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/core-1.1.0.aar/0d62cc704e7271397e63503abe0ccd5c/res/drawable/notification_tile_bg.xml"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_messenger_bubble_small_white.png.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/facebook-messenger-5.0.1.aar/ad3ffaeb74af8eb5865711d545abf4e6/res/drawable-mdpi-v4/messenger_bubble_small_white.png"
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/layout_notification_media_cancel_action.xml.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/media-1.0.0.aar/af20f06b0ab2dfa1be816c4de9657304/res/layout/notification_media_cancel_action.xml"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-ldpi-v4_exo_notification_small_icon.png.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-ui-2.9.2.aar/42ee38bb331fad1a387aefda08afd269/res/drawable-ldpi-v4/exo_notification_small_icon.png"
+    },
+    {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_messenger_bubble_small_white.png.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/facebook-messenger-5.0.1.aar/ad3ffaeb74af8eb5865711d545abf4e6/res/drawable-mdpi-v4/messenger_bubble_small_white.png"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/layout_abc_activity_chooser_view.xml.flat",
@@ -860,12 +860,12 @@
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/color/abc_hint_foreground_material_dark.xml"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/layout_abc_cascading_menu_item_layout.xml.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/layout/abc_cascading_menu_item_layout.xml"
-    },
-    {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/layout_exo_player_control_view.xml.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-ui-2.9.2.aar/42ee38bb331fad1a387aefda08afd269/res/layout/exo_player_control_view.xml"
+    },
+    {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/layout_abc_cascading_menu_item_layout.xml.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/layout/abc_cascading_menu_item_layout.xml"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_exo_icon_play.png.flat",
@@ -964,12 +964,12 @@
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-mdpi-v4/abc_text_select_handle_right_mtrl_light.png"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_spinner_mtrl_am_alpha.9.png.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-hdpi-v4/abc_spinner_mtrl_am_alpha.9.png"
-    },
-    {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_textfield_search_activated_mtrl_alpha.9.png.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xhdpi-v4/abc_textfield_search_activated_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_spinner_mtrl_am_alpha.9.png.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-hdpi-v4/abc_spinner_mtrl_am_alpha.9.png"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_ab_share_pack_mtrl_alpha.9.png.flat",
@@ -1196,24 +1196,24 @@
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-ui-2.9.2.aar/42ee38bb331fad1a387aefda08afd269/res/drawable-mdpi-v4/exo_icon_previous.png"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_btn_radio_to_on_mtrl_015.png.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xhdpi-v4/abc_btn_radio_to_on_mtrl_015.png"
-    },
-    {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_com_facebook_button_icon_blue.png.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.0.1.aar/f32570668c7747bd8050c5f78d1ea14c/res/drawable-xhdpi-v4/com_facebook_button_icon_blue.png"
+    },
+    {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_btn_radio_to_on_mtrl_015.png.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xhdpi-v4/abc_btn_radio_to_on_mtrl_015.png"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-anydpi-v21_exo_edit_mode_logo.xml.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-ui-2.9.2.aar/42ee38bb331fad1a387aefda08afd269/res/drawable-anydpi-v21/exo_edit_mode_logo.xml"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable_com_facebook_auth_dialog_cancel_background.xml.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.0.1.aar/f32570668c7747bd8050c5f78d1ea14c/res/drawable/com_facebook_auth_dialog_cancel_background.xml"
-    },
-    {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-ldrtl-xxxhdpi-v17_abc_ic_menu_copy_mtrl_am_alpha.png.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-ldrtl-xxxhdpi-v17/abc_ic_menu_copy_mtrl_am_alpha.png"
+    },
+    {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable_com_facebook_auth_dialog_cancel_background.xml.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.0.1.aar/f32570668c7747bd8050c5f78d1ea14c/res/drawable/com_facebook_auth_dialog_cancel_background.xml"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/color_abc_tint_btn_checkable.xml.flat",
@@ -1256,12 +1256,12 @@
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/core-1.1.0.aar/0d62cc704e7271397e63503abe0ccd5c/res/drawable-hdpi-v4/notification_bg_low_normal.9.png"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_exo_controls_repeat_off.png.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-ui-2.9.2.aar/42ee38bb331fad1a387aefda08afd269/res/drawable-xxhdpi-v4/exo_controls_repeat_off.png"
-    },
-    {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-ldrtl-mdpi-v17_abc_ic_menu_copy_mtrl_am_alpha.png.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-ldrtl-mdpi-v17/abc_ic_menu_copy_mtrl_am_alpha.png"
+    },
+    {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_exo_controls_repeat_off.png.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-ui-2.9.2.aar/42ee38bb331fad1a387aefda08afd269/res/drawable-xxhdpi-v4/exo_controls_repeat_off.png"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_common_google_signin_btn_icon_dark_normal_background.9.png.flat",
@@ -1280,24 +1280,24 @@
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-ui-2.9.2.aar/42ee38bb331fad1a387aefda08afd269/res/drawable-anydpi-v21/exo_icon_play.xml"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_text_select_handle_middle_mtrl_light.png.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xxhdpi-v4/abc_text_select_handle_middle_mtrl_light.png"
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_ic_commit_search_api_mtrl_alpha.png.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xhdpi-v4/abc_ic_commit_search_api_mtrl_alpha.png"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/layout_notification_template_lines_media.xml.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/media-1.0.0.aar/af20f06b0ab2dfa1be816c4de9657304/res/layout/notification_template_lines_media.xml"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_ic_commit_search_api_mtrl_alpha.png.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xhdpi-v4/abc_ic_commit_search_api_mtrl_alpha.png"
-    },
-    {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/anim_abc_tooltip_exit.xml.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/anim/abc_tooltip_exit.xml"
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_text_select_handle_middle_mtrl_light.png.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xxhdpi-v4/abc_text_select_handle_middle_mtrl_light.png"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_btn_check_to_on_mtrl_015.png.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xxhdpi-v4/abc_btn_check_to_on_mtrl_015.png"
+    },
+    {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/anim_abc_tooltip_exit.xml.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/anim/abc_tooltip_exit.xml"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_abc_text_select_handle_right_mtrl_dark.png.flat",
@@ -1328,12 +1328,12 @@
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/material-1.0.0.aar/352b6a3790ac8b0cf76dd4eb511d4b1d/res/layout/design_layout_snackbar_include.xml"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable_common_google_signin_btn_text_dark.xml.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/4fe4132f934d0ac41d94716dee4a29c7/res/drawable/common_google_signin_btn_text_dark.xml"
-    },
-    {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/layout_abc_action_mode_bar.xml.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/layout/abc_action_mode_bar.xml"
+    },
+    {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable_common_google_signin_btn_text_dark.xml.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/4fe4132f934d0ac41d94716dee4a29c7/res/drawable/common_google_signin_btn_text_dark.xml"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_messenger_button_send_round_shadow.png.flat",
@@ -1356,12 +1356,12 @@
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-facebook-common-5.0.1.aar/f32570668c7747bd8050c5f78d1ea14c/res/drawable-hdpi-v4/com_facebook_button_icon_blue.png"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_exo_icon_previous.png.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-ui-2.9.2.aar/42ee38bb331fad1a387aefda08afd269/res/drawable-xhdpi-v4/exo_icon_previous.png"
-    },
-    {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable_notification_bg.xml.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/core-1.1.0.aar/0d62cc704e7271397e63503abe0ccd5c/res/drawable/notification_bg.xml"
+    },
+    {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_exo_icon_previous.png.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-ui-2.9.2.aar/42ee38bb331fad1a387aefda08afd269/res/drawable-xhdpi-v4/exo_icon_previous.png"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-anydpi-v21_exo_icon_previous.xml.flat",
@@ -1460,16 +1460,16 @@
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-facebook-login-5.0.1.aar/b9c3d6af516c59ed87a413c9f3bbe4f0/res/drawable-hdpi-v4/com_facebook_tooltip_black_background.9.png"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_spinner_mtrl_am_alpha.9.png.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xhdpi-v4/abc_spinner_mtrl_am_alpha.9.png"
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_list_selector_disabled_holo_light.9.png.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xhdpi-v4/abc_list_selector_disabled_holo_light.9.png"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_menu_hardkey_panel_mtrl_mult.9.png.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xxhdpi-v4/abc_menu_hardkey_panel_mtrl_mult.9.png"
     },
     {
-        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_list_selector_disabled_holo_light.9.png.flat",
-        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xhdpi-v4/abc_list_selector_disabled_holo_light.9.png"
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_spinner_mtrl_am_alpha.9.png.flat",
+        "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/res/drawable-xhdpi-v4/abc_spinner_mtrl_am_alpha.9.png"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_googleg_disabled_color_18.png.flat",

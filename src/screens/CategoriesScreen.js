@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, createRef } from 'react';
 import {
   Image,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -140,7 +141,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     overflow: 'hidden',
     flex: 1,
-    paddingTop: getStatusBarHeight(),
+    paddingTop: Platform.OS === 'ios' ? getStatusBarHeight() : 0,
     paddingBottom: 24
   },
   featured: {

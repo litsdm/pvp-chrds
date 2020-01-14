@@ -2,6 +2,7 @@ import React from 'react';
 import {
   AsyncStorage,
   Platform,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -35,6 +36,7 @@ const AuthScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor="transparent" barStyle="dark-content" />
       <OnBoarding />
       <View style={styles.footer}>
         <TouchableOpacity style={styles.fbButton} onPress={loginWithFacebook}>
