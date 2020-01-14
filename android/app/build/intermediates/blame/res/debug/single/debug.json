@@ -1568,6 +1568,10 @@
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-ui-2.9.2.aar/42ee38bb331fad1a387aefda08afd269/res/drawable-ldpi-v4/exo_icon_stop.png"
     },
     {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/layout_launch_screen.xml.flat",
+        "source": "/Users/leetos/Dev/charades-mobile/android/app/src/main/res/layout/launch_screen.xml"
+    },
+    {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-mdpi-v4_notification_bg_normal_pressed.9.png.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/core-1.1.0.aar/0d62cc704e7271397e63503abe0ccd5c/res/drawable-mdpi-v4/notification_bg_normal_pressed.9.png"
     },
@@ -2202,6 +2206,10 @@
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-anydpi-v21_design_ic_visibility.xml.flat",
         "source": "/Users/leetos/.gradle/caches/transforms-1/files-1.1/material-1.0.0.aar/352b6a3790ac8b0cf76dd4eb511d4b1d/res/drawable-anydpi-v21/design_ic_visibility.xml"
+    },
+    {
+        "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi_splash.png.flat",
+        "source": "/Users/leetos/Dev/charades-mobile/android/app/src/main/res/drawable-xhdpi/splash.png"
     },
     {
         "merged": "/Users/leetos/Dev/charades-mobile/android/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_notification_bg_normal.9.png.flat",

@@ -57,7 +57,6 @@ depends-member:
 - ["6Lottie22GradientStrokeRendererC", "hasRenderUpdates"]
 - ["6Lottie22GradientStrokeRendererC", "hasUpdate"]
 - ["6Lottie22GradientStrokeRendererC", "init"]
-- ["6Lottie22GradientStrokeRendererC", "isEnabled"]
 - ["6Lottie22GradientStrokeRendererC", "render"]
 - ["6Lottie22GradientStrokeRendererC", "renderBoundsFor"]
 - ["6Lottie22GradientStrokeRendererC", "shouldRenderInContext"]
@@ -78,7 +77,6 @@ depends-member:
 - ["6Lottie10NodeOutputP", "hasRenderUpdates"]
 - ["6Lottie10NodeOutputP", "hasUpdate"]
 - !private ["6Lottie10NodeOutputP", "init"]
-- ["6Lottie10NodeOutputP", "isEnabled"]
 - ["6Lottie10NodeOutputP", "render"]
 - ["6Lottie10NodeOutputP", "renderBoundsFor"]
 - !private ["6Lottie10NodeOutputP", "setupForStroke"]
@@ -103,7 +101,6 @@ depends-member:
 - ["6Lottie21PassThroughOutputNodeC", "hasRenderUpdates"]
 - ["6Lottie21PassThroughOutputNodeC", "hasUpdate"]
 - ["6Lottie21PassThroughOutputNodeC", "init"]
-- ["6Lottie21PassThroughOutputNodeC", "isEnabled"]
 - ["6Lottie21PassThroughOutputNodeC", "render"]
 - ["6Lottie21PassThroughOutputNodeC", "renderBoundsFor"]
 - !private ["6Lottie21PassThroughOutputNodeC", "setupForStroke"]
@@ -120,7 +117,6 @@ depends-member:
 - ["6Lottie10RenderableP", "hasRenderUpdates"]
 - ["6Lottie10RenderableP", "hasUpdate"]
 - !private ["6Lottie10RenderableP", "init"]
-- ["6Lottie10RenderableP", "isEnabled"]
 - ["6Lottie10RenderableP", "render"]
 - ["6Lottie10RenderableP", "renderBoundsFor"]
 - !private ["6Lottie10RenderableP", "setupForStroke"]
@@ -1345,4 +1341,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "9d2bd8ce99ad9e10db578bff39b7c907"
+interface-hash: "c82e7b873c0b30616733e53b4e7b407a"

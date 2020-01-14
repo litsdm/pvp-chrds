@@ -9,6 +9,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { setPurchaseListener } from 'expo-in-app-purchases';
+import SplashScreen from 'react-native-splash-screen';
 import { bool } from 'prop-types';
 
 import store from './src/reduxStore';
@@ -28,7 +29,7 @@ const App = ({ skipLoadingScreen }) => {
     try {
       await loadResourcesAsync();
       handleFinishLoading(setLoadingComplete);
-      // SplashScreen.hide();
+      SplashScreen.hide();
     } catch (exception) {
       handleLoadingError(exception);
     }

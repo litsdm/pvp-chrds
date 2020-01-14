@@ -344,10 +344,10 @@ depends-member:
 - !private ["6Lottie15NodePropertyMapP", "scale"]
 - !private ["6Lottie15NodePropertyMapP", "skew"]
 - !private ["6Lottie15NodePropertyMapP", "skewAxis"]
-- !private ["6Lottie8NodeTreeV", "childrenNodes"]
-- !private ["6Lottie8NodeTreeV", "renderContainers"]
-- !private ["6Lottie8NodeTreeV", "rootNode"]
-- !private ["6Lottie8NodeTreeV", "transform"]
+- !private ["6Lottie8NodeTreeC", "childrenNodes"]
+- !private ["6Lottie8NodeTreeC", "renderContainers"]
+- !private ["6Lottie8NodeTreeC", "rootNode"]
+- !private ["6Lottie8NodeTreeC", "transform"]
 - !private ["Sj", "init"]
 - !private ["Sk", "append"]
 - !private ["Sk", "init"]
@@ -464,7 +464,7 @@ depends-nominal:
 - !private "6Lottie10NodeOutputP"
 - !private "6Lottie12NodePropertyC"
 - "6Lottie15NodePropertyMapP"
-- !private "6Lottie8NodeTreeV"
+- !private "6Lottie8NodeTreeC"
 - !private "Sj"
 - !private "Sk"
 - !private "Sm"
@@ -1682,4 +1682,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "969aa7b55ff556af0a2388e651fbbed0"
+interface-hash: "76fd81173fbfe41bc2636aec0786e785"

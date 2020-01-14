@@ -346,7 +346,7 @@ depends-member:
 - !private ["10Foundation19MutableDataProtocolP", "reversed"]
 - !private ["10Foundation19MutableDataProtocolP", "subscript"]
 - !private ["6Lottie10NodeOutputP", "init"]
-- !private ["6Lottie10NodeOutputP", "isEnabled"]
+- !private ["6Lottie10NodeOutputP", "removePaths"]
 - !private ["6Lottie10NodeOutputP", "setPath"]
 - !private ["6Lottie12NodePropertyC", "deinit"]
 - !private ["6Lottie12NodePropertyC", "init"]
@@ -410,9 +410,8 @@ depends-member:
 - ["6Lottie8PathNodeP", "rebuildOutputs"]
 - ["6Lottie8PathNodeP", "shouldRebuildOutputs"]
 - !private ["6Lottie8PathNodeP", "sin"]
-- !private ["6Lottie14PathOutputNodeC", "deinit"]
 - !private ["6Lottie14PathOutputNodeC", "init"]
-- !private ["6Lottie14PathOutputNodeC", "isEnabled"]
+- !private ["6Lottie14PathOutputNodeC", "removePaths"]
 - !private ["6Lottie14PathOutputNodeC", "setPath"]
 - !private ["Sk", "append"]
 - !private ["Sk", "endIndex"]
@@ -1833,4 +1832,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "b6e39c1b6fd5d8f034fd592ec4372f3f"
+interface-hash: "0ca31f9582dd91fe43c37296fc253bc9"

@@ -22,7 +22,6 @@ provides-member:
 - ["6Lottie12AnimatorNodeP", "keypathLayer"]
 provides-dynamic-lookup:
 depends-top-level:
-- !private "!"
 - !private "!="
 - !private "&&"
 - !private "=="
@@ -107,6 +106,7 @@ depends-member:
 - ["6Lottie10NodeOutputP", "CGPath"]
 - ["6Lottie10NodeOutputP", "NodeOutput"]
 - ["6Lottie10NodeOutputP", "hasOutputUpdates"]
+- ["6Lottie10NodeOutputP", "isEnabled"]
 - ["6Lottie10NodeOutputP", "outputPath"]
 - ["6Lottie10NodeOutputP", "parent"]
 - !private ["6Lottie15NodePropertyMapP", "childKeypaths"]
@@ -1310,4 +1310,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "85a4677404fa7bd8d877a2af50f111bd"
+interface-hash: "45cb5e180ca21bae886df5cfd008c632"

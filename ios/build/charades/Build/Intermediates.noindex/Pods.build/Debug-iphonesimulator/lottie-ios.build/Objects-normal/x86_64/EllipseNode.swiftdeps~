@@ -10,6 +10,7 @@ provides-member:
 - ["6Lottie11EllipseNodeC", ""]
 provides-dynamic-lookup:
 depends-top-level:
+- !private "!"
 - !private "*"
 - !private "+"
 - !private "-"
@@ -250,7 +251,7 @@ depends-member:
 - !private ["SM", "init"]
 - !private ["10Foundation19MutableDataProtocolP", "init"]
 - !private ["6Lottie10NodeOutputP", "init"]
-- !private ["6Lottie10NodeOutputP", "isEnabled"]
+- !private ["6Lottie10NodeOutputP", "removePaths"]
 - !private ["6Lottie10NodeOutputP", "setPath"]
 - !private ["6Lottie12NodePropertyC", "deinit"]
 - !private ["6Lottie12NodePropertyC", "init"]
@@ -297,9 +298,8 @@ depends-member:
 - ["6Lottie8PathNodeP", "propertyMap"]
 - ["6Lottie8PathNodeP", "rebuildOutputs"]
 - ["6Lottie8PathNodeP", "shouldRebuildOutputs"]
-- !private ["6Lottie14PathOutputNodeC", "deinit"]
 - !private ["6Lottie14PathOutputNodeC", "init"]
-- !private ["6Lottie14PathOutputNodeC", "isEnabled"]
+- !private ["6Lottie14PathOutputNodeC", "removePaths"]
 - !private ["6Lottie14PathOutputNodeC", "setPath"]
 - !private ["Sk", "init"]
 - !private ["Sm", "init"]
@@ -404,6 +404,7 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Foundation.swiftmodule/x86_64.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/CoreFoundation.swiftmodule/x86_64.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/CoreGraphics.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Swift.swiftmodule/x86_64.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/UIKit.swiftmodule/x86_64.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/SwiftOnoneSupport.swiftmodule/x86_64.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Combine.swiftmodule/x86_64-apple-ios-simulator.swiftmodule"
@@ -1570,4 +1571,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "ae2a2a0f6d20d6993a682dadbfb3e005"
+interface-hash: "eee3df944e3d65ed20b7b8fe5767e875"

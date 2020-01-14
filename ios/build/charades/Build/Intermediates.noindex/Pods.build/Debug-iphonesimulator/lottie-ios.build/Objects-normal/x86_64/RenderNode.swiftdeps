@@ -40,7 +40,6 @@ depends-member:
 - ["6Lottie10RenderableP", "CGRect"]
 - ["6Lottie10RenderableP", "hasRenderUpdates"]
 - ["6Lottie10RenderableP", "hasUpdate"]
-- ["6Lottie10RenderableP", "isEnabled"]
 - ["6Lottie10RenderableP", "render"]
 - ["6Lottie10RenderableP", "renderBoundsFor"]
 - ["6Lottie10RenderableP", "shouldRenderInContext"]
@@ -1241,4 +1240,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "e9566963366a6fc5acd303a259df26cf"
+interface-hash: "a791643c66865eb3701dee5239c2f049"

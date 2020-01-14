@@ -311,6 +311,7 @@ SWIFT_CLASS("_TtC6Lottie26CompatibleAnimationKeypath")
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+@class UIColor;
 
 /// An Objective-C compatible wrapper around Lottie’s AnimationView.
 SWIFT_CLASS("_TtC6Lottie23CompatibleAnimationView")
@@ -339,6 +340,8 @@ SWIFT_CLASS("_TtC6Lottie23CompatibleAnimationView")
 - (void)forceDisplayUpdate;
 - (id _Nullable)getValueFor:(CompatibleAnimationKeypath * _Nonnull)keypath atFrame:(CGFloat)atFrame SWIFT_WARN_UNUSED_RESULT;
 - (void)logHierarchyKeypaths;
+- (void)setColorValue:(UIColor * _Nonnull)color forKeypath:(CompatibleAnimationKeypath * _Nonnull)keypath;
+- (UIColor * _Nullable)getColorValueFor:(CompatibleAnimationKeypath * _Nonnull)keypath atFrame:(CGFloat)atFrame SWIFT_WARN_UNUSED_RESULT;
 - (void)addSubview:(AnimationSubview * _Nonnull)subview forLayerAt:(CompatibleAnimationKeypath * _Nonnull)keypath;
 - (CGRect)convertWithRect:(CGRect)rect toLayerAt:(CompatibleAnimationKeypath * _Nullable)keypath SWIFT_WARN_UNUSED_RESULT;
 - (CGPoint)convertWithPoint:(CGPoint)point toLayerAt:(CompatibleAnimationKeypath * _Nullable)keypath SWIFT_WARN_UNUSED_RESULT;

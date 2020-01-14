@@ -33,7 +33,6 @@ depends-top-level:
 - "CGImage"
 - "CastingPrecedence"
 - "CompositionLayer"
-- "ContiguousArray"
 - !private "DefaultTextProvider"
 - "FloatLiteralType"
 - "ImageAsset"
@@ -45,7 +44,6 @@ depends-top-level:
 - "String"
 - !private "StringLiteralType"
 - !private "TextCompositionLayer"
-- !private "Thread"
 - !private "fatalError"
 - !private "floor"
 - !private "print"
@@ -72,7 +70,6 @@ depends-member:
 - !private ["6Lottie18AnimationContainerC", "CAMediaTimingFunctionName"]
 - ["6Lottie18AnimationContainerC", "CGFloat"]
 - ["6Lottie18AnimationContainerC", "CompositionLayer"]
-- ["6Lottie18AnimationContainerC", "ContiguousArray"]
 - !private ["6Lottie18AnimationContainerC", "DefaultTextProvider"]
 - !private ["6Lottie18AnimationContainerC", "ImageCompositionLayer"]
 - ["6Lottie18AnimationContainerC", "LayerImageProvider"]
@@ -80,7 +77,6 @@ depends-member:
 - ["6Lottie18AnimationContainerC", "NSCoder"]
 - ["6Lottie18AnimationContainerC", "String"]
 - !private ["6Lottie18AnimationContainerC", "TextCompositionLayer"]
-- !private ["6Lottie18AnimationContainerC", "Thread"]
 - ["6Lottie18AnimationContainerC", "action"]
 - !private ["6Lottie18AnimationContainerC", "addSublayer"]
 - ["6Lottie18AnimationContainerC", "animationLayers"]
@@ -118,6 +114,7 @@ depends-member:
 - !private ["Sa", "append"]
 - !private ["Sa", "count"]
 - !private ["Sa", "first"]
+- !private ["Sa", "forEach"]
 - !private ["Sa", "init"]
 - !private ["Sa", "initializeCompositionLayers"]
 - !private ["Sa", "reversed"]
@@ -155,7 +152,6 @@ depends-member:
 - !private ["So7CALayerC", "CAMediaTimingFunctionName"]
 - ["So7CALayerC", "CGFloat"]
 - ["So7CALayerC", "CompositionLayer"]
-- ["So7CALayerC", "ContiguousArray"]
 - !private ["So7CALayerC", "DefaultTextProvider"]
 - !private ["So7CALayerC", "ImageCompositionLayer"]
 - ["So7CALayerC", "LayerImageProvider"]
@@ -163,7 +159,6 @@ depends-member:
 - ["So7CALayerC", "NSCoder"]
 - ["So7CALayerC", "String"]
 - !private ["So7CALayerC", "TextCompositionLayer"]
-- !private ["So7CALayerC", "Thread"]
 - ["So7CALayerC", ""]
 - ["So7CALayerC", "action"]
 - !private ["So7CALayerC", "addSublayer"]
@@ -207,7 +202,6 @@ depends-member:
 - !private ["So13CAMediaTimingP", "LayerImageProvider"]
 - !private ["So13CAMediaTimingP", "LayerTextProvider"]
 - !private ["So13CAMediaTimingP", "TextCompositionLayer"]
-- !private ["So13CAMediaTimingP", "Thread"]
 - ["So13CAMediaTimingP", ""]
 - !private ["So13CAMediaTimingP", "action"]
 - !private ["So13CAMediaTimingP", "addSublayer"]
@@ -251,7 +245,6 @@ depends-member:
 - !private ["s7CVarArgP", "LayerImageProvider"]
 - !private ["s7CVarArgP", "LayerTextProvider"]
 - !private ["s7CVarArgP", "TextCompositionLayer"]
-- !private ["s7CVarArgP", "Thread"]
 - ["s7CVarArgP", ""]
 - !private ["s7CVarArgP", "action"]
 - !private ["s7CVarArgP", "addSublayer"]
@@ -265,10 +258,10 @@ depends-member:
 - !private ["s7CVarArgP", "fatalError"]
 - !private ["s7CVarArgP", "first"]
 - !private ["s7CVarArgP", "floor"]
+- !private ["s7CVarArgP", "forEach"]
 - !private ["s7CVarArgP", "fromValue"]
 - !private ["s7CVarArgP", "init"]
 - !private ["s7CVarArgP", "initializeCompositionLayers"]
-- !private ["s7CVarArgP", "isMainThread"]
 - !private ["s7CVarArgP", "layer"]
 - !private ["s7CVarArgP", "layerImageProvider"]
 - !private ["s7CVarArgP", "layerTextProvider"]
@@ -302,8 +295,6 @@ depends-member:
 - !private ["6Lottie16CompositionLayerC", "matteType"]
 - !private ["6Lottie16CompositionLayerC", "nodeProperties"]
 - !private ["6Lottie16CompositionLayerC", "renderScale"]
-- !private ["s15ContiguousArrayV", "append"]
-- !private ["s15ContiguousArrayV", "forEach"]
 - !private ["10Foundation15ContiguousBytesP", "append"]
 - !private ["10Foundation15ContiguousBytesP", "count"]
 - !private ["10Foundation15ContiguousBytesP", "first"]
@@ -322,7 +313,6 @@ depends-member:
 - !private ["s28CustomDebugStringConvertibleP", "LayerImageProvider"]
 - !private ["s28CustomDebugStringConvertibleP", "LayerTextProvider"]
 - !private ["s28CustomDebugStringConvertibleP", "TextCompositionLayer"]
-- !private ["s28CustomDebugStringConvertibleP", "Thread"]
 - ["s28CustomDebugStringConvertibleP", ""]
 - !private ["s28CustomDebugStringConvertibleP", "action"]
 - !private ["s28CustomDebugStringConvertibleP", "addSublayer"]
@@ -340,7 +330,6 @@ depends-member:
 - !private ["s28CustomDebugStringConvertibleP", "fromValue"]
 - !private ["s28CustomDebugStringConvertibleP", "init"]
 - !private ["s28CustomDebugStringConvertibleP", "initializeCompositionLayers"]
-- !private ["s28CustomDebugStringConvertibleP", "isMainThread"]
 - !private ["s28CustomDebugStringConvertibleP", "layer"]
 - !private ["s28CustomDebugStringConvertibleP", "layerImageProvider"]
 - !private ["s28CustomDebugStringConvertibleP", "layerTextProvider"]
@@ -383,7 +372,6 @@ depends-member:
 - !private ["s23CustomStringConvertibleP", "LayerImageProvider"]
 - !private ["s23CustomStringConvertibleP", "LayerTextProvider"]
 - !private ["s23CustomStringConvertibleP", "TextCompositionLayer"]
-- !private ["s23CustomStringConvertibleP", "Thread"]
 - ["s23CustomStringConvertibleP", ""]
 - !private ["s23CustomStringConvertibleP", "action"]
 - !private ["s23CustomStringConvertibleP", "addSublayer"]
@@ -401,7 +389,6 @@ depends-member:
 - !private ["s23CustomStringConvertibleP", "fromValue"]
 - !private ["s23CustomStringConvertibleP", "init"]
 - !private ["s23CustomStringConvertibleP", "initializeCompositionLayers"]
-- !private ["s23CustomStringConvertibleP", "isMainThread"]
 - !private ["s23CustomStringConvertibleP", "layer"]
 - !private ["s23CustomStringConvertibleP", "layerImageProvider"]
 - !private ["s23CustomStringConvertibleP", "layerTextProvider"]
@@ -465,7 +452,6 @@ depends-member:
 - !private ["SQ", "LayerImageProvider"]
 - !private ["SQ", "LayerTextProvider"]
 - !private ["SQ", "TextCompositionLayer"]
-- !private ["SQ", "Thread"]
 - ["SQ", ""]
 - !private ["SQ", "action"]
 - !private ["SQ", "add"]
@@ -485,7 +471,6 @@ depends-member:
 - !private ["SQ", "init"]
 - !private ["SQ", "initializeCompositionLayers"]
 - !private ["SQ", "invert"]
-- !private ["SQ", "isMainThread"]
 - !private ["SQ", "layer"]
 - !private ["SQ", "layerImageProvider"]
 - !private ["SQ", "layerTextProvider"]
@@ -523,7 +508,6 @@ depends-member:
 - !private ["SH", "LayerImageProvider"]
 - !private ["SH", "LayerTextProvider"]
 - !private ["SH", "TextCompositionLayer"]
-- !private ["SH", "Thread"]
 - ["SH", ""]
 - !private ["SH", "action"]
 - !private ["SH", "add"]
@@ -543,7 +527,6 @@ depends-member:
 - !private ["SH", "init"]
 - !private ["SH", "initializeCompositionLayers"]
 - !private ["SH", "invert"]
-- !private ["SH", "isMainThread"]
 - !private ["SH", "layer"]
 - !private ["SH", "layerImageProvider"]
 - !private ["SH", "layerTextProvider"]
@@ -563,6 +546,7 @@ depends-member:
 - !private ["6Lottie14InterpolatableP", "append"]
 - !private ["6Lottie14InterpolatableP", "count"]
 - !private ["6Lottie14InterpolatableP", "first"]
+- !private ["6Lottie14InterpolatableP", "forEach"]
 - !private ["6Lottie14InterpolatableP", "init"]
 - !private ["6Lottie14InterpolatableP", "initializeCompositionLayers"]
 - !private ["6Lottie14InterpolatableP", "reversed"]
@@ -586,7 +570,6 @@ depends-member:
 - !private ["6Lottie14LayerDebuggingP", "LayerImageProvider"]
 - !private ["6Lottie14LayerDebuggingP", "LayerTextProvider"]
 - !private ["6Lottie14LayerDebuggingP", "TextCompositionLayer"]
-- !private ["6Lottie14LayerDebuggingP", "Thread"]
 - !private ["6Lottie14LayerDebuggingP", "addSublayer"]
 - !private ["6Lottie14LayerDebuggingP", "animationLayers"]
 - !private ["6Lottie14LayerDebuggingP", "bounds"]
@@ -636,7 +619,6 @@ depends-member:
 - !private ["So8NSCodingP", "LayerImageProvider"]
 - !private ["So8NSCodingP", "LayerTextProvider"]
 - !private ["So8NSCodingP", "TextCompositionLayer"]
-- !private ["So8NSCodingP", "Thread"]
 - ["So8NSCodingP", ""]
 - !private ["So8NSCodingP", "action"]
 - !private ["So8NSCodingP", "addSublayer"]
@@ -682,7 +664,6 @@ depends-member:
 - !private ["So8NSObjectC", "CAMediaTimingFunctionName"]
 - ["So8NSObjectC", "CGFloat"]
 - ["So8NSObjectC", "CompositionLayer"]
-- ["So8NSObjectC", "ContiguousArray"]
 - !private ["So8NSObjectC", "DefaultTextProvider"]
 - !private ["So8NSObjectC", "ImageCompositionLayer"]
 - ["So8NSObjectC", "LayerImageProvider"]
@@ -690,7 +671,6 @@ depends-member:
 - ["So8NSObjectC", "NSCoder"]
 - ["So8NSObjectC", "String"]
 - !private ["So8NSObjectC", "TextCompositionLayer"]
-- !private ["So8NSObjectC", "Thread"]
 - ["So8NSObjectC", "action"]
 - !private ["So8NSObjectC", "addSublayer"]
 - ["So8NSObjectC", "animationLayers"]
@@ -706,7 +686,6 @@ depends-member:
 - ["So8NSObjectC", "getValue"]
 - ["So8NSObjectC", "imageProvider"]
 - ["So8NSObjectC", "init"]
-- !private ["So8NSObjectC", "isMainThread"]
 - ["So8NSObjectC", "layer"]
 - ["So8NSObjectC", "layerImageProvider"]
 - ["So8NSObjectC", "layerTextProvider"]
@@ -736,7 +715,6 @@ depends-member:
 - !private ["So8NSObjectP", "LayerImageProvider"]
 - !private ["So8NSObjectP", "LayerTextProvider"]
 - !private ["So8NSObjectP", "TextCompositionLayer"]
-- !private ["So8NSObjectP", "Thread"]
 - ["So8NSObjectP", ""]
 - !private ["So8NSObjectP", "action"]
 - !private ["So8NSObjectP", "addSublayer"]
@@ -749,7 +727,6 @@ depends-member:
 - !private ["So8NSObjectP", "floor"]
 - !private ["So8NSObjectP", "fromValue"]
 - !private ["So8NSObjectP", "init"]
-- !private ["So8NSObjectP", "isMainThread"]
 - !private ["So8NSObjectP", "layer"]
 - !private ["So8NSObjectP", "layerImageProvider"]
 - !private ["So8NSObjectP", "layerTextProvider"]
@@ -775,7 +752,6 @@ depends-member:
 - !private ["So14NSSecureCodingP", "LayerImageProvider"]
 - !private ["So14NSSecureCodingP", "LayerTextProvider"]
 - !private ["So14NSSecureCodingP", "TextCompositionLayer"]
-- !private ["So14NSSecureCodingP", "Thread"]
 - ["So14NSSecureCodingP", ""]
 - !private ["So14NSSecureCodingP", "action"]
 - !private ["So14NSSecureCodingP", "addSublayer"]
@@ -829,7 +805,6 @@ depends-member:
 - !private ["ST", "reversed"]
 - !private ["s13SignedNumericP", "init"]
 - !private ["Sx", "init"]
-- !private ["So8NSThreadC", "isMainThread"]
 - !private ["s14_ArrayProtocolP", "append"]
 - !private ["s14_ArrayProtocolP", "count"]
 - !private ["s14_ArrayProtocolP", "first"]
@@ -856,6 +831,7 @@ depends-member:
 - !private ["s35_HasCustomAnyHashableRepresentationP", "append"]
 - !private ["s35_HasCustomAnyHashableRepresentationP", "count"]
 - !private ["s35_HasCustomAnyHashableRepresentationP", "first"]
+- !private ["s35_HasCustomAnyHashableRepresentationP", "forEach"]
 - !private ["s35_HasCustomAnyHashableRepresentationP", "init"]
 - !private ["s35_HasCustomAnyHashableRepresentationP", "initializeCompositionLayers"]
 - !private ["s35_HasCustomAnyHashableRepresentationP", "linear"]
@@ -871,7 +847,6 @@ depends-member:
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "LayerImageProvider"]
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "LayerTextProvider"]
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "TextCompositionLayer"]
-- !private ["10Foundation27_KeyValueCodingAndObservingP", "Thread"]
 - ["10Foundation27_KeyValueCodingAndObservingP", ""]
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "action"]
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "addSublayer"]
@@ -884,7 +859,6 @@ depends-member:
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "floor"]
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "fromValue"]
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "init"]
-- !private ["10Foundation27_KeyValueCodingAndObservingP", "isMainThread"]
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "layer"]
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "layerImageProvider"]
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "layerTextProvider"]
@@ -910,7 +884,6 @@ depends-member:
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "LayerImageProvider"]
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "LayerTextProvider"]
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "TextCompositionLayer"]
-- !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "Thread"]
 - ["10Foundation37_KeyValueCodingAndObservingPublishingP", ""]
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "action"]
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "addSublayer"]
@@ -923,7 +896,6 @@ depends-member:
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "floor"]
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "fromValue"]
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "init"]
-- !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "isMainThread"]
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "layer"]
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "layerImageProvider"]
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "layerTextProvider"]
@@ -941,6 +913,7 @@ depends-member:
 - !private ["s21_ObjectiveCBridgeableP", "append"]
 - !private ["s21_ObjectiveCBridgeableP", "count"]
 - !private ["s21_ObjectiveCBridgeableP", "first"]
+- !private ["s21_ObjectiveCBridgeableP", "forEach"]
 - !private ["s21_ObjectiveCBridgeableP", "init"]
 - !private ["s21_ObjectiveCBridgeableP", "initializeCompositionLayers"]
 - !private ["s21_ObjectiveCBridgeableP", "linear"]
@@ -971,7 +944,6 @@ depends-nominal:
 - !private "Sl"
 - !private "SL"
 - !private "6Lottie16CompositionLayerC"
-- !private "s15ContiguousArrayV"
 - !private "10Foundation15ContiguousBytesP"
 - "s28CustomDebugStringConvertibleP"
 - !private "6Lottie20CustomLayerDebuggingP"
@@ -1007,7 +979,6 @@ depends-nominal:
 - !private "ST"
 - !private "s13SignedNumericP"
 - !private "Sx"
-- !private "So8NSThreadC"
 - !private "s14_ArrayProtocolP"
 - !private "s15_CVarArgAlignedP"
 - !private "s22_CVarArgPassedAsDoubleP"
@@ -1033,6 +1004,19 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/usr/lib/swift/UIKit.swiftmodule/x86_64.swiftinterface"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/usr/lib/swift/SwiftOnoneSupport.swiftmodule/x86_64.swiftinterface"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Combine.framework/Modules/Combine.swiftmodule/x86_64-apple-ios-simulator.swiftinterface"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/ObjectiveC.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/CoreImage.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/QuartzCore.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Dispatch.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Metal.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Darwin.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Foundation.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/CoreFoundation.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/CoreGraphics.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Swift.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/UIKit.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/SwiftOnoneSupport.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Combine.swiftmodule/x86_64-apple-ios-simulator.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/usr/include/sys/_types/_timeval32.h"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/usr/include/sys/_types/_timeval64.h"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/usr/include/sys/_types/_ucontext64.h"
@@ -2196,4 +2180,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "a8cc2a5109e07fd1c5b60b8c1787da46"
+interface-hash: "0f99739772fb0a16ba208cdcf5727e8c"

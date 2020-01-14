@@ -45,6 +45,7 @@ depends-top-level:
 - !private "URLSession"
 - !private "UnicodeScalarType"
 - "Void"
+- !private "print"
 depends-member:
 - !private ["s18AdditiveArithmeticP", "clamp"]
 - !private ["s18AdditiveArithmeticP", "init"]
@@ -77,6 +78,7 @@ depends-member:
 - ["6Lottie9AnimationC", "loadedFrom"]
 - !private ["6Lottie9AnimationC", "markerMap"]
 - ["6Lottie9AnimationC", "named"]
+- !private ["6Lottie9AnimationC", "print"]
 - ["6Lottie9AnimationC", "progressTime"]
 - ["6Lottie9AnimationC", "size"]
 - !private ["6Lottie9AnimationC", "startFrame"]
@@ -155,6 +157,7 @@ depends-member:
 - !private ["Se", "height"]
 - !private ["Se", "init"]
 - !private ["Se", "markerMap"]
+- !private ["Se", "print"]
 - !private ["Se", "progressTime"]
 - !private ["Se", "startFrame"]
 - !private ["Se", "subscript"]
@@ -185,6 +188,7 @@ depends-member:
 - !private ["SE", "height"]
 - !private ["SE", "init"]
 - !private ["SE", "markerMap"]
+- !private ["SE", "print"]
 - !private ["SE", "progressTime"]
 - !private ["SE", "startFrame"]
 - !private ["SE", "subscript"]

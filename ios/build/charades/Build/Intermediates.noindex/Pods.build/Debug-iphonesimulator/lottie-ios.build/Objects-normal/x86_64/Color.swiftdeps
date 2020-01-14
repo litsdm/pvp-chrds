@@ -1,16 +1,25 @@
 ### Swift dependencies file v0 ###
 provides-top-level:
+- "ColorFormatDenominator"
 - "Color"
 provides-nominal:
+- "6Lottie22ColorFormatDenominatorO"
 - "6Lottie5ColorV"
 provides-member:
+- ["6Lottie22ColorFormatDenominatorO", ""]
 - ["6Lottie5ColorV", ""]
 provides-dynamic-lookup:
 depends-top-level:
+- !private "/"
+- "=="
 - "AssignmentPrecedence"
 - "Color"
+- "ColorFormatDenominator"
 - "Double"
+- !private "FloatLiteralType"
+- !private "IntegerLiteralType"
 depends-member:
+- ["6Lottie5ColorV", "ColorFormatDenominator"]
 - ["6Lottie5ColorV", "Double"]
 - ["6Lottie5ColorV", "a"]
 - ["6Lottie5ColorV", "b"]
@@ -18,6 +27,17 @@ depends-member:
 - ["6Lottie5ColorV", "g"]
 - ["6Lottie5ColorV", "init"]
 - ["6Lottie5ColorV", "r"]
+- ["6Lottie22ColorFormatDenominatorO", "=="]
+- ["6Lottie22ColorFormatDenominatorO", "Double"]
+- ["6Lottie22ColorFormatDenominatorO", "One"]
+- ["6Lottie22ColorFormatDenominatorO", "OneHundred"]
+- ["6Lottie22ColorFormatDenominatorO", "TwoFiftyFive"]
+- ["6Lottie22ColorFormatDenominatorO", "__derived_enum_equals"]
+- ["6Lottie22ColorFormatDenominatorO", "_rawHashValue"]
+- ["6Lottie22ColorFormatDenominatorO", "deinit"]
+- ["6Lottie22ColorFormatDenominatorO", "hash"]
+- ["6Lottie22ColorFormatDenominatorO", "hashValue"]
+- ["6Lottie22ColorFormatDenominatorO", "value"]
 - !private ["Se", "a"]
 - !private ["Se", "b"]
 - !private ["Se", "g"]
@@ -26,14 +46,37 @@ depends-member:
 - !private ["SE", "b"]
 - !private ["SE", "g"]
 - !private ["SE", "r"]
+- ["SQ", "=="]
+- ["SQ", "One"]
+- ["SQ", "OneHundred"]
+- ["SQ", "TwoFiftyFive"]
+- ["SQ", ""]
+- ["SQ", "_rawHashValue"]
+- ["SQ", "hash"]
+- ["SQ", "hashValue"]
+- !private ["SQ", "value"]
+- ["SH", "=="]
+- ["SH", "One"]
+- ["SH", "OneHundred"]
+- ["SH", "TwoFiftyFive"]
+- ["SH", ""]
+- ["SH", "_rawHashValue"]
+- ["SH", "hash"]
+- ["SH", "hashValue"]
+- !private ["SH", "value"]
+- !private ["s6HasherV", "combine"]
 - !private ["6Lottie14InterpolatableP", "a"]
 - !private ["6Lottie14InterpolatableP", "b"]
 - !private ["6Lottie14InterpolatableP", "g"]
 - !private ["6Lottie14InterpolatableP", "r"]
 depends-nominal:
 - "6Lottie5ColorV"
+- "6Lottie22ColorFormatDenominatorO"
 - !private "Se"
 - !private "SE"
+- "SQ"
+- "SH"
+- !private "s6HasherV"
 - !private "6Lottie14InterpolatableP"
 depends-dynamic-lookup:
 depends-external:
@@ -1226,4 +1269,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "ca4af6c0dcb8e5d865d5bbffb8cb5edf"
+interface-hash: "67f075cb97c31f1a091d1417ca36aca1"

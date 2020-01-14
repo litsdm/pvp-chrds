@@ -24,7 +24,6 @@ depends-top-level:
 - "AssignmentPrecedence"
 - "Bool"
 - !private "BooleanLiteralType"
-- "CGFloat"
 - "CGSize"
 - !private "FloatLiteralType"
 - !private "IntegerLiteralType"
@@ -41,7 +40,6 @@ depends-member:
 - ["6Lottie15AnimatedControlC", "AnimationView"]
 - ["6Lottie15AnimatedControlC", "AnyValueProvider"]
 - ["6Lottie15AnimatedControlC", "Bool"]
-- ["6Lottie15AnimatedControlC", "CGFloat"]
 - ["6Lottie15AnimatedControlC", "CGSize"]
 - ["6Lottie15AnimatedControlC", "NSCoder"]
 - ["6Lottie15AnimatedControlC", "String"]
@@ -52,7 +50,6 @@ depends-member:
 - !private ["6Lottie15AnimatedControlC", "addSubview"]
 - ["6Lottie15AnimatedControlC", "animation"]
 - ["6Lottie15AnimatedControlC", "animationDidSet"]
-- ["6Lottie15AnimatedControlC", "animationSpeed"]
 - ["6Lottie15AnimatedControlC", "animationView"]
 - ["6Lottie15AnimatedControlC", "beginTracking"]
 - !private ["6Lottie15AnimatedControlC", "bottomAnchor"]
@@ -82,7 +79,6 @@ depends-member:
 - !private ["6Lottie16AnimationKeypathV", "init"]
 - !private ["6Lottie13AnimationViewC", "animation"]
 - !private ["6Lottie13AnimationViewC", "animationLayer"]
-- !private ["6Lottie13AnimationViewC", "animationSpeed"]
 - !private ["6Lottie13AnimationViewC", "backgroundBehavior"]
 - !private ["6Lottie13AnimationViewC", "bottomAnchor"]
 - !private ["6Lottie13AnimationViewC", "bounds"]
@@ -108,7 +104,6 @@ depends-member:
 - !private ["So15CALayerDelegateP", "animation"]
 - !private ["So15CALayerDelegateP", "animationDidSet"]
 - !private ["So15CALayerDelegateP", "animationLayer"]
-- !private ["So15CALayerDelegateP", "animationSpeed"]
 - !private ["So15CALayerDelegateP", "animationView"]
 - !private ["So15CALayerDelegateP", "backgroundBehavior"]
 - !private ["So15CALayerDelegateP", "beginTracking"]
@@ -145,7 +140,6 @@ depends-member:
 - !private ["s7CVarArgP", "animationDidSet"]
 - !private ["s7CVarArgP", "animationLayer"]
 - !private ["s7CVarArgP", "animationLayers"]
-- !private ["s7CVarArgP", "animationSpeed"]
 - !private ["s7CVarArgP", "animationView"]
 - !private ["s7CVarArgP", "backgroundBehavior"]
 - !private ["s7CVarArgP", "beginTracking"]
@@ -186,7 +180,6 @@ depends-member:
 - !private ["s28CustomDebugStringConvertibleP", "animationDidSet"]
 - !private ["s28CustomDebugStringConvertibleP", "animationLayer"]
 - !private ["s28CustomDebugStringConvertibleP", "animationLayers"]
-- !private ["s28CustomDebugStringConvertibleP", "animationSpeed"]
 - !private ["s28CustomDebugStringConvertibleP", "animationView"]
 - !private ["s28CustomDebugStringConvertibleP", "backgroundBehavior"]
 - !private ["s28CustomDebugStringConvertibleP", "beginTracking"]
@@ -228,7 +221,6 @@ depends-member:
 - !private ["s23CustomStringConvertibleP", "animationDidSet"]
 - !private ["s23CustomStringConvertibleP", "animationLayer"]
 - !private ["s23CustomStringConvertibleP", "animationLayers"]
-- !private ["s23CustomStringConvertibleP", "animationSpeed"]
 - !private ["s23CustomStringConvertibleP", "animationView"]
 - !private ["s23CustomStringConvertibleP", "backgroundBehavior"]
 - !private ["s23CustomStringConvertibleP", "beginTracking"]
@@ -273,7 +265,6 @@ depends-member:
 - !private ["SQ", "animationDidSet"]
 - !private ["SQ", "animationLayer"]
 - !private ["SQ", "animationLayers"]
-- !private ["SQ", "animationSpeed"]
 - !private ["SQ", "animationView"]
 - !private ["SQ", "backgroundBehavior"]
 - !private ["SQ", "beginTracking"]
@@ -317,7 +308,6 @@ depends-member:
 - !private ["SH", "animationDidSet"]
 - !private ["SH", "animationLayer"]
 - !private ["SH", "animationLayers"]
-- !private ["SH", "animationSpeed"]
 - !private ["SH", "animationView"]
 - !private ["SH", "backgroundBehavior"]
 - !private ["SH", "beginTracking"]
@@ -354,7 +344,6 @@ depends-member:
 - !private ["6Lottie0A18BackgroundBehaviorO", "forceFinish"]
 - !private ["6Lottie0A4ViewC", "animation"]
 - !private ["6Lottie0A4ViewC", "animationLayer"]
-- !private ["6Lottie0A4ViewC", "animationSpeed"]
 - !private ["6Lottie0A4ViewC", "backgroundBehavior"]
 - !private ["6Lottie0A4ViewC", "bottomAnchor"]
 - !private ["6Lottie0A4ViewC", "bounds"]
@@ -377,7 +366,6 @@ depends-member:
 - !private ["So8NSCodingP", "animationDidSet"]
 - !private ["So8NSCodingP", "animationLayer"]
 - !private ["So8NSCodingP", "animationLayers"]
-- !private ["So8NSCodingP", "animationSpeed"]
 - !private ["So8NSCodingP", "animationView"]
 - !private ["So8NSCodingP", "backgroundBehavior"]
 - !private ["So8NSCodingP", "beginTracking"]
@@ -412,7 +400,6 @@ depends-member:
 - ["So8NSObjectC", "AnimationView"]
 - ["So8NSObjectC", "AnyValueProvider"]
 - ["So8NSObjectC", "Bool"]
-- ["So8NSObjectC", "CGFloat"]
 - ["So8NSObjectC", "CGSize"]
 - ["So8NSObjectC", "NSCoder"]
 - ["So8NSObjectC", "State"]
@@ -426,7 +413,6 @@ depends-member:
 - ["So8NSObjectC", "animationDidSet"]
 - !private ["So8NSObjectC", "animationLayer"]
 - !private ["So8NSObjectC", "animationLayers"]
-- ["So8NSObjectC", "animationSpeed"]
 - ["So8NSObjectC", "animationView"]
 - !private ["So8NSObjectC", "backgroundBehavior"]
 - ["So8NSObjectC", "beginTracking"]
@@ -467,7 +453,6 @@ depends-member:
 - !private ["So8NSObjectP", "animationDidSet"]
 - !private ["So8NSObjectP", "animationLayer"]
 - !private ["So8NSObjectP", "animationLayers"]
-- !private ["So8NSObjectP", "animationSpeed"]
 - !private ["So8NSObjectP", "animationView"]
 - !private ["So8NSObjectP", "backgroundBehavior"]
 - !private ["So8NSObjectP", "beginTracking"]
@@ -512,7 +497,6 @@ depends-member:
 - !private ["So29UIAccessibilityIdentificationP", "animation"]
 - !private ["So29UIAccessibilityIdentificationP", "animationDidSet"]
 - !private ["So29UIAccessibilityIdentificationP", "animationLayer"]
-- !private ["So29UIAccessibilityIdentificationP", "animationSpeed"]
 - !private ["So29UIAccessibilityIdentificationP", "animationView"]
 - !private ["So29UIAccessibilityIdentificationP", "backgroundBehavior"]
 - !private ["So29UIAccessibilityIdentificationP", "beginTracking"]
@@ -544,7 +528,6 @@ depends-member:
 - !private ["So12UIAppearanceP", "animation"]
 - !private ["So12UIAppearanceP", "animationDidSet"]
 - !private ["So12UIAppearanceP", "animationLayer"]
-- !private ["So12UIAppearanceP", "animationSpeed"]
 - !private ["So12UIAppearanceP", "animationView"]
 - !private ["So12UIAppearanceP", "backgroundBehavior"]
 - !private ["So12UIAppearanceP", "beginTracking"]
@@ -576,7 +559,6 @@ depends-member:
 - !private ["So21UIAppearanceContainerP", "animation"]
 - !private ["So21UIAppearanceContainerP", "animationDidSet"]
 - !private ["So21UIAppearanceContainerP", "animationLayer"]
-- !private ["So21UIAppearanceContainerP", "animationSpeed"]
 - !private ["So21UIAppearanceContainerP", "animationView"]
 - !private ["So21UIAppearanceContainerP", "backgroundBehavior"]
 - !private ["So21UIAppearanceContainerP", "beginTracking"]
@@ -605,7 +587,6 @@ depends-member:
 - ["So9UIControlC", "AnimationView"]
 - ["So9UIControlC", "AnyValueProvider"]
 - ["So9UIControlC", "Bool"]
-- ["So9UIControlC", "CGFloat"]
 - ["So9UIControlC", "CGSize"]
 - ["So9UIControlC", "NSCoder"]
 - ["So9UIControlC", "State"]
@@ -618,7 +599,6 @@ depends-member:
 - !private ["So9UIControlC", "addSubview"]
 - ["So9UIControlC", "animation"]
 - ["So9UIControlC", "animationDidSet"]
-- ["So9UIControlC", "animationSpeed"]
 - ["So9UIControlC", "animationView"]
 - ["So9UIControlC", "beginTracking"]
 - !private ["So9UIControlC", "bottomAnchor"]
@@ -649,7 +629,6 @@ depends-member:
 - !private ["So17UICoordinateSpaceP", "animation"]
 - !private ["So17UICoordinateSpaceP", "animationDidSet"]
 - !private ["So17UICoordinateSpaceP", "animationLayer"]
-- !private ["So17UICoordinateSpaceP", "animationSpeed"]
 - !private ["So17UICoordinateSpaceP", "animationView"]
 - !private ["So17UICoordinateSpaceP", "backgroundBehavior"]
 - !private ["So17UICoordinateSpaceP", "beginTracking"]
@@ -681,7 +660,6 @@ depends-member:
 - !private ["So13UIDynamicItemP", "animation"]
 - !private ["So13UIDynamicItemP", "animationDidSet"]
 - !private ["So13UIDynamicItemP", "animationLayer"]
-- !private ["So13UIDynamicItemP", "animationSpeed"]
 - !private ["So13UIDynamicItemP", "animationView"]
 - !private ["So13UIDynamicItemP", "backgroundBehavior"]
 - !private ["So13UIDynamicItemP", "beginTracking"]
@@ -713,7 +691,6 @@ depends-member:
 - !private ["So18UIFocusEnvironmentP", "animation"]
 - !private ["So18UIFocusEnvironmentP", "animationDidSet"]
 - !private ["So18UIFocusEnvironmentP", "animationLayer"]
-- !private ["So18UIFocusEnvironmentP", "animationSpeed"]
 - !private ["So18UIFocusEnvironmentP", "animationView"]
 - !private ["So18UIFocusEnvironmentP", "backgroundBehavior"]
 - !private ["So18UIFocusEnvironmentP", "beginTracking"]
@@ -745,7 +722,6 @@ depends-member:
 - !private ["So11UIFocusItemP", "animation"]
 - !private ["So11UIFocusItemP", "animationDidSet"]
 - !private ["So11UIFocusItemP", "animationLayer"]
-- !private ["So11UIFocusItemP", "animationSpeed"]
 - !private ["So11UIFocusItemP", "animationView"]
 - !private ["So11UIFocusItemP", "backgroundBehavior"]
 - !private ["So11UIFocusItemP", "beginTracking"]
@@ -777,7 +753,6 @@ depends-member:
 - !private ["So20UIFocusItemContainerP", "animation"]
 - !private ["So20UIFocusItemContainerP", "animationDidSet"]
 - !private ["So20UIFocusItemContainerP", "animationLayer"]
-- !private ["So20UIFocusItemContainerP", "animationSpeed"]
 - !private ["So20UIFocusItemContainerP", "animationView"]
 - !private ["So20UIFocusItemContainerP", "backgroundBehavior"]
 - !private ["So20UIFocusItemContainerP", "beginTracking"]
@@ -809,7 +784,6 @@ depends-member:
 - !private ["So24UILargeContentViewerItemP", "animation"]
 - !private ["So24UILargeContentViewerItemP", "animationDidSet"]
 - !private ["So24UILargeContentViewerItemP", "animationLayer"]
-- !private ["So24UILargeContentViewerItemP", "animationSpeed"]
 - !private ["So24UILargeContentViewerItemP", "animationView"]
 - !private ["So24UILargeContentViewerItemP", "backgroundBehavior"]
 - !private ["So24UILargeContentViewerItemP", "beginTracking"]
@@ -841,7 +815,6 @@ depends-member:
 - !private ["So30UIPasteConfigurationSupportingP", "animation"]
 - !private ["So30UIPasteConfigurationSupportingP", "animationDidSet"]
 - !private ["So30UIPasteConfigurationSupportingP", "animationLayer"]
-- !private ["So30UIPasteConfigurationSupportingP", "animationSpeed"]
 - !private ["So30UIPasteConfigurationSupportingP", "animationView"]
 - !private ["So30UIPasteConfigurationSupportingP", "backgroundBehavior"]
 - !private ["So30UIPasteConfigurationSupportingP", "beginTracking"]
@@ -870,7 +843,6 @@ depends-member:
 - ["So11UIResponderC", "AnimationView"]
 - ["So11UIResponderC", "AnyValueProvider"]
 - ["So11UIResponderC", "Bool"]
-- ["So11UIResponderC", "CGFloat"]
 - ["So11UIResponderC", "CGSize"]
 - ["So11UIResponderC", "NSCoder"]
 - ["So11UIResponderC", "State"]
@@ -883,7 +855,6 @@ depends-member:
 - ["So11UIResponderC", "animation"]
 - ["So11UIResponderC", "animationDidSet"]
 - !private ["So11UIResponderC", "animationLayer"]
-- ["So11UIResponderC", "animationSpeed"]
 - ["So11UIResponderC", "animationView"]
 - !private ["So11UIResponderC", "backgroundBehavior"]
 - ["So11UIResponderC", "beginTracking"]
@@ -919,7 +890,6 @@ depends-member:
 - !private ["So30UIResponderStandardEditActionsP", "animation"]
 - !private ["So30UIResponderStandardEditActionsP", "animationDidSet"]
 - !private ["So30UIResponderStandardEditActionsP", "animationLayer"]
-- !private ["So30UIResponderStandardEditActionsP", "animationSpeed"]
 - !private ["So30UIResponderStandardEditActionsP", "animationView"]
 - !private ["So30UIResponderStandardEditActionsP", "backgroundBehavior"]
 - !private ["So30UIResponderStandardEditActionsP", "beginTracking"]
@@ -951,7 +921,6 @@ depends-member:
 - !private ["So18UITraitEnvironmentP", "animation"]
 - !private ["So18UITraitEnvironmentP", "animationDidSet"]
 - !private ["So18UITraitEnvironmentP", "animationLayer"]
-- !private ["So18UITraitEnvironmentP", "animationSpeed"]
 - !private ["So18UITraitEnvironmentP", "animationView"]
 - !private ["So18UITraitEnvironmentP", "backgroundBehavior"]
 - !private ["So18UITraitEnvironmentP", "beginTracking"]
@@ -983,7 +952,6 @@ depends-member:
 - !private ["So23UIUserActivityRestoringP", "animation"]
 - !private ["So23UIUserActivityRestoringP", "animationDidSet"]
 - !private ["So23UIUserActivityRestoringP", "animationLayer"]
-- !private ["So23UIUserActivityRestoringP", "animationSpeed"]
 - !private ["So23UIUserActivityRestoringP", "animationView"]
 - !private ["So23UIUserActivityRestoringP", "backgroundBehavior"]
 - !private ["So23UIUserActivityRestoringP", "beginTracking"]
@@ -1012,7 +980,6 @@ depends-member:
 - ["So6UIViewC", "AnimationView"]
 - ["So6UIViewC", "AnyValueProvider"]
 - ["So6UIViewC", "Bool"]
-- ["So6UIViewC", "CGFloat"]
 - ["So6UIViewC", "CGSize"]
 - ["So6UIViewC", "NSCoder"]
 - ["So6UIViewC", "State"]
@@ -1025,7 +992,6 @@ depends-member:
 - ["So6UIViewC", "animation"]
 - ["So6UIViewC", "animationDidSet"]
 - !private ["So6UIViewC", "animationLayer"]
-- ["So6UIViewC", "animationSpeed"]
 - ["So6UIViewC", "animationView"]
 - !private ["So6UIViewC", "backgroundBehavior"]
 - ["So6UIViewC", "beginTracking"]
@@ -1064,7 +1030,6 @@ depends-member:
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "animationDidSet"]
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "animationLayer"]
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "animationLayers"]
-- !private ["10Foundation27_KeyValueCodingAndObservingP", "animationSpeed"]
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "animationView"]
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "backgroundBehavior"]
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "beginTracking"]
@@ -1101,7 +1066,6 @@ depends-member:
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "animationDidSet"]
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "animationLayer"]
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "animationLayers"]
-- !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "animationSpeed"]
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "animationView"]
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "backgroundBehavior"]
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "beginTracking"]
@@ -1139,7 +1103,6 @@ depends-member:
 - !private ["s38__DefaultCustomPlaygroundQuickLookableP", "animation"]
 - !private ["s38__DefaultCustomPlaygroundQuickLookableP", "animationDidSet"]
 - !private ["s38__DefaultCustomPlaygroundQuickLookableP", "animationLayer"]
-- !private ["s38__DefaultCustomPlaygroundQuickLookableP", "animationSpeed"]
 - !private ["s38__DefaultCustomPlaygroundQuickLookableP", "animationView"]
 - !private ["s38__DefaultCustomPlaygroundQuickLookableP", "backgroundBehavior"]
 - !private ["s38__DefaultCustomPlaygroundQuickLookableP", "beginTracking"]
@@ -1242,6 +1205,19 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/usr/lib/swift/UIKit.swiftmodule/x86_64.swiftinterface"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/usr/lib/swift/SwiftOnoneSupport.swiftmodule/x86_64.swiftinterface"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Combine.framework/Modules/Combine.swiftmodule/x86_64-apple-ios-simulator.swiftinterface"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/ObjectiveC.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/CoreImage.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/QuartzCore.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Dispatch.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Metal.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Darwin.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Foundation.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/CoreFoundation.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/CoreGraphics.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Swift.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/UIKit.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/SwiftOnoneSupport.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Combine.swiftmodule/x86_64-apple-ios-simulator.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/usr/include/sys/_types/_timeval32.h"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/usr/include/sys/_types/_timeval64.h"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/usr/include/sys/_types/_ucontext64.h"
@@ -2405,4 +2381,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "f6e581e9047810fad06497c2db36ad44"
+interface-hash: "6e1d4f9a11d3e2b61d22c212cb572fd2"

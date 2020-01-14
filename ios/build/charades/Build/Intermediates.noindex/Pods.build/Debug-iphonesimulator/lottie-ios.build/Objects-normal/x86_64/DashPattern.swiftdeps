@@ -4,12 +4,12 @@ provides-top-level:
 - "DashElement"
 provides-nominal:
 - "6Lottie15DashElementTypeO"
-- "6Lottie11DashElementV"
-- "6Lottie11DashElementV10CodingKeysO"
+- "6Lottie11DashElementC"
+- "6Lottie11DashElementC10CodingKeysO"
 provides-member:
 - ["6Lottie15DashElementTypeO", ""]
-- ["6Lottie11DashElementV", ""]
-- ["6Lottie11DashElementV10CodingKeysO", ""]
+- ["6Lottie11DashElementC", ""]
+- ["6Lottie11DashElementC10CodingKeysO", ""]
 provides-dynamic-lookup:
 depends-top-level:
 - "=="
@@ -41,22 +41,22 @@ depends-member:
 - ["s9CodingKeyP", "intValue"]
 - ["s9CodingKeyP", "rawValue"]
 - ["s9CodingKeyP", "stringValue"]
-- ["6Lottie11DashElementV10CodingKeysO", "=="]
-- ["6Lottie11DashElementV10CodingKeysO", "RawValue"]
-- ["6Lottie11DashElementV10CodingKeysO", "_Default_RawValue"]
-- !private ["6Lottie11DashElementV10CodingKeysO", "_findStringSwitchCase"]
-- ["6Lottie11DashElementV10CodingKeysO", "_rawHashValue"]
-- ["6Lottie11DashElementV10CodingKeysO", "debugDescription"]
-- ["6Lottie11DashElementV10CodingKeysO", "deinit"]
-- ["6Lottie11DashElementV10CodingKeysO", "description"]
-- ["6Lottie11DashElementV10CodingKeysO", "hash"]
-- ["6Lottie11DashElementV10CodingKeysO", "hashValue"]
-- ["6Lottie11DashElementV10CodingKeysO", "init"]
-- ["6Lottie11DashElementV10CodingKeysO", "intValue"]
-- ["6Lottie11DashElementV10CodingKeysO", "rawValue"]
-- ["6Lottie11DashElementV10CodingKeysO", "stringValue"]
-- ["6Lottie11DashElementV10CodingKeysO", "type"]
-- ["6Lottie11DashElementV10CodingKeysO", "value"]
+- ["6Lottie11DashElementC10CodingKeysO", "=="]
+- ["6Lottie11DashElementC10CodingKeysO", "RawValue"]
+- ["6Lottie11DashElementC10CodingKeysO", "_Default_RawValue"]
+- !private ["6Lottie11DashElementC10CodingKeysO", "_findStringSwitchCase"]
+- ["6Lottie11DashElementC10CodingKeysO", "_rawHashValue"]
+- ["6Lottie11DashElementC10CodingKeysO", "debugDescription"]
+- ["6Lottie11DashElementC10CodingKeysO", "deinit"]
+- ["6Lottie11DashElementC10CodingKeysO", "description"]
+- ["6Lottie11DashElementC10CodingKeysO", "hash"]
+- ["6Lottie11DashElementC10CodingKeysO", "hashValue"]
+- ["6Lottie11DashElementC10CodingKeysO", "init"]
+- ["6Lottie11DashElementC10CodingKeysO", "intValue"]
+- ["6Lottie11DashElementC10CodingKeysO", "rawValue"]
+- ["6Lottie11DashElementC10CodingKeysO", "stringValue"]
+- ["6Lottie11DashElementC10CodingKeysO", "type"]
+- ["6Lottie11DashElementC10CodingKeysO", "value"]
 - ["s28CustomDebugStringConvertibleP", "=="]
 - ["s28CustomDebugStringConvertibleP", "RawValue"]
 - ["s28CustomDebugStringConvertibleP", ""]
@@ -85,18 +85,18 @@ depends-member:
 - ["s23CustomStringConvertibleP", "intValue"]
 - ["s23CustomStringConvertibleP", "rawValue"]
 - ["s23CustomStringConvertibleP", "stringValue"]
-- ["6Lottie11DashElementV", "CodingKey"]
-- ["6Lottie11DashElementV", "CodingKeys"]
-- ["6Lottie11DashElementV", "DashElementType"]
-- ["6Lottie11DashElementV", "KeyframeGroup"]
-- ["6Lottie11DashElementV", "String"]
-- ["6Lottie11DashElementV", "Vector1D"]
-- !private ["6Lottie11DashElementV", "_findStringSwitchCase"]
-- ["6Lottie11DashElementV", "deinit"]
-- ["6Lottie11DashElementV", "encode"]
-- ["6Lottie11DashElementV", "init"]
-- ["6Lottie11DashElementV", "type"]
-- ["6Lottie11DashElementV", "value"]
+- ["6Lottie11DashElementC", "CodingKey"]
+- ["6Lottie11DashElementC", "CodingKeys"]
+- ["6Lottie11DashElementC", "DashElementType"]
+- ["6Lottie11DashElementC", "KeyframeGroup"]
+- ["6Lottie11DashElementC", "String"]
+- ["6Lottie11DashElementC", "Vector1D"]
+- !private ["6Lottie11DashElementC", "_findStringSwitchCase"]
+- ["6Lottie11DashElementC", "deinit"]
+- ["6Lottie11DashElementC", "encode"]
+- ["6Lottie11DashElementC", "init"]
+- ["6Lottie11DashElementC", "type"]
+- ["6Lottie11DashElementC", "value"]
 - ["6Lottie15DashElementTypeO", "=="]
 - ["6Lottie15DashElementTypeO", "RawValue"]
 - ["6Lottie15DashElementTypeO", "_Default_RawValue"]
@@ -192,10 +192,10 @@ depends-member:
 - ["6Lottie8Vector1DV", "deinit"]
 depends-nominal:
 - "s9CodingKeyP"
-- "6Lottie11DashElementV10CodingKeysO"
+- "6Lottie11DashElementC10CodingKeysO"
 - "s28CustomDebugStringConvertibleP"
 - "s23CustomStringConvertibleP"
-- "6Lottie11DashElementV"
+- "6Lottie11DashElementC"
 - "6Lottie15DashElementTypeO"
 - "Se"
 - !private "s7DecoderP"
@@ -1401,4 +1401,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "1bab379e2d3793c9311aef5b026cada5"
+interface-hash: "fb4ed1c4545829cb0686855ac86b5575"

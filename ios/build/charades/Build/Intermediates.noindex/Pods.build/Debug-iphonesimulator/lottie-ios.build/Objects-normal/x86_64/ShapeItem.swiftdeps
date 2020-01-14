@@ -56,6 +56,7 @@ depends-member:
 - !private ["6Lottie11ClassFamilyP", "Shape"]
 - !private ["6Lottie11ClassFamilyP", "ShapeItem"]
 - !private ["6Lottie11ClassFamilyP", "ShapeTransform"]
+- !private ["6Lottie11ClassFamilyP", "ShapeType"]
 - !private ["6Lottie11ClassFamilyP", "Star"]
 - !private ["6Lottie11ClassFamilyP", "Stroke"]
 - !private ["6Lottie11ClassFamilyP", "Trim"]
@@ -83,6 +84,7 @@ depends-member:
 - ["6Lottie11ClassFamilyP", "stroke"]
 - ["6Lottie11ClassFamilyP", "transform"]
 - ["6Lottie11ClassFamilyP", "trim"]
+- !private ["6Lottie11ClassFamilyP", "unknown"]
 - ["s9CodingKeyP", "=="]
 - ["s9CodingKeyP", "RawValue"]
 - !private ["s9CodingKeyP", ""]
@@ -117,6 +119,8 @@ depends-member:
 - ["s28CustomDebugStringConvertibleP", "rawValue"]
 - ["s28CustomDebugStringConvertibleP", "stringValue"]
 - ["s28CustomDebugStringConvertibleP", "type"]
+- !private ["s28CustomDebugStringConvertibleP", "unknown"]
+- !private ["s17CustomReflectableP", "unknown"]
 - ["s23CustomStringConvertibleP", "=="]
 - ["s23CustomStringConvertibleP", "RawValue"]
 - !private ["s23CustomStringConvertibleP", ""]
@@ -181,7 +185,9 @@ depends-member:
 - ["Se", "transform"]
 - ["Se", "trim"]
 - !private ["Se", "type"]
+- !private ["Se", "unknown"]
 - !private ["s7DecoderP", "container"]
+- !private ["s7DecoderP", "singleValueContainer"]
 - ["6Lottie13DiscriminatorO", "type"]
 - ["SE", "=="]
 - !private ["SE", "Bool"]
@@ -230,6 +236,7 @@ depends-member:
 - ["SE", "transform"]
 - ["SE", "trim"]
 - !private ["SE", "type"]
+- !private ["SE", "unknown"]
 - !private ["s7EncoderP", "container"]
 - ["SQ", "=="]
 - !private ["SQ", "Ellipse"]
@@ -244,6 +251,7 @@ depends-member:
 - !private ["SQ", "Shape"]
 - !private ["SQ", "ShapeItem"]
 - !private ["SQ", "ShapeTransform"]
+- !private ["SQ", "ShapeType"]
 - !private ["SQ", "Star"]
 - !private ["SQ", "Stroke"]
 - !private ["SQ", "Trim"]
@@ -278,6 +286,8 @@ depends-member:
 - ["SQ", "transform"]
 - ["SQ", "trim"]
 - ["SQ", "type"]
+- !private ["SQ", "unknown"]
+- !private ["s23ExpressibleByNilLiteralP", "unknown"]
 - ["SH", "=="]
 - !private ["SH", "Ellipse"]
 - !private ["SH", "Fill"]
@@ -291,6 +301,7 @@ depends-member:
 - !private ["SH", "Shape"]
 - !private ["SH", "ShapeItem"]
 - !private ["SH", "ShapeTransform"]
+- !private ["SH", "ShapeType"]
 - !private ["SH", "Star"]
 - !private ["SH", "Stroke"]
 - !private ["SH", "Trim"]
@@ -325,12 +336,14 @@ depends-member:
 - ["SH", "transform"]
 - ["SH", "trim"]
 - ["SH", "type"]
+- !private ["SH", "unknown"]
 - !private ["s22KeyedDecodingContainerV", "decode"]
 - !private ["s22KeyedDecodingContainerV", "decodeIfPresent"]
 - !private ["s30KeyedDecodingContainerProtocolP", "decode"]
 - !private ["s30KeyedDecodingContainerProtocolP", "decodeIfPresent"]
 - !private ["s22KeyedEncodingContainerV", "encode"]
 - !private ["s30KeyedEncodingContainerProtocolP", "encode"]
+- !private ["Sq", "unknown"]
 - ["SY", "=="]
 - !private ["SY", "Ellipse"]
 - !private ["SY", "Fill"]
@@ -344,6 +357,7 @@ depends-member:
 - !private ["SY", "Shape"]
 - !private ["SY", "ShapeItem"]
 - !private ["SY", "ShapeTransform"]
+- !private ["SY", "ShapeType"]
 - !private ["SY", "Star"]
 - !private ["SY", "Stroke"]
 - !private ["SY", "Trim"]
@@ -378,6 +392,7 @@ depends-member:
 - ["SY", "transform"]
 - ["SY", "trim"]
 - ["SY", "type"]
+- !private ["SY", "unknown"]
 - ["6Lottie9ShapeItemC", "Bool"]
 - ["6Lottie9ShapeItemC", "CodingKey"]
 - !private ["6Lottie9ShapeItemC", "CodingKeys"]
@@ -394,6 +409,7 @@ depends-member:
 - ["6Lottie9ShapeItemC", "type"]
 - ["6Lottie9ShapeTypeO", "=="]
 - ["6Lottie9ShapeTypeO", "AnyObject"]
+- ["6Lottie9ShapeTypeO", "Decoder"]
 - ["6Lottie9ShapeTypeO", "Discriminator"]
 - !private ["6Lottie9ShapeTypeO", "Ellipse"]
 - !private ["6Lottie9ShapeTypeO", "Fill"]
@@ -407,6 +423,7 @@ depends-member:
 - !private ["6Lottie9ShapeTypeO", "Shape"]
 - !private ["6Lottie9ShapeTypeO", "ShapeItem"]
 - !private ["6Lottie9ShapeTypeO", "ShapeTransform"]
+- !private ["6Lottie9ShapeTypeO", "ShapeType"]
 - !private ["6Lottie9ShapeTypeO", "Star"]
 - !private ["6Lottie9ShapeTypeO", "Stroke"]
 - !private ["6Lottie9ShapeTypeO", "Trim"]
@@ -435,10 +452,14 @@ depends-member:
 - ["6Lottie9ShapeTypeO", "stroke"]
 - ["6Lottie9ShapeTypeO", "transform"]
 - ["6Lottie9ShapeTypeO", "trim"]
+- ["6Lottie9ShapeTypeO", "unknown"]
+- !private ["s28SingleValueDecodingContainerP", "decode"]
+- !private ["s21_ObjectiveCBridgeableP", "unknown"]
 depends-nominal:
 - "6Lottie11ClassFamilyP"
 - "s9CodingKeyP"
 - "s28CustomDebugStringConvertibleP"
+- !private "s17CustomReflectableP"
 - "s23CustomStringConvertibleP"
 - "Se"
 - !private "s7DecoderP"
@@ -446,14 +467,18 @@ depends-nominal:
 - "SE"
 - !private "s7EncoderP"
 - "SQ"
+- !private "s23ExpressibleByNilLiteralP"
 - "SH"
 - !private "s22KeyedDecodingContainerV"
 - !private "s30KeyedDecodingContainerProtocolP"
 - !private "s22KeyedEncodingContainerV"
 - !private "s30KeyedEncodingContainerProtocolP"
+- !private "Sq"
 - "SY"
 - "6Lottie9ShapeItemC"
 - "6Lottie9ShapeTypeO"
+- !private "s28SingleValueDecodingContainerP"
+- !private "s21_ObjectiveCBridgeableP"
 depends-dynamic-lookup:
 depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/usr/lib/swift/ObjectiveC.swiftmodule/x86_64.swiftinterface"
@@ -1645,4 +1670,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "9b82af56dacb57734b6232cb4639964b"
+interface-hash: "78f6e7a797411def5687451d0bc9b622"

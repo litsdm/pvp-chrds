@@ -2,14 +2,13 @@
 provides-top-level:
 - "NodeTree"
 provides-nominal:
-- "6Lottie8NodeTreeC"
+- "6Lottie8NodeTreeV"
 provides-member:
-- ["6Lottie8NodeTreeC", ""]
+- ["6Lottie8NodeTreeV", ""]
 - ["Sa", ""]
 - ["Sa", "initializeNodeTree"]
 provides-dynamic-lookup:
 depends-top-level:
-- !private "!="
 - !private "=="
 - "AnimatorNode"
 - "Array"
@@ -109,7 +108,6 @@ depends-member:
 - !private ["s7CVarArgP", "append"]
 - !private ["s7CVarArgP", "init"]
 - !private ["s7CVarArgP", "initializeNodeTree"]
-- !private ["6Lottie11ClassFamilyP", "unknown"]
 - !private ["Sl", "EllipseNode"]
 - !private ["Sl", "FillNode"]
 - !private ["Sl", "GradientFillNode"]
@@ -224,8 +222,6 @@ depends-member:
 - ["Se", "polygon"]
 - ["Se", "star"]
 - !private ["Se", "starType"]
-- !private ["Se", "type"]
-- !private ["Se", "unknown"]
 - !private ["6Lottie11EllipseNodeC", "deinit"]
 - !private ["6Lottie11EllipseNodeC", "init"]
 - !private ["SE", "EllipseNode"]
@@ -250,8 +246,6 @@ depends-member:
 - ["SE", "polygon"]
 - ["SE", "star"]
 - !private ["SE", "starType"]
-- !private ["SE", "type"]
-- !private ["SE", "unknown"]
 - !private ["SQ", "EllipseNode"]
 - !private ["SQ", "FillNode"]
 - !private ["SQ", "GradientFillNode"]
@@ -271,7 +265,6 @@ depends-member:
 - ["SQ", "none"]
 - ["SQ", "polygon"]
 - ["SQ", "star"]
-- !private ["SQ", "unknown"]
 - !private ["s25ExpressibleByArrayLiteralP", "EllipseNode"]
 - !private ["s25ExpressibleByArrayLiteralP", "FillNode"]
 - !private ["s25ExpressibleByArrayLiteralP", "GradientFillNode"]
@@ -317,7 +310,6 @@ depends-member:
 - ["SH", "none"]
 - ["SH", "polygon"]
 - ["SH", "star"]
-- !private ["SH", "unknown"]
 - !private ["6Lottie14InterpolatableP", "EllipseNode"]
 - !private ["6Lottie14InterpolatableP", "FillNode"]
 - !private ["6Lottie14InterpolatableP", "GradientFillNode"]
@@ -369,17 +361,16 @@ depends-member:
 - !private ["So8NSCodingP", "init"]
 - !private ["So8NSObjectP", "init"]
 - !private ["So14NSSecureCodingP", "init"]
-- ["6Lottie8NodeTreeC", "AnimatorNode"]
-- ["6Lottie8NodeTreeC", "PathOutputNode"]
-- ["6Lottie8NodeTreeC", "ShapeContainerLayer"]
-- ["6Lottie8NodeTreeC", "ShapeTransform"]
-- ["6Lottie8NodeTreeC", "childrenNodes"]
-- ["6Lottie8NodeTreeC", "deinit"]
-- ["6Lottie8NodeTreeC", "init"]
-- ["6Lottie8NodeTreeC", "paths"]
-- ["6Lottie8NodeTreeC", "renderContainers"]
-- ["6Lottie8NodeTreeC", "rootNode"]
-- ["6Lottie8NodeTreeC", "transform"]
+- ["6Lottie8NodeTreeV", "AnimatorNode"]
+- ["6Lottie8NodeTreeV", "PathOutputNode"]
+- ["6Lottie8NodeTreeV", "ShapeContainerLayer"]
+- ["6Lottie8NodeTreeV", "ShapeTransform"]
+- ["6Lottie8NodeTreeV", "childrenNodes"]
+- ["6Lottie8NodeTreeV", "init"]
+- ["6Lottie8NodeTreeV", "paths"]
+- ["6Lottie8NodeTreeV", "renderContainers"]
+- ["6Lottie8NodeTreeV", "rootNode"]
+- ["6Lottie8NodeTreeV", "transform"]
 - !private ["6Lottie8PathNodeP", "init"]
 - !private ["6Lottie8PathNodeP", "pathOutput"]
 - !private ["6Lottie11PolygonNodeC", "deinit"]
@@ -417,7 +408,6 @@ depends-member:
 - ["SY", "none"]
 - ["SY", "polygon"]
 - ["SY", "star"]
-- !private ["SY", "unknown"]
 - !private ["6Lottie13RectangleNodeC", "deinit"]
 - !private ["6Lottie13RectangleNodeC", "init"]
 - !private ["6Lottie10RenderNodeP", "init"]
@@ -441,13 +431,10 @@ depends-member:
 - !private ["6Lottie9ShapeItemC", "items"]
 - !private ["6Lottie9ShapeItemC", "name"]
 - !private ["6Lottie9ShapeItemC", "starType"]
-- !private ["6Lottie9ShapeItemC", "type"]
 - !private ["6Lottie9ShapeNodeC", "deinit"]
 - !private ["6Lottie9ShapeNodeC", "init"]
 - !private ["6Lottie16ShapeRenderLayerC", "deinit"]
 - !private ["6Lottie16ShapeRenderLayerC", "init"]
-- !private ["6Lottie9ShapeTypeO", "deinit"]
-- !private ["6Lottie9ShapeTypeO", "unknown"]
 - !private ["6Lottie4StarC", "starType"]
 - !private ["6Lottie8StarNodeC", "deinit"]
 - !private ["6Lottie8StarNodeC", "init"]
@@ -541,7 +528,6 @@ depends-nominal:
 - !private "SK"
 - !private "So13CAMediaTimingP"
 - !private "s7CVarArgP"
-- !private "6Lottie11ClassFamilyP"
 - !private "Sl"
 - !private "10Foundation15ContiguousBytesP"
 - !private "s28CustomDebugStringConvertibleP"
@@ -567,7 +553,7 @@ depends-nominal:
 - !private "So8NSCodingP"
 - !private "So8NSObjectP"
 - !private "So14NSSecureCodingP"
-- "6Lottie8NodeTreeC"
+- "6Lottie8NodeTreeV"
 - !private "6Lottie8PathNodeP"
 - !private "6Lottie11PolygonNodeC"
 - !private "Sk"
@@ -579,7 +565,6 @@ depends-nominal:
 - !private "6Lottie9ShapeItemC"
 - !private "6Lottie9ShapeNodeC"
 - !private "6Lottie16ShapeRenderLayerC"
-- !private "6Lottie9ShapeTypeO"
 - !private "6Lottie4StarC"
 - !private "6Lottie8StarNodeC"
 - "6Lottie8StarTypeO"
@@ -616,6 +601,7 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Foundation.swiftmodule/x86_64.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/CoreFoundation.swiftmodule/x86_64.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/CoreGraphics.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Swift.swiftmodule/x86_64.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/UIKit.swiftmodule/x86_64.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/SwiftOnoneSupport.swiftmodule/x86_64.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Combine.swiftmodule/x86_64-apple-ios-simulator.swiftmodule"
@@ -1782,4 +1768,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "bc11f8361911879791121fb6c032abf4"
+interface-hash: "10ffa3de20687c1da70c223a8e6c8cc0"

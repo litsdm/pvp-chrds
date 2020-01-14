@@ -94,7 +94,7 @@ depends-member:
 - ["s23CustomStringConvertibleP", "rawValue"]
 - ["s23CustomStringConvertibleP", "stringValue"]
 - !private ["s23CustomStringConvertibleP", "width"]
-- !private ["6Lottie11DashElementV", "deinit"]
+- !private ["6Lottie11DashElementC", "deinit"]
 - !private ["Se", "CodingKeys"]
 - !private ["Se", "DashElement"]
 - !private ["Se", "Double"]
@@ -269,7 +269,7 @@ depends-nominal:
 - "6Lottie5ColorV"
 - "s28CustomDebugStringConvertibleP"
 - "s23CustomStringConvertibleP"
-- !private "6Lottie11DashElementV"
+- !private "6Lottie11DashElementC"
 - "Se"
 - !private "s7DecoderP"
 - "SE"
@@ -1478,4 +1478,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "8da3c6e017c5cf5acad6df5706d7e9b3"
+interface-hash: "0acc2ec79dafb8d4447a042bb0b5fd94"

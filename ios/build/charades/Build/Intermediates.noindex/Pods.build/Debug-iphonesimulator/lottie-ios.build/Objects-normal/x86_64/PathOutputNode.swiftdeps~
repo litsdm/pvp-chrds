@@ -15,7 +15,7 @@ depends-top-level:
 - "AssignmentPrecedence"
 - "BezierPath"
 - "Bool"
-- "BooleanLiteralType"
+- !private "BooleanLiteralType"
 - "CGFloat"
 - !private "CGMutablePath"
 - "CGPath"
@@ -65,7 +65,6 @@ depends-member:
 - !private ["6Lottie10NodeOutputP", "CompoundBezierPath"]
 - ["6Lottie10NodeOutputP", ""]
 - ["6Lottie10NodeOutputP", "hasOutputUpdates"]
-- ["6Lottie10NodeOutputP", "isEnabled"]
 - !private ["6Lottie10NodeOutputP", "lastPathBuildFrame"]
 - !private ["6Lottie10NodeOutputP", "lastUpdateFrame"]
 - ["6Lottie10NodeOutputP", "outputPath"]
@@ -83,7 +82,6 @@ depends-member:
 - ["6Lottie14PathOutputNodeC", "deinit"]
 - ["6Lottie14PathOutputNodeC", "hasOutputUpdates"]
 - ["6Lottie14PathOutputNodeC", "init"]
-- ["6Lottie14PathOutputNodeC", "isEnabled"]
 - ["6Lottie14PathOutputNodeC", "lastPathBuildFrame"]
 - ["6Lottie14PathOutputNodeC", "lastUpdateFrame"]
 - ["6Lottie14PathOutputNodeC", "outputPath"]
@@ -159,6 +157,7 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Foundation.swiftmodule/x86_64.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/CoreFoundation.swiftmodule/x86_64.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/CoreGraphics.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Swift.swiftmodule/x86_64.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/UIKit.swiftmodule/x86_64.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/SwiftOnoneSupport.swiftmodule/x86_64.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Combine.swiftmodule/x86_64-apple-ios-simulator.swiftmodule"
@@ -1325,4 +1324,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "6928baddee6ca2cc8331af8e3ac82eeb"
+interface-hash: "d9f2608392a0886662d9899ec38b7062"

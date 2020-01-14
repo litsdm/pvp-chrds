@@ -216,6 +216,7 @@ depends-member:
 - !private ["6Lottie10NodeOutputP", "fillColor"]
 - ["6Lottie10NodeOutputP", "hasOutputUpdates"]
 - !private ["6Lottie10NodeOutputP", "init"]
+- ["6Lottie10NodeOutputP", "isEnabled"]
 - !private ["6Lottie10NodeOutputP", "opacity"]
 - ["6Lottie10NodeOutputP", "outputPath"]
 - ["6Lottie10NodeOutputP", "parent"]
@@ -349,6 +350,7 @@ depends-member:
 - ["6Lottie14TextOutputNodeC", "fillColor"]
 - ["6Lottie14TextOutputNodeC", "hasOutputUpdates"]
 - ["6Lottie14TextOutputNodeC", "init"]
+- ["6Lottie14TextOutputNodeC", "isEnabled"]
 - ["6Lottie14TextOutputNodeC", "opacity"]
 - ["6Lottie14TextOutputNodeC", "outputPath"]
 - ["6Lottie14TextOutputNodeC", "parent"]
@@ -1614,4 +1616,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "0a2aac2139077a800866ff1929770353"
+interface-hash: "0b4994c7b094d9bf6f4dbf7e827fa8fd"

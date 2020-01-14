@@ -44,9 +44,8 @@ depends-member:
 - !private ["So7CALayerC", "insertRenderLayer"]
 - !private ["So7CALayerC", "markRenderUpdates"]
 - ["So7CALayerC", "renderContainer"]
-- !private ["So7CALayerC", "renderScale"]
+- ["So7CALayerC", "renderScale"]
 - ["So7CALayerC", "rootNode"]
-- ["So7CALayerC", "updateRenderScale"]
 - !private ["So13CAMediaTimingP", "ShapeContainerLayer"]
 - ["So13CAMediaTimingP", ""]
 - !private ["So13CAMediaTimingP", "addSublayer"]
@@ -59,7 +58,6 @@ depends-member:
 - !private ["So13CAMediaTimingP", "renderContainer"]
 - !private ["So13CAMediaTimingP", "renderScale"]
 - !private ["So13CAMediaTimingP", "rootNode"]
-- !private ["So13CAMediaTimingP", "updateRenderScale"]
 - !private ["So6CGSizeV", "zero"]
 - !private ["s7CVarArgP", "ShapeContainerLayer"]
 - ["s7CVarArgP", ""]
@@ -75,7 +73,6 @@ depends-member:
 - !private ["s7CVarArgP", "renderContainer"]
 - !private ["s7CVarArgP", "renderScale"]
 - !private ["s7CVarArgP", "rootNode"]
-- !private ["s7CVarArgP", "updateRenderScale"]
 - !private ["Sl", "append"]
 - !private ["Sl", "initializeNodeTree"]
 - ["6Lottie16CompositionLayerC", "AnimatorNode"]
@@ -93,9 +90,8 @@ depends-member:
 - !private ["6Lottie16CompositionLayerC", "fatalError"]
 - ["6Lottie16CompositionLayerC", "init"]
 - ["6Lottie16CompositionLayerC", "renderContainer"]
-- !private ["6Lottie16CompositionLayerC", "renderScale"]
+- ["6Lottie16CompositionLayerC", "renderScale"]
 - ["6Lottie16CompositionLayerC", "rootNode"]
-- ["6Lottie16CompositionLayerC", "updateRenderScale"]
 - !private ["10Foundation15ContiguousBytesP", "append"]
 - !private ["10Foundation15ContiguousBytesP", "initializeNodeTree"]
 - !private ["s28CustomDebugStringConvertibleP", "ShapeContainerLayer"]
@@ -112,7 +108,6 @@ depends-member:
 - !private ["s28CustomDebugStringConvertibleP", "renderContainer"]
 - !private ["s28CustomDebugStringConvertibleP", "renderScale"]
 - !private ["s28CustomDebugStringConvertibleP", "rootNode"]
-- !private ["s28CustomDebugStringConvertibleP", "updateRenderScale"]
 - !private ["s28CustomDebugStringConvertibleP", "zero"]
 - !private ["6Lottie20CustomLayerDebuggingP", "ShapeContainerLayer"]
 - ["6Lottie20CustomLayerDebuggingP", ""]
@@ -123,7 +118,6 @@ depends-member:
 - !private ["6Lottie20CustomLayerDebuggingP", "renderContainer"]
 - !private ["6Lottie20CustomLayerDebuggingP", "renderScale"]
 - !private ["6Lottie20CustomLayerDebuggingP", "rootNode"]
-- !private ["6Lottie20CustomLayerDebuggingP", "updateRenderScale"]
 - !private ["s17CustomReflectableP", "append"]
 - !private ["s17CustomReflectableP", "initializeNodeTree"]
 - !private ["s17CustomReflectableP", "zero"]
@@ -141,7 +135,6 @@ depends-member:
 - !private ["s23CustomStringConvertibleP", "renderContainer"]
 - !private ["s23CustomStringConvertibleP", "renderScale"]
 - !private ["s23CustomStringConvertibleP", "rootNode"]
-- !private ["s23CustomStringConvertibleP", "updateRenderScale"]
 - !private ["10Foundation12DataProtocolP", "append"]
 - !private ["10Foundation12DataProtocolP", "initializeNodeTree"]
 - !private ["Se", "append"]
@@ -166,7 +159,6 @@ depends-member:
 - !private ["SQ", "renderContainer"]
 - !private ["SQ", "renderScale"]
 - !private ["SQ", "rootNode"]
-- !private ["SQ", "updateRenderScale"]
 - !private ["SQ", "zero"]
 - !private ["s25ExpressibleByArrayLiteralP", "append"]
 - !private ["s25ExpressibleByArrayLiteralP", "initializeNodeTree"]
@@ -184,7 +176,6 @@ depends-member:
 - !private ["SH", "renderContainer"]
 - !private ["SH", "renderScale"]
 - !private ["SH", "rootNode"]
-- !private ["SH", "updateRenderScale"]
 - !private ["6Lottie14InterpolatableP", "append"]
 - !private ["6Lottie14InterpolatableP", "initializeNodeTree"]
 - !private ["6Lottie17KeypathSearchableP", "ShapeContainerLayer"]
@@ -196,7 +187,6 @@ depends-member:
 - !private ["6Lottie17KeypathSearchableP", "renderContainer"]
 - !private ["6Lottie17KeypathSearchableP", "renderScale"]
 - !private ["6Lottie17KeypathSearchableP", "rootNode"]
-- !private ["6Lottie17KeypathSearchableP", "updateRenderScale"]
 - !private ["6Lottie17KeypathSearchableP", "updateTree"]
 - !private ["6Lottie14LayerDebuggingP", "ShapeContainerLayer"]
 - !private ["6Lottie14LayerDebuggingP", "childKeypaths"]
@@ -222,7 +212,6 @@ depends-member:
 - !private ["So8NSCodingP", "renderContainer"]
 - !private ["So8NSCodingP", "renderScale"]
 - !private ["So8NSCodingP", "rootNode"]
-- !private ["So8NSCodingP", "updateRenderScale"]
 - ["So8NSObjectC", "AnimatorNode"]
 - ["So8NSObjectC", "Bool"]
 - ["So8NSObjectC", "CGFloat"]
@@ -239,9 +228,8 @@ depends-member:
 - !private ["So8NSObjectC", "insertRenderLayer"]
 - !private ["So8NSObjectC", "markRenderUpdates"]
 - ["So8NSObjectC", "renderContainer"]
-- !private ["So8NSObjectC", "renderScale"]
+- ["So8NSObjectC", "renderScale"]
 - ["So8NSObjectC", "rootNode"]
-- ["So8NSObjectC", "updateRenderScale"]
 - !private ["So8NSObjectP", "ShapeContainerLayer"]
 - ["So8NSObjectP", ""]
 - !private ["So8NSObjectP", "addSublayer"]
@@ -254,7 +242,6 @@ depends-member:
 - !private ["So8NSObjectP", "renderContainer"]
 - !private ["So8NSObjectP", "renderScale"]
 - !private ["So8NSObjectP", "rootNode"]
-- !private ["So8NSObjectP", "updateRenderScale"]
 - !private ["So14NSSecureCodingP", "ShapeContainerLayer"]
 - ["So14NSSecureCodingP", ""]
 - !private ["So14NSSecureCodingP", "addSublayer"]
@@ -267,10 +254,9 @@ depends-member:
 - !private ["So14NSSecureCodingP", "renderContainer"]
 - !private ["So14NSSecureCodingP", "renderScale"]
 - !private ["So14NSSecureCodingP", "rootNode"]
-- !private ["So14NSSecureCodingP", "updateRenderScale"]
-- !private ["6Lottie8NodeTreeC", "childrenNodes"]
-- !private ["6Lottie8NodeTreeC", "renderContainers"]
-- !private ["6Lottie8NodeTreeC", "rootNode"]
+- !private ["6Lottie8NodeTreeV", "childrenNodes"]
+- !private ["6Lottie8NodeTreeV", "renderContainers"]
+- !private ["6Lottie8NodeTreeV", "rootNode"]
 - !private ["Sk", "append"]
 - !private ["Sk", "initializeNodeTree"]
 - !private ["Sm", "append"]
@@ -291,9 +277,8 @@ depends-member:
 - !private ["6Lottie21ShapeCompositionLayerC", "fatalError"]
 - ["6Lottie21ShapeCompositionLayerC", "init"]
 - ["6Lottie21ShapeCompositionLayerC", "renderContainer"]
-- !private ["6Lottie21ShapeCompositionLayerC", "renderScale"]
+- ["6Lottie21ShapeCompositionLayerC", "renderScale"]
 - ["6Lottie21ShapeCompositionLayerC", "rootNode"]
-- ["6Lottie21ShapeCompositionLayerC", "updateRenderScale"]
 - !private ["6Lottie19ShapeContainerLayerC", "deinit"]
 - !private ["6Lottie19ShapeContainerLayerC", "init"]
 - !private ["6Lottie19ShapeContainerLayerC", "insertRenderLayer"]
@@ -321,7 +306,6 @@ depends-member:
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "renderContainer"]
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "renderScale"]
 - !private ["10Foundation27_KeyValueCodingAndObservingP", "rootNode"]
-- !private ["10Foundation27_KeyValueCodingAndObservingP", "updateRenderScale"]
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "ShapeContainerLayer"]
 - ["10Foundation37_KeyValueCodingAndObservingPublishingP", ""]
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "addSublayer"]
@@ -334,7 +318,6 @@ depends-member:
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "renderContainer"]
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "renderScale"]
 - !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "rootNode"]
-- !private ["10Foundation37_KeyValueCodingAndObservingPublishingP", "updateRenderScale"]
 - !private ["s21_ObjectiveCBridgeableP", "append"]
 - !private ["s21_ObjectiveCBridgeableP", "initializeNodeTree"]
 - !private ["s21_ObjectiveCBridgeableP", "zero"]
@@ -369,7 +352,7 @@ depends-nominal:
 - "So8NSObjectC"
 - "So8NSObjectP"
 - "So14NSSecureCodingP"
-- !private "6Lottie8NodeTreeC"
+- !private "6Lottie8NodeTreeV"
 - !private "Sk"
 - !private "Sm"
 - !private "ST"
@@ -408,6 +391,7 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Foundation.swiftmodule/x86_64.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/CoreFoundation.swiftmodule/x86_64.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/CoreGraphics.swiftmodule/x86_64.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Swift.swiftmodule/x86_64.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/UIKit.swiftmodule/x86_64.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/SwiftOnoneSupport.swiftmodule/x86_64.swiftmodule"
 - "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/Combine.swiftmodule/x86_64-apple-ios-simulator.swiftmodule"
@@ -1574,4 +1558,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "1f16c8c22da50ff077332024f4c03b56"
+interface-hash: "13583f6a65d96c3c41666c62c8af4f8e"

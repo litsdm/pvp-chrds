@@ -24,6 +24,7 @@ depends-top-level:
 - "TextDocument"
 - "TextJustification"
 - "UnicodeScalarType"
+- "Vector3D"
 - !private "_findStringSwitchCase"
 - !private "~="
 depends-member:
@@ -91,6 +92,8 @@ depends-member:
 - !private ["Se", "strokeOverFill"]
 - !private ["Se", "strokeWidth"]
 - !private ["Se", "text"]
+- !private ["Se", "textFramePosition"]
+- !private ["Se", "textFrameSize"]
 - !private ["Se", "tracking"]
 - !private ["s7DecoderP", "container"]
 - ["SE", "=="]
@@ -114,6 +117,8 @@ depends-member:
 - !private ["SE", "strokeOverFill"]
 - !private ["SE", "strokeWidth"]
 - !private ["SE", "text"]
+- !private ["SE", "textFramePosition"]
+- !private ["SE", "textFrameSize"]
 - !private ["SE", "tracking"]
 - !private ["s7EncoderP", "container"]
 - ["SQ", "=="]
@@ -159,6 +164,8 @@ depends-member:
 - !private ["6Lottie14InterpolatableP", "strokeOverFill"]
 - !private ["6Lottie14InterpolatableP", "strokeWidth"]
 - !private ["6Lottie14InterpolatableP", "text"]
+- !private ["6Lottie14InterpolatableP", "textFramePosition"]
+- !private ["6Lottie14InterpolatableP", "textFrameSize"]
 - !private ["6Lottie14InterpolatableP", "tracking"]
 - !private ["s22KeyedDecodingContainerV", "decode"]
 - !private ["s22KeyedDecodingContainerV", "decodeIfPresent"]
@@ -191,6 +198,7 @@ depends-member:
 - ["6Lottie12TextDocumentC", "Int"]
 - ["6Lottie12TextDocumentC", "String"]
 - ["6Lottie12TextDocumentC", "TextJustification"]
+- ["6Lottie12TextDocumentC", "Vector3D"]
 - !private ["6Lottie12TextDocumentC", "_findStringSwitchCase"]
 - ["6Lottie12TextDocumentC", "baseline"]
 - ["6Lottie12TextDocumentC", "deinit"]
@@ -205,6 +213,8 @@ depends-member:
 - ["6Lottie12TextDocumentC", "strokeOverFill"]
 - ["6Lottie12TextDocumentC", "strokeWidth"]
 - ["6Lottie12TextDocumentC", "text"]
+- ["6Lottie12TextDocumentC", "textFramePosition"]
+- ["6Lottie12TextDocumentC", "textFrameSize"]
 - ["6Lottie12TextDocumentC", "tracking"]
 - ["6Lottie17TextJustificationO", "=="]
 - ["6Lottie17TextJustificationO", "RawValue"]
@@ -219,6 +229,7 @@ depends-member:
 - ["6Lottie17TextJustificationO", "left"]
 - ["6Lottie17TextJustificationO", "rawValue"]
 - ["6Lottie17TextJustificationO", "right"]
+- ["6Lottie8Vector3DV", "deinit"]
 depends-nominal:
 - "s9CodingKeyP"
 - "6Lottie5ColorV"
@@ -238,6 +249,7 @@ depends-nominal:
 - "SY"
 - "6Lottie12TextDocumentC"
 - "6Lottie17TextJustificationO"
+- "6Lottie8Vector3DV"
 depends-dynamic-lookup:
 depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/usr/lib/swift/ObjectiveC.swiftmodule/x86_64.swiftinterface"
@@ -1429,4 +1441,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "f1576c3b5dd8b08c08ced50bbf241ecc"
+interface-hash: "a19faf3aad9c2b9dfbd7172ea2c5b252"

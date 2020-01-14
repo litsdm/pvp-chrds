@@ -64,6 +64,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>EXInAppPurchases.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>EXKeepAwake.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -325,6 +330,11 @@
 			<false/>
 		</dict>
 		<key>lottie-react-native.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>react-native-splash-screen.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

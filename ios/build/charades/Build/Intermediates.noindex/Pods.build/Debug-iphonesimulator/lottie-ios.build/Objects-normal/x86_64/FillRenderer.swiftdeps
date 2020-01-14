@@ -108,7 +108,6 @@ depends-member:
 - ["6Lottie12FillRendererC", "hasRenderUpdates"]
 - ["6Lottie12FillRendererC", "hasUpdate"]
 - ["6Lottie12FillRendererC", "init"]
-- ["6Lottie12FillRendererC", "isEnabled"]
 - ["6Lottie12FillRendererC", "opacity"]
 - ["6Lottie12FillRendererC", "render"]
 - ["6Lottie12FillRendererC", "renderBoundsFor"]
@@ -158,7 +157,6 @@ depends-member:
 - ["6Lottie10NodeOutputP", "hasRenderUpdates"]
 - ["6Lottie10NodeOutputP", "hasUpdate"]
 - !private ["6Lottie10NodeOutputP", "init"]
-- ["6Lottie10NodeOutputP", "isEnabled"]
 - !private ["6Lottie10NodeOutputP", "opacity"]
 - ["6Lottie10NodeOutputP", "render"]
 - ["6Lottie10NodeOutputP", "renderBoundsFor"]
@@ -178,7 +176,6 @@ depends-member:
 - ["6Lottie21PassThroughOutputNodeC", "hasRenderUpdates"]
 - ["6Lottie21PassThroughOutputNodeC", "hasUpdate"]
 - ["6Lottie21PassThroughOutputNodeC", "init"]
-- ["6Lottie21PassThroughOutputNodeC", "isEnabled"]
 - ["6Lottie21PassThroughOutputNodeC", "opacity"]
 - ["6Lottie21PassThroughOutputNodeC", "render"]
 - ["6Lottie21PassThroughOutputNodeC", "renderBoundsFor"]
@@ -197,7 +194,6 @@ depends-member:
 - !private ["6Lottie10RenderableP", "fillRule"]
 - ["6Lottie10RenderableP", "hasRenderUpdates"]
 - ["6Lottie10RenderableP", "hasUpdate"]
-- ["6Lottie10RenderableP", "isEnabled"]
 - !private ["6Lottie10RenderableP", "opacity"]
 - ["6Lottie10RenderableP", "render"]
 - ["6Lottie10RenderableP", "renderBoundsFor"]
@@ -1472,4 +1468,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "80e693afc1a9d86d0dac18a2e583547e"
+interface-hash: "04ed799e59a607c4acaa86a1d5e90150"
