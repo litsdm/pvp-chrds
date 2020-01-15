@@ -10,6 +10,9 @@ export default gql`
       score
       state
       removedBy
+      actedWord {
+        _id
+      }
       category {
         _id
         image

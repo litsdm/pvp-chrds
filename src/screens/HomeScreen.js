@@ -103,7 +103,7 @@ const Header = ({ user, navigateToSettings, openPurchase }) => (
       <View style={styles.verticalDivider} />
       <View style={styles.moneySection}>
         <View style={styles.coinWrapper}>
-          <FontAwesome5 name="coins" size={30} color="#FFC107" />
+          <FontAwesome5 name="coins" size={24} color="#FFC107" />
           <Text style={styles.coins}>
             {user.coins} <Text style={styles.coinWord}>coins</Text>
           </Text>
