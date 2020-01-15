@@ -1,8 +1,14 @@
 /* eslint-disable global-require */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
-import { StatusBar, StyleSheet, View } from 'react-native';
+import {
+  AsyncStorage,
+  Keyboard,
+  StatusBar,
+  StyleSheet,
+  View
+} from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
@@ -21,9 +27,16 @@ import PopupManager from './src/components/PopupManager';
 const App = ({ skipLoadingScreen }) => {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
 
-  setPurchaseListener(result => {
-    console.log(result);
-  });
+  useEffect(() => {
+    Keyboard.addListener('keyboardDidShow', handleKeyboardShow);
+    return () => Keyboard.removeListener('keyboardDidShow');
+  }, []);
+
+  const handleKeyboardShow = async ({ endCoordinates }) => {
+    const keyboardSize = await AsyncStorage.getItem('keyboardSize');
+    if (!keyboardSize)
+      await AsyncStorage.setItem('keyboardSize', `${endCoordinates.height}`);
+  };
 
   const runAsync = async () => {
     try {
@@ -39,6 +52,10 @@ const App = ({ skipLoadingScreen }) => {
     runAsync();
     return null;
   }
+
+  setPurchaseListener(result => {
+    console.log(result);
+  });
 
   return (
     <ApolloProvider client={client}>

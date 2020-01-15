@@ -74,7 +74,11 @@ const AddFriendPopup = ({ close }) => {
   };
 
   return (
-    <Popup close={close} contentStyles={styles.popupContent}>
+    <Popup
+      close={close}
+      contentStyles={styles.popupContent}
+      avoidKeyboard={false}
+    >
       {loading ? (
         <Loader />
       ) : (

@@ -1,6 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Animated,
+  AsyncStorage,
+  Keyboard,
   PanResponder,
   Platform,
   StyleSheet,
@@ -18,7 +20,8 @@ const Popup = ({
   showsDragIndicator,
   animationOptions,
   onContentLayout,
-  contentStyles
+  contentStyles,
+  avoidKeyboard
 }) => {
   const [contentHeight, setContentHeight] = useState(180);
   const [animateDisplay, setAnimateDisplay] = useState({});
@@ -34,6 +37,29 @@ const Popup = ({
       outputRange: [0, 1]
     })
   };
+
+  useEffect(() => {
+    if (!avoidKeyboard) return;
+    if (Platform.OS === 'ios') {
+      Keyboard.addListener('keyboardWillShow', handleKeyboardShow);
+      Keyboard.addListener('keyboardWillHide', handleKeyboardHide);
+    } else {
+      Keyboard.addListener('keyboardDidShow', handleKeyboardShow);
+      Keyboard.addListener('keyboardDidHide', handleKeyboardHide);
+    }
+    return () => {
+      if (Platform.OS === 'ios') {
+        Keyboard.removeListener('keyboardWillShow', handleKeyboardShow);
+        Keyboard.removeListener('keyboardWillHide', handleKeyboardHide);
+      } else {
+        Keyboard.removeListener('keyboardDidShow');
+        Keyboard.removeListener('keyboardDidHide');
+      }
+    };
+  }, []);
+
+  const handleKeyboardShow = () => animateTo(2);
+  const handleKeyboardHide = () => animateTo(1);
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
@@ -56,20 +82,30 @@ const Popup = ({
     setTimeout(() => close(), 200);
   };
 
-  const handleLayout = event => {
+  const handleLayout = async event => {
     const {
       nativeEvent: {
         layout: { height }
       }
     } = event;
+    const keyboardHeight = parseInt(
+      await AsyncStorage.getItem('keyboardSize'),
+      10
+    );
+
+    console.log(keyboardHeight);
 
     if (onContentLayout) onContentLayout(event);
 
     const transform = [
       {
         translateY: animationValue.current.interpolate({
-          inputRange: [0, 1],
-          outputRange: [0, -height]
+          inputRange: [0, 1, 2],
+          outputRange: [
+            0,
+            -height,
+            keyboardHeight ? -(height + keyboardHeight) : -height
+          ]
         })
       }
     ];
@@ -157,7 +193,8 @@ Popup.propTypes = {
   showsDragIndicator: bool,
   animationOptions: object,
   onContentLayout: func,
-  contentStyles: object
+  contentStyles: object,
+  avoidKeyboard: bool
 };
 
 Popup.defaultProps = {
@@ -165,7 +202,8 @@ Popup.defaultProps = {
   showsDragIndicator: true,
   animationOptions: {},
   onContentLayout: null,
-  contentStyles: null
+  contentStyles: null,
+  avoidKeyboard: true
 };
 
 export default Popup;
