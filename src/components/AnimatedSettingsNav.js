@@ -2,13 +2,11 @@ import React from 'react';
 import {
   Animated,
   Image,
-  Platform,
   StyleSheet,
   Text,
   TouchableOpacity
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { func, object, string } from 'prop-types';
 
 const AnimatedSettingsNav = ({ animationValue, goBack, uri }) => {
@@ -52,7 +50,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     position: 'absolute',
     right: 0,
-    top: Platform.OS === 'ios' ? getStatusBarHeight() : 0,
+    top: 0,
     width: '100%',
     zIndex: 3
   },

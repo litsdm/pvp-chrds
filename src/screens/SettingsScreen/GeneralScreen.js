@@ -9,7 +9,6 @@ import {
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import jwtDecode from 'jwt-decode';
 import { func, object } from 'prop-types';
 
@@ -202,7 +201,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FCFCFE',
     overflow: 'hidden',
     flex: 1,
-    paddingTop: getStatusBarHeight() + 78,
+    paddingTop: 78,
     paddingBottom: 24
   },
   group: {

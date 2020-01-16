@@ -9,7 +9,6 @@ import {
   View
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 import { useAnimation } from '../../helpers/hooks';
 
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     position: 'absolute',
     right: 0,
-    top: Platform.OS === 'ios' ? getStatusBarHeight() : 0,
+    top: 0,
     width: '100%'
   },
   search: {

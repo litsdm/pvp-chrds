@@ -82,20 +82,14 @@ const Popup = ({
     setTimeout(() => close(), 200);
   };
 
-  const handleLayout = async event => {
-    const {
-      nativeEvent: {
-        layout: { height }
-      }
-    } = event;
+  const handleLayout = async ({ nativeEvent: { layout } }) => {
+    const { height } = layout;
     const keyboardHeight = parseInt(
       await AsyncStorage.getItem('keyboardSize'),
       10
     );
 
-    console.log(keyboardHeight);
-
-    if (onContentLayout) onContentLayout(event);
+    if (onContentLayout) onContentLayout(layout);
 
     const transform = [
       {

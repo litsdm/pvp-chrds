@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { LinearGradient } from 'expo-linear-gradient';
 import { bool, func, number } from 'prop-types';
 
@@ -56,7 +55,7 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
     right: 0,
-    top: getStatusBarHeight(),
+    top: 0,
     zIndex: 2
   },
   timeBar: {

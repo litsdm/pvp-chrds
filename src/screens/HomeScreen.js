@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {
   AsyncStorage,
   Image,
-  Platform,
   SectionList,
   StyleSheet,
   TouchableOpacity,
@@ -11,7 +10,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment';
 import jwtDecode from 'jwt-decode';
@@ -361,7 +359,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FCFCFE',
     minHeight: Layout.window.height - 52,
     overflow: 'hidden',
-    paddingTop: Platform.OS === 'ios' ? getStatusBarHeight() : 0,
+    paddingTop: 0,
     paddingBottom: 24
   },
   header: {

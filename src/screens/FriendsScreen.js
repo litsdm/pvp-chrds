@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import jwtDecode from 'jwt-decode';
 import Fuse from 'fuse.js';
 import { func, object } from 'prop-types';
@@ -159,7 +158,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FCFCFE',
     overflow: 'hidden',
     flex: 1,
-    paddingTop: getStatusBarHeight() + 54,
+    paddingTop: 54,
     paddingBottom: 12
   },
   title: {

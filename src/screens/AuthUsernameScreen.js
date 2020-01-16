@@ -9,7 +9,6 @@ import {
   ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { func, object } from 'prop-types';
 
 import callApi from '../helpers/apiCaller';
@@ -192,7 +191,6 @@ const AuthUsernameScreen = ({ navigation, displayBadge }) => {
         </KeyboardAvoidingView>
       </ScrollView>
     </>
-
   );
 };
 
@@ -205,7 +203,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FCFCFE',
     flex: 1,
     justifyContent: 'center',
-    paddingTop: getStatusBarHeight() + 48
+    paddingTop: 48
   }
 });
 

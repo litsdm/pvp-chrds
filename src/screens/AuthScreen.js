@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { Ionicons } from '@expo/vector-icons';
 import * as Facebook from 'expo-facebook';
 import { object } from 'prop-types';
@@ -93,8 +92,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FCFCFE',
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'space-between',
-    paddingTop: getStatusBarHeight()
+    justifyContent: 'space-between'
   },
   footer: {
     flexDirection: 'column',

@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { func, string } from 'prop-types';
 
 const SettingsNavBar = ({ goBack, title }) => (
@@ -30,7 +23,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     position: 'absolute',
     right: 0,
-    top: Platform.OS === 'ios' ? getStatusBarHeight() : 0,
+    top: 0,
     width: '100%'
   },
   button: {

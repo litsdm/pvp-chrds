@@ -114,8 +114,8 @@ depends-member:
 - !private ["s23CustomStringConvertibleP", "init"]
 - !private ["s23CustomStringConvertibleP", "map"]
 - !private ["s23CustomStringConvertibleP", "values"]
-- !private ["6Lottie11DashElementV", "type"]
-- !private ["6Lottie11DashElementV", "value"]
+- !private ["6Lottie11DashElementC", "type"]
+- !private ["6Lottie11DashElementC", "value"]
 - !private ["6Lottie15DashElementTypeO", "deinit"]
 - !private ["6Lottie15DashElementTypeO", "offset"]
 - !private ["10Foundation12DataProtocolP", "append"]
@@ -529,7 +529,7 @@ depends-nominal:
 - !private "s28CustomDebugStringConvertibleP"
 - !private "s17CustomReflectableP"
 - !private "s23CustomStringConvertibleP"
-- !private "6Lottie11DashElementV"
+- !private "6Lottie11DashElementC"
 - !private "6Lottie15DashElementTypeO"
 - !private "10Foundation12DataProtocolP"
 - !private "Se"
@@ -1770,4 +1770,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "fd3353d2914ee5b1a09983eefaea31c6"
+interface-hash: "c41735ddb5f4712395c009c0446acaf3"

@@ -11,7 +11,7 @@ depends-top-level:
 - !private "??"
 - "AssignmentPrecedence"
 - "Bool"
-- !private "BooleanLiteralType"
+- "BooleanLiteralType"
 - "CATransform3D"
 - !private "CATransform3DGetAffineTransform"
 - "CATransform3DIdentity"
@@ -40,6 +40,7 @@ depends-member:
 - ["6Lottie15GroupOutputNodeC", "deinit"]
 - ["6Lottie15GroupOutputNodeC", "hasOutputUpdates"]
 - ["6Lottie15GroupOutputNodeC", "init"]
+- ["6Lottie15GroupOutputNodeC", "isEnabled"]
 - ["6Lottie15GroupOutputNodeC", "outputPath"]
 - ["6Lottie15GroupOutputNodeC", "parent"]
 - ["6Lottie15GroupOutputNodeC", "rootNode"]
@@ -53,6 +54,7 @@ depends-member:
 - !private ["6Lottie10NodeOutputP", "CGMutablePath"]
 - ["6Lottie10NodeOutputP", ""]
 - ["6Lottie10NodeOutputP", "hasOutputUpdates"]
+- ["6Lottie10NodeOutputP", "isEnabled"]
 - ["6Lottie10NodeOutputP", "outputPath"]
 - ["6Lottie10NodeOutputP", "parent"]
 - !private ["6Lottie10NodeOutputP", "rootNode"]
@@ -1259,4 +1261,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "1d4df9d28b6b872abe124bf21c777984"
+interface-hash: "c38264939fa00e5d56f6cd6502097b7c"

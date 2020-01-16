@@ -302,7 +302,6 @@ depends-member:
 - ["6Lottie10NodeOutputP", "hasRenderUpdates"]
 - ["6Lottie10NodeOutputP", "hasUpdate"]
 - !private ["6Lottie10NodeOutputP", "init"]
-- ["6Lottie10NodeOutputP", "isEnabled"]
 - !private ["6Lottie10NodeOutputP", "lineCap"]
 - !private ["6Lottie10NodeOutputP", "lineJoin"]
 - !private ["6Lottie10NodeOutputP", "miterLimit"]
@@ -332,7 +331,6 @@ depends-member:
 - ["6Lottie21PassThroughOutputNodeC", "hasRenderUpdates"]
 - ["6Lottie21PassThroughOutputNodeC", "hasUpdate"]
 - ["6Lottie21PassThroughOutputNodeC", "init"]
-- ["6Lottie21PassThroughOutputNodeC", "isEnabled"]
 - ["6Lottie21PassThroughOutputNodeC", "lineCap"]
 - ["6Lottie21PassThroughOutputNodeC", "lineJoin"]
 - ["6Lottie21PassThroughOutputNodeC", "miterLimit"]
@@ -366,7 +364,6 @@ depends-member:
 - !private ["6Lottie10RenderableP", "dashPhase"]
 - ["6Lottie10RenderableP", "hasRenderUpdates"]
 - ["6Lottie10RenderableP", "hasUpdate"]
-- ["6Lottie10RenderableP", "isEnabled"]
 - !private ["6Lottie10RenderableP", "lineCap"]
 - !private ["6Lottie10RenderableP", "lineJoin"]
 - !private ["6Lottie10RenderableP", "miterLimit"]
@@ -399,7 +396,6 @@ depends-member:
 - ["6Lottie14StrokeRendererC", "hasRenderUpdates"]
 - ["6Lottie14StrokeRendererC", "hasUpdate"]
 - ["6Lottie14StrokeRendererC", "init"]
-- ["6Lottie14StrokeRendererC", "isEnabled"]
 - ["6Lottie14StrokeRendererC", "lineCap"]
 - ["6Lottie14StrokeRendererC", "lineJoin"]
 - ["6Lottie14StrokeRendererC", "miterLimit"]
@@ -1733,4 +1729,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "1fb645203cbf09889000f2693d87d65b"
+interface-hash: "c98395b30ed09996cfcf6a538edf9d2a"

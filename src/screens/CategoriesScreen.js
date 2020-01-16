@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef, createRef } from 'react';
 import {
   Image,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -10,7 +9,6 @@ import {
 } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { bool, func, object } from 'prop-types';
 
 import GET_CATEGORIES from '../graphql/queries/getCategories';
@@ -117,7 +115,11 @@ const CategoriesScreen = ({
             </View>
           ) : null}
           <View>
-            <Text style={styles.title}>Let&#39;s Play</Text>
+            <Text
+              style={[styles.title, featuredCategory ? { marginTop: 12 } : {}]}
+            >
+              Let&#39;s Play
+            </Text>
             <ScrollView
               horizontal={featuredCategory !== null}
               showsHorizontalScrollIndicator={false}
@@ -141,7 +143,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     overflow: 'hidden',
     flex: 1,
-    paddingTop: Platform.OS === 'ios' ? getStatusBarHeight() : 0,
+    paddingTop: 0,
     paddingBottom: 24
   },
   featured: {

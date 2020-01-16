@@ -10,7 +10,6 @@ provides-member:
 - ["6Lottie9ShapeNodeC", ""]
 provides-dynamic-lookup:
 depends-top-level:
-- !private "!"
 - "AnimatorNode"
 - "AnyNodeProperty"
 - !private "Array"
@@ -122,7 +121,7 @@ depends-member:
 - !private ["SM", "init"]
 - !private ["10Foundation19MutableDataProtocolP", "init"]
 - !private ["6Lottie10NodeOutputP", "init"]
-- !private ["6Lottie10NodeOutputP", "removePaths"]
+- !private ["6Lottie10NodeOutputP", "isEnabled"]
 - !private ["6Lottie10NodeOutputP", "setPath"]
 - !private ["6Lottie12NodePropertyC", "deinit"]
 - !private ["6Lottie12NodePropertyC", "init"]
@@ -160,8 +159,9 @@ depends-member:
 - ["6Lottie8PathNodeP", "propertyMap"]
 - ["6Lottie8PathNodeP", "rebuildOutputs"]
 - ["6Lottie8PathNodeP", "shouldRebuildOutputs"]
+- !private ["6Lottie14PathOutputNodeC", "deinit"]
 - !private ["6Lottie14PathOutputNodeC", "init"]
-- !private ["6Lottie14PathOutputNodeC", "removePaths"]
+- !private ["6Lottie14PathOutputNodeC", "isEnabled"]
 - !private ["6Lottie14PathOutputNodeC", "setPath"]
 - !private ["Sk", "init"]
 - !private ["Sm", "init"]
@@ -1457,4 +1457,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "d783674e7ba7180978252152f346c597"
+interface-hash: "31f1e304489af34ff51dddbd2da7278e"

@@ -167,7 +167,6 @@ depends-member:
 - ["6Lottie20GradientFillRendererC", "hasRenderUpdates"]
 - ["6Lottie20GradientFillRendererC", "hasUpdate"]
 - ["6Lottie20GradientFillRendererC", "init"]
-- ["6Lottie20GradientFillRendererC", "isEnabled"]
 - ["6Lottie20GradientFillRendererC", "numberOfColors"]
 - ["6Lottie20GradientFillRendererC", "opacity"]
 - ["6Lottie20GradientFillRendererC", "render"]
@@ -225,7 +224,6 @@ depends-member:
 - ["6Lottie10NodeOutputP", "hasRenderUpdates"]
 - ["6Lottie10NodeOutputP", "hasUpdate"]
 - !private ["6Lottie10NodeOutputP", "init"]
-- ["6Lottie10NodeOutputP", "isEnabled"]
 - !private ["6Lottie10NodeOutputP", "numberOfColors"]
 - !private ["6Lottie10NodeOutputP", "opacity"]
 - ["6Lottie10NodeOutputP", "render"]
@@ -257,7 +255,6 @@ depends-member:
 - ["6Lottie21PassThroughOutputNodeC", "hasRenderUpdates"]
 - ["6Lottie21PassThroughOutputNodeC", "hasUpdate"]
 - ["6Lottie21PassThroughOutputNodeC", "init"]
-- ["6Lottie21PassThroughOutputNodeC", "isEnabled"]
 - ["6Lottie21PassThroughOutputNodeC", "numberOfColors"]
 - ["6Lottie21PassThroughOutputNodeC", "opacity"]
 - ["6Lottie21PassThroughOutputNodeC", "render"]
@@ -291,7 +288,6 @@ depends-member:
 - !private ["6Lottie10RenderableP", "end"]
 - ["6Lottie10RenderableP", "hasRenderUpdates"]
 - ["6Lottie10RenderableP", "hasUpdate"]
-- ["6Lottie10RenderableP", "isEnabled"]
 - !private ["6Lottie10RenderableP", "numberOfColors"]
 - !private ["6Lottie10RenderableP", "opacity"]
 - ["6Lottie10RenderableP", "render"]
@@ -1598,4 +1594,4 @@ depends-external:
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/UIKit.framework/Headers/UIKit.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/CoreText.framework/Headers/CoreText.apinotes"
 - "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator13.2.sdk/System/Library/Frameworks/Security.framework/Headers/Security.apinotes"
-interface-hash: "b4aeadffe6a7f522fc607efea9440e6c"
+interface-hash: "d0bb8086ca86648e6fdc7cbaf6b841bf"

@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { func } from 'prop-types';
 
 import PowerUp from '../Match/PowerUp';
@@ -27,7 +26,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     position: 'absolute',
     right: 24,
-    top: getStatusBarHeight() + 72,
+    top: 72,
     zIndex: 3
   }
 });

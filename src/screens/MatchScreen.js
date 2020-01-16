@@ -236,9 +236,9 @@ const MatchScreen = ({ navigation, openCoinShop }) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar
-        barStyle={Platform.OS === 'ios' ? 'light-content' : 'dark-content'}
-      />
+      {Platform.OS === 'ios' ? (
+        <StatusBar backgroundColor="#000" barStyle="dark-content" />
+      ) : null}
       <View style={styles.videoWrapper}>
         <Video
           ref={videoRef}
@@ -356,8 +356,8 @@ const MatchScreen = ({ navigation, openCoinShop }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#000'
+    backgroundColor: '#000',
+    flex: 1
   },
   videoWrapper: {
     flex: 1

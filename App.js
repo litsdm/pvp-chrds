@@ -7,13 +7,12 @@ import {
   Keyboard,
   StatusBar,
   StyleSheet,
+  SafeAreaView,
   View
 } from 'react-native';
-import { SafeAreaView } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { ApolloProvider } from '@apollo/react-hooks';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { setPurchaseListener } from 'expo-in-app-purchases';
 import SplashScreen from 'react-native-splash-screen';
 import { bool } from 'prop-types';
@@ -106,15 +105,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FCFCFE'
-  },
-  statusBar: {
-    backgroundColor: '#fff',
-    left: 0,
-    height: getStatusBarHeight(),
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    zIndex: 10
   }
 });
 

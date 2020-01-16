@@ -2,7 +2,6 @@ import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { bool, func, number, object, string } from 'prop-types';
 
 const TopControls = ({
@@ -71,7 +70,7 @@ const styles = StyleSheet.create({
     height: '50%',
     left: 0,
     paddingHorizontal: 24,
-    paddingTop: getStatusBarHeight() + 6,
+    paddingTop: 6,
     position: 'absolute',
     right: 0,
     top: 0,

@@ -39,11 +39,7 @@ const CategoryPopup = ({
     ]
   };
 
-  const handleContentLayout = ({
-    nativeEvent: {
-      layout: { height }
-    }
-  }) => {
+  const handleContentLayout = ({ height }) => {
     const halfWidth = Layout.window.width / 2;
     const logoHalf = (72 * 1.25) / 2;
     const transition = {

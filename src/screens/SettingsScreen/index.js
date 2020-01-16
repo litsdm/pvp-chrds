@@ -21,7 +21,6 @@ import * as StoreReview from 'expo-store-review';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import jwtDecode from 'jwt-decode';
 import { bool, func, number, object } from 'prop-types';
 
@@ -163,14 +162,6 @@ const SettingsScreen = ({
 
   return (
     <>
-      {Platform.OS === 'ios' ? (
-        <View
-          style={[
-            styles.statusBar,
-            { backgroundColor: displayingNavbar ? '#fff' : '#FCFCFE' }
-          ]}
-        />
-      ) : null}
       <AnimatedSettingsNav
         animationValue={animationValue}
         goBack={goBack}
@@ -240,20 +231,22 @@ const SettingsScreen = ({
                   size={24}
                 />
               </TouchableOpacity>
-              <View style={styles.divider} />
-              <TouchableOpacity style={styles.row}>
-                <View style={styles.info}>
-                  <View style={[styles.iconWrap, styles.secondary]}>
-                    <Ionicons color="#fff" name={`${PRE_ICON}-key`} size={28} />
-                  </View>
-                  <Text style={styles.rowText}>Privacy</Text>
+              {/*
+                <View style={styles.divider} />
+                <TouchableOpacity style={styles.row}>
+                  <View style={styles.info}>
+                <View style={[styles.iconWrap, styles.secondary]}>
+                <Ionicons color="#fff" name={`${PRE_ICON}-key`} size={28} />
                 </View>
-                <Ionicons
-                  name="ios-arrow-forward"
-                  color="rgba(0,0,0,0.1)"
-                  size={24}
-                />
-              </TouchableOpacity>
+                <Text style={styles.rowText}>Privacy</Text>
+                  </View>
+                  <Ionicons
+                name="ios-arrow-forward"
+                color="rgba(0,0,0,0.1)"
+                size={24}
+                  />
+                </TouchableOpacity>
+              */}
             </View>
             <View style={styles.group}>
               <TouchableOpacity style={styles.row} onPress={goToFriends}>
@@ -377,7 +370,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FCFCFE',
     overflow: 'hidden',
     flex: 1,
-    paddingTop: Platform.OS === 'ios' ? getStatusBarHeight() : 0,
+    paddingTop: 0,
     paddingBottom: 24
   },
   header: {
@@ -483,15 +476,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: 'sf-medium',
     fontSize: 18
-  },
-  statusBar: {
-    backgroundColor: '#FCFCFE',
-    height: getStatusBarHeight(),
-    left: 0,
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    zIndex: 5
   }
 });
 

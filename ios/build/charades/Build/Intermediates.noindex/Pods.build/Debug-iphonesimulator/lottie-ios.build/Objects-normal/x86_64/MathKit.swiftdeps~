@@ -45,6 +45,7 @@ provides-member:
 - ["So6CGSizeV", "*"]
 provides-dynamic-lookup:
 depends-top-level:
+- !private "!="
 - !private "&&"
 - "*"
 - "+"
