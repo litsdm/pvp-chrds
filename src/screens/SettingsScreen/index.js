@@ -83,6 +83,8 @@ const SettingsScreen = ({
   const sendSMS = () => Linking.openURL('sms:+5215534889576');
   const sendEmail = () => Linking.openURL('mailto:cdiezmoran@gmail.com');
   const goToGeneral = () => navigation.navigate('General');
+  const goToPrivacy = () =>
+    navigation.navigate('Privacy', { userID: user._id });
   const goToFriends = () => navigation.navigate('Friends');
 
   const logout = async () => {
@@ -231,22 +233,20 @@ const SettingsScreen = ({
                   size={24}
                 />
               </TouchableOpacity>
-              {/*
-                <View style={styles.divider} />
-                <TouchableOpacity style={styles.row}>
-                  <View style={styles.info}>
-                <View style={[styles.iconWrap, styles.secondary]}>
-                <Ionicons color="#fff" name={`${PRE_ICON}-key`} size={28} />
-                </View>
-                <Text style={styles.rowText}>Privacy</Text>
+              <View style={styles.divider} />
+              <TouchableOpacity style={styles.row} onPress={goToPrivacy}>
+                <View style={styles.info}>
+                  <View style={[styles.iconWrap, styles.secondary]}>
+                    <Ionicons color="#fff" name={`${PRE_ICON}-key`} size={28} />
                   </View>
-                  <Ionicons
-                name="ios-arrow-forward"
-                color="rgba(0,0,0,0.1)"
-                size={24}
-                  />
-                </TouchableOpacity>
-              */}
+                  <Text style={styles.rowText}>Privacy</Text>
+                </View>
+                <Ionicons
+                  name="ios-arrow-forward"
+                  color="rgba(0,0,0,0.1)"
+                  size={24}
+                />
+              </TouchableOpacity>
             </View>
             <View style={styles.group}>
               <TouchableOpacity style={styles.row} onPress={goToFriends}>

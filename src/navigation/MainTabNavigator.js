@@ -10,6 +10,7 @@ import MatchScreen from '../screens/MatchScreen';
 
 import SettingsScreen from '../screens/SettingsScreen';
 import GeneralScreen from '../screens/SettingsScreen/GeneralScreen';
+import PrivacyScreen from '../screens/SettingsScreen/PrivacyScreen';
 import FriendsScreen from '../screens/FriendsScreen';
 
 import TabBarIcon from '../components/TabBarIcon';
@@ -41,6 +42,7 @@ const SettingsStack = createStackNavigator(
   {
     Main: SettingsScreen,
     General: GeneralScreen,
+    Privacy: PrivacyScreen,
     Friends: FriendsScreen
   },
   config
