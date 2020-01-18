@@ -12,46 +12,46 @@ public final class R {
     public static final class attr {
         private attr() {}
 
-        public static final int ad_marker_color = 0x7f030025;
-        public static final int ad_marker_width = 0x7f030026;
-        public static final int auto_show = 0x7f030038;
-        public static final int bar_height = 0x7f030040;
-        public static final int buffered_color = 0x7f030056;
-        public static final int controller_layout_id = 0x7f0300b9;
-        public static final int default_artwork = 0x7f0300e2;
-        public static final int fastforward_increment = 0x7f030117;
-        public static final int font = 0x7f03011b;
-        public static final int fontProviderAuthority = 0x7f03011d;
-        public static final int fontProviderCerts = 0x7f03011e;
-        public static final int fontProviderFetchStrategy = 0x7f03011f;
-        public static final int fontProviderFetchTimeout = 0x7f030120;
-        public static final int fontProviderPackage = 0x7f030121;
-        public static final int fontProviderQuery = 0x7f030122;
-        public static final int fontStyle = 0x7f030123;
-        public static final int fontWeight = 0x7f030125;
-        public static final int hide_during_ads = 0x7f030131;
-        public static final int hide_on_touch = 0x7f030132;
-        public static final int keep_content_on_player_reset = 0x7f030155;
-        public static final int played_ad_marker_color = 0x7f0301a4;
-        public static final int played_color = 0x7f0301a5;
-        public static final int player_layout_id = 0x7f0301a6;
-        public static final int repeat_toggle_modes = 0x7f0301b8;
-        public static final int resize_mode = 0x7f0301b9;
-        public static final int rewind_increment = 0x7f0301bd;
-        public static final int scrubber_color = 0x7f0301d2;
-        public static final int scrubber_disabled_size = 0x7f0301d3;
-        public static final int scrubber_dragged_size = 0x7f0301d4;
-        public static final int scrubber_drawable = 0x7f0301d5;
-        public static final int scrubber_enabled_size = 0x7f0301d6;
-        public static final int show_buffering = 0x7f0301e2;
-        public static final int show_shuffle_button = 0x7f0301e3;
-        public static final int show_timeout = 0x7f0301e4;
-        public static final int shutter_background_color = 0x7f0301e5;
-        public static final int surface_type = 0x7f030202;
-        public static final int touch_target_height = 0x7f030258;
-        public static final int unplayed_color = 0x7f03025d;
-        public static final int use_artwork = 0x7f03025f;
-        public static final int use_controller = 0x7f030260;
+        public static final int ad_marker_color = 0x7f030028;
+        public static final int ad_marker_width = 0x7f030029;
+        public static final int auto_show = 0x7f03003b;
+        public static final int bar_height = 0x7f030043;
+        public static final int buffered_color = 0x7f030059;
+        public static final int controller_layout_id = 0x7f0300bc;
+        public static final int default_artwork = 0x7f0300e5;
+        public static final int fastforward_increment = 0x7f03011a;
+        public static final int font = 0x7f03011e;
+        public static final int fontProviderAuthority = 0x7f030120;
+        public static final int fontProviderCerts = 0x7f030121;
+        public static final int fontProviderFetchStrategy = 0x7f030122;
+        public static final int fontProviderFetchTimeout = 0x7f030123;
+        public static final int fontProviderPackage = 0x7f030124;
+        public static final int fontProviderQuery = 0x7f030125;
+        public static final int fontStyle = 0x7f030126;
+        public static final int fontWeight = 0x7f030128;
+        public static final int hide_during_ads = 0x7f030134;
+        public static final int hide_on_touch = 0x7f030135;
+        public static final int keep_content_on_player_reset = 0x7f030158;
+        public static final int played_ad_marker_color = 0x7f0301a7;
+        public static final int played_color = 0x7f0301a8;
+        public static final int player_layout_id = 0x7f0301a9;
+        public static final int repeat_toggle_modes = 0x7f0301bb;
+        public static final int resize_mode = 0x7f0301bc;
+        public static final int rewind_increment = 0x7f0301c0;
+        public static final int scrubber_color = 0x7f0301d5;
+        public static final int scrubber_disabled_size = 0x7f0301d6;
+        public static final int scrubber_dragged_size = 0x7f0301d7;
+        public static final int scrubber_drawable = 0x7f0301d8;
+        public static final int scrubber_enabled_size = 0x7f0301d9;
+        public static final int show_buffering = 0x7f0301e5;
+        public static final int show_shuffle_button = 0x7f0301e6;
+        public static final int show_timeout = 0x7f0301e7;
+        public static final int shutter_background_color = 0x7f0301e8;
+        public static final int surface_type = 0x7f030205;
+        public static final int touch_target_height = 0x7f03025b;
+        public static final int unplayed_color = 0x7f030260;
+        public static final int use_artwork = 0x7f030262;
+        public static final int use_controller = 0x7f030263;
     }
     public static final class bool {
         private bool() {}
@@ -275,7 +275,7 @@ public final class R {
         public static final int exo_track_surround_5_point_1 = 0x7f0e0090;
         public static final int exo_track_surround_7_point_1 = 0x7f0e0091;
         public static final int exo_track_unknown = 0x7f0e0092;
-        public static final int status_bar_notification_info_overflow = 0x7f0e00b2;
+        public static final int status_bar_notification_info_overflow = 0x7f0e00b9;
     }
     public static final class style {
         private style() {}
@@ -298,15 +298,15 @@ public final class R {
         public static final int TextAppearance_Compat_Notification_Time_Media = 0x7f0f0141;
         public static final int TextAppearance_Compat_Notification_Title = 0x7f0f0142;
         public static final int TextAppearance_Compat_Notification_Title_Media = 0x7f0f0143;
-        public static final int Widget_Compat_NotificationActionContainer = 0x7f0f01f5;
-        public static final int Widget_Compat_NotificationActionText = 0x7f0f01f6;
+        public static final int Widget_Compat_NotificationActionContainer = 0x7f0f01f6;
+        public static final int Widget_Compat_NotificationActionText = 0x7f0f01f7;
     }
     public static final class styleable {
         private styleable() {}
 
-        public static final int[] AspectRatioFrameLayout = { 0x7f0301b9 };
+        public static final int[] AspectRatioFrameLayout = { 0x7f0301bc };
         public static final int AspectRatioFrameLayout_resize_mode = 0;
-        public static final int[] DefaultTimeBar = { 0x7f030025, 0x7f030026, 0x7f030040, 0x7f030056, 0x7f0301a4, 0x7f0301a5, 0x7f0301d2, 0x7f0301d3, 0x7f0301d4, 0x7f0301d5, 0x7f0301d6, 0x7f030258, 0x7f03025d };
+        public static final int[] DefaultTimeBar = { 0x7f030028, 0x7f030029, 0x7f030043, 0x7f030059, 0x7f0301a7, 0x7f0301a8, 0x7f0301d5, 0x7f0301d6, 0x7f0301d7, 0x7f0301d8, 0x7f0301d9, 0x7f03025b, 0x7f030260 };
         public static final int DefaultTimeBar_ad_marker_color = 0;
         public static final int DefaultTimeBar_ad_marker_width = 1;
         public static final int DefaultTimeBar_bar_height = 2;
@@ -320,14 +320,14 @@ public final class R {
         public static final int DefaultTimeBar_scrubber_enabled_size = 10;
         public static final int DefaultTimeBar_touch_target_height = 11;
         public static final int DefaultTimeBar_unplayed_color = 12;
-        public static final int[] FontFamily = { 0x7f03011d, 0x7f03011e, 0x7f03011f, 0x7f030120, 0x7f030121, 0x7f030122 };
+        public static final int[] FontFamily = { 0x7f030120, 0x7f030121, 0x7f030122, 0x7f030123, 0x7f030124, 0x7f030125 };
         public static final int FontFamily_fontProviderAuthority = 0;
         public static final int FontFamily_fontProviderCerts = 1;
         public static final int FontFamily_fontProviderFetchStrategy = 2;
         public static final int FontFamily_fontProviderFetchTimeout = 3;
         public static final int FontFamily_fontProviderPackage = 4;
         public static final int FontFamily_fontProviderQuery = 5;
-        public static final int[] FontFamilyFont = { 0x1010532, 0x1010533, 0x101053f, 0x101056f, 0x1010570, 0x7f03011b, 0x7f030123, 0x7f030124, 0x7f030125, 0x7f03025c };
+        public static final int[] FontFamilyFont = { 0x1010532, 0x1010533, 0x101053f, 0x101056f, 0x1010570, 0x7f03011e, 0x7f030126, 0x7f030127, 0x7f030128, 0x7f03025f };
         public static final int FontFamilyFont_android_font = 0;
         public static final int FontFamilyFont_android_fontWeight = 1;
         public static final int FontFamilyFont_android_fontStyle = 2;
@@ -338,14 +338,14 @@ public final class R {
         public static final int FontFamilyFont_fontVariationSettings = 7;
         public static final int FontFamilyFont_fontWeight = 8;
         public static final int FontFamilyFont_ttcIndex = 9;
-        public static final int[] PlayerControlView = { 0x7f0300b9, 0x7f030117, 0x7f0301b8, 0x7f0301bd, 0x7f0301e3, 0x7f0301e4 };
+        public static final int[] PlayerControlView = { 0x7f0300bc, 0x7f03011a, 0x7f0301bb, 0x7f0301c0, 0x7f0301e6, 0x7f0301e7 };
         public static final int PlayerControlView_controller_layout_id = 0;
         public static final int PlayerControlView_fastforward_increment = 1;
         public static final int PlayerControlView_repeat_toggle_modes = 2;
         public static final int PlayerControlView_rewind_increment = 3;
         public static final int PlayerControlView_show_shuffle_button = 4;
         public static final int PlayerControlView_show_timeout = 5;
-        public static final int[] PlayerView = { 0x7f030038, 0x7f0300b9, 0x7f0300e2, 0x7f030117, 0x7f030131, 0x7f030132, 0x7f030155, 0x7f0301a6, 0x7f0301b8, 0x7f0301b9, 0x7f0301bd, 0x7f0301e2, 0x7f0301e3, 0x7f0301e4, 0x7f0301e5, 0x7f030202, 0x7f03025f, 0x7f030260 };
+        public static final int[] PlayerView = { 0x7f03003b, 0x7f0300bc, 0x7f0300e5, 0x7f03011a, 0x7f030134, 0x7f030135, 0x7f030158, 0x7f0301a9, 0x7f0301bb, 0x7f0301bc, 0x7f0301c0, 0x7f0301e5, 0x7f0301e6, 0x7f0301e7, 0x7f0301e8, 0x7f030205, 0x7f030262, 0x7f030263 };
         public static final int PlayerView_auto_show = 0;
         public static final int PlayerView_controller_layout_id = 1;
         public static final int PlayerView_default_artwork = 2;

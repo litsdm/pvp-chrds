@@ -37,6 +37,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-1607117345046468~7271531260</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Allow CHRDS to access your calendar</string>
 	<key>NSCameraUsageDescription</key>

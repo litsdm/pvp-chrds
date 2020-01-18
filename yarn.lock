@@ -4063,6 +4063,13 @@ expect@^24.9.0:
     jest-message-util "^24.9.0"
     jest-regex-util "^24.9.0"
 
+expo-ads-admob@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/expo-ads-admob/-/expo-ads-admob-8.0.0.tgz#d17579c5c861bd63e442aa4636bed4da5c6fdc5e"
+  integrity sha512-4pibsTv2eiUT+OKW7uVWvuNV11nHWHIeDsvqlpGVuTjztw9J3UJkDC+I/L6IE9RFf5SVYQVruUxWCoQfOEYdjw==
+  dependencies:
+    prop-types "^15.6.2"
+
 expo-app-loader-provider@~8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/expo-app-loader-provider/-/expo-app-loader-provider-8.0.0.tgz#c18ef20a24153f5a0dbb297106ef0bcb5de57180"

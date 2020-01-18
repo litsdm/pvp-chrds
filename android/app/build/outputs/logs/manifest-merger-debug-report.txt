@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:1:1-53:12
-INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:1:1-53:12
-INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:1:1-53:12
-INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:1:1-53:12
+ADDED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:1:1-57:12
+INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:1:1-57:12
+INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:1:1-57:12
+INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:1:1-57:12
 MERGED from [:react-native-splash-screen] /Users/leetos/Dev/charades-mobile/node_modules/react-native-splash-screen/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-14:12
 MERGED from [:lottie-react-native] /Users/leetos/Dev/charades-mobile/node_modules/lottie-react-native/src/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-svg] /Users/leetos/Dev/charades-mobile/node_modules/react-native-svg/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-9:12
@@ -25,6 +25,7 @@ MERGED from [com.facebook.react:react-native:0.61.5] /Users/leetos/.gradle/cache
 MERGED from [com.airbnb.android:lottie:3.0.7] /Users/leetos/.gradle/caches/transforms-1/files-1.1/lottie-3.0.7.aar/2f0aca05237b930b6e940c840cdd409d/AndroidManifest.xml:2:1-11:12
 MERGED from [com.google.android.material:material:1.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/material-1.0.0.aar/352b6a3790ac8b0cf76dd4eb511d4b1d/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.appcompat:appcompat:1.1.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/AndroidManifest.xml:17:1-24:12
+MERGED from [:expo-ads-admob] /Users/leetos/Dev/charades-mobile/node_modules/expo-ads-admob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-13:12
 MERGED from [:expo-app-loader-provider] /Users/leetos/Dev/charades-mobile/node_modules/expo-app-loader-provider/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:expo-av] /Users/leetos/Dev/charades-mobile/node_modules/expo-av/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:expo-brightness] /Users/leetos/Dev/charades-mobile/node_modules/expo-brightness/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
@@ -50,10 +51,16 @@ MERGED from [:unimodules-core] /Users/leetos/Dev/charades-mobile/node_modules/@u
 MERGED from [:unimodules-image-loader-interface] /Users/leetos/Dev/charades-mobile/node_modules/unimodules-image-loader-interface/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:unimodules-sensors-interface] /Users/leetos/Dev/charades-mobile/node_modules/unimodules-sensors-interface/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [org.webkit:android-jsc:r245459] /Users/leetos/.gradle/caches/transforms-1/files-1.1/android-jsc-r245459.aar/a66826e63f82494b11a3ad4ae8d0e7d2/AndroidManifest.xml:2:1-11:12
+MERGED from [com.google.android.gms:play-services-ads:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-17.2.1.aar/297be24f387dbdf509ead2cd3977deaa/AndroidManifest.xml:17:1-25:12
 MERGED from [com.google.android.gms:play-services-location:16.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-location-16.0.0.aar/f711b056ab4c8b3fb018463b7b6fd947/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-ads-identifier:16.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-identifier-16.0.0.aar/5c02a3bfb06f93be5161c6871fd93d5f/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-ads-lite:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-lite-17.2.1.aar/2b9bb982ab3a3e0cc546f40903b9dbc1/AndroidManifest.xml:17:1-42:12
+MERGED from [com.google.android.gms:play-services-gass:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-gass-17.2.1.aar/8392377d368bfa7171048bc0e9e4f87c/AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.android.gms:play-services-base:16.0.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/4fe4132f934d0ac41d94716dee4a29c7/AndroidManifest.xml:17:1-29:12
 MERGED from [com.google.android.gms:play-services-places-placereport:16.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/play-services-places-placereport-16.0.0.aar/a4fa4ce7c20331f7446e9b2b5f179a96/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.gms:play-services-tasks:16.0.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-tasks-16.0.1.aar/0736b6fc8a2845c944de231f72ca646b/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:16.3.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-measurement-sdk-api-16.3.0.aar/e88063c2e2ab53d140cd8de0f4ac6484/AndroidManifest.xml:17:1-30:12
+MERGED from [com.google.android.gms:play-services-measurement-base:16.3.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-measurement-base-16.3.0.aar/fd88e80ee380a41ba2a77e0ec4e8cc84/AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.android.gms:play-services-basement:16.0.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-16.0.1.aar/8a220d1cdedd73bc0756cdf3000b08bf/AndroidManifest.xml:17:1-28:12
 MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/legacy-support-v4-1.0.0.aar/9850ea3434b3915ca7147e22f6d6a4fb/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.browser:browser:1.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/browser-1.0.0.aar/6793c9fbfdd716118af78b89db64c8a6/AndroidManifest.xml:17:1-22:12
@@ -115,20 +122,21 @@ MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /Users/leetos/.gr
 MERGED from [androidx.arch.core:core-runtime:2.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/core-runtime-2.0.0.aar/94a248512aef2d8e4fe9dc3455bf209a/AndroidManifest.xml:17:1-22:12
 MERGED from [io.nlopez.smartlocation:library:3.2.11] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-library-3.2.11.aar/d071c005fcad7394811f184ec86088de/AndroidManifest.xml:2:1-30:12
 MERGED from [com.facebook.fresco:fbcore:2.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-fbcore-2.0.0.aar/2120edc94d419960a709bf6be576be1d/AndroidManifest.xml:2:1-9:12
-INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:1:1-53:12
-INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:1:1-53:12
-INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:1:1-53:12
+MERGED from [com.google.android.gms:play-services-ads-base:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/play-services-ads-base-17.2.1.aar/6e88c738c6f26f27aa7da5d3e3c34a25/AndroidManifest.xml:2:1-9:12
+INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:1:1-57:12
+INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:1:1-57:12
+INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:1:1-57:12
 	package
 		ADDED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:2:5-27
 		INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml
 	android:versionName
 		INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:1:1-53:12
+		ADDED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:1:1-57:12
 		INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml
 	android:versionCode
 		INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:1:1-53:12
+		ADDED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:1:1-57:12
 		INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:1:11-69
@@ -136,8 +144,14 @@ uses-permission#android.permission.INTERNET
 ADDED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:4:5-67
 MERGED from [:lottie-react-native] /Users/leetos/Dev/charades-mobile/node_modules/lottie-react-native/src/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-67
 MERGED from [:lottie-react-native] /Users/leetos/Dev/charades-mobile/node_modules/lottie-react-native/src/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:9:5-67
+MERGED from [:expo-ads-admob] /Users/leetos/Dev/charades-mobile/node_modules/expo-ads-admob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-67
+MERGED from [:expo-ads-admob] /Users/leetos/Dev/charades-mobile/node_modules/expo-ads-admob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-67
 MERGED from [:expo-file-system] /Users/leetos/Dev/charades-mobile/node_modules/expo-file-system/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:5-67
 MERGED from [:expo-file-system] /Users/leetos/Dev/charades-mobile/node_modules/expo-file-system/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:5-67
+MERGED from [com.google.android.gms:play-services-ads-lite:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-lite-17.2.1.aar/2b9bb982ab3a3e0cc546f40903b9dbc1/AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-ads-lite:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-lite-17.2.1.aar/2b9bb982ab3a3e0cc546f40903b9dbc1/AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:16.3.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-measurement-sdk-api-16.3.0.aar/e88063c2e2ab53d140cd8de0f4ac6484/AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:16.3.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-measurement-sdk-api-16.3.0.aar/e88063c2e2ab53d140cd8de0f4ac6484/AndroidManifest.xml:23:5-67
 	android:name
 		ADDED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:4:22-64
 uses-permission#android.permission.SYSTEM_ALERT_WINDOW
@@ -223,7 +237,7 @@ ADDED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifes
 	android:name
 		ADDED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:25:22-70
 application
-ADDED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:28:5-51:19
+ADDED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:28:5-55:19
 MERGED from [:react-native-splash-screen] /Users/leetos/Dev/charades-mobile/node_modules/react-native-splash-screen/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-12:19
 MERGED from [:react-native-splash-screen] /Users/leetos/Dev/charades-mobile/node_modules/react-native-splash-screen/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:5-12:19
 MERGED from [com.google.android:cameraview:1.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-cameraview-1.0.0.aar/d7ecd85b18a7e39c4a9b10f6a759f143/AndroidManifest.xml:32:5-20
@@ -250,12 +264,22 @@ MERGED from [:expo-location] /Users/leetos/Dev/charades-mobile/node_modules/expo
 MERGED from [:expo-location] /Users/leetos/Dev/charades-mobile/node_modules/expo-location/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:15:5-19:19
 MERGED from [com.google.android.gms:play-services-location:16.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-location-16.0.0.aar/f711b056ab4c8b3fb018463b7b6fd947/AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-location:16.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-location-16.0.0.aar/f711b056ab4c8b3fb018463b7b6fd947/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-ads-identifier:16.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-identifier-16.0.0.aar/5c02a3bfb06f93be5161c6871fd93d5f/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-ads-identifier:16.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-identifier-16.0.0.aar/5c02a3bfb06f93be5161c6871fd93d5f/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-ads-lite:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-lite-17.2.1.aar/2b9bb982ab3a3e0cc546f40903b9dbc1/AndroidManifest.xml:26:5-40:19
+MERGED from [com.google.android.gms:play-services-ads-lite:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-lite-17.2.1.aar/2b9bb982ab3a3e0cc546f40903b9dbc1/AndroidManifest.xml:26:5-40:19
+MERGED from [com.google.android.gms:play-services-gass:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-gass-17.2.1.aar/8392377d368bfa7171048bc0e9e4f87c/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-gass:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-gass-17.2.1.aar/8392377d368bfa7171048bc0e9e4f87c/AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-base:16.0.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/4fe4132f934d0ac41d94716dee4a29c7/AndroidManifest.xml:22:5-27:19
 MERGED from [com.google.android.gms:play-services-base:16.0.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/4fe4132f934d0ac41d94716dee4a29c7/AndroidManifest.xml:22:5-27:19
 MERGED from [com.google.android.gms:play-services-places-placereport:16.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/play-services-places-placereport-16.0.0.aar/a4fa4ce7c20331f7446e9b2b5f179a96/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-places-placereport:16.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/play-services-places-placereport-16.0.0.aar/a4fa4ce7c20331f7446e9b2b5f179a96/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-tasks:16.0.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-tasks-16.0.1.aar/0736b6fc8a2845c944de231f72ca646b/AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-tasks:16.0.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-tasks-16.0.1.aar/0736b6fc8a2845c944de231f72ca646b/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:16.3.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-measurement-sdk-api-16.3.0.aar/e88063c2e2ab53d140cd8de0f4ac6484/AndroidManifest.xml:27:5-28:19
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:16.3.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-measurement-sdk-api-16.3.0.aar/e88063c2e2ab53d140cd8de0f4ac6484/AndroidManifest.xml:27:5-28:19
+MERGED from [com.google.android.gms:play-services-measurement-base:16.3.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-measurement-base-16.3.0.aar/fd88e80ee380a41ba2a77e0ec4e8cc84/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-measurement-base:16.3.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-measurement-base-16.3.0.aar/fd88e80ee380a41ba2a77e0ec4e8cc84/AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-basement:16.0.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-16.0.1.aar/8a220d1cdedd73bc0756cdf3000b08bf/AndroidManifest.xml:22:5-26:19
 MERGED from [com.google.android.gms:play-services-basement:16.0.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-16.0.1.aar/8a220d1cdedd73bc0756cdf3000b08bf/AndroidManifest.xml:22:5-26:19
 MERGED from [com.facebook.soloader:soloader:0.6.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/soloader-0.6.0.aar/baf9414d8622410e8b288ea42da86e03/AndroidManifest.xml:11:5-20
@@ -280,6 +304,8 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/leet
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/versionedparcelable-1.1.0.aar/a377f9348d762af89e4ca6db3fd11dc5/AndroidManifest.xml:24:5-25:19
 MERGED from [io.nlopez.smartlocation:library:3.2.11] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-library-3.2.11.aar/d071c005fcad7394811f184ec86088de/AndroidManifest.xml:18:5-28:19
 MERGED from [io.nlopez.smartlocation:library:3.2.11] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-library-3.2.11.aar/d071c005fcad7394811f184ec86088de/AndroidManifest.xml:18:5-28:19
+MERGED from [com.google.android.gms:play-services-ads-base:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/play-services-ads-base-17.2.1.aar/6e88c738c6f26f27aa7da5d3e3c34a25/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-ads-base:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/play-services-ads-base-17.2.1.aar/6e88c738c6f26f27aa7da5d3e3c34a25/AndroidManifest.xml:7:5-20
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.1.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/core-1.1.0.aar/0d62cc704e7271397e63503abe0ccd5c/AndroidManifest.xml:24:18-86
 	android:supportsRtl
@@ -332,6 +358,12 @@ ADDED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifes
 		ADDED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:50:64-96
 	android:name
 		ADDED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:50:18-63
+meta-data#com.google.android.gms.ads.APPLICATION_ID
+ADDED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:51:7-54:9
+	android:value
+		ADDED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:53:9-63
+	android:name
+		ADDED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml:52:9-65
 uses-sdk
 INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml
@@ -378,6 +410,8 @@ MERGED from [com.google.android.material:material:1.0.0] /Users/leetos/.gradle/c
 MERGED from [com.google.android.material:material:1.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/material-1.0.0.aar/352b6a3790ac8b0cf76dd4eb511d4b1d/AndroidManifest.xml:20:5-44
 MERGED from [androidx.appcompat:appcompat:1.1.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.appcompat:appcompat:1.1.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/appcompat-1.1.0.aar/fe947647dc32cadb1450307fdce5464e/AndroidManifest.xml:20:5-22:41
+MERGED from [:expo-ads-admob] /Users/leetos/Dev/charades-mobile/node_modules/expo-ads-admob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:expo-ads-admob] /Users/leetos/Dev/charades-mobile/node_modules/expo-ads-admob/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:expo-app-loader-provider] /Users/leetos/Dev/charades-mobile/node_modules/expo-app-loader-provider/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:expo-app-loader-provider] /Users/leetos/Dev/charades-mobile/node_modules/expo-app-loader-provider/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:expo-av] /Users/leetos/Dev/charades-mobile/node_modules/expo-av/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
@@ -428,14 +462,26 @@ MERGED from [:unimodules-sensors-interface] /Users/leetos/Dev/charades-mobile/no
 MERGED from [:unimodules-sensors-interface] /Users/leetos/Dev/charades-mobile/node_modules/unimodules-sensors-interface/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [org.webkit:android-jsc:r245459] /Users/leetos/.gradle/caches/transforms-1/files-1.1/android-jsc-r245459.aar/a66826e63f82494b11a3ad4ae8d0e7d2/AndroidManifest.xml:7:5-9:41
 MERGED from [org.webkit:android-jsc:r245459] /Users/leetos/.gradle/caches/transforms-1/files-1.1/android-jsc-r245459.aar/a66826e63f82494b11a3ad4ae8d0e7d2/AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.android.gms:play-services-ads:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-17.2.1.aar/297be24f387dbdf509ead2cd3977deaa/AndroidManifest.xml:21:5-23:52
+MERGED from [com.google.android.gms:play-services-ads:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-17.2.1.aar/297be24f387dbdf509ead2cd3977deaa/AndroidManifest.xml:21:5-23:52
 MERGED from [com.google.android.gms:play-services-location:16.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-location-16.0.0.aar/f711b056ab4c8b3fb018463b7b6fd947/AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-location:16.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-location-16.0.0.aar/f711b056ab4c8b3fb018463b7b6fd947/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-ads-identifier:16.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-identifier-16.0.0.aar/5c02a3bfb06f93be5161c6871fd93d5f/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-ads-identifier:16.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-identifier-16.0.0.aar/5c02a3bfb06f93be5161c6871fd93d5f/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-ads-lite:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-lite-17.2.1.aar/2b9bb982ab3a3e0cc546f40903b9dbc1/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-ads-lite:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-lite-17.2.1.aar/2b9bb982ab3a3e0cc546f40903b9dbc1/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-gass:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-gass-17.2.1.aar/8392377d368bfa7171048bc0e9e4f87c/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-gass:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-gass-17.2.1.aar/8392377d368bfa7171048bc0e9e4f87c/AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-base:16.0.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/4fe4132f934d0ac41d94716dee4a29c7/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-base:16.0.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/4fe4132f934d0ac41d94716dee4a29c7/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-places-placereport:16.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/play-services-places-placereport-16.0.0.aar/a4fa4ce7c20331f7446e9b2b5f179a96/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-places-placereport:16.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/play-services-places-placereport-16.0.0.aar/a4fa4ce7c20331f7446e9b2b5f179a96/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-tasks:16.0.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-tasks-16.0.1.aar/0736b6fc8a2845c944de231f72ca646b/AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-tasks:16.0.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-tasks-16.0.1.aar/0736b6fc8a2845c944de231f72ca646b/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:16.3.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-measurement-sdk-api-16.3.0.aar/e88063c2e2ab53d140cd8de0f4ac6484/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:16.3.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-measurement-sdk-api-16.3.0.aar/e88063c2e2ab53d140cd8de0f4ac6484/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-base:16.3.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-measurement-base-16.3.0.aar/fd88e80ee380a41ba2a77e0ec4e8cc84/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-measurement-base:16.3.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-measurement-base-16.3.0.aar/fd88e80ee380a41ba2a77e0ec4e8cc84/AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-basement:16.0.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-16.0.1.aar/8a220d1cdedd73bc0756cdf3000b08bf/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-basement:16.0.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-16.0.1.aar/8a220d1cdedd73bc0756cdf3000b08bf/AndroidManifest.xml:20:5-44
 MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/legacy-support-v4-1.0.0.aar/9850ea3434b3915ca7147e22f6d6a4fb/AndroidManifest.xml:20:5-44
@@ -558,8 +604,12 @@ MERGED from [io.nlopez.smartlocation:library:3.2.11] /Users/leetos/.gradle/cache
 MERGED from [io.nlopez.smartlocation:library:3.2.11] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-library-3.2.11.aar/d071c005fcad7394811f184ec86088de/AndroidManifest.xml:8:5-10:41
 MERGED from [com.facebook.fresco:fbcore:2.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-fbcore-2.0.0.aar/2120edc94d419960a709bf6be576be1d/AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.fresco:fbcore:2.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-fbcore-2.0.0.aar/2120edc94d419960a709bf6be576be1d/AndroidManifest.xml:5:5-7:41
+MERGED from [com.google.android.gms:play-services-ads-base:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/play-services-ads-base-17.2.1.aar/6e88c738c6f26f27aa7da5d3e3c34a25/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-ads-base:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/play-services-ads-base-17.2.1.aar/6e88c738c6f26f27aa7da5d3e3c34a25/AndroidManifest.xml:5:5-44
 INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml
 INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml
+	tools:overrideLibrary
+		ADDED from [com.google.android.gms:play-services-ads:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-17.2.1.aar/297be24f387dbdf509ead2cd3977deaa/AndroidManifest.xml:23:9-49
 	android:targetSdkVersion
 		INJECTED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml
 		ADDED from /Users/leetos/Dev/charades-mobile/android/app/src/main/AndroidManifest.xml
@@ -638,6 +688,36 @@ ADDED from [:expo-location] /Users/leetos/Dev/charades-mobile/node_modules/expo-
 		ADDED from [:expo-location] /Users/leetos/Dev/charades-mobile/node_modules/expo-location/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:18:13-37
 	android:name
 		ADDED from [:expo-location] /Users/leetos/Dev/charades-mobile/node_modules/expo-location/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:17:13-78
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [com.google.android.gms:play-services-ads-lite:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-lite-17.2.1.aar/2b9bb982ab3a3e0cc546f40903b9dbc1/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:16.3.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-measurement-sdk-api-16.3.0.aar/e88063c2e2ab53d140cd8de0f4ac6484/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:16.3.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-measurement-sdk-api-16.3.0.aar/e88063c2e2ab53d140cd8de0f4ac6484/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.exoplayer:exoplayer-core:2.9.2] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-core-2.9.2.aar/8f3102bc8a95d86d8d6f62986e7c9d34/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.exoplayer:exoplayer-core:2.9.2] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-core-2.9.2.aar/8f3102bc8a95d86d8d6f62986e7c9d34/AndroidManifest.xml:24:5-79
+MERGED from [io.nlopez.smartlocation:library:3.2.11] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-library-3.2.11.aar/d071c005fcad7394811f184ec86088de/AndroidManifest.xml:13:5-79
+MERGED from [io.nlopez.smartlocation:library:3.2.11] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-library-3.2.11.aar/d071c005fcad7394811f184ec86088de/AndroidManifest.xml:13:5-79
+	android:name
+		ADDED from [com.google.android.gms:play-services-ads-lite:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-lite-17.2.1.aar/2b9bb982ab3a3e0cc546f40903b9dbc1/AndroidManifest.xml:24:22-76
+activity#com.google.android.gms.ads.AdActivity
+ADDED from [com.google.android.gms:play-services-ads-lite:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-lite-17.2.1.aar/2b9bb982ab3a3e0cc546f40903b9dbc1/AndroidManifest.xml:29:9-33:64
+	android:exported
+		ADDED from [com.google.android.gms:play-services-ads-lite:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-lite-17.2.1.aar/2b9bb982ab3a3e0cc546f40903b9dbc1/AndroidManifest.xml:32:13-37
+	android:configChanges
+		ADDED from [com.google.android.gms:play-services-ads-lite:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-lite-17.2.1.aar/2b9bb982ab3a3e0cc546f40903b9dbc1/AndroidManifest.xml:31:13-122
+	android:theme
+		ADDED from [com.google.android.gms:play-services-ads-lite:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-lite-17.2.1.aar/2b9bb982ab3a3e0cc546f40903b9dbc1/AndroidManifest.xml:33:13-61
+	android:name
+		ADDED from [com.google.android.gms:play-services-ads-lite:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-lite-17.2.1.aar/2b9bb982ab3a3e0cc546f40903b9dbc1/AndroidManifest.xml:30:13-65
+provider#com.google.android.gms.ads.MobileAdsInitProvider
+ADDED from [com.google.android.gms:play-services-ads-lite:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-lite-17.2.1.aar/2b9bb982ab3a3e0cc546f40903b9dbc1/AndroidManifest.xml:35:9-39:39
+	android:authorities
+		ADDED from [com.google.android.gms:play-services-ads-lite:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-lite-17.2.1.aar/2b9bb982ab3a3e0cc546f40903b9dbc1/AndroidManifest.xml:37:13-73
+	android:exported
+		ADDED from [com.google.android.gms:play-services-ads-lite:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-lite-17.2.1.aar/2b9bb982ab3a3e0cc546f40903b9dbc1/AndroidManifest.xml:38:13-37
+	android:initOrder
+		ADDED from [com.google.android.gms:play-services-ads-lite:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-lite-17.2.1.aar/2b9bb982ab3a3e0cc546f40903b9dbc1/AndroidManifest.xml:39:13-36
+	android:name
+		ADDED from [com.google.android.gms:play-services-ads-lite:17.2.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-ads-lite-17.2.1.aar/2b9bb982ab3a3e0cc546f40903b9dbc1/AndroidManifest.xml:36:13-76
 activity#com.google.android.gms.common.api.GoogleApiActivity
 ADDED from [com.google.android.gms:play-services-base:16.0.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/4fe4132f934d0ac41d94716dee4a29c7/AndroidManifest.xml:23:9-26:75
 	android:exported
@@ -646,6 +726,10 @@ ADDED from [com.google.android.gms:play-services-base:16.0.1] /Users/leetos/.gra
 		ADDED from [com.google.android.gms:play-services-base:16.0.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/4fe4132f934d0ac41d94716dee4a29c7/AndroidManifest.xml:26:13-72
 	android:name
 		ADDED from [com.google.android.gms:play-services-base:16.0.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-base-16.0.1.aar/4fe4132f934d0ac41d94716dee4a29c7/AndroidManifest.xml:24:13-79
+uses-permission#android.permission.WAKE_LOCK
+ADDED from [com.google.android.gms:play-services-measurement-sdk-api:16.3.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-measurement-sdk-api-16.3.0.aar/e88063c2e2ab53d140cd8de0f4ac6484/AndroidManifest.xml:25:5-68
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement-sdk-api:16.3.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-measurement-sdk-api-16.3.0.aar/e88063c2e2ab53d140cd8de0f4ac6484/AndroidManifest.xml:25:22-65
 meta-data#com.google.android.gms.version
 ADDED from [com.google.android.gms:play-services-basement:16.0.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-play-services-basement-16.0.1.aar/8a220d1cdedd73bc0756cdf3000b08bf/AndroidManifest.xml:23:9-25:69
 	android:value
@@ -670,12 +754,6 @@ ADDED from [com.android.billingclient:billing:2.0.0] /Users/leetos/.gradle/cache
 		ADDED from [com.android.billingclient:billing:2.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-billing-2.0.0.aar/c96cf99593b04d079050e63a920ef26e/AndroidManifest.xml:20:13-72
 	android:name
 		ADDED from [com.android.billingclient:billing:2.0.0] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-billing-2.0.0.aar/c96cf99593b04d079050e63a920ef26e/AndroidManifest.xml:18:13-78
-uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from [com.google.android.exoplayer:exoplayer-core:2.9.2] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-core-2.9.2.aar/8f3102bc8a95d86d8d6f62986e7c9d34/AndroidManifest.xml:24:5-79
-MERGED from [io.nlopez.smartlocation:library:3.2.11] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-library-3.2.11.aar/d071c005fcad7394811f184ec86088de/AndroidManifest.xml:13:5-79
-MERGED from [io.nlopez.smartlocation:library:3.2.11] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-library-3.2.11.aar/d071c005fcad7394811f184ec86088de/AndroidManifest.xml:13:5-79
-	android:name
-		ADDED from [com.google.android.exoplayer:exoplayer-core:2.9.2] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-exoplayer-core-2.9.2.aar/8f3102bc8a95d86d8d6f62986e7c9d34/AndroidManifest.xml:24:22-76
 provider#com.facebook.internal.FacebookInitProvider
 ADDED from [com.facebook.android:facebook-core:5.0.1] /Users/leetos/.gradle/caches/transforms-1/files-1.1/jetified-facebook-core-5.0.1.aar/e414c5c42dd7930d058a7e2c2033da9c/AndroidManifest.xml:39:9-42:40
 	android:authorities

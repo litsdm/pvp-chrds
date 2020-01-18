@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C348B67B4CB70CF155F2A2BA28BE2D22"
+               BlueprintIdentifier = "D2AB846124B8ADFB5089775BC94AD807"
                BuildableName = "libReact-CoreModules.a"
                BlueprintName = "React-CoreModules"
                ReferencedContainer = "container:Pods.xcodeproj">

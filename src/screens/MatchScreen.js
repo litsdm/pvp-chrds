@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { Video } from 'expo-av';
 import { Camera } from 'expo-camera';
+import { AdMobRewarded, setTestDeviceIDAsync } from 'expo-ads-admob';
 import { func, object } from 'prop-types';
 
 import GET_DATA from '../graphql/queries/getMatchData';
@@ -25,7 +26,7 @@ import UPDATE_USER from '../graphql/mutations/updateUser';
 import DELETE_MATCH from '../graphql/mutations/deleteMatch';
 
 import callApi, { getSignedUrl } from '../helpers/apiCaller';
-import { togglePurchaseModal } from '../actions/popup';
+import { toggleBadge, togglePurchaseModal } from '../actions/popup';
 
 import TopControls from '../components/Camera/TopControls';
 import LetterSoup from '../components/Match/LetterSoup';
@@ -36,16 +37,29 @@ import EndOverlay from '../components/Match/EndOverlay';
 import PowerUps from '../components/Match/PowerUps';
 import Hint from '../components/Match/HintModal';
 import PurchaseModal from '../components/Match/PurchaseModal';
+import AdRetryModal from '../components/Match/AdRetryModal';
 
 const { front } = Camera.Constants.Type;
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 const TIME = 300;
 
 const mapDispatchToProps = dispatch => ({
-  openCoinShop: () => dispatch(togglePurchaseModal(true))
+  openCoinShop: () => dispatch(togglePurchaseModal(true)),
+  displayBadge: (message, type) => dispatch(toggleBadge(true, message, type))
 });
 
-const MatchScreen = ({ navigation, openCoinShop }) => {
+const adData = Platform.select({
+  ios: {
+    unitID: 'ca-app-pub-1607117345046468/5224593058',
+    deviceID: '68f2b459f373512472f6b6a1224d2cd9ea2f4b26'
+  },
+  android: {
+    unitID: 'ca-app-pub-1607117345046468/8212900235',
+    deviceID: '988a1c413145323445'
+  }
+});
+
+const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
   const categoryID = navigation.getParam('categoryID', '');
   const opponentID = navigation.getParam('opponentID', '');
   const matchID = navigation.getParam('matchID', '');
@@ -72,6 +86,8 @@ const MatchScreen = ({ navigation, openCoinShop }) => {
   const [displayHint, setDisplayHint] = useState(false);
   const [exploded, setExploded] = useState(false);
   const [fillActive, setFillActive] = useState(false);
+  const [isLoadingAd, setLoadingAd] = useState(false);
+  const [didReward, setDidReward] = useState(false);
   const videoRef = useRef(null);
 
   const category = data ? data.category : {};
@@ -84,8 +100,21 @@ const MatchScreen = ({ navigation, openCoinShop }) => {
   }, [match, videoRef]);
 
   useEffect(() => {
+    AdMobRewarded.setAdUnitID(adData.unitID);
+    setTestDeviceIDAsync(adData.deviceID);
+
     BackHandler.addEventListener('hardwareBackPress', handleBackPress);
-    return () => BackHandler.removeEventListener('hardwareBackPress');
+    AdMobRewarded.addEventListener(
+      'rewardedVideoDidRewardUser',
+      handleAdReward
+    );
+    AdMobRewarded.addEventListener('rewardedVideoDidFailToLoad', handleAdFail);
+    AdMobRewarded.addEventListener('rewardedVideoDidLoad', handleAdLoaded);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress');
+      AdMobRewarded.removeEventListener('rewardedVideoDidRewardUser');
+      AdMobRewarded.removeEventListener('rewardedVideoDidFailToLoad');
+    };
   }, []);
 
   const handleBackPress = () => gameState !== 'guessing';
@@ -124,6 +153,29 @@ const MatchScreen = ({ navigation, openCoinShop }) => {
     videoRef.current.unloadAsync();
     setGameState('guessing');
   };
+
+  const handleAdReward = async () => {
+    setGameState('guessing');
+    await setTimeLeft(TIME);
+    setDidReward(true);
+  };
+
+  const handleAdFail = () => {
+    displayBadge('Ad failed to load.', 'error');
+    setLoadingAd(false);
+    handleFailure();
+  };
+
+  const handleAdLoaded = () => setLoadingAd(false);
+
+  const handleAdRetry = async () => {
+    displayBadge('Loading reward ad.', 'default');
+    await setLoadingAd(true);
+    await AdMobRewarded.requestAdAsync();
+    await AdMobRewarded.showAdAsync();
+  };
+
+  const openAdModal = () => setGameState('adRetry');
 
   const handleFailure = async () => {
     const properties = JSON.stringify({ state: 'play' });
@@ -308,7 +360,7 @@ const MatchScreen = ({ navigation, openCoinShop }) => {
               />
             ) : null}
             <TimeBar
-              onEnd={handleFailure}
+              onEnd={didReward ? handleFailure : openAdModal}
               timeLeft={timeLeft}
               setTimeLeft={setTimeLeft}
               milis={milis}
@@ -325,6 +377,13 @@ const MatchScreen = ({ navigation, openCoinShop }) => {
             />
             <PowerUps onPress={showPurchase} />
           </>
+        ) : null}
+        {gameState === 'adRetry' ? (
+          <AdRetryModal
+            handleAccept={handleAdRetry}
+            handleReject={handleFailure}
+            isLoading={isLoadingAd}
+          />
         ) : null}
         {gameState === 'finished' && resultStatus === 1 ? (
           <SuccessOverlay
@@ -430,7 +489,8 @@ const styles = StyleSheet.create({
 
 MatchScreen.propTypes = {
   navigation: object.isRequired,
-  openCoinShop: func.isRequired
+  openCoinShop: func.isRequired,
+  displayBadge: func.isRequired
 };
 
 export default connect(
