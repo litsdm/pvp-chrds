@@ -28,6 +28,7 @@ import PowerUps from '../components/Camera/PowerUps';
 import PurchaseModal from '../components/Match/PurchaseModal';
 import PickWordModal from '../components/Camera/PickWordModal';
 import Hint from '../components/Match/HintModal';
+import Walkthrough from '../components/Camera/Walkthrough';
 
 const mapDispatchToProps = dispatch => ({
   uploadFile: file => dispatch(upload(file)),
@@ -70,6 +71,7 @@ const CameraScreen = ({
   const [pickWord, setPickWord] = useState(false);
   const [rollCount, setRollCount] = useState(2);
   const [displayHint, setDisplayHint] = useState(false);
+  const [displayWalkthrough, setDisplayWalkthrough] = useState(false);
   const [updateMatch] = useMutation(UPDATE_MATCH);
   const [updateUser] = useMutation(UPDATE_USER);
   const { animationValue, animateTo } = useAnimation({ duration: 200 });
@@ -87,6 +89,7 @@ const CameraScreen = ({
     checkPermissions();
     setBrightness(true);
     getRolls();
+    shouldDisplayWalkthrough();
   }, []);
 
   useEffect(() => {
@@ -136,6 +139,27 @@ const CameraScreen = ({
   const closeReplay = () => {
     setDisplayReplay(false);
     removeReplayWord();
+  };
+
+  const shouldDisplayWalkthrough = async () => {
+    const walkthroughCount = parseInt(
+      await AsyncStorage.getItem('walkthroughCount'),
+      10
+    );
+    if (walkthroughCount === 2) return;
+    setDisplayWalkthrough(true);
+  };
+
+  const closeWalkthrough = async () => {
+    const walkthroughCount = parseInt(
+      await AsyncStorage.getItem('walkthroughCount'),
+      10
+    );
+    setDisplayWalkthrough(false);
+    await AsyncStorage.setItem(
+      'walkthroughCount',
+      walkthroughCount ? `${walkthroughCount + 1}` : '1'
+    );
   };
 
   const setState = newState =>
@@ -361,6 +385,14 @@ const CameraScreen = ({
       ) : (
         <Text>Doesnt have permissions screen</Text>
       )}
+      {displayWalkthrough ? (
+        <Walkthrough
+          close={closeWalkthrough}
+          word={word.text}
+          category={category}
+          opponent={opponent}
+        />
+      ) : null}
       {videoUri ? (
         <VideoOverlay
           uri={videoUri}

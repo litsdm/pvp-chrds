@@ -7,15 +7,15 @@ import {
   View
 } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
-import { func, string } from 'prop-types';
+import { func, string, number } from 'prop-types';
 
 import { useAnimation } from '../../helpers/hooks';
 
-const PowerUp = ({ text, onPress, icon }) => {
+const PowerUp = ({ text, onPress, icon, infoDuration }) => {
   const { animationValue, animateTo } = useAnimation();
 
   useEffect(() => {
-    setTimeout(() => animateTo(1), 6000);
+    setTimeout(() => animateTo(1), infoDuration);
   }, []);
 
   const animateOpacity = {
@@ -83,7 +83,12 @@ const styles = StyleSheet.create({
 PowerUp.propTypes = {
   onPress: func.isRequired,
   text: string.isRequired,
-  icon: string.isRequired
+  icon: string.isRequired,
+  infoDuration: number
+};
+
+PowerUp.defaultProps = {
+  infoDuration: 6000
 };
 
 export default PowerUp;
