@@ -144,17 +144,17 @@ const CameraScreen = ({
 
   const checkActivePowerUps = async () => {
     const { mic } =
-      JSON.parse(await AsyncStorage.getItem('activePowerups')) || {};
+      JSON.parse(await AsyncStorage.getItem(`${matchID}-activePowerups`)) || {};
 
     if (mic) setUseAudio(mic);
   };
 
   const addActivePowerUp = async pwrup => {
     const activePowerups =
-      JSON.parse(await AsyncStorage.getItem('activePowerups')) || {};
+      JSON.parse(await AsyncStorage.getItem(`${matchID}-activePowerups`)) || {};
     activePowerups[pwrup] = true;
     await AsyncStorage.setItem(
-      'activePowerups',
+      `${matchID}-activePowerups`,
       JSON.stringify(activePowerups)
     );
   };
@@ -276,6 +276,7 @@ const CameraScreen = ({
 
     await AsyncStorage.removeItem(`${matchID}-word`);
     await AsyncStorage.removeItem(`${matchID}-rolls`);
+    await AsyncStorage.removeItem(`${matchID}-activePowerups`);
 
     uploadFile(file);
 
