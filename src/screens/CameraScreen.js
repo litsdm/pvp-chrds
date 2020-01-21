@@ -87,6 +87,7 @@ const CameraScreen = ({
 
   useEffect(() => {
     checkPermissions();
+    checkActivePowerUps();
     setBrightness(true);
     getRolls();
     shouldDisplayWalkthrough();
@@ -139,6 +140,23 @@ const CameraScreen = ({
   const closeReplay = () => {
     setDisplayReplay(false);
     removeReplayWord();
+  };
+
+  const checkActivePowerUps = async () => {
+    const { mic } =
+      JSON.parse(await AsyncStorage.getItem('activePowerups')) || {};
+
+    if (mic) setUseAudio(mic);
+  };
+
+  const addActivePowerUp = async pwrup => {
+    const activePowerups =
+      JSON.parse(await AsyncStorage.getItem('activePowerups')) || {};
+    activePowerups[pwrup] = true;
+    await AsyncStorage.setItem(
+      'activePowerups',
+      JSON.stringify(activePowerups)
+    );
   };
 
   const shouldDisplayWalkthrough = async () => {
@@ -283,7 +301,10 @@ const CameraScreen = ({
   };
 
   const handleHand = () => setPickWord(true);
-  const handleMic = () => setUseAudio(true);
+  const handleMic = async () => {
+    setUseAudio(true);
+    addActivePowerUp('mic');
+  };
   const showPurchase = selectedPowerup => () => setPowerup(selectedPowerup);
   const closePurchase = () => setPowerup('');
 

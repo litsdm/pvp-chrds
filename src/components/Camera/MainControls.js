@@ -126,7 +126,7 @@ const MainControls = ({
                   animateInner
                 ]}
               >
-                {!isRecording ? (
+                {!isRecording && allowMic ? (
                   <FontAwesome5
                     name="microphone-alt"
                     size={24}
@@ -245,12 +245,14 @@ MainControls.propTypes = {
   openPurchase: func.isRequired,
   openHint: func.isRequired,
   word: string,
-  categoryColor: string
+  categoryColor: string,
+  allowMic: bool
 };
 
 MainControls.defaultProps = {
   word: '',
-  categoryColor: '#26282D'
+  categoryColor: '#26282D',
+  allowMic: false
 };
 
 export default MainControls;
