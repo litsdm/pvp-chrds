@@ -15,6 +15,7 @@ export default gql`
         _id
         text
         hint
+        allowMic
       }
     }
     opponent: user(_id: $opponentID) {
@@ -30,6 +31,7 @@ export default gql`
         _id
         text
         hint
+        allowMic
       }
     }
   }

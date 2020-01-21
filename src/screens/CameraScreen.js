@@ -380,6 +380,7 @@ const CameraScreen = ({
             categoryColor={category.color}
             openPurchase={showPurchase}
             openHint={openHint}
+            allowMic={word.allowMic || useAudio}
           />
         </View>
       ) : (
@@ -388,7 +389,7 @@ const CameraScreen = ({
       {displayWalkthrough ? (
         <Walkthrough
           close={closeWalkthrough}
-          word={word.text}
+          word="James Bond"
           category={category}
           opponent={opponent}
         />

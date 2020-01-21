@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { Camera } from 'expo-camera';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
 import { bool, func, number, object, string } from 'prop-types';
 
@@ -37,7 +37,8 @@ const MainControls = ({
   rollCount,
   categoryColor,
   openPurchase,
-  openHint
+  openHint,
+  allowMic
 }) => {
   const handleFlash = () =>
     setState({ flash: flash === flashOn ? flashOff : flashOn });
@@ -124,7 +125,15 @@ const MainControls = ({
                   isRecording ? styles.innerRec : {},
                   animateInner
                 ]}
-              />
+              >
+                {!isRecording ? (
+                  <FontAwesome5
+                    name="microphone-alt"
+                    size={24}
+                    color="rgba(124,77,255,0.8)"
+                  />
+                ) : null}
+              </Animated.View>
               {isRecording ? <CircularProgress /> : null}
             </Animated.View>
           </TouchableWithoutFeedback>
@@ -196,9 +205,11 @@ const styles = StyleSheet.create({
     width: 96
   },
   innerCircle: {
+    alignItems: 'center',
     backgroundColor: '#fff',
     borderRadius: 27,
     height: 54,
+    justifyContent: 'center',
     width: 54
   },
   innerRec: {

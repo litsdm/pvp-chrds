@@ -7,6 +7,8 @@ import {
   TouchableWithoutFeedback,
   View
 } from 'react-native';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { bool, func, object, string } from 'prop-types';
 
 import { useAnimation } from '../../helpers/hooks';
 import Layout from '../../constants/Layout';
@@ -20,12 +22,14 @@ import ArrowRight from '../../../assets/icons/arrowRight.svg';
 
 const titles = [
   'Press the Record Button once to record.',
+  'Record with sound.',
   'The word you have to act.',
   'Activate Powerups',
   'Top bar info.'
 ];
 const descriptions = [
   'A 3 second countdown will start and after that you have 6 seconds to record your word.',
+  'When a word is too difficult to act or you activate the mic powerup you will be able to record with sound.',
   'You can press re-roll to get another word or the ? button for more info.',
   'Powerups give you certain advantages. Press one before recording to get more info.',
   'Look at the top bar for info about your opponent, category and match score.'
@@ -64,10 +68,20 @@ const Tooltip = ({ word, color, onPress }) => (
   </View>
 );
 
-const RecordButton = () => (
-  <View style={styles.mainButton}>
-    <View style={styles.innerCircle} />
-  </View>
+const RecordButton = ({ allowMic, onPress }) => (
+  <TouchableWithoutFeedback onPress={onPress}>
+    <View style={styles.mainButton}>
+      <View style={styles.innerCircle}>
+        {allowMic ? (
+          <FontAwesome5
+            name="microphone-alt"
+            size={24}
+            color="rgba(124,77,255,0.8)"
+          />
+        ) : null}
+      </View>
+    </View>
+  </TouchableWithoutFeedback>
 );
 
 const Walkthrough = ({ close, word, category, opponent }) => {
@@ -89,8 +103,9 @@ const Walkthrough = ({ close, word, category, opponent }) => {
     transform: [
       {
         translateY: arrowAnimation.current.interpolate({
-          inputRange: [0, 1, 2, 4],
+          inputRange: [0, 1, 2, 3, 4],
           outputRange: [
+            0,
             0,
             -132,
             -(W_HEIGHT - 72 * 2 - 15),
@@ -100,14 +115,14 @@ const Walkthrough = ({ close, word, category, opponent }) => {
       },
       {
         translateX: arrowAnimation.current.interpolate({
-          inputRange: [0, 1, 2, 3],
-          outputRange: [0, -36, W_WIDTH - 144 - 54, 36]
+          inputRange: [0, 1, 2, 3, 4],
+          outputRange: [0, 0, -48, W_WIDTH - 144 - 54, 36]
         })
       },
       {
         rotate: arrowAnimation.current.interpolate({
-          inputRange: [0, 1, 2, 3],
-          outputRange: ['0deg', '0deg', '0deg', '-90deg']
+          inputRange: [0, 1, 2, 3, 4],
+          outputRange: ['0deg', '0deg', '0deg', '0deg', '-90deg']
         })
       }
     ]
@@ -117,8 +132,9 @@ const Walkthrough = ({ close, word, category, opponent }) => {
     transform: [
       {
         translateY: arrowAnimation.current.interpolate({
-          inputRange: [0, 1, 2, 3],
+          inputRange: [0, 1, 2, 3, 4],
           outputRange: [
+            0,
             0,
             -132,
             -(W_HEIGHT - 72 * 2 - 78),
@@ -128,14 +144,14 @@ const Walkthrough = ({ close, word, category, opponent }) => {
       },
       {
         translateX: arrowAnimation.current.interpolate({
-          inputRange: [0, 1, 2, 3],
-          outputRange: [0, 36, -24, -36]
+          inputRange: [0, 1, 2, 3, 4],
+          outputRange: [0, 0, 48, -24, -36]
         })
       },
       {
         rotate: arrowAnimation.current.interpolate({
-          inputRange: [0, 1, 2, 3],
-          outputRange: ['0deg', '0deg', '180deg', '90deg']
+          inputRange: [0, 1, 2, 3, 4],
+          outputRange: ['0deg', '0deg', '0deg', '180deg', '90deg']
         })
       }
     ]
@@ -164,14 +180,16 @@ const Walkthrough = ({ close, word, category, opponent }) => {
   const renderHighlightElement = () => {
     switch (page) {
       case 0:
-        return <RecordButton />;
+        return <RecordButton onPress={handleNext} />;
       case 1:
+        return <RecordButton onPress={handleNext} allowMic />;
+      case 2:
         return (
           <Tooltip word={word} color={category.color} onPress={handleNext} />
         );
-      case 2:
-        return <Powerups onPress={handleNext} />;
       case 3:
+        return <Powerups onPress={handleNext} />;
+      case 4:
         return (
           <TopControls
             goBack={handleNext}
@@ -321,9 +339,11 @@ const styles = StyleSheet.create({
     width: 84
   },
   innerCircle: {
+    alignItems: 'center',
     backgroundColor: '#fff',
     borderRadius: 27,
     height: 54,
+    justifyContent: 'center',
     width: 54
   },
   tooltip: {
@@ -348,5 +368,31 @@ const styles = StyleSheet.create({
     zIndex: 5
   }
 });
+
+Powerups.propTypes = {
+  onPress: func.isRequired
+};
+
+Tooltip.propTypes = {
+  word: string.isRequired,
+  color: string.isRequired,
+  onPress: func.isRequired
+};
+
+RecordButton.propTypes = {
+  allowMic: bool,
+  onPress: func.isRequired
+};
+
+RecordButton.defaultProps = {
+  allowMic: false
+};
+
+Walkthrough.propTypes = {
+  close: func.isRequired,
+  word: string.isRequired,
+  opponent: object.isRequired,
+  category: object.isRequired
+};
 
 export default Walkthrough;
