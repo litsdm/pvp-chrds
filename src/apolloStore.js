@@ -7,14 +7,16 @@ import { getMainDefinition } from 'apollo-utilities';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import store from './reduxStore';
+import { getApiUrl } from './helpers/apiCaller';
 import { toggleBadge, toggleNetworkModal } from './actions/popup';
 
+console.log(getApiUrl());
 const httpLink = new HttpLink({
-  uri: 'http://192.168.15.7:8080'
+  uri: getApiUrl()
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://192.168.15.7:8080/`,
+  uri: getApiUrl(true),
   options: {
     reconnect: true
   }
