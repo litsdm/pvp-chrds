@@ -444,7 +444,7 @@ const CameraScreen = ({
       ) : null}
       {displayReplay ? (
         <ReplayModal
-          question={`${opponent.username} couldn't guess ${match.replayWord} and asked you to replay it. Do you want to replay that word?`}
+          question={`${opponent.username} couldn't guess ${match.replayWord.text} and asked you to replay it. Do you want to replay that word?`}
           close={closeReplay}
           handleReplay={handleReplay}
         />

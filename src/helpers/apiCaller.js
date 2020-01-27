@@ -49,8 +49,8 @@ export const getSignedUrl = async (s3Filename, folder) => {
 };
 
 export const getApiUrl = (isSocket = false) =>
-  !__DEV__
-    ? `${isSocket ? 'ws' : 'http'}://192.168.15.7:8080`
+  __DEV__
+    ? `${isSocket ? 'ws' : 'http'}://192.168.1.118:8080`
     : `${isSocket ? 'ws' : 'https'}://morning-lake-75927.herokuapp.com`;
 
 export default callApi;
