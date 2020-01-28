@@ -19,17 +19,6 @@ import { func } from 'prop-types';
 import Modal from '../Modal';
 import Tier from './Tier';
 
-const tempData = [
-  {
-    cost: 0.99
-  },
-  {
-    cost: 4.99
-  },
-  {
-    cost: 9.99
-  }
-];
 const coins = [80, 500, 1200];
 const tierNames = ['Tier 1', 'Tier 2', 'Tier 3'];
 const items = Platform.select({
@@ -45,7 +34,7 @@ const PurchaseModal = ({ close }) => {
   const [selected, setSelected] = useState(0);
   const [products, setProducts] = useState([]);
 
-  const data = products.length > 0 ? products : tempData;
+  const data = products.length > 0 ? products : [];
   if (products.length > 0) console.log(products);
 
   useEffect(() => {
@@ -56,27 +45,27 @@ const PurchaseModal = ({ close }) => {
   const connectIAP = async () => {
     await connectAsync();
     const { responseCode, results } = await getProductsAsync(items);
-
+    results.sort((a, b) => a.priceAmountMicros - b.priceAmountMicros);
     if (responseCode === IAPResponseCode.OK) setProducts(results);
   };
 
   const select = index => () => setSelected(index);
 
-  /* Pseudo code for purchase
   const buyItem = async () => {
     const { productId } = products[selected];
     await purchaseItemAsync(productId);
-  }; */
+  };
 
   const renderTiers = () =>
-    data.map(({ cost }, index) => (
+    data.map(({ price, priceAmountMicros }, index) => (
       <Tier
         selected={index === selected}
         select={select(index)}
-        cost={cost}
+        cost={price}
         coins={coins[index]}
         name={tierNames[index]}
         index={index}
+        key={priceAmountMicros}
       />
     ));
 
@@ -90,7 +79,7 @@ const PurchaseModal = ({ close }) => {
         <View style={styles.divider} />
         <View style={styles.tiers}>{renderTiers()}</View>
         <View style={styles.divider} />
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={buyItem}>
           <Text style={styles.buttonText}>Purchase {tierNames[selected]}</Text>
         </TouchableOpacity>
       </View>

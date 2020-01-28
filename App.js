@@ -5,26 +5,54 @@ import * as Font from 'expo-font';
 import {
   AsyncStorage,
   Keyboard,
+  Platform,
   StatusBar,
   StyleSheet,
   SafeAreaView,
   View
 } from 'react-native';
-import { Provider } from 'react-redux';
+import { connect, Provider } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
-import { ApolloProvider } from '@apollo/react-hooks';
-import { setPurchaseListener } from 'expo-in-app-purchases';
+import { ApolloProvider, useMutation } from '@apollo/react-hooks';
+import {
+  setPurchaseListener,
+  finishTransactionAsync,
+  IAPResponseCode
+} from 'expo-in-app-purchases';
 import SplashScreen from 'react-native-splash-screen';
-import { bool } from 'prop-types';
+import JwtDecode from 'jwt-decode';
+import { bool, func } from 'prop-types';
+
+import ADD_COINS from './src/graphql/mutations/addCoins';
 
 import store from './src/reduxStore';
 import client from './src/apolloStore';
 
 import AppNavigator from './src/navigation/AppNavigator';
 import PopupManager from './src/components/PopupManager';
+import { toggleBadge, togglePurchaseModal } from './src/actions/popup';
 
-const App = ({ skipLoadingScreen }) => {
+const mapDispatchToProps = dispatch => ({
+  displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),
+  closePurchase: () => dispatch(togglePurchaseModal(false))
+});
+
+const purchasedCoins = Platform.select({
+  ios: {
+    'dev.products.coins_small': 80,
+    'dev.products.coins_medium': 500,
+    'dev.products.coins_large': 1200
+  },
+  android: {
+    coins_small: 80,
+    coins_medium: 500,
+    coins_large: 1200
+  }
+});
+
+const App = ({ skipLoadingScreen, displayBadge, closePurchase }) => {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
+  const [addCoins] = useMutation(ADD_COINS);
 
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', handleKeyboardShow);
@@ -52,25 +80,55 @@ const App = ({ skipLoadingScreen }) => {
     return null;
   }
 
-  setPurchaseListener(result => {
-    console.log(result);
+  const handlePurchaseAcknowledge = async purchase => {
+    const token = await AsyncStorage.getItem('CHRDS_TOKEN');
+
+    const { _id } = JwtDecode(token);
+    const coins = purchasedCoins[purchase.productId];
+
+    await addCoins({ variables: { _id, coins } });
+
+    displayBadge('Successful transaction.', 'success');
+    closePurchase();
+
+    finishTransactionAsync(purchase, true);
+  };
+
+  setPurchaseListener(({ responseCode, results, errorCode }) => {
+    if (responseCode === IAPResponseCode.OK) {
+      results.forEach(purchase => {
+        if (!purchase.acknowledged) handlePurchaseAcknowledge(purchase);
+      });
+    }
+
+    if (responseCode === IAPResponseCode.USER_CANCELED) {
+      displayBadge('Transaction was cancelled.', 'default');
+    } else if (responseCode === IAPResponseCode.DEFERRED) {
+      console.log(
+        'User does not have permissions to buy but requested parental approval (iOS only)'
+      );
+    } else {
+      displayBadge(
+        "We couldn't complete your order, please try again or contact support.",
+        'error'
+      );
+      console.warn(
+        `Something went wrong with the purchase. Received errorCode ${errorCode}`
+      );
+    }
   });
 
   return (
-    <ApolloProvider client={client}>
-      <Provider store={store}>
-        <View style={styles.container}>
-          <SafeAreaView
-            style={{ flex: 1, backgroundColor: '#fff' }}
-            forceInset={{ top: 'never' }}
-          >
-            <StatusBar backgroundColor="#fff" barStyle="dark-content" />
-            <PopupManager />
-            <AppNavigator />
-          </SafeAreaView>
-        </View>
-      </Provider>
-    </ApolloProvider>
+    <View style={styles.container}>
+      <SafeAreaView
+        style={{ flex: 1, backgroundColor: '#fff' }}
+        forceInset={{ top: 'never' }}
+      >
+        <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+        <PopupManager />
+        <AppNavigator />
+      </SafeAreaView>
+    </View>
   );
 };
 
@@ -109,11 +167,24 @@ const styles = StyleSheet.create({
 });
 
 App.propTypes = {
-  skipLoadingScreen: bool
+  skipLoadingScreen: bool,
+  displayBadge: func.isRequired,
+  closePurchase: func.isRequired
 };
 
 App.defaultProps = {
   skipLoadingScreen: false
 };
 
-export default App;
+const ConnectedApp = connect(
+  null,
+  mapDispatchToProps
+)(App);
+
+export default () => (
+  <ApolloProvider client={client}>
+    <Provider store={store}>
+      <ConnectedApp />
+    </Provider>
+  </ApolloProvider>
+);

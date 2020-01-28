@@ -1,4 +1,4 @@
-package com.charades.generated;
+package com.cdiezmoran.chrds.generated;
 
 import java.util.Arrays;
 import java.util.List;

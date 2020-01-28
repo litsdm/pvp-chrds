@@ -1,4 +1,4 @@
-package com.charades;
+package com.cdiezmoran.chrds;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

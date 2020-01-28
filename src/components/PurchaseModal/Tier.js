@@ -18,7 +18,9 @@ const Tier = ({ select, coins, cost, selected, index, name }) => (
       <Text style={styles.title}>{name}</Text>
       <Text style={styles.coins}>{coins}</Text>
       {icons[index]}
-      <Text style={styles.cost}>${cost}</Text>
+      <Text style={styles.cost}>
+        {cost.includes('.') ? cost : `${cost}.00`}
+      </Text>
     </View>
   </TouchableWithoutFeedback>
 );
@@ -31,7 +33,7 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
     justifyContent: 'center',
     paddingVertical: 18,
-    paddingHorizontal: 24
+    paddingHorizontal: 12
   },
   selected: {
     borderColor: '#7c4dff',
@@ -40,25 +42,25 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: 'sf-medium',
     fontSize: 16,
-    marginBottom: 18
+    marginBottom: 6
   },
   coins: {
     color: '#FFC107',
     fontFamily: 'sf-bold',
     fontSize: 16,
-    marginBottom: 12
+    marginBottom: 3
   },
   cost: {
     fontFamily: 'sf-bold',
     fontSize: 18,
-    marginTop: 18
+    marginTop: 12
   }
 });
 
 Tier.propTypes = {
   select: func.isRequired,
   selected: bool.isRequired,
-  cost: number.isRequired,
+  cost: string.isRequired,
   coins: number.isRequired,
   index: number.isRequired,
   name: string.isRequired

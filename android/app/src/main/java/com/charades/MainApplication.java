@@ -1,4 +1,4 @@
-package com.charades;
+package com.cdiezmoran.chrds;
 
 import android.app.Application;
 
@@ -10,7 +10,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.charades.generated.BasePackageList;
+import com.cdiezmoran.chrds.generated.BasePackageList;
 import com.swmansion.reanimated.ReanimatedPackage;
 import com.swmansion.rnscreens.RNScreensPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
