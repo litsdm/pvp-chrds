@@ -46,18 +46,18 @@ const OnBoarding = () => {
       >
         <Section
           title="Welcome to CHRDS!"
-          uri="https://feather-static.s3-us-west-2.amazonaws.com/chrds-logo.png"
-          subtitle="Lorem ipsum dolor sit amet. lorem ipsum."
+          uri="https://chrds-static.s3-us-west-2.amazonaws.com/onBoarding-1-min.png?rand=123"
+          subtitle="The game you alredy know now online. Sign up now to play with your friends."
         />
         <Section
-          title="Second point!"
-          uri="https://feather-static.s3-us-west-2.amazonaws.com/chrds-logo.png"
-          subtitle="Lorem ipsum dolor sit amet. lorem ipsum."
+          title="Multiple Categories!"
+          uri="https://chrds-static.s3-us-west-2.amazonaws.com/onBoarding-2-min.png?rand=123"
+          subtitle="Choose the category of your liking and play right away. More to come!"
         />
         <Section
-          title="Third Point!"
-          uri="https://feather-static.s3-us-west-2.amazonaws.com/chrds-logo.png"
-          subtitle="Lorem ipsum dolor sit amet. lorem ipsum."
+          title="Guess your friend's act"
+          uri="https://chrds-static.s3-us-west-2.amazonaws.com/onBoarding-3-min.png?rand=123"
+          subtitle="And earn rewards that will take you to the next level."
         />
       </ScrollView>
       <View style={styles.indicators}>
@@ -79,12 +79,12 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: 'sf-bold',
     fontSize: 24,
-    marginBottom: 12,
+    marginBottom: 6,
     textAlign: 'center'
   },
   subtitle: {
-    fontFamily: 'sf-regular',
-    fontSize: 18,
+    fontFamily: 'sf-light',
+    fontSize: 16,
     textAlign: 'center',
     width: '80%'
   },
