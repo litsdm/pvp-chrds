@@ -21,7 +21,7 @@ const Signup = ({
       <Image
         source={{
           uri:
-            'https://feather-static.s3-us-west-2.amazonaws.com/chrds-logo-bg.jpeg'
+            'https://chrds-static.s3-us-west-2.amazonaws.com/logo-charades-512-min.png?rand=123'
         }}
         style={styles.logo}
       />
