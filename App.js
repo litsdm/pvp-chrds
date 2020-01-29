@@ -99,9 +99,7 @@ const App = ({ skipLoadingScreen, displayBadge, closePurchase }) => {
       results.forEach(purchase => {
         if (!purchase.acknowledged) handlePurchaseAcknowledge(purchase);
       });
-    }
-
-    if (responseCode === IAPResponseCode.USER_CANCELED) {
+    } else if (responseCode === IAPResponseCode.USER_CANCELED) {
       displayBadge('Transaction was cancelled.', 'default');
     } else if (responseCode === IAPResponseCode.DEFERRED) {
       console.log(

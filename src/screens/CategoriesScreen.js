@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, createRef } from 'react';
 import {
+  AsyncStorage,
   Image,
   ScrollView,
   StyleSheet,
@@ -7,13 +8,19 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
+import jwtDecode from 'jwt-decode';
 import { bool, func, object } from 'prop-types';
 
 import GET_CATEGORIES from '../graphql/queries/getCategories';
+import GET_USER from '../graphql/queries/getCategoryUser';
 
-import { toggleCategory, togglePlay } from '../actions/popup';
+import {
+  toggleCategory,
+  togglePlay,
+  toggleCategoryPurchase
+} from '../actions/popup';
 
 import CategoryColumn from '../components/CategoryColumn';
 import Loader from '../components/Loader';
@@ -22,7 +29,8 @@ import Layout from '../constants/Layout';
 
 const mapDispatchToProps = dispatch => ({
   showCategory: data => dispatch(toggleCategory(true, data)),
-  showPlay: data => dispatch(togglePlay(true, data))
+  showPlay: data => dispatch(togglePlay(true, data)),
+  openPurchase: data => dispatch(toggleCategoryPurchase(true, data))
 });
 
 const mapStateToProps = ({ popup: { displayCategory, selectedCategory } }) => ({
@@ -34,13 +42,32 @@ const CategoriesScreen = ({
   displayCategory,
   popupSelectedCategory,
   showCategory,
-  showPlay
+  showPlay,
+  openPurchase
 }) => {
-  const [featuredCategory, setFeaturedCategory] = useState(null);
   const { loading, data } = useQuery(GET_CATEGORIES);
-  const logoRefs = useRef([...Array(3)].map(() => createRef()));
+  const [getUser, { data: userData }] = useLazyQuery(GET_USER);
+  const [categoriesHash, setCategoriesHash] = useState({});
+  const [featuredCategory, setFeaturedCategory] = useState(null);
+  const logoRefs = useRef([...Array(5)].map(() => createRef()));
 
   const categories = data ? data.categories : [];
+  const user = userData ? userData.user : {};
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    if (userData && userData.user) {
+      const hash = {};
+      user.categories.forEach(category => {
+        hash[category] = true;
+      });
+
+      setCategoriesHash(hash);
+    }
+  }, [userData]);
 
   useEffect(() => {
     if (data && data.categories) getFeaturedCategory();
@@ -49,6 +76,11 @@ const CategoriesScreen = ({
   const getFeaturedCategory = () => {
     const featured = categories.find(category => category.isFeatured);
     setFeaturedCategory(featured || null);
+  };
+
+  const fetchUser = async () => {
+    const { _id } = jwtDecode(await AsyncStorage.getItem('CHRDS_TOKEN'));
+    await getUser({ variables: { _id } });
   };
 
   const showPopup = index => () => {
@@ -67,9 +99,10 @@ const CategoriesScreen = ({
       : null;
 
   const openPlay = _id => () => showPlay({ playCategory: _id });
+  const handleOpenPurchase = category => () => openPurchase({ category, user });
 
   const renderCategories = () =>
-    categories.map(({ _id, name, description, image, color }, index) => (
+    categories.map(({ _id, name, description, image, color, price }, index) => (
       <CategoryColumn
         key={_id}
         name={name}
@@ -82,6 +115,9 @@ const CategoriesScreen = ({
         hideLogo={displayCategory && popupSelectedCategory._id === _id}
         parentBackgroundColor="#FCFCFE"
         containerStyles={verticalStyles}
+        hasCategory={categoriesHash[_id] !== undefined}
+        price={price}
+        openPurchase={handleOpenPurchase({ _id, name, image, price })}
       />
     ));
 
@@ -212,7 +248,8 @@ CategoriesScreen.propTypes = {
   displayCategory: bool.isRequired,
   popupSelectedCategory: object,
   showCategory: func.isRequired,
-  showPlay: func.isRequired
+  showPlay: func.isRequired,
+  openPurchase: func.isRequired
 };
 
 CategoriesScreen.defaultProps = {

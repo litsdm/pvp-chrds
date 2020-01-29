@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { bool, func, object, string } from 'prop-types';
 
-import { togglePlay, toggleAdd } from '../actions/popup';
+import {
+  togglePlay,
+  toggleAdd,
+  toggleCategoryPurchase
+} from '../actions/popup';
 
 import Tab from './Tab';
 import PlayPopup from './PlayPopup';
@@ -13,7 +17,8 @@ const mapDispatchToProps = dispatch => ({
   showPlay: () => dispatch(togglePlay(true)),
   closePlay: () =>
     dispatch(togglePlay(false, { playCategory: null, playFriend: null })),
-  openAdd: () => dispatch(toggleAdd(true))
+  openAdd: () => dispatch(toggleAdd(true)),
+  openPurchase: data => dispatch(toggleCategoryPurchase(true, data))
 });
 
 const mapStateToProps = ({
@@ -33,7 +38,8 @@ const TabBar = ({
   playFriend,
   closePlay,
   showPlay,
-  openAdd
+  openAdd,
+  openPurchase
 }) => {
   const { routes, index } = navigation.state;
   const homeStack = routes[index];
@@ -68,6 +74,7 @@ const TabBar = ({
           friend={playFriend}
           navigate={navigation.navigate}
           openAdd={openAdd}
+          openPurchase={openPurchase}
         />
       ) : null}
     </>
@@ -105,7 +112,8 @@ TabBar.propTypes = {
   playFriend: string,
   closePlay: func.isRequired,
   showPlay: func.isRequired,
-  openAdd: func.isRequired
+  openAdd: func.isRequired,
+  openPurchase: func.isRequired
 };
 
 TabBar.defaultProps = {

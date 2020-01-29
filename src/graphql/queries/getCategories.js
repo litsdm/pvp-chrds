@@ -10,6 +10,7 @@ export default gql`
       color
       isFeatured
       featureImage
+      price
       words {
         _id
         text

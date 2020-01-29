@@ -8,6 +8,7 @@ export default gql`
       description
       image
       color
+      price
     }
     friends(_id: $_id) {
       _id
@@ -16,6 +17,8 @@ export default gql`
     }
     user(_id: $_id) {
       _id
+      categories
+      coins
     }
   }
 `;

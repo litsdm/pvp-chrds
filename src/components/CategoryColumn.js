@@ -8,8 +8,8 @@ import {
   Text,
   View
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { bool, func, object, string } from 'prop-types';
+import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
+import { bool, func, number, object, string } from 'prop-types';
 
 import Layout from '../constants/Layout';
 
@@ -28,7 +28,10 @@ const CategoryColumn = ({
   logoRef,
   hideLogo,
   parentBackgroundColor,
-  containerStyles
+  containerStyles,
+  hasCategory,
+  price,
+  openPurchase
 }) => {
   const [logoOpacity, setLogoOpacity] = useState(1);
 
@@ -37,8 +40,47 @@ const CategoryColumn = ({
     else if (hideLogo) setLogoOpacity(0);
   }, [hideLogo]);
 
+  const renderButton = () => {
+    if (!hasCategory) {
+      return (
+        <TouchableOpacity style={styles.button} onPress={openPurchase}>
+          <Text style={styles.buttonText}>Buy</Text>
+          <FontAwesome5
+            name="coins"
+            size={16}
+            color="#FFC107"
+            style={styles.coins}
+          />
+          <Text style={styles.price}>{price}</Text>
+        </TouchableOpacity>
+      );
+    }
+
+    return selecting ? (
+      <TouchableOpacity
+        style={styles.button}
+        onPress={selecting ? onPress : onPressInner}
+      >
+        <Text style={styles.buttonText}>
+          {selected ? 'Selected' : 'Select'}
+        </Text>
+      </TouchableOpacity>
+    ) : (
+      <TouchableOpacity
+        style={styles.button}
+        onPress={selecting ? onPress : onPressInner}
+      >
+        <Text style={styles.buttonText}>Play</Text>
+      </TouchableOpacity>
+    );
+  };
+
   return (
-    <Touchable onPress={onPress}>
+    <Touchable
+      onPress={
+        (selecting && hasCategory) || !selecting ? onPress : openPurchase
+      }
+    >
       <View style={[styles.container, containerStyles]}>
         <View
           style={[styles.bg, { backgroundColor: selected ? '#4CD964' : color }]}
@@ -77,23 +119,7 @@ const CategoryColumn = ({
         <Text style={styles.description} numberOfLines={2}>
           {description}
         </Text>
-        {selecting ? (
-          <TouchableOpacity
-            style={styles.button}
-            onPress={selecting ? onPress : onPressInner}
-          >
-            <Text style={styles.buttonText}>
-              {selected ? 'Selected' : 'Select'}
-            </Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            style={styles.button}
-            onPress={selecting ? onPress : onPressInner}
-          >
-            <Text style={styles.buttonText}>Play</Text>
-          </TouchableOpacity>
-        )}
+        {renderButton()}
       </View>
     </Touchable>
   );
@@ -144,6 +170,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 24,
     backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    flexDirection: 'row',
     justifyContent: 'center',
     padding: 6,
     width: '100%'
@@ -198,6 +225,12 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     zIndex: 1
+  },
+  coins: {
+    marginHorizontal: 4
+  },
+  price: {
+    color: '#fff'
   }
 });
 
@@ -213,7 +246,10 @@ CategoryColumn.propTypes = {
   logoRef: object,
   hideLogo: bool,
   parentBackgroundColor: string,
-  containerStyles: object
+  containerStyles: object,
+  hasCategory: bool,
+  price: number,
+  openPurchase: func.isRequired
 };
 
 CategoryColumn.defaultProps = {
@@ -224,7 +260,9 @@ CategoryColumn.defaultProps = {
   image: '',
   logoRef: null,
   hideLogo: false,
-  parentBackgroundColor: '#fff'
+  parentBackgroundColor: '#fff',
+  hasCategory: true,
+  price: 0
 };
 
 export default CategoryColumn;

@@ -10,7 +10,6 @@ import store from './reduxStore';
 import { getApiUrl } from './helpers/apiCaller';
 import { toggleBadge, toggleNetworkModal } from './actions/popup';
 
-console.log(getApiUrl());
 const httpLink = new HttpLink({
   uri: getApiUrl()
 });

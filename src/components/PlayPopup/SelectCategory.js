@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { arrayOf, bool, func, shape, string } from 'prop-types';
+import { arrayOf, bool, func, number, object, shape, string } from 'prop-types';
 
 import CategoryColumn from '../CategoryColumn';
 
@@ -18,10 +18,12 @@ const SelectCategory = ({
   selectedCategory,
   categories,
   directPlay,
-  handleDone
+  handleDone,
+  categoryHash,
+  openPurchase
 }) => {
   const renderCategories = () =>
-    categories.map(({ _id, name, description, image, color }) => (
+    categories.map(({ _id, name, description, image, color, price }) => (
       <CategoryColumn
         key={_id}
         name={name}
@@ -31,6 +33,9 @@ const SelectCategory = ({
         onPress={selectCategory(_id)}
         selecting
         selected={selectedCategory === _id}
+        hasCategory={categoryHash[_id] !== undefined}
+        price={price}
+        openPurchase={openPurchase({ _id, name, image, price })}
       />
     ));
 
@@ -103,20 +108,24 @@ SelectCategory.propTypes = {
   selectedCategory: string,
   directPlay: bool.isRequired,
   handleDone: func.isRequired,
+  openPurchase: func.isRequired,
   categories: arrayOf(
     shape({
       _id: string,
       name: string,
       description: string,
       image: string,
-      color: string
+      color: string,
+      price: number
     })
-  )
+  ),
+  categoryHash: object
 };
 
 SelectCategory.defaultProps = {
   categories: [],
-  selectedCategory: null
+  selectedCategory: null,
+  categoryHash: {}
 };
 
 export default SelectCategory;

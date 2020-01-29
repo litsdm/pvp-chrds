@@ -26,13 +26,21 @@ const fuzzyOptions = {
   keys: ['username']
 };
 
-const PlayPopup = ({ close, category, friend, navigate, openAdd }) => {
+const PlayPopup = ({
+  close,
+  category,
+  friend,
+  navigate,
+  openAdd,
+  openPurchase
+}) => {
   const [getData, { data }] = useLazyQuery(GET_DATA);
   const [createMatch, { data: matchData }] = useMutation(CREATE_MATCH);
   const [selectedCategory, setSelectedCategory] = useState(category);
   const [selectedFriend, setSelectedFriend] = useState(friend);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(category ? 1 : 0);
+  const [categoryHash, setCategoryHash] = useState({});
   const scrollView = useRef(null);
 
   const friends = data ? data.friends : [];
@@ -44,6 +52,16 @@ const PlayPopup = ({ close, category, friend, navigate, openAdd }) => {
   useEffect(() => {
     fetchFriends();
   }, []);
+
+  useEffect(() => {
+    if (user && Object.keys(categoryHash).length === 0) {
+      const hash = {};
+      user.categories.forEach(cat => {
+        hash[cat] = true;
+      });
+      setCategoryHash(hash);
+    }
+  }, [user]);
 
   useEffect(() => {
     scrollPage();
@@ -129,6 +147,11 @@ const PlayPopup = ({ close, category, friend, navigate, openAdd }) => {
     close();
   };
 
+  const handleOpenPurchase = dataCategory => () => {
+    const openData = { category: dataCategory, user };
+    openPurchase(openData);
+  };
+
   return (
     <Popup close={close}>
       <ScrollView
@@ -149,6 +172,8 @@ const PlayPopup = ({ close, category, friend, navigate, openAdd }) => {
           categories={categories || []}
           directPlay={friend !== null}
           handleDone={handleDone}
+          categoryHash={categoryHash}
+          openPurchase={handleOpenPurchase}
         />
         <SelectFriend
           handleDone={handleDone}
@@ -168,6 +193,7 @@ PlayPopup.propTypes = {
   close: func.isRequired,
   navigate: func.isRequired,
   openAdd: func.isRequired,
+  openPurchase: func.isRequired,
   category: string,
   friend: string
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bool, func, object, shape, string } from 'prop-types';
+import { arrayOf, bool, func, number, object, shape, string } from 'prop-types';
 
 import {
   toggleAdd,
@@ -8,7 +8,8 @@ import {
   togglePlay,
   toggleBadge,
   toggleProgressBadge,
-  togglePurchaseModal
+  togglePurchaseModal,
+  toggleCategoryPurchase
 } from '../actions/popup';
 
 import CategoryPopup from './CategoryPopup';
@@ -17,6 +18,7 @@ import Badge from './Badge';
 import ProgressBadge from './ProgressBadge';
 import NetworkErrorModal from './NetworkErrorModal';
 import PurchaseModal from './PurchaseModal';
+import CategoryPurchase from './CategoryPurchase';
 
 const mapDispatchToProps = dispatch => ({
   closeAdd: () => dispatch(toggleAdd(false)),
@@ -25,7 +27,9 @@ const mapDispatchToProps = dispatch => ({
   showPlay: data => dispatch(togglePlay(true, data)),
   closeBadge: () => dispatch(toggleBadge(false, '')),
   closeProgressBadge: () => dispatch(toggleProgressBadge(false)),
-  closePurchaseModal: () => dispatch(togglePurchaseModal(false))
+  closePurchaseModal: () => dispatch(togglePurchaseModal(false)),
+  closeCategoryPurchase: () => dispatch(toggleCategoryPurchase(false)),
+  openStore: () => dispatch(togglePurchaseModal(true))
 });
 
 const mapStateToProps = ({
@@ -37,7 +41,9 @@ const mapStateToProps = ({
     badge,
     displayProgressBadge,
     displayNetworkModal,
-    displayPurchaseModal
+    displayPurchaseModal,
+    categoryPurchaseData,
+    displayCategoryPurchase
   },
   file: { videos }
 }) => ({
@@ -49,7 +55,9 @@ const mapStateToProps = ({
   videos,
   displayProgressBadge,
   displayNetworkModal,
-  displayPurchaseModal
+  displayPurchaseModal,
+  categoryPurchaseData,
+  displayCategoryPurchase
 });
 
 const PopupManager = ({
@@ -67,7 +75,11 @@ const PopupManager = ({
   videos,
   displayNetworkModal,
   closePurchaseModal,
-  displayPurchaseModal
+  displayPurchaseModal,
+  categoryPurchaseData,
+  displayCategoryPurchase,
+  closeCategoryPurchase,
+  openStore
 }) => {
   const openPlay = _id => () => showPlay({ playCategory: _id });
 
@@ -87,6 +99,14 @@ const PopupManager = ({
         <ProgressBadge close={closeProgressBadge} videos={videos} />
       ) : null}
       {displayNetworkModal ? <NetworkErrorModal /> : null}
+      {displayCategoryPurchase ? (
+        <CategoryPurchase
+          close={closeCategoryPurchase}
+          category={categoryPurchaseData.category}
+          user={categoryPurchaseData.user}
+          openStore={openStore}
+        />
+      ) : null}
       {displayPurchaseModal ? (
         <PurchaseModal close={closePurchaseModal} />
       ) : null}
@@ -113,12 +133,29 @@ PopupManager.propTypes = {
     display: bool,
     message: string,
     type: string
-  })
+  }),
+  categoryPurchaseData: shape({
+    category: shape({
+      _id: string,
+      image: string,
+      name: string,
+      price: number
+    }),
+    user: shape({
+      _id: string,
+      categories: arrayOf(string),
+      coins: number
+    })
+  }),
+  displayCategoryPurchase: bool.isRequired,
+  closeCategoryPurchase: func.isRequired,
+  openStore: func.isRequired
 };
 
 PopupManager.defaultProps = {
   selectedCategory: null,
   transitionPosition: null,
+  categoryPurchaseData: null,
   badge: {},
   videos: {}
 };
