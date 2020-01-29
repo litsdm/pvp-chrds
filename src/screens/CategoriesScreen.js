@@ -49,7 +49,7 @@ const CategoriesScreen = ({
   const [getUser, { data: userData }] = useLazyQuery(GET_USER);
   const [categoriesHash, setCategoriesHash] = useState({});
   const [featuredCategory, setFeaturedCategory] = useState(null);
-  const logoRefs = useRef([...Array(5)].map(() => createRef()));
+  const logoRefs = useRef([...Array(15)].map(() => createRef()));
 
   const categories = data ? data.categories : [];
   const user = userData ? userData.user : {};
@@ -111,7 +111,7 @@ const CategoriesScreen = ({
         color={color}
         onPressInner={openPlay(_id)}
         onPress={showPopup(index)}
-        logoRef={logoRefs.current[index]}
+        logoRef={logoRefs ? logoRefs.current[index] : null}
         hideLogo={displayCategory && popupSelectedCategory._id === _id}
         parentBackgroundColor="#FCFCFE"
         containerStyles={verticalStyles}
