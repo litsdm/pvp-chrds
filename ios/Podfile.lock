@@ -4,6 +4,8 @@ PODS:
   - EXAdsAdMob (8.0.0):
     - Google-Mobile-Ads-SDK (~> 7.52.0)
     - UMCore
+  - EXAppleAuthentication (2.0.0):
+    - UMCore
   - EXAppLoaderProvider (8.0.0)
   - EXAV (8.0.0):
     - UMCore
@@ -348,6 +350,7 @@ PODS:
 DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - EXAdsAdMob (from `../node_modules/expo-ads-admob/ios`)
+  - EXAppleAuthentication (from `../node_modules/expo-apple-authentication/ios`)
   - EXAppLoaderProvider (from `../node_modules/expo-app-loader-provider/ios`)
   - EXAV (from `../node_modules/expo-av/ios`)
   - EXBlur (from `../node_modules/expo-blur/ios`)
@@ -430,6 +433,9 @@ EXTERNAL SOURCES:
   EXAdsAdMob:
     :path: !ruby/object:Pathname
     path: "../node_modules/expo-ads-admob/ios"
+  EXAppleAuthentication:
+    :path: !ruby/object:Pathname
+    path: "../node_modules/expo-apple-authentication/ios"
   EXAppLoaderProvider:
     :path: !ruby/object:Pathname
     path: "../node_modules/expo-app-loader-provider/ios"
@@ -588,6 +594,7 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   EXAdsAdMob: 7de426a3e0998d65d69b7a18716c4e5d970d134f
+  EXAppleAuthentication: 7d20ab4397f595d22c2fe61ca6abfca16a346a72
   EXAppLoaderProvider: ebdb6bc2632c1ccadbe49f5e4104d8d690969c49
   EXAV: 39a3b794d690e91404774cabfc563182d4f84ac3
   EXBlur: d1604f66f89a9414f5ee65dfb23874437c1bb147

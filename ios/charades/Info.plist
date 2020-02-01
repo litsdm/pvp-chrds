@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-1607117345046468~7271531260</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -42,7 +42,7 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>Allow CHRDS to access your calendar</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Allow CHRDS to use the camera</string>
+	<string>Allow CHRDS to use the camera so that we can record your act.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Allow CHRDS experiences to access your contacts</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -52,13 +52,13 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allow CHRDS to use your location</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Allow CHRDS to access your microphone</string>
+	<string>Allow CHRDS to access your microphone to add sound to your act if you get the sound powerup.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Allow CHRDS to access your device's accelerometer</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Give CHRDS periences permission to save photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Give CHRDS periences permission to access your photos</string>
+	<string>Give CHRDS periences permission to access your photos to change your profile picture</string>
 	<key>NSRemindersUsageDescription</key>
 	<string>Allow CHRDS to access your reminders</string>
 	<key>UILaunchStoryboardName</key>
