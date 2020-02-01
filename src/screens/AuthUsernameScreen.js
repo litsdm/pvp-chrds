@@ -12,18 +12,19 @@ import { connect } from 'react-redux';
 import { func, object } from 'prop-types';
 
 import callApi from '../helpers/apiCaller';
-import { facebookAuth } from './AuthScreen';
-import { toggleBadge } from '../actions/popup';
+import { facebookAuth, appleAuth } from './AuthScreen';
+import { toggleBadge, togglePickUsername } from '../actions/popup';
 
 import Login from '../components/Auth/Login';
 import Signup from '../components/Auth/Signup';
 import AnimatedCircle from '../components/AnimatedCircle';
 
 const mapDispatchToProps = dispatch => ({
-  displayBadge: message => dispatch(toggleBadge(true, message, 'error'))
+  displayBadge: message => dispatch(toggleBadge(true, message, 'error')),
+  showPickUsername: data => dispatch(togglePickUsername(true, data))
 });
 
-const AuthUsernameScreen = ({ navigation, displayBadge }) => {
+const AuthUsernameScreen = ({ navigation, displayBadge, showPickUsername }) => {
   const isNewParam = JSON.stringify(navigation.getParam('isNew', true));
   const [isNew, setNew] = useState(isNewParam === 'true');
   const [username, setUsername] = useState('');
@@ -46,8 +47,32 @@ const AuthUsernameScreen = ({ navigation, displayBadge }) => {
   const loginWithFacebook = async () => {
     const user = await facebookAuth();
     const response = await callApi('facebook', { user }, 'POST');
-    const { token } = await response.json();
+    const { token, message } = await response.json();
 
+    if (message) return;
+
+    await AsyncStorage.setItem('CHRDS_TOKEN', token);
+    navigation.navigate('Main');
+  };
+
+  const loginWithApple = async () => {
+    try {
+      const user = await appleAuth();
+      const response = await callApi('apple', user, 'POST');
+      const { token, message } = await response.json();
+
+      if (message === 'displayUserPick') {
+        showPickUsername({ ...user, onSuccess: handleSuccess });
+        return;
+      }
+
+      handleSuccess(token);
+    } catch (exception) {
+      console.log(exception);
+    }
+  };
+
+  const handleSuccess = async token => {
     await AsyncStorage.setItem('CHRDS_TOKEN', token);
     navigation.navigate('Main');
   };
@@ -176,6 +201,7 @@ const AuthUsernameScreen = ({ navigation, displayBadge }) => {
               authorize={authorize}
               authorizing={authorizing}
               handleFB={loginWithFacebook}
+              handleApple={loginWithApple}
             />
           ) : (
             <Login
@@ -186,6 +212,7 @@ const AuthUsernameScreen = ({ navigation, displayBadge }) => {
               authorize={authorize}
               authorizing={authorizing}
               handleFB={loginWithFacebook}
+              handleApple={loginWithApple}
             />
           )}
         </KeyboardAvoidingView>
@@ -209,7 +236,8 @@ const styles = StyleSheet.create({
 
 AuthUsernameScreen.propTypes = {
   navigation: object.isRequired,
-  displayBadge: func.isRequired
+  displayBadge: func.isRequired,
+  showPickUsername: func.isRequired
 };
 
 export default connect(

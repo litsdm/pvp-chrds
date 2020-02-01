@@ -8,27 +8,61 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import * as Facebook from 'expo-facebook';
-import { object } from 'prop-types';
+import {
+  signInAsync,
+  AppleAuthenticationScope
+} from 'expo-apple-authentication';
+import { func, object } from 'prop-types';
 
 import callApi from '../helpers/apiCaller';
+import { togglePickUsername } from '../actions/popup';
 
 import OnBoarding from '../components/Auth/OnBoarding';
 
 import Layout from '../constants/Layout';
 
+const mapDispatchToProps = dispatch => ({
+  showPickUsername: data => dispatch(togglePickUsername(true, data))
+});
+
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 
-const AuthScreen = ({ navigation }) => {
+const AuthScreen = ({ navigation, showPickUsername }) => {
   const goToSignUp = () => navigation.navigate('AuthEmail', { isNew: true });
   const goToLogin = () => navigation.navigate('AuthEmail', { isNew: false });
 
   const loginWithFacebook = async () => {
     const user = await facebookAuth();
     const response = await callApi('facebook', { user }, 'POST');
-    const { token } = await response.json();
+    const { token, message } = await response.json();
 
+    if (message) return;
+
+    await AsyncStorage.setItem('CHRDS_TOKEN', token);
+    navigation.navigate('Main');
+  };
+
+  const loginWithApple = async () => {
+    try {
+      const user = await appleAuth();
+      const response = await callApi('apple', user, 'POST');
+      const { token, message } = await response.json();
+
+      if (message === 'displayUserPick') {
+        showPickUsername({ ...user, onSuccess: handleSuccess });
+        return;
+      }
+
+      handleSuccess(token);
+    } catch (exception) {
+      console.log(exception);
+    }
+  };
+
+  const handleSuccess = async token => {
     await AsyncStorage.setItem('CHRDS_TOKEN', token);
     navigation.navigate('Main');
   };
@@ -42,6 +76,12 @@ const AuthScreen = ({ navigation }) => {
           <Ionicons name="logo-facebook" size={30} color="#fff" />
           <Text style={styles.fbText}>Sign up with Facebook</Text>
         </TouchableOpacity>
+        {Platform.OS === 'ios' ? (
+          <TouchableOpacity style={styles.appleButton} onPress={loginWithApple}>
+            <Ionicons name="logo-apple" size={30} color="#fff" />
+            <Text style={styles.fbText}>Sign up with Apple</Text>
+          </TouchableOpacity>
+        ) : null}
         <TouchableOpacity style={styles.usernameButton} onPress={goToSignUp}>
           <Ionicons name={`${PRE_ICON}-contact`} size={30} color="#7C4DFF" />
           <Text style={styles.usernameText}>Sign up with username</Text>
@@ -81,6 +121,17 @@ export const facebookAuth = async () => {
   }
 };
 
+export const appleAuth = async () => {
+  const credentials = await signInAsync({
+    requestedScopes: [
+      AppleAuthenticationScope.FULL_NAME,
+      AppleAuthenticationScope.EMAIL
+    ]
+  });
+
+  return { appleID: credentials.email, name: credentials.fullName.givenName };
+};
+
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
@@ -100,12 +151,29 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 24,
+    marginBottom: Platform.OS === 'ios' ? 12 : 24,
     paddingHorizontal: 8,
     paddingVertical: 6,
     width: Layout.window.width - 48
   },
   fbText: {
+    color: '#fff',
+    fontFamily: 'sf-medium',
+    fontSize: 16,
+    marginLeft: 12
+  },
+  appleButton: {
+    alignItems: 'center',
+    backgroundColor: '#2f2f2f',
+    borderRadius: 6,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 6,
+    width: Layout.window.width - 48
+  },
+  appleText: {
     color: '#fff',
     fontFamily: 'sf-medium',
     fontSize: 16,
@@ -118,7 +186,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 24,
+    marginBottom: Platform.OS === 'ios' ? 12 : 24,
     paddingHorizontal: 8,
     paddingVertical: 6,
     width: Layout.window.width - 48
@@ -146,7 +214,11 @@ const styles = StyleSheet.create({
 });
 
 AuthScreen.propTypes = {
-  navigation: object.isRequired
+  navigation: object.isRequired,
+  showPickUsername: func.isRequired
 };
 
-export default AuthScreen;
+export default connect(
+  null,
+  mapDispatchToProps
+)(AuthScreen);
