@@ -19,13 +19,15 @@ const AuthLoadingScreen = ({ navigation }) => {
 
   const checkUserToken = async () => {
     const token = await AsyncStorage.getItem('CHRDS_TOKEN');
+    let _id = '';
 
     if (token) {
-      const { _id } = jwtDecode(token);
+      const { _id: id } = jwtDecode(token);
+      _id = id;
       getUser({ variables: { _id } });
     }
 
-    navigation.navigate(token ? 'Main' : 'Auth');
+    navigation.navigate(token ? 'Home' : 'Auth', { userID: _id });
   };
 
   return (

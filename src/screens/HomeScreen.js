@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  AsyncStorage,
   Image,
   SectionList,
   StyleSheet,
@@ -9,10 +8,9 @@ import {
   View
 } from 'react-native';
 import { connect } from 'react-redux';
-import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment';
-import jwtDecode from 'jwt-decode';
 import { bool, func, number, object, shape, string } from 'prop-types';
 
 import GET_USER from '../graphql/queries/getUser';
@@ -121,25 +119,19 @@ const HomeScreen = ({
   displayNetworkModal,
   openPurchase
 }) => {
-  const [
-    getMatches,
-    {
-      subscribeToMore,
-      loading: loadingMatches,
-      data: matchesData,
-      refetch: refetchMatches
-    }
-  ] = useLazyQuery(GET_USER_MATCHES);
-  const [getUser, { loading, data }] = useLazyQuery(GET_USER);
+  const userID = navigation.getParam('userID', '');
+  const { loading, data } = useQuery(GET_USER, { variables: { _id: userID } });
+  const {
+    subscribeToMore,
+    loading: loadingMatches,
+    data: matchesData,
+    refetch: refetchMatches
+  } = useQuery(GET_USER_MATCHES, { variables: { _id: userID } });
   const [matches, setMatches] = useState(null);
   const [didSubscribe, setDidSubscribe] = useState(false);
   const [updateMatch] = useMutation(UPDATE_MATCH);
   const [deleteMatch] = useMutation(DELETE_MATCH);
   const user = data ? data.user : {};
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   useEffect(() => {
     if (matchesData) {
@@ -198,13 +190,6 @@ const HomeScreen = ({
         };
       }
     });
-
-  const fetchData = async () => {
-    const token = await AsyncStorage.getItem('CHRDS_TOKEN');
-    const { _id } = jwtDecode(token);
-    await getUser({ variables: { _id } });
-    getMatches({ variables: { _id } });
-  };
 
   const checkExpiredMatches = async () => {
     if (!matchesData.matches) return;

@@ -15,6 +15,7 @@ import {
   signInAsync,
   AppleAuthenticationScope
 } from 'expo-apple-authentication';
+import jwtDecode from 'jwt-decode';
 import { func, object } from 'prop-types';
 
 import callApi from '../helpers/apiCaller';
@@ -41,8 +42,7 @@ const AuthScreen = ({ navigation, showPickUsername }) => {
 
     if (message) return;
 
-    await AsyncStorage.setItem('CHRDS_TOKEN', token);
-    navigation.navigate('Main');
+    handleSuccess(token);
   };
 
   const loginWithApple = async () => {
@@ -63,8 +63,9 @@ const AuthScreen = ({ navigation, showPickUsername }) => {
   };
 
   const handleSuccess = async token => {
+    const { _id } = jwtDecode(token);
     await AsyncStorage.setItem('CHRDS_TOKEN', token);
-    navigation.navigate('Main');
+    navigation.navigate('Home', { userID: _id });
   };
 
   return (

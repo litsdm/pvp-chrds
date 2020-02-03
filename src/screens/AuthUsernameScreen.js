@@ -9,6 +9,7 @@ import {
   ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
+import jwtDecode from 'jwt-decode';
 import { func, object } from 'prop-types';
 
 import callApi from '../helpers/apiCaller';
@@ -51,8 +52,7 @@ const AuthUsernameScreen = ({ navigation, displayBadge, showPickUsername }) => {
 
     if (message) return;
 
-    await AsyncStorage.setItem('CHRDS_TOKEN', token);
-    navigation.navigate('Main');
+    handleSuccess(token);
   };
 
   const loginWithApple = async () => {
@@ -73,8 +73,9 @@ const AuthUsernameScreen = ({ navigation, displayBadge, showPickUsername }) => {
   };
 
   const handleSuccess = async token => {
+    const { _id } = jwtDecode(token);
     await AsyncStorage.setItem('CHRDS_TOKEN', token);
-    navigation.navigate('Main');
+    navigation.navigate('Home', { userID: _id });
   };
 
   const callLogin = async () => {
@@ -143,8 +144,7 @@ const AuthUsernameScreen = ({ navigation, displayBadge, showPickUsername }) => {
       if (isNew) token = await callSignup();
       else token = await callLogin();
 
-      await AsyncStorage.setItem('CHRDS_TOKEN', token);
-      navigation.navigate('Main');
+      handleSuccess(token);
     } catch (exception) {
       setAuthorizing(false);
       displayBadge(exception.message);
