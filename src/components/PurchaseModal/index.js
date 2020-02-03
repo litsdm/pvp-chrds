@@ -35,7 +35,6 @@ const PurchaseModal = ({ close }) => {
   const [products, setProducts] = useState([]);
 
   const data = products.length > 0 ? products : [];
-  if (products.length > 0) console.log(products);
 
   useEffect(() => {
     connectIAP();

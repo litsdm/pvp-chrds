@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyleSheet, TouchableWithoutFeedback, Text, View } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Text,
+  View
+} from 'react-native';
 import { bool, func, number, string } from 'prop-types';
 
 import SmallCoins from '../../../assets/icons/smallCoins.svg';
@@ -52,7 +58,7 @@ const styles = StyleSheet.create({
   },
   cost: {
     fontFamily: 'sf-bold',
-    fontSize: 18,
+    fontSize: Platform.OS === 'ios' ? 18 : 14,
     marginTop: 12
   }
 });
