@@ -1,5 +1,12 @@
 import React from 'react';
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { bool, func, string } from 'prop-types';
 
@@ -209,7 +216,8 @@ Signup.propTypes = {
   password: string.isRequired,
   authorize: func.isRequired,
   authorizing: bool.isRequired,
-  handleFB: func.isRequired
+  handleFB: func.isRequired,
+  handleApple: func.isRequired
 };
 
 export default Signup;
