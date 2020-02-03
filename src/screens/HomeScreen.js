@@ -120,7 +120,9 @@ const HomeScreen = ({
   openPurchase
 }) => {
   const userID = navigation.getParam('userID', '');
-  const { loading, data } = useQuery(GET_USER, { variables: { _id: userID } });
+  const { loading, data, refetch } = useQuery(GET_USER, {
+    variables: { _id: userID }
+  });
   const {
     subscribeToMore,
     loading: loadingMatches,
@@ -129,6 +131,7 @@ const HomeScreen = ({
   } = useQuery(GET_USER_MATCHES, { variables: { _id: userID } });
   const [matches, setMatches] = useState(null);
   const [didSubscribe, setDidSubscribe] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [updateMatch] = useMutation(UPDATE_MATCH);
   const [deleteMatch] = useMutation(DELETE_MATCH);
   const user = data ? data.user : {};
@@ -261,6 +264,13 @@ const HomeScreen = ({
     return players[0];
   };
 
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    await refetchMatches();
+    setRefreshing(false);
+  };
+
   const renderItem = args => {
     const { title } = args.section;
     const { players, category, score, expiresOn, state } = args.item;
@@ -317,6 +327,8 @@ const HomeScreen = ({
             renderItem={renderItem}
             renderSectionHeader={renderSectionHeader}
             extraData={[matchesData, condition]}
+            onRefresh={handleRefresh}
+            refreshing={refreshing}
             ListHeaderComponent={() => (
               <Header
                 user={user}
