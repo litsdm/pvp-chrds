@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import {
   Animated,
   AsyncStorage,
+  BackHandler,
   Keyboard,
   PanResponder,
   Platform,
@@ -47,6 +48,7 @@ const Popup = ({
       Keyboard.addListener('keyboardDidShow', handleKeyboardShow);
       Keyboard.addListener('keyboardDidHide', handleKeyboardHide);
     }
+    BackHandler.addEventListener('hardwareBackPress', handleBackPress);
     return () => {
       if (Platform.OS === 'ios') {
         Keyboard.removeListener('keyboardWillShow', handleKeyboardShow);
@@ -55,11 +57,16 @@ const Popup = ({
         Keyboard.removeListener('keyboardDidShow');
         Keyboard.removeListener('keyboardDidHide');
       }
+      BackHandler.removeEventListener('hardwareBackPress');
     };
   }, []);
 
   const handleKeyboardShow = () => animateTo(2);
   const handleKeyboardHide = () => animateTo(1);
+  const handleBackPress = () => {
+    handleClose();
+    return true;
+  };
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Animated,
+  BackHandler,
   KeyboardAvoidingView,
   StyleSheet,
   TouchableWithoutFeedback,
@@ -12,6 +13,11 @@ import { useAnimation } from '../helpers/hooks';
 
 const Modal = ({ children, close }) => {
   const { animationValue, animateTo } = useAnimation({ autoPlay: true });
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+    return () => BackHandler.removeEventListener('hardwareBackPress');
+  }, []);
 
   const animateOpacity = {
     opacity: animationValue.current.interpolate({
@@ -29,6 +35,11 @@ const Modal = ({ children, close }) => {
         })
       }
     ]
+  };
+
+  const handleBackPress = () => {
+    handleClose();
+    return true;
   };
 
   const handleClose = () => {
