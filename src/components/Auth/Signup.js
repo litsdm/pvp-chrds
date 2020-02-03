@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { bool, func, string } from 'prop-types';
 
@@ -14,7 +14,8 @@ const Signup = ({
   password,
   authorize,
   authorizing,
-  handleFB
+  handleFB,
+  handleApple
 }) => (
   <>
     <View style={styles.logoWrapper}>
@@ -63,10 +64,21 @@ const Signup = ({
         <Text style={styles.dividerText}>OR</Text>
         <View style={styles.line} />
       </View>
-      <TouchableOpacity style={styles.fbButton} onPress={handleFB}>
-        <Ionicons name="logo-facebook" size={30} color="#fff" />
-        <Text style={styles.fbText}>Sign up with Facebook</Text>
-      </TouchableOpacity>
+      {Platform.OS === 'ios' ? (
+        <View style={styles.appleFooter}>
+          <TouchableOpacity style={styles.fbSmall} onPress={handleFB}>
+            <Ionicons name="logo-facebook" size={36} color="#fff" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.appleSmall} onPress={handleApple}>
+            <Ionicons name="logo-apple" size={36} color="#fff" />
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <TouchableOpacity style={styles.fbButton} onPress={handleFB}>
+          <Ionicons name="logo-facebook" size={30} color="#fff" />
+          <Text style={styles.fbText}>Log in with Facebook</Text>
+        </TouchableOpacity>
+      )}
     </View>
   </>
 );
@@ -164,6 +176,29 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     height: 88,
     width: 88
+  },
+  appleFooter: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  fbSmall: {
+    alignItems: 'center',
+    backgroundColor: '#3B5998',
+    borderRadius: 8,
+    height: 54,
+    justifyContent: 'center',
+    marginRight: 24,
+    width: 54
+  },
+  appleSmall: {
+    alignItems: 'center',
+    backgroundColor: '#2f2f2f',
+    borderRadius: 8,
+    height: 54,
+    justifyContent: 'center',
+    marginRight: 12,
+    width: 54
   }
 });
 
