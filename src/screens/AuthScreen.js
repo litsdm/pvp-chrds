@@ -36,13 +36,25 @@ const AuthScreen = ({ navigation, showPickUsername }) => {
   const goToLogin = () => navigation.navigate('AuthEmail', { isNew: false });
 
   const loginWithFacebook = async () => {
-    const user = await facebookAuth();
-    const response = await callApi('facebook', { user }, 'POST');
-    const { token, message } = await response.json();
+    try {
+      const user = await facebookAuth();
+      const response = await callApi('facebook', user, 'POST');
+      const { token, message } = await response.json();
 
-    if (message) return;
+      if (message === 'displayUserPick') {
+        showPickUsername({
+          name: user.first_name || user.name.split(' ')[0],
+          facebookID: user.id,
+          friends: user.friends,
+          onSuccess: handleSuccess
+        });
+        return;
+      }
 
-    handleSuccess(token);
+      handleSuccess(token);
+    } catch (exception) {
+      console.log(exception.message);
+    }
   };
 
   const loginWithApple = async () => {
@@ -99,26 +111,22 @@ const AuthScreen = ({ navigation, showPickUsername }) => {
 };
 
 export const facebookAuth = async () => {
-  try {
-    await Facebook.initializeAsync('2531655210451972');
-    const { type, token } = await Facebook.logInWithReadPermissionsAsync({
-      permissions: ['public_profile', 'user_friends']
-    });
-    if (type === 'success') {
-      const response = await fetch(
-        `https://graph.facebook.com/me?access_token=${token}`
-      );
-      const friendsResponse = await fetch(
-        `https://graph.facebook.com/me/friends?access_token=${token}`
-      );
+  await Facebook.initializeAsync('2531655210451972');
+  const { type, token } = await Facebook.logInWithReadPermissionsAsync({
+    permissions: ['public_profile', 'user_friends']
+  });
+  if (type === 'success') {
+    const response = await fetch(
+      `https://graph.facebook.com/me?access_token=${token}`
+    );
+    const friendsResponse = await fetch(
+      `https://graph.facebook.com/me/friends?access_token=${token}`
+    );
 
-      const friends = await friendsResponse.json();
-      const user = await response.json();
+    const friends = await friendsResponse.json();
+    const user = await response.json();
 
-      return { ...user, friends: friends.data };
-    }
-  } catch (exception) {
-    console.log(exception.message);
+    return { ...user, friends: friends.data };
   }
 };
 

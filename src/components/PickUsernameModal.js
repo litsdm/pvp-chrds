@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { func, string } from 'prop-types';
+import { arrayOf, object, func, string } from 'prop-types';
 
 import callApi from '../helpers/apiCaller';
 
@@ -9,6 +9,8 @@ const PickUsernameModal = ({
   close,
   name,
   appleID,
+  facebookID,
+  friends,
   displayBadge,
   onSuccess
 }) => {
@@ -23,7 +25,9 @@ const PickUsernameModal = ({
       const payload = {
         username: displayName.toLowerCase(),
         appleID,
-        displayName
+        facebookID,
+        displayName,
+        friends
       };
       const response = await callApi('signup', payload, 'POST');
       const { token, message } = await response.json();
@@ -51,9 +55,17 @@ const PickUsernameModal = ({
 PickUsernameModal.propTypes = {
   close: func.isRequired,
   name: string.isRequired,
-  appleID: string.isRequired,
+  appleID: string,
+  facebookID: string,
+  friends: arrayOf(object),
   displayBadge: func.isRequired,
   onSuccess: func.isRequired
+};
+
+PickUsernameModal.defaultProps = {
+  appleID: '',
+  facebookID: '',
+  friends: []
 };
 
 export default PickUsernameModal;
