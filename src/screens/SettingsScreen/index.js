@@ -18,7 +18,6 @@ import {
 } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
-import * as StoreReview from 'expo-store-review';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
@@ -80,13 +79,20 @@ const SettingsScreen = ({
   };
 
   const goBack = () => navigation.navigate('Home');
-  const rateApp = () => Linking.openURL(StoreReview.storeUrl());
   const sendSMS = () => Linking.openURL('sms:+5215534889576');
   const sendEmail = () => Linking.openURL('mailto:cdiezmoran@gmail.com');
   const goToGeneral = () => navigation.navigate('General');
   const goToPrivacy = () =>
     navigation.navigate('Privacy', { userID: user._id });
   const goToFriends = () => navigation.navigate('Friends');
+  const rateApp = () => {
+    // itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=1496562540
+    const url =
+      Platform.OS === 'ios'
+        ? 'itms-apps://itunes.apple.com/gb/app/id1496562540?action=write-review&mt=8'
+        : 'https://play.google.com/store/apps/details?id=com.cdiezmoran.chrds';
+    Linking.openURL(url);
+  };
 
   const logout = async () => {
     await AsyncStorage.removeItem('CHRDS_TOKEN');
