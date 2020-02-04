@@ -39,6 +39,7 @@
     ],
     "react/jsx-no-bind": "off",
     "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
-    "react/prefer-stateless-function": "off"
+    "react/prefer-stateless-function": "off",
+    "react/jsx-props-no-spreading": "off"
   }
 }

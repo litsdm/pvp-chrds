@@ -39,6 +39,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Allow CHRDS to access your calendar</string>
 	<key>NSCameraUsageDescription</key>
