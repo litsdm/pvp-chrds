@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    paddingBottom: 24,
     width: Layout.window.width
   },
   title: {

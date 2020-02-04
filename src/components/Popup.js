@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
     left: 0,
-    minHeight: 180,
+    minHeight: 240,
     position: 'absolute',
     right: 0,
     top: Layout.window.height

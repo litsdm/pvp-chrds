@@ -17,6 +17,7 @@
     "expo-blur": "~8.0.0",
     "expo-brightness": "~8.0.0",
     "expo-camera": "~8.0.0",
+    "expo-constants": "^8.0.0",
     "expo-facebook": "~8.0.0",
     "expo-image-picker": "~8.0.1",
     "expo-in-app-purchases": "^8.0.0",

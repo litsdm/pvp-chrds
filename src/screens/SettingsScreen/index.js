@@ -4,6 +4,7 @@ import {
   Image,
   Linking,
   Platform,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -163,7 +164,7 @@ const SettingsScreen = ({
   };
 
   return (
-    <>
+    <SafeAreaView style={{ flex: 1 }} forceInset={{ top: 'never' }}>
       <AnimatedSettingsNav
         animationValue={animationValue}
         goBack={goBack}
@@ -361,7 +362,7 @@ const SettingsScreen = ({
           </View>
         </View>
       </ScrollView>
-    </>
+    </SafeAreaView>
   );
 };
 

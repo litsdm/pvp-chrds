@@ -7,7 +7,12 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import Constants from 'expo-constants';
 import { func, object, string } from 'prop-types';
+
+const IS_IPHONE_X =
+  Constants.deviceName.includes('iPhone X') ||
+  Constants.deviceName.includes('iPhone 11');
 
 const AnimatedSettingsNav = ({ animationValue, goBack, uri }) => {
   const animateOpacity = {
@@ -50,7 +55,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     position: 'absolute',
     right: 0,
-    top: 0,
+    top: IS_IPHONE_X ? 44 : 0,
     width: '100%',
     zIndex: 3
   },

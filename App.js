@@ -8,7 +8,6 @@ import {
   Platform,
   StatusBar,
   StyleSheet,
-  SafeAreaView,
   View
 } from 'react-native';
 import { connect, Provider } from 'react-redux';
@@ -118,14 +117,9 @@ const App = ({ skipLoadingScreen, displayBadge, closePurchase }) => {
 
   return (
     <View style={styles.container}>
-      <SafeAreaView
-        style={{ flex: 1, backgroundColor: '#fff' }}
-        forceInset={{ top: 'never' }}
-      >
-        <StatusBar backgroundColor="#fff" barStyle="dark-content" />
-        <PopupManager />
-        <AppNavigator />
-      </SafeAreaView>
+      <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+      <PopupManager />
+      <AppNavigator />
     </View>
   );
 };

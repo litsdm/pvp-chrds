@@ -2,7 +2,12 @@ import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import Constants from 'expo-constants';
 import { bool, func, number, object, string } from 'prop-types';
+
+const IS_IPHONE_X =
+  Constants.deviceName.includes('iPhone X') ||
+  Constants.deviceName.includes('iPhone 11');
 
 const TopControls = ({
   goBack,
@@ -73,7 +78,7 @@ const styles = StyleSheet.create({
     paddingTop: 6,
     position: 'absolute',
     right: 0,
-    top: 0,
+    top: IS_IPHONE_X ? 44 : 0,
     zIndex: 2
   },
   content: {

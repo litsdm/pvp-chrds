@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   Image,
+  SafeAreaView,
   SectionList,
   StyleSheet,
   TouchableOpacity,
@@ -320,32 +321,37 @@ const HomeScreen = ({
       {loading && loadingMatches ? (
         <Loader />
       ) : (
-        <View style={styles.container}>
-          <SectionList
-            sections={condition ? null : matches}
-            keyExtractor={item => item._id}
-            renderItem={renderItem}
-            renderSectionHeader={renderSectionHeader}
-            extraData={[matchesData, condition]}
-            onRefresh={handleRefresh}
-            refreshing={refreshing}
-            ListHeaderComponent={() => (
-              <Header
-                user={user}
-                navigateToSettings={navigateToSettings}
-                openPurchase={openPurchase}
-              />
-            )}
-            ListEmptyComponent={() => (
-              <Empty
-                title="No matches yet."
-                description="Click play below to start playing with your friends!"
-                action={openPlay}
-                actionTitle="Play Now"
-              />
-            )}
-          />
-        </View>
+        <SafeAreaView
+          style={{ flex: 1, backgroundColor: '#fff' }}
+          forceInset={{ top: 'never' }}
+        >
+          <View style={styles.container}>
+            <SectionList
+              sections={condition ? null : matches}
+              keyExtractor={item => item._id}
+              renderItem={renderItem}
+              renderSectionHeader={renderSectionHeader}
+              extraData={[matchesData, condition]}
+              onRefresh={handleRefresh}
+              refreshing={refreshing}
+              ListHeaderComponent={() => (
+                <Header
+                  user={user}
+                  navigateToSettings={navigateToSettings}
+                  openPurchase={openPurchase}
+                />
+              )}
+              ListEmptyComponent={() => (
+                <Empty
+                  title="No matches yet."
+                  description="Click play below to start playing with your friends!"
+                  action={openPlay}
+                  actionTitle="Play Now"
+                />
+              )}
+            />
+          </View>
+        </SafeAreaView>
       )}
     </>
   );

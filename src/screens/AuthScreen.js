@@ -2,6 +2,7 @@ import React from 'react';
 import {
   AsyncStorage,
   Platform,
+  SafeAreaView,
   StatusBar,
   StyleSheet,
   Text,
@@ -81,32 +82,37 @@ const AuthScreen = ({ navigation, showPickUsername }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar backgroundColor="transparent" barStyle="dark-content" />
-      <OnBoarding />
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.fbButton} onPress={loginWithFacebook}>
-          <Ionicons name="logo-facebook" size={30} color="#fff" />
-          <Text style={styles.fbText}>Sign up with Facebook</Text>
-        </TouchableOpacity>
-        {Platform.OS === 'ios' ? (
-          <TouchableOpacity style={styles.appleButton} onPress={loginWithApple}>
-            <Ionicons name="logo-apple" size={30} color="#fff" />
-            <Text style={styles.fbText}>Sign up with Apple</Text>
+    <SafeAreaView style={{ flex: 1 }} forceInset={{ top: 'never' }}>
+      <View style={styles.container}>
+        <StatusBar backgroundColor="transparent" barStyle="dark-content" />
+        <OnBoarding />
+        <View style={styles.footer}>
+          <TouchableOpacity style={styles.fbButton} onPress={loginWithFacebook}>
+            <Ionicons name="logo-facebook" size={30} color="#fff" />
+            <Text style={styles.fbText}>Sign up with Facebook</Text>
           </TouchableOpacity>
-        ) : null}
-        <TouchableOpacity style={styles.usernameButton} onPress={goToSignUp}>
-          <Ionicons name={`${PRE_ICON}-contact`} size={30} color="#7C4DFF" />
-          <Text style={styles.usernameText}>Sign up with username</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.loginButton} onPress={goToLogin}>
-          <Text style={styles.loginText}>
-            Already have an account?{' '}
-            <Text style={{ color: '#7C4DFF' }}>Login</Text>
-          </Text>
-        </TouchableOpacity>
+          {Platform.OS === 'ios' ? (
+            <TouchableOpacity
+              style={styles.appleButton}
+              onPress={loginWithApple}
+            >
+              <Ionicons name="logo-apple" size={30} color="#fff" />
+              <Text style={styles.fbText}>Sign up with Apple</Text>
+            </TouchableOpacity>
+          ) : null}
+          <TouchableOpacity style={styles.usernameButton} onPress={goToSignUp}>
+            <Ionicons name={`${PRE_ICON}-contact`} size={30} color="#7C4DFF" />
+            <Text style={styles.usernameText}>Sign up with username</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.loginButton} onPress={goToLogin}>
+            <Text style={styles.loginText}>
+              Already have an account?{' '}
+              <Text style={{ color: '#7C4DFF' }}>Login</Text>
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

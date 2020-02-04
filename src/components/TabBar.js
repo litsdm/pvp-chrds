@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { bool, func, object, string } from 'prop-types';
@@ -48,24 +54,26 @@ const TabBar = ({
   return (
     <>
       {nestedRouteName !== 'Camera' && nestedRouteName !== 'Match' ? (
-        <View style={styles.container}>
-          <Tab
-            renderIcon={renderIcon}
-            route={routes[0]}
-            isActive={index === 0}
-            onTabPress={onTabPress}
-          />
-          <TouchableOpacity style={styles.play} onPress={showPlay}>
-            <Ionicons name="logo-game-controller-b" size={26} color="#999" />
-            <Text style={styles.playText}>Play</Text>
-          </TouchableOpacity>
-          <Tab
-            renderIcon={renderIcon}
-            route={routes[1]}
-            isActive={index === 1}
-            onTabPress={onTabPress}
-          />
-        </View>
+        <SafeAreaView>
+          <View style={styles.container}>
+            <Tab
+              renderIcon={renderIcon}
+              route={routes[0]}
+              isActive={index === 0}
+              onTabPress={onTabPress}
+            />
+            <TouchableOpacity style={styles.play} onPress={showPlay}>
+              <Ionicons name="logo-game-controller-b" size={26} color="#999" />
+              <Text style={styles.playText}>Play</Text>
+            </TouchableOpacity>
+            <Tab
+              renderIcon={renderIcon}
+              route={routes[1]}
+              isActive={index === 1}
+              onTabPress={onTabPress}
+            />
+          </View>
+        </SafeAreaView>
       ) : null}
       {displayPlay ? (
         <PlayPopup

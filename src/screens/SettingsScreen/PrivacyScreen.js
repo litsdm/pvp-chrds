@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
 import { func, object } from 'prop-types';
@@ -42,16 +42,21 @@ const PrivacyScreen = ({ navigation, displayBadge }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <SettingsNavBar goBack={goBack} title="Privacy" />
-      <View style={styles.group}>
-        <ToggleOption
-          label="Allow random opponent games"
-          isActive={user.allowRandom}
-          onPress={updateAllowRandom}
-        />
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: '#fff' }}
+      forceInset={{ top: 'never' }}
+    >
+      <View style={styles.container}>
+        <SettingsNavBar goBack={goBack} title="Privacy" />
+        <View style={styles.group}>
+          <ToggleOption
+            label="Allow random opponent games"
+            isActive={user.allowRandom}
+            onPress={updateAllowRandom}
+          />
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

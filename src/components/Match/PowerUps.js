@@ -1,8 +1,13 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import Constants from 'expo-constants';
 import { func } from 'prop-types';
 
 import PowerUp from './PowerUp';
+
+const IS_IPHONE_X =
+  Constants.deviceName.includes('iPhone X') ||
+  Constants.deviceName.includes('iPhone 11');
 
 const PowerUps = ({ onPress }) => {
   return (
@@ -36,7 +41,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     position: 'absolute',
     right: 24,
-    top: 72,
+    top: IS_IPHONE_X ? 72 + 44 : 72,
     zIndex: 3
   }
 });

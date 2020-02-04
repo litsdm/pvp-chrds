@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   AsyncStorage,
+  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -155,44 +156,50 @@ const GeneralScreen = ({ navigation, displayBadge }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <SettingsNavBar goBack={goBack} title="General" />
-      <View style={styles.group}>
-        <Text style={styles.title}>USERNAME</Text>
-        <TouchableOpacity style={styles.row} onPress={showUsernameModal}>
-          <Text style={styles.rowText}>{displayName}</Text>
+    <SafeAreaView style={{ flex: 1 }} forceInset={{ top: 'never' }}>
+      <View style={styles.container}>
+        <SettingsNavBar goBack={goBack} title="General" />
+        <View style={styles.group}>
+          <Text style={styles.title}>USERNAME</Text>
+          <TouchableOpacity style={styles.row} onPress={showUsernameModal}>
+            <Text style={styles.rowText}>{displayName}</Text>
+            <Ionicons
+              name="ios-arrow-forward"
+              color="rgba(0,0,0,0.1)"
+              size={24}
+            />
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity style={styles.row} onPress={showPasswordModal}>
+          <Text style={styles.rowText}>Change Password</Text>
           <Ionicons
             name="ios-arrow-forward"
             color="rgba(0,0,0,0.1)"
             size={24}
           />
         </TouchableOpacity>
+        {displayPasswordModal ? (
+          <FormModal
+            close={closePasswordModal}
+            title="Change your password"
+            labels={['Current Password', 'New Password']}
+            values={[currentPassword, newPassword]}
+            setState={receiveState}
+            submit={submitPassword}
+          />
+        ) : null}
+        {displayUsenameModal ? (
+          <FormModal
+            close={closeUsernameModal}
+            title="Change your username"
+            labels={['Username']}
+            values={[newUsername]}
+            setState={receiveState}
+            submit={submitUsername}
+          />
+        ) : null}
       </View>
-      <TouchableOpacity style={styles.row} onPress={showPasswordModal}>
-        <Text style={styles.rowText}>Change Password</Text>
-        <Ionicons name="ios-arrow-forward" color="rgba(0,0,0,0.1)" size={24} />
-      </TouchableOpacity>
-      {displayPasswordModal ? (
-        <FormModal
-          close={closePasswordModal}
-          title="Change your password"
-          labels={['Current Password', 'New Password']}
-          values={[currentPassword, newPassword]}
-          setState={receiveState}
-          submit={submitPassword}
-        />
-      ) : null}
-      {displayUsenameModal ? (
-        <FormModal
-          close={closeUsernameModal}
-          title="Change your username"
-          labels={['Username']}
-          values={[newUsername]}
-          setState={receiveState}
-          submit={submitUsername}
-        />
-      ) : null}
-    </View>
+    </SafeAreaView>
   );
 };
 

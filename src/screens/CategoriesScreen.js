@@ -6,7 +6,8 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
+  SafeAreaView
 } from 'react-native';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
@@ -122,7 +123,7 @@ const CategoriesScreen = ({
     ));
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {loading ? (
         <Loader />
       ) : (
@@ -169,7 +170,7 @@ const CategoriesScreen = ({
           </View>
         </>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
