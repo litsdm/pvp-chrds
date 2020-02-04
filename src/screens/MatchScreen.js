@@ -41,7 +41,7 @@ import AdRetryModal from '../components/Match/AdRetryModal';
 
 const { front } = Camera.Constants.Type;
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
-const TIME = 300;
+const TIME = 600;
 
 const mapDispatchToProps = dispatch => ({
   openCoinShop: () => dispatch(togglePurchaseModal(true)),
@@ -142,8 +142,8 @@ const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
   const getMedalCount = () => {
     let medals = 3;
 
-    if (timeLeft <= TIME / 2 && timeLeft > TIME / 6) medals = 2;
-    else if (timeLeft <= TIME / 6) medals = 1;
+    if (timeLeft <= TIME / 1.5 && timeLeft > TIME / 4) medals = 2;
+    else if (timeLeft <= TIME / 4) medals = 1;
 
     return medals;
   };

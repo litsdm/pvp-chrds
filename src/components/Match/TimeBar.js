@@ -14,7 +14,7 @@ const TimeBar = ({ timeLeft, setTimeLeft, onEnd, milis, isPaused }) => {
   useCountdown(timeLeft, setTimeLeft, onEnd, milis, isPaused);
   return (
     <View style={styles.timeBarWrapper}>
-      <View style={[styles.timeBar, { width: `${(timeLeft * 100) / 300}%` }]}>
+      <View style={[styles.timeBar, { width: `${(timeLeft * 100) / 600}%` }]}>
         <LinearGradient
           style={styles.gradient}
           colors={['#FF5252', '#7c4dff']}
