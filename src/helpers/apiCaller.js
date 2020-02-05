@@ -27,13 +27,37 @@ export const uploadFile = (
   oReq.upload.addEventListener(
     'progress',
     ({ loaded, total, lengthComputable }) => {
-      if (lengthComputable) progressCb(file.name, loaded / total);
+      if (lengthComputable) progressCb(file.name, loaded / total, loaded);
     }
   );
   oReq.addEventListener('error', e => errorCb(e));
   oReq.open('PUT', signedRequest);
   oReq.setRequestHeader('Content-Type', file.type);
   oReq.send(file);
+};
+
+export const uploadChunk = (
+  file,
+  fileData,
+  signedRequest,
+  progressCb,
+  finishCb,
+  start = null,
+  errorCb = () => {}
+) => {
+  const chunk = file.slice(start || 0, file.size);
+  const oReq = new XMLHttpRequest();
+  oReq.addEventListener('load', () => finishCb(fileData));
+  oReq.upload.addEventListener(
+    'progress',
+    ({ loaded, total, lengthComputable }) => {
+      if (lengthComputable) progressCb(fileData.name, loaded / total, loaded);
+    }
+  );
+  oReq.addEventListener('error', e => errorCb(e));
+  oReq.open('PUT', signedRequest);
+  oReq.setRequestHeader('Content-Type', fileData.type);
+  oReq.send(chunk);
 };
 
 export const getSignedUrl = async (s3Filename, folder) => {

@@ -1,8 +1,9 @@
-/* eslint-disable global-require */
+/* eslint-disable global-require, react/no-this-in-sfc  */
 import React, { useEffect, useState } from 'react';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import {
+  AppState,
   AsyncStorage,
   Keyboard,
   Platform,
@@ -20,7 +21,7 @@ import {
 } from 'expo-in-app-purchases';
 import SplashScreen from 'react-native-splash-screen';
 import JwtDecode from 'jwt-decode';
-import { bool, func } from 'prop-types';
+import { bool, func, object } from 'prop-types';
 
 import ADD_COINS from './src/graphql/mutations/addCoins';
 
@@ -30,10 +31,16 @@ import client from './src/apolloStore';
 import AppNavigator from './src/navigation/AppNavigator';
 import PopupManager from './src/components/PopupManager';
 import { toggleBadge, togglePurchaseModal } from './src/actions/popup';
+import { upload } from './src/actions/file';
 
 const mapDispatchToProps = dispatch => ({
   displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),
-  closePurchase: () => dispatch(togglePurchaseModal(false))
+  closePurchase: () => dispatch(togglePurchaseModal(false)),
+  uploadFile: data => dispatch(upload(data))
+});
+
+const mapStateToProps = ({ file: { videos } }) => ({
+  videos
 });
 
 const purchasedCoins = Platform.select({
@@ -49,19 +56,54 @@ const purchasedCoins = Platform.select({
   }
 });
 
-const App = ({ skipLoadingScreen, displayBadge, closePurchase }) => {
+const App = ({
+  skipLoadingScreen,
+  displayBadge,
+  closePurchase,
+  videos,
+  uploadFile
+}) => {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
+  const [didCheckBroken, setDidCheckBroken] = useState(false);
   const [addCoins] = useMutation(ADD_COINS);
 
+  this.videos = videos;
+
   useEffect(() => {
+    checkBrokenUpload();
+    AppState.addEventListener('change', handleStateChange);
     Keyboard.addListener('keyboardDidShow', handleKeyboardShow);
-    return () => Keyboard.removeListener('keyboardDidShow');
+    return () => {
+      AppState.removeEventListener('change', handleStateChange);
+      Keyboard.removeListener('keyboardDidShow');
+    };
   }, []);
 
   const handleKeyboardShow = async ({ endCoordinates }) => {
     const keyboardSize = await AsyncStorage.getItem('keyboardSize');
     if (!keyboardSize)
       await AsyncStorage.setItem('keyboardSize', `${endCoordinates.height}`);
+  };
+
+  const handleStateChange = nextAppState => {
+    if (
+      nextAppState.match(/inactive|background/) &&
+      Object.keys(this.videos).length > 0
+    ) {
+      AsyncStorage.setItem('brokenUploadData', JSON.stringify(this.videos));
+    } else if (nextAppState === 'active' && didCheckBroken) {
+      AsyncStorage.removeItem('brokenUploadData');
+    }
+  };
+
+  const checkBrokenUpload = async () => {
+    const videoData = await AsyncStorage.getItem('brokenUploadData');
+    if (videoData) {
+      const vids = JSON.parse(videoData);
+      Object.values(vids).forEach(file => uploadFile(file));
+      await AsyncStorage.removeItem('brokenUploadData');
+    }
+    setDidCheckBroken(true);
   };
 
   const runAsync = async () => {
@@ -161,15 +203,18 @@ const styles = StyleSheet.create({
 App.propTypes = {
   skipLoadingScreen: bool,
   displayBadge: func.isRequired,
-  closePurchase: func.isRequired
+  closePurchase: func.isRequired,
+  uploadFile: func.isRequired,
+  videos: object
 };
 
 App.defaultProps = {
-  skipLoadingScreen: false
+  skipLoadingScreen: false,
+  videos: {}
 };
 
 const ConnectedApp = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(App);
 

@@ -1,5 +1,8 @@
+import { readAsStringAsync, EncodingType, deleteAsync } from 'expo-file-system';
+import { AsyncStorage } from 'react-native';
+
 import client from '../apolloStore';
-import callApi, { uploadFile } from '../helpers/apiCaller';
+import callApi, { uploadFile, uploadChunk } from '../helpers/apiCaller';
 import { toggleProgressBadge } from './popup';
 
 import UPDATE_MATCH from '../graphql/mutations/updateMatch';
@@ -13,9 +16,10 @@ export const UPDATE_PIC_PROGRESS = 'UPDATE_PIC_PROGRESS';
 export const START_PIC_UPLOAD = 'START_PIC_UPLOAD';
 export const COMPLETE_VIDEO = 'COMPLETE_VIDEO';
 
-export const updateProgress = (name, progress) => ({
+export const updateProgress = (name, progress, uploadedBytes) => ({
   name,
   progress,
+  uploadedBytes,
   type: UPDATE_PROGRESS
 });
 
@@ -112,12 +116,16 @@ export const upload = file => async dispatch => {
 
   const { signedRequest, url: s3Url } = await getSignedRequest(file, folder);
 
-  const handleProgress = (name, progress) =>
-    dispatch(updateProgress(name, progress));
+  const handleProgress = (name, progress, uploadedBytes) =>
+    dispatch(updateProgress(name, progress, uploadedBytes));
 
-  const handleFinish = doneFile => dispatch(uploadVideoComplete(doneFile));
+  const handleFinish = doneFile => {
+    dispatch(uploadVideoComplete(doneFile));
+    deleteAsync(doneFile.uri, { idempotent: true });
+    AsyncStorage.removeItem('brokenUploadData');
+  };
 
-  const composeFile = { ...file, s3Url, progress: 0 };
+  const composeFile = { ...file, s3Url, progress: 0, uploadedBytes: 0 };
 
   dispatch(addVideoToQueue(composeFile));
   uploadFile(composeFile, signedRequest, handleProgress, handleFinish);
@@ -141,4 +149,32 @@ export const uploadPic = (file, onFinish = null) => async dispatch => {
 
   dispatch(startPicUpload());
   uploadFile(composeFile, signedRequest, handleProgress, handleFinish);
+};
+
+export const uploadFileChunk = fileData => async dispatch => {
+  const file = await readAsStringAsync(fileData.uri, {
+    encoding: EncodingType.Base64
+  });
+
+  const { signedRequest, url: s3Url } = await getSignedRequest(
+    fileData,
+    'Videos'
+  );
+
+  const handleProgress = (name, progress, uploadedBytes) =>
+    dispatch(updateProgress(name, progress, uploadedBytes));
+
+  const handleFinish = doneFile => dispatch(uploadVideoComplete(doneFile));
+
+  const composeFile = { ...fileData, s3Url, progress: 0, uploadedBytes: 0 };
+
+  dispatch(addVideoToQueue(composeFile));
+  uploadChunk(
+    file,
+    composeFile,
+    signedRequest,
+    handleProgress,
+    handleFinish,
+    fileData.uploadedBytes
+  );
 };

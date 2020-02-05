@@ -17,7 +17,7 @@ const initialState = {
 
 const fileReducer = (
   state = initialState,
-  { type, file, progress, count, name }
+  { type, file, progress, count, name, uploadedBytes }
 ) => {
   switch (type) {
     case ADD_VIDEO_TO_QUEUE:
@@ -35,7 +35,8 @@ const fileReducer = (
           ...state.videos,
           [name]: {
             ...state.videos[name],
-            progress
+            progress,
+            uploadedBytes
           }
         }
       };
