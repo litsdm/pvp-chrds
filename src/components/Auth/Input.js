@@ -127,7 +127,7 @@ const Input = ({
         ) : null}
         {secureTextEntry ? (
           <TouchableOpacity
-            style={styles.visibility}
+            style={[styles.visibility, { right: iconName ? 50 : 0 }]}
             onPress={toggleVisibility}
           >
             <Ionicons

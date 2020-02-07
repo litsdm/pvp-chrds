@@ -471,7 +471,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 6,
     position: 'absolute',
-    right: 24
+    right: 24,
+    zIndex: 5
   },
   videoLoader: {
     alignItems: 'center',
