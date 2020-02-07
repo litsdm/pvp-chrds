@@ -36,22 +36,28 @@ const SelectFriend = ({
 
   const disabled = selected === null;
 
+  const ListHeader = (
+    <>
+      <FriendRow username="Add Friend" onPress={openAdd} selected={false} />
+      <FriendRow
+        username="Random Opponent"
+        onPress={select('-1')}
+        selected={selected === '-1'}
+      />
+    </>
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.title}>Select an opponent</Text>
         <SearchBar search={search} onChangeText={onChangeText} />
-        <FriendRow username="Add Friend" onPress={openAdd} selected={false} />
-        <FriendRow
-          username="Random Opponent"
-          onPress={select('-1')}
-          selected={selected === '-1'}
-        />
         <FlatList
           data={friends}
           keyExtractor={item => item._id}
           renderItem={renderItem}
           extraData={selected}
+          ListHeaderComponent={ListHeader}
         />
       </View>
       <TouchableOpacity
@@ -104,6 +110,7 @@ const styles = StyleSheet.create({
   },
   content: {
     justifyContent: 'flex-start',
+    maxHeight: 310,
     width: '85%'
   }
 });

@@ -39,8 +39,6 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>UIUserInterfaceStyle</key>
-	<string>Light</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Allow CHRDS to access your calendar</string>
 	<key>NSCameraUsageDescription</key>
@@ -75,6 +73,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>
