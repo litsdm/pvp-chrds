@@ -12,6 +12,8 @@ export default gql`
       removedBy
       actedWord {
         _id
+        text
+        hint
       }
       category {
         _id

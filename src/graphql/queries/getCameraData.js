@@ -15,6 +15,7 @@ export default gql`
         _id
         text
         hint
+        actorHint
         allowMic
       }
     }

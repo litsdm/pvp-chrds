@@ -116,8 +116,8 @@ const PlayPopup = ({
     let finalCategory = selectedCategory;
     let opponent = selectedFriend;
     if (selectedCategory === '-1') {
-      const randomIndex = Math.floor(Math.random() * categories.length);
-      finalCategory = categories[randomIndex]._id;
+      const randomIndex = Math.floor(Math.random() * user.categories.length);
+      finalCategory = user.categories[randomIndex];
       await setSelectedCategory(finalCategory);
     }
     if (selectedFriend === '-1') {
