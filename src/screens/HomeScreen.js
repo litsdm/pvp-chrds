@@ -14,7 +14,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment';
 import { bool, func, number, object, shape, string } from 'prop-types';
 
-import GET_USER from '../graphql/queries/getUser';
+import GET_DATA from '../graphql/queries/getHomeData';
 import GET_USER_MATCHES from '../graphql/queries/getUserMatches';
 import CREATED_MATCH from '../graphql/subscriptions/createdMatch';
 import UPDATED_MATCH from '../graphql/subscriptions/updatedMatch';
@@ -46,7 +46,12 @@ const mapStateToProps = ({ popup: { displayNetworkModal } }) => ({
   displayNetworkModal
 });
 
-const Header = ({ user, navigateToSettings, openPurchase }) => (
+const Header = ({
+  user,
+  navigateToSettings,
+  openPurchase,
+  notificationCount
+}) => (
   <>
     <View style={styles.header}>
       <AnimatedCircle
@@ -84,6 +89,18 @@ const Header = ({ user, navigateToSettings, openPurchase }) => (
             source={{ uri: user.profilePic }}
             style={styles.profilePic}
           />
+          {notificationCount > 0 ? (
+            <View style={styles.badge}>
+              <Text
+                style={[
+                  styles.badgeText,
+                  { fontSize: notificationCount < 10 ? 12 : 10 }
+                ]}
+              >
+                {notificationCount < 10 ? notificationCount : '9+'}
+              </Text>
+            </View>
+          ) : null}
         </TouchableOpacity>
       </View>
     </View>
@@ -121,7 +138,7 @@ const HomeScreen = ({
   openPurchase
 }) => {
   const userID = navigation.getParam('userID', '');
-  const { loading, data, refetch } = useQuery(GET_USER, {
+  const { loading, data, refetch } = useQuery(GET_DATA, {
     variables: { _id: userID }
   });
   const {
@@ -135,7 +152,9 @@ const HomeScreen = ({
   const [refreshing, setRefreshing] = useState(false);
   const [updateMatch] = useMutation(UPDATE_MATCH);
   const [deleteMatch] = useMutation(DELETE_MATCH);
+
   const user = data ? data.user : {};
+  const friendRequests = data ? data.friendRequests : [];
 
   useEffect(() => {
     if (matchesData) {
@@ -339,6 +358,7 @@ const HomeScreen = ({
                   user={user}
                   navigateToSettings={navigateToSettings}
                   openPurchase={openPurchase}
+                  notificationCount={friendRequests.length}
                 />
               )}
               ListEmptyComponent={() => (
@@ -470,6 +490,22 @@ const styles = StyleSheet.create({
     height: 1,
     marginTop: 12,
     width: '100%'
+  },
+  badge: {
+    alignItems: 'center',
+    backgroundColor: '#FF5252',
+    borderRadius: 18 / 2,
+    height: 18,
+    justifyContent: 'center',
+    position: 'absolute',
+    right: -6,
+    top: -6,
+    width: 18
+  },
+  badgeText: {
+    color: '#fff',
+    fontFamily: 'sf-bold',
+    fontSize: 10
   }
 });
 
@@ -492,6 +528,7 @@ Header.propTypes = {
     xp: number,
     nextXP: number
   }).isRequired,
+  notificationCount: number.isRequired,
   openPurchase: func.isRequired
 };
 

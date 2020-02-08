@@ -27,7 +27,7 @@ import { bool, func, number, object } from 'prop-types';
 import mime from '../../helpers/mimeTypes';
 import { facebookAuth } from '../AuthScreen';
 
-import GET_USER from '../../graphql/queries/getUser';
+import GET_DATA from '../../graphql/queries/getHomeData';
 import UPDATE_USER from '../../graphql/mutations/updateUser';
 import ADD_FRIENDS from '../../graphql/mutations/addFBFriends';
 
@@ -60,13 +60,16 @@ const SettingsScreen = ({
   resetReduxState,
   displayBadge
 }) => {
-  const [getUser, { data, refetch }] = useLazyQuery(GET_USER);
+  const [getData, { data, refetch }] = useLazyQuery(GET_DATA);
   const [updateUser] = useMutation(UPDATE_USER);
   const [addFriends] = useMutation(ADD_FRIENDS);
   const [displayingNavbar, setDisplayingNavbar] = useState(false);
   const { animationValue, animateTo } = useAnimation();
   const client = useApolloClient();
+
   const user = data ? data.user : {};
+  const friendRequests = data ? data.friendRequests : [];
+  const frCount = friendRequests.length;
 
   useEffect(() => {
     fetchUser();
@@ -75,7 +78,7 @@ const SettingsScreen = ({
   const fetchUser = async () => {
     const token = await AsyncStorage.getItem('CHRDS_TOKEN');
     const { _id } = jwtDecode(token);
-    getUser({ variables: { _id } });
+    getData({ variables: { _id } });
   };
 
   const goBack = () => navigation.navigate('Home');
@@ -267,11 +270,25 @@ const SettingsScreen = ({
                   </View>
                   <Text style={styles.rowText}>Friends</Text>
                 </View>
-                <Ionicons
-                  name="ios-arrow-forward"
-                  color="rgba(0,0,0,0.1)"
-                  size={24}
-                />
+                <View style={styles.icons}>
+                  {frCount > 0 ? (
+                    <View style={styles.badge}>
+                      <Text
+                        style={[
+                          styles.badgeText,
+                          { fontSize: frCount < 10 ? 12 : 10 }
+                        ]}
+                      >
+                        {frCount < 10 ? frCount : '9+'}
+                      </Text>
+                    </View>
+                  ) : null}
+                  <Ionicons
+                    name="ios-arrow-forward"
+                    color="rgba(0,0,0,0.1)"
+                    size={24}
+                  />
+                </View>
               </TouchableOpacity>
               <View style={styles.divider} />
               <TouchableOpacity
@@ -483,6 +500,25 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: 'sf-medium',
     fontSize: 18
+  },
+  icons: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  badge: {
+    alignItems: 'center',
+    backgroundColor: '#FF5252',
+    borderRadius: 18 / 2,
+    height: 18,
+    justifyContent: 'center',
+    marginRight: 12,
+    width: 18
+  },
+  badgeText: {
+    color: '#fff',
+    fontFamily: 'sf-bold',
+    fontSize: 10
   }
 });
 
