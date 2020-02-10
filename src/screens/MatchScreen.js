@@ -288,9 +288,7 @@ const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
 
   return (
     <View style={styles.container}>
-      {Platform.OS === 'ios' ? (
-        <StatusBar backgroundColor="#000" barStyle="dark-content" />
-      ) : null}
+      <StatusBar hidden />
       <View style={styles.videoWrapper}>
         <Video
           ref={videoRef}

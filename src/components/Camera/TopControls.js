@@ -6,7 +6,7 @@ import Constants from 'expo-constants';
 import { bool, func, number, object, string } from 'prop-types';
 
 const IS_IPHONE_X =
-  Constants.deviceName.includes('iPhone X') ||
+  Constants.deviceName.toLowerCase().includes('iphone x') ||
   Constants.deviceName.includes('iPhone 11');
 
 const TopControls = ({
@@ -78,13 +78,14 @@ const styles = StyleSheet.create({
     paddingTop: 6,
     position: 'absolute',
     right: 0,
-    top: IS_IPHONE_X ? 44 : 0,
+    top: 0,
     zIndex: 2
   },
   content: {
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    paddingTop: IS_IPHONE_X ? 44 : 0,
     width: '100%'
   },
   gradient: {

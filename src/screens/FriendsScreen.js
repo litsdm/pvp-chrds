@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   AsyncStorage,
   FlatList,
+  SafeAreaView,
   SectionList,
   StyleSheet,
   Text,
@@ -141,15 +142,17 @@ const FriendsScreen = ({ navigation, showPlay, openAdd }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Navbar
-        searching={searching}
-        toggleSearch={toggleSearch}
-        goBack={goBack}
-        onChangeText={handleTextChange}
-      />
-      {renderContent()}
-    </View>
+    <SafeAreaView style={{ flex: 1 }} forceInset={{ top: 'never' }}>
+      <View style={styles.container}>
+        <Navbar
+          searching={searching}
+          toggleSearch={toggleSearch}
+          goBack={goBack}
+          onChangeText={handleTextChange}
+        />
+        {renderContent()}
+      </View>
+    </SafeAreaView>
   );
 };
 
