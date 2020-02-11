@@ -46,6 +46,7 @@ const FriendsScreen = ({ navigation, showPlay, openAdd }) => {
   const [resolving, setResolving] = useState(false);
   const [searching, setSearching] = useState(false);
   const [search, setSearch] = useState('');
+  const [refreshing, setRefreshing] = useState(false);
   const friends = data ? data.friends : [];
   const friendRequests = data ? data.friendRequests : [];
   const sectionsData = [
@@ -91,6 +92,12 @@ const FriendsScreen = ({ navigation, showPlay, openAdd }) => {
     setResolving(false);
   };
 
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  };
+
   const renderItem = args => {
     const { _id, from } = args.item;
     const { displayName, profilePic } = from || args.item;
@@ -107,37 +114,30 @@ const FriendsScreen = ({ navigation, showPlay, openAdd }) => {
 
   const renderContent = () => {
     if (loading) return <Loader />;
-    if (
-      (friends.length <= 0 && friendRequests.length <= 0) ||
-      (searching && results.length <= 0)
-    )
-      return (
-        <>
-          <AddFriendRow openPopup={openAdd} />
-          <Empty searching={searching} search={search} />
-        </>
-      );
 
-    return (
-      <>
-        <AddFriendRow openPopup={openAdd} />
-        {friendRequests.length > 0 && !searching ? (
-          <SectionList
-            sections={sectionsData}
-            keyExtractor={item => item._id}
-            renderItem={renderItem}
-            renderSectionHeader={({ section: { title } }) => (
-              <Text style={styles.title}>{title}</Text>
-            )}
-          />
-        ) : (
-          <FlatList
-            data={searching ? results : friends}
-            renderItem={renderItem}
-            keyExtractor={item => item._id}
-          />
+    return friendRequests.length > 0 && !searching ? (
+      <SectionList
+        sections={sectionsData}
+        keyExtractor={item => item._id}
+        onRefresh={handleRefresh}
+        refreshing={refreshing}
+        renderItem={renderItem}
+        renderSectionHeader={({ section: { title } }) => (
+          <Text style={styles.title}>{title}</Text>
         )}
-      </>
+        ListHeaderComponent={<AddFriendRow openPopup={openAdd} />}
+        ListEmptyComponent={<Empty searching={searching} search={search} />}
+      />
+    ) : (
+      <FlatList
+        data={searching ? results : friends}
+        renderItem={renderItem}
+        keyExtractor={item => item._id}
+        onRefresh={handleRefresh}
+        refreshing={refreshing}
+        ListHeaderComponent={<AddFriendRow openPopup={openAdd} />}
+        ListEmptyComponent={<Empty searching={searching} search={search} />}
+      />
     );
   };
 

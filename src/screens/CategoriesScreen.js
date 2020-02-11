@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, createRef } from 'react';
 import {
   AsyncStorage,
   Image,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   Text,
@@ -46,10 +47,11 @@ const CategoriesScreen = ({
   showPlay,
   openPurchase
 }) => {
-  const { loading, data } = useQuery(GET_CATEGORIES);
+  const { loading, data, refetch } = useQuery(GET_CATEGORIES);
   const [getUser, { data: userData }] = useLazyQuery(GET_USER);
   const [categoriesHash, setCategoriesHash] = useState({});
   const [featuredCategory, setFeaturedCategory] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
   const logoRefs = useRef([...Array(15)].map(() => createRef()));
 
   const categories = data ? data.categories : [];
@@ -107,6 +109,12 @@ const CategoriesScreen = ({
 
   const openPlay = _id => () => showPlay({ playCategory: _id });
   const handleOpenPurchase = category => () => openPurchase({ category, user });
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  };
 
   const renderCategories = () =>
     categories.map(({ _id, name, description, image, color, price }, index) => (
@@ -166,6 +174,12 @@ const CategoriesScreen = ({
             <ScrollView
               horizontal={featuredCategory !== null}
               showsHorizontalScrollIndicator={false}
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={handleRefresh}
+                />
+              }
             >
               {featuredCategory ? (
                 renderCategories()
