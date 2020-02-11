@@ -1,13 +1,14 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import Constants from 'expo-constants';
+import { getDeviceId } from 'react-native-device-info';
 import { func } from 'prop-types';
 
 import PowerUp from './PowerUp';
 
+const deviceID = getDeviceId();
+
 const IS_IPHONE_X =
-  Constants.deviceName.includes('iPhone X') ||
-  Constants.deviceName.includes('iPhone 11');
+  deviceID.includes('iPhone12') || deviceID.includes('iPhone11');
 
 const PowerUps = ({ onPress }) => {
   return (

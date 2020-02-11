@@ -2,12 +2,13 @@ import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import Constants from 'expo-constants';
+import { getDeviceId } from 'react-native-device-info';
 import { bool, func, number, object, string } from 'prop-types';
 
+const deviceID = getDeviceId();
+
 const IS_IPHONE_X =
-  Constants.deviceName.toLowerCase().includes('iphone x') ||
-  Constants.deviceName.includes('iPhone 11');
+  deviceID.includes('iPhone12') || deviceID.includes('iPhone11');
 
 const TopControls = ({
   goBack,

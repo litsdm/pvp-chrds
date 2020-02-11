@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import Constants from 'expo-constants';
+import { getDeviceId } from 'react-native-device-info';
 import { bool, func, number } from 'prop-types';
 
 import Layout from '../../constants/Layout';
 
+const deviceID = getDeviceId();
+
 const IS_IPHONE_X =
-  Constants.deviceName.includes('iPhone X') ||
-  Constants.deviceName.includes('iPhone 11');
+  deviceID.includes('iPhone12') || deviceID.includes('iPhone11');
 
 const TimeBar = ({ timeLeft, setTimeLeft, onEnd, milis, isPaused }) => {
   useCountdown(timeLeft, setTimeLeft, onEnd, milis, isPaused);
