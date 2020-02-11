@@ -103,7 +103,8 @@ MatchRow.propTypes = {
   username: string.isRequired,
   score: string.isRequired,
   uri: string.isRequired,
-  onPress: func.isRequired
+  onPress: func.isRequired,
+  position: string.isRequired
 };
 
 export default MatchRow;

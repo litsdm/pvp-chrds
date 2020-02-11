@@ -79,7 +79,9 @@ const Header = ({
         empty
       />
       <View style={styles.leftSide}>
-        <Text style={styles.greeting}>Hello {user.displayName},</Text>
+        <Text style={styles.greeting} numberOfLines={2} ellipsizeMode="tail">
+          Hello {user.displayName},
+        </Text>
         <Text style={styles.subtitle}>Ready to Play?</Text>
       </View>
       <View style={styles.rightSide}>

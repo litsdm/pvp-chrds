@@ -5,8 +5,14 @@ export default gql`
     updateUser(_id: $id, properties: $properties) {
       _id
       username
-      categories
       displayName
+      profilePic
+      coins
+      level
+      xp
+      nextXP
+      facebookID
+      categories
       token
     }
   }
