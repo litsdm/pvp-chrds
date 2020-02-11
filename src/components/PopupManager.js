@@ -33,14 +33,14 @@ const mapDispatchToProps = dispatch => ({
   closeCategoryPurchase: () => dispatch(toggleCategoryPurchase(false)),
   openStore: () => dispatch(togglePurchaseModal(true)),
   closePickUsername: () => dispatch(togglePickUsername(false)),
-  displayBadge: (message, type) => dispatch(toggleBadge(true, message, type))
+  displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),
+  openCategoryPurchase: data => dispatch(toggleCategoryPurchase(true, data))
 });
 
 const mapStateToProps = ({
   popup: {
     displayCategory,
-    selectedCategory,
-    transitionPosition,
+    categoryPopupData,
     displayAdd,
     badge,
     displayProgressBadge,
@@ -54,8 +54,7 @@ const mapStateToProps = ({
   file: { videos }
 }) => ({
   displayCategory,
-  selectedCategory,
-  transitionPosition,
+  categoryPopupData,
   displayAdd,
   badge,
   videos,
@@ -70,8 +69,7 @@ const mapStateToProps = ({
 
 const PopupManager = ({
   displayCategory,
-  selectedCategory,
-  transitionPosition,
+  categoryPopupData,
   displayAdd,
   closeAdd,
   showPlay,
@@ -91,7 +89,8 @@ const PopupManager = ({
   displayPickUsername,
   pickUsernameData,
   closePickUsername,
-  displayBadge
+  displayBadge,
+  openCategoryPurchase
 }) => {
   const openPlay = _id => () => showPlay({ playCategory: _id });
 
@@ -101,9 +100,9 @@ const PopupManager = ({
       {displayCategory ? (
         <CategoryPopup
           close={closeCategory}
-          play={openPlay(selectedCategory._id)}
-          transitionPosition={transitionPosition}
-          {...selectedCategory}
+          play={openPlay(categoryPopupData.category._id)}
+          openPurchase={openCategoryPurchase}
+          {...categoryPopupData}
         />
       ) : null}
       {badge.display ? <Badge close={closeBadge} {...badge} /> : null}
@@ -135,8 +134,12 @@ const PopupManager = ({
 
 PopupManager.propTypes = {
   displayCategory: bool.isRequired,
-  selectedCategory: object,
-  transitionPosition: object,
+  categoryPopupData: shape({
+    transitionPosition: object,
+    user: object,
+    category: object,
+    hasCategory: bool
+  }),
   displayAdd: bool.isRequired,
   closeAdd: func.isRequired,
   showPlay: func.isRequired,
@@ -176,16 +179,16 @@ PopupManager.propTypes = {
     onSuccess: func
   }),
   closePickUsername: func.isRequired,
-  displayBadge: func.isRequired
+  displayBadge: func.isRequired,
+  openCategoryPurchase: func.isRequired
 };
 
 PopupManager.defaultProps = {
-  selectedCategory: null,
-  transitionPosition: null,
   categoryPurchaseData: null,
   badge: {},
   videos: {},
-  pickUsernameData: {}
+  pickUsernameData: {},
+  categoryPopupData: {}
 };
 
 export default connect(

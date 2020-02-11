@@ -15,8 +15,7 @@ const initialState = {
   playCategory: null,
   playFriend: null,
   displayCategory: false,
-  selectedCategory: null,
-  transitionPosition: null,
+  categoryPopupData: null,
   displayAdd: false,
   badge: {},
   displayProgressBadge: false,
@@ -33,7 +32,7 @@ const popup = (state = initialState, { type, display, data, badge }) => {
     case TOGGLE_PLAY:
       return { ...state, displayPlay: display, ...data };
     case TOGGLE_CATEGORY:
-      return { ...state, displayCategory: display, ...data };
+      return { ...state, displayCategory: display, categoryPopupData: data };
     case TOGGLE_CATEGORY_PURCHASE:
       return {
         ...state,

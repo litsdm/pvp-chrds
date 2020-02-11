@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useMutation, useLazyQuery } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { arrayOf, func, number, shape, string } from 'prop-types';
 
@@ -10,7 +10,6 @@ import Modal from './Modal';
 
 const CategoryPurchase = ({ close, category, user, openStore }) => {
   const [updateUser] = useMutation(UPDATE_USER);
-  // const [getUser] = useLazyQuery(GET_USER);
 
   const handlePurchase = async () => {
     const properties = JSON.stringify({

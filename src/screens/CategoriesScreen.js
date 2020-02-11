@@ -81,14 +81,20 @@ const CategoriesScreen = ({
 
   const fetchUser = async () => {
     const { _id } = jwtDecode(await AsyncStorage.getItem('CHRDS_TOKEN'));
-    await getUser({ variables: { _id } });
+    getUser({ variables: { _id } });
   };
 
   const showPopup = index => () => {
     const selectedCategory = categories[index];
+    const hasCategory = categoriesHash[selectedCategory._id] !== undefined;
     logoRefs.current[index].current.measureInWindow((x, y) => {
       const transitionPosition = { __typename: 'Position', x, y };
-      showCategory({ selectedCategory, transitionPosition });
+      showCategory({
+        category: selectedCategory,
+        transitionPosition,
+        hasCategory,
+        user
+      });
     });
   };
 

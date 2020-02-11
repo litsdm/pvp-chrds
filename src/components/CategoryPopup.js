@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { arrayOf, func, number, shape, string } from 'prop-types';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { bool, func, number, object, shape } from 'prop-types';
 import { useAnimation } from '../helpers/hooks';
 
 import Popup from './Popup';
@@ -17,16 +18,17 @@ import Layout from '../constants/Layout';
 
 const CategoryPopup = ({
   close,
-  name,
-  description,
-  words,
-  image,
   play,
-  transitionPosition
+  transitionPosition,
+  hasCategory,
+  openPurchase,
+  user,
+  category
 }) => {
   const [animateTransition, setAnimateTransition] = useState({});
   const { animationValue, animateTo } = useAnimation({ autoPlay: true });
   const { x, y } = transitionPosition;
+  const { name, description, words, image, price } = category;
 
   const animateScale = {
     transform: [
@@ -92,6 +94,11 @@ const CategoryPopup = ({
     close();
   };
 
+  const handleOpenPurchase = () => {
+    handleClose();
+    openPurchase({ category, user });
+  };
+
   return (
     <>
       <Popup
@@ -106,9 +113,25 @@ const CategoryPopup = ({
           <Text style={styles.wordsTitle}>Words you may play</Text>
           {renderWords()}
           <View style={styles.divider} />
-          <TouchableOpacity style={styles.button} onPress={handlePlay}>
-            <Text style={styles.buttonText}>Play</Text>
-          </TouchableOpacity>
+          {hasCategory ? (
+            <TouchableOpacity style={styles.button} onPress={handlePlay}>
+              <Text style={styles.buttonText}>Play</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={styles.button}
+              onPress={handleOpenPurchase}
+            >
+              <Text style={styles.buyText}>Buy</Text>
+              <FontAwesome5
+                name="coins"
+                size={16}
+                color="#FFC107"
+                style={styles.coins}
+              />
+              <Text style={styles.price}>{price}</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </Popup>
       <Animated.View
@@ -164,6 +187,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#7c4dff',
     borderRadius: 8,
+    flexDirection: 'row',
     justifyContent: 'center',
     paddingVertical: 6,
     marginBottom: Platform.OS === 'ios' ? 24 : 12,
@@ -193,26 +217,34 @@ const styles = StyleSheet.create({
     height: 66,
     justifyContent: 'center',
     width: 66
+  },
+  coins: {
+    marginHorizontal: 4
+  },
+  price: {
+    color: '#fff'
+  },
+  buyText: {
+    color: '#fff',
+    fontFamily: 'sf-bold'
   }
 });
 
 CategoryPopup.propTypes = {
   close: func.isRequired,
-  name: string.isRequired,
-  description: string.isRequired,
-  image: string.isRequired,
-  words: arrayOf(
-    shape({
-      _id: string,
-      hint: string,
-      text: string
-    })
-  ).isRequired,
+  category: object.isRequired,
   play: func.isRequired,
   transitionPosition: shape({
     x: number,
     y: number
-  }).isRequired
+  }).isRequired,
+  hasCategory: bool,
+  openPurchase: func.isRequired,
+  user: object.isRequired
+};
+
+CategoryPopup.defaultProps = {
+  hasCategory: true
 };
 
 export default CategoryPopup;
