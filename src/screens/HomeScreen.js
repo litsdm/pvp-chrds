@@ -284,6 +284,20 @@ const HomeScreen = ({
     return players[0];
   };
 
+  const getPositionString = (index, title) => {
+    let matchesLength;
+
+    if (title === 'Your Turn') matchesLength = matches[0].data.length;
+    else if (title === 'Their Turn') matchesLength = matches[1].data.length;
+    else matchesLength = matches[2].data.length;
+
+    if (index === 0 && matchesLength === index + 1) return 'FirstLast';
+    if (index === 0) return 'First';
+    if (matchesLength === index + 1) return 'Last';
+
+    return 'Mid';
+  };
+
   const handleRefresh = async () => {
     setRefreshing(true);
     await refetch();
@@ -297,6 +311,7 @@ const HomeScreen = ({
     const opponent = getOpponent(players);
     const jsonScore = JSON.parse(score);
     const stringScore = `${jsonScore[user._id]} - ${jsonScore[opponent._id]}`;
+    const position = getPositionString(args.index, title);
 
     if (moment().diff(new Date(expiresOn)) > 0 && state !== 'end') return null;
 
@@ -308,6 +323,7 @@ const HomeScreen = ({
         uri={opponent.profilePic}
         expiryDate={moment(new Date(expiresOn))}
         onPress={title === 'Your Turn' ? handlePlay(args.item, opponent) : null}
+        position={position}
       />
     ) : (
       <FinishedMatchRow
@@ -315,6 +331,7 @@ const HomeScreen = ({
         username={opponent.username}
         uri={opponent.profilePic}
         onPress={handleDelete(args.item)}
+        position={position}
       />
     );
   };
@@ -326,7 +343,13 @@ const HomeScreen = ({
     if (title === 'Finished Matches' && matches[2].data.length === 0)
       return null;
 
-    return <Text style={styles.title}>{title}</Text>;
+    return (
+      <Text
+        style={[styles.title, { opacity: title !== 'Your Turn' ? 0.4 : 0.65 }]}
+      >
+        {title}
+      </Text>
+    );
   };
 
   const condition =
@@ -477,7 +500,7 @@ const styles = StyleSheet.create({
     color: '#fff'
   },
   title: {
-    fontFamily: 'sf-light',
+    fontFamily: 'sf-medium',
     fontSize: 16,
     marginTop: 24,
     marginLeft: 24,

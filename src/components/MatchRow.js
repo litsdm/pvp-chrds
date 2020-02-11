@@ -4,13 +4,16 @@ import moment from 'moment';
 import { func, string } from 'prop-types';
 import { momentObj } from 'react-moment-proptypes';
 
+import Layout from '../constants/Layout';
+
 const MatchRow = ({
   username,
   expiryDate,
   score,
   onPress,
   categoryUri,
-  uri
+  uri,
+  position
 }) => {
   const timeLeft = () => {
     const now = moment();
@@ -22,39 +25,62 @@ const MatchRow = ({
     return `${expiryDate.diff(now, 'minutes')}m`;
   };
 
+  const positionStyles = () => {
+    if (position === 'FirstLast')
+      return { borderBottomWidth: 1, borderTopWidth: 1 };
+    if (position === 'First') return { borderTopWidth: 1 };
+    if (position === 'Last') return { borderBottomWidth: 1 };
+  };
+
   const children = (
     <>
-      <View style={styles.leftSide}>
-        <Image source={{ uri }} style={styles.image} resizeMode="cover" />
-        <View style={styles.info}>
-          <Text style={styles.username}>{username}</Text>
-          <Text style={styles.date}>{timeLeft()} left to play</Text>
+      <View style={styles.child}>
+        <View style={styles.leftSide}>
+          <Image source={{ uri }} style={styles.image} resizeMode="cover" />
+          <View style={styles.info}>
+            <Text style={styles.username}>{username}</Text>
+            <Text style={styles.date}>{timeLeft()} left to play</Text>
+          </View>
+        </View>
+        <View style={styles.rightSide}>
+          <Image source={{ uri: categoryUri }} style={styles.category} />
+          <Text style={styles.score}>{score}</Text>
         </View>
       </View>
-      <View style={styles.rightSide}>
-        <Image source={{ uri: categoryUri }} style={styles.category} />
-        <Text style={styles.score}>{score}</Text>
-      </View>
+      {position === 'Mid' || position === 'First' ? (
+        <View style={styles.divider} />
+      ) : null}
     </>
   );
 
   return onPress ? (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.container, positionStyles()]}
+      onPress={onPress}
+    >
       {children}
+      <Text style={styles.play}>Press to Play</Text>
     </TouchableOpacity>
   ) : (
-    <View style={styles.container}>{children}</View>
+    <View style={[styles.container, positionStyles()]}>{children}</View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'center',
     backgroundColor: '#fff',
+    borderColor: 'rgba(0,0,0,0.04)',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 24
+  },
+  child: {
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 12,
-    paddingHorizontal: 24
+    width: '100%'
   },
   leftSide: {
     alignItems: 'center',
@@ -88,6 +114,19 @@ const styles = StyleSheet.create({
   score: {
     fontFamily: 'sf-regular',
     fontSize: 18
+  },
+  play: {
+    color: '#7c4dff',
+    fontFamily: 'sf-medium',
+    fontSize: 10
+  },
+  divider: {
+    backgroundColor: 'rgba(0,0,0,0.05)',
+    bottom: 0,
+    height: 1,
+    position: 'absolute',
+    right: 0,
+    width: Layout.window.width - 96
   }
 });
 
@@ -97,7 +136,8 @@ MatchRow.propTypes = {
   expiryDate: momentObj.isRequired,
   score: string.isRequired,
   categoryUri: string.isRequired,
-  uri: string.isRequired
+  uri: string.isRequired,
+  position: string.isRequired
 };
 
 MatchRow.defaultProps = {

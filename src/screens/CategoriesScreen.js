@@ -157,7 +157,7 @@ const CategoriesScreen = ({
               </TouchableOpacity>
             </View>
           ) : null}
-          <View>
+          <View style={{ paddingBottom: 52 }}>
             <Text
               style={[styles.title, featuredCategory ? { marginTop: 12 } : {}]}
             >
@@ -186,8 +186,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     overflow: 'hidden',
     flex: 1,
-    paddingTop: 0,
-    paddingBottom: 24
+    paddingTop: 0
   },
   featured: {
     height: Layout.window.height / 2 - 12,
