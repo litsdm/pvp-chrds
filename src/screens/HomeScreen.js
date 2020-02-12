@@ -330,7 +330,7 @@ const HomeScreen = ({
     ) : (
       <FinishedMatchRow
         score={stringScore}
-        username={opponent.username}
+        username={opponent.displayName}
         uri={opponent.profilePic}
         onPress={handleDelete(args.item)}
         position={position}

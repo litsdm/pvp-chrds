@@ -23,10 +23,10 @@ const SelectFriend = ({
   openAdd
 }) => {
   const renderItem = args => {
-    const { _id, username, profilePic } = args.item;
+    const { _id, displayName, profilePic } = args.item;
     return (
       <FriendRow
-        username={username}
+        username={displayName}
         uri={profilePic}
         onPress={select(_id)}
         selected={selected === _id}
