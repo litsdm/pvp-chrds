@@ -360,7 +360,7 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/lottie-ios\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/lottie-react-native\"",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -441,7 +441,7 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/lottie-ios\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/lottie-react-native\"",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
