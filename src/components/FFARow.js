@@ -93,7 +93,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 60,
     justifyContent: 'center',
-    width: 60
+    overflow: 'hidden',
+    width: 30
   },
   iconWrapper: {
     alignItems: 'center',
