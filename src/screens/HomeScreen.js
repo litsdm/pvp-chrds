@@ -33,6 +33,7 @@ import MatchRow from '../components/MatchRow';
 import FinishedMatchRow from '../components/FinishedMatchRow';
 import Loader from '../components/Loader';
 import Empty from '../components/Empty';
+import FFARow from '../components/FFARow';
 
 import Layout from '../constants/Layout';
 
@@ -253,7 +254,7 @@ const HomeScreen = ({
     const finished = matchesData.matches.filter(match => match.state === 'end');
 
     setMatches([
-      { title: 'Your Turn', data: yourTurn },
+      { title: 'Your Turn', data: [{ name: 'ffa' }, ...yourTurn] },
       { title: 'Their Turn', data: theirTurn },
       { title: 'Finished Matches', data: finished }
     ]);
@@ -309,11 +310,16 @@ const HomeScreen = ({
 
   const renderItem = args => {
     const { title } = args.section;
+    const position = getPositionString(args.index, title);
+
+    if (title === 'Your Turn' && args.index === 0) {
+      return <FFARow position={position} onPress={() => {}} />;
+    }
+
     const { players, category, score, expiresOn, state } = args.item;
     const opponent = getOpponent(players);
     const jsonScore = JSON.parse(score);
     const stringScore = `${jsonScore[user._id]} - ${jsonScore[opponent._id]}`;
-    const position = getPositionString(args.index, title);
 
     if (moment().diff(new Date(expiresOn)) > 0 && state !== 'end') return null;
 
