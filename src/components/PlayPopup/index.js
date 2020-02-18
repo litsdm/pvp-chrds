@@ -13,6 +13,7 @@ import callApi from '../../helpers/apiCaller';
 import Popup from '../Popup';
 import SelectCategory from './SelectCategory';
 import SelectFriend from './SelectFriend';
+import SelectMode from './SelectMode';
 
 import Layout from '../../constants/Layout';
 
@@ -38,8 +39,9 @@ const PlayPopup = ({
   const [createMatch, { data: matchData }] = useMutation(CREATE_MATCH);
   const [selectedCategory, setSelectedCategory] = useState(category);
   const [selectedFriend, setSelectedFriend] = useState(friend);
+  const [selectedMode, setSelectedMode] = useState(0);
   const [search, setSearch] = useState('');
-  const [page, setPage] = useState(category ? 1 : 0);
+  const [page, setPage] = useState(0);
   const [categoryHash, setCategoryHash] = useState({});
   const scrollView = useRef(null);
 
@@ -84,7 +86,7 @@ const PlayPopup = ({
     if (page === 0) scrollView.current.scrollTo({ x: 0, y: 0, animated: true });
     else
       scrollView.current.scrollTo({
-        x: Layout.window.width,
+        x: Layout.window.width * page,
         y: 0,
         animated: true
       });
@@ -96,10 +98,16 @@ const PlayPopup = ({
   };
 
   const selectFriend = _id => () => setSelectedFriend(_id);
+  const selectMode = mode => () => setSelectedMode(mode);
 
   const handleNext = () => {
     if (selectedCategory === null) return;
-    setPage(1);
+    setPage(2);
+  };
+
+  const handleModeNext = () => {
+    if (category !== null) setPage(2);
+    else setPage(1);
   };
 
   const fetchRandomOpponent = async () => {
@@ -113,16 +121,17 @@ const PlayPopup = ({
   };
 
   const handleDone = async () => {
-    let finalCategory = selectedCategory;
+    if (selectedMode === 0) handleFFADone();
+    else handleVersusDone();
+  };
+
+  const handleVersusDone = async () => {
+    const finalCategory = getFinalCategory();
     let opponent = selectedFriend;
-    if (selectedCategory === '-1') {
-      const randomIndex = Math.floor(Math.random() * user.categories.length);
-      finalCategory = user.categories[randomIndex];
-      await setSelectedCategory(finalCategory);
-    }
+
     if (selectedFriend === '-1') {
       opponent = await fetchRandomOpponent();
-      await setSelectedFriend(opponent);
+      setSelectedFriend(opponent);
     }
 
     if (!opponent) return;
@@ -137,12 +146,29 @@ const PlayPopup = ({
     await createMatch({ variables });
   };
 
+  const handleFFADone = async () => {
+    const finalCategory = getFinalCategory();
+
+    navigate('Camera', { categoryID: finalCategory, userID: user._id });
+  };
+
+  const getFinalCategory = () => {
+    let finalCategory = selectedCategory;
+    if (selectedCategory === '-1') {
+      const randomIndex = Math.floor(Math.random() * user.categories.length);
+      finalCategory = user.categories[randomIndex];
+      setSelectedCategory(finalCategory);
+    }
+    return finalCategory;
+  };
+
   const navigateOnDone = () => {
     navigate('Camera', {
       categoryID: selectedCategory,
       opponentID: selectedFriend,
       matchID: matchData.match._id,
-      userID: user._id
+      userID: user._id,
+      type: 'versus'
     });
     close();
   };
@@ -165,12 +191,19 @@ const PlayPopup = ({
         disableIntervalMomentum
         disableScrollViewPanResponder
       >
+        <SelectMode
+          handleNext={handleModeNext}
+          selectMode={selectMode}
+          selected={selectedMode}
+          handlePlay={handleDone}
+          didSelectCategory={category !== null}
+        />
         <SelectCategory
           handleNext={handleNext}
           selectCategory={selectCategory}
           selectedCategory={selectedCategory}
           categories={categories || []}
-          directPlay={friend !== null}
+          directPlay={friend !== null || selectedMode === 0}
           handleDone={handleDone}
           categoryHash={categoryHash}
           openPurchase={handleOpenPurchase}

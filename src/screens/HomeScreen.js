@@ -158,6 +158,7 @@ const HomeScreen = ({
 
   const user = data ? data.user : {};
   const friendRequests = data ? data.friendRequests : [];
+  const matchCount = data ? data.ffaMatchCount : 0;
 
   useEffect(() => {
     if (matchesData) {
@@ -254,7 +255,10 @@ const HomeScreen = ({
     const finished = matchesData.matches.filter(match => match.state === 'end');
 
     setMatches([
-      { title: 'Your Turn', data: [{ name: 'ffa' }, ...yourTurn] },
+      {
+        title: 'Your Turn',
+        data: matchCount > 0 ? [{ name: 'ffa' }, ...yourTurn] : yourTurn
+      },
       { title: 'Their Turn', data: theirTurn },
       { title: 'Finished Matches', data: finished }
     ]);
@@ -313,7 +317,7 @@ const HomeScreen = ({
     const { title } = args.section;
     const position = getPositionString(args.index, title);
 
-    if (title === 'Your Turn' && args.index === 0) {
+    if (title === 'Your Turn' && args.index === 0 && matchCount > 0) {
       return <FFARow position={position} onPress={navigateToFFA} />;
     }
 

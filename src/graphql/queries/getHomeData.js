@@ -17,5 +17,6 @@ export default gql`
     friendRequests(_id: $_id) {
       _id
     }
+    ffaMatchCount
   }
 `;

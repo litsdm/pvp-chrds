@@ -5,6 +5,10 @@ export default gql`
     matches: FFAMatches {
       _id
       video
+      sender {
+        _id
+        displayName
+      }
       actedWord {
         _id
         text

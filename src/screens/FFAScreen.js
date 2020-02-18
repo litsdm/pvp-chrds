@@ -29,11 +29,11 @@ const FFAScreen = () => {
   }, [data]);
 
   const createRows = matchs => {
-    const matchRows = matchs.map(({ _id, video, category }, index) => (
+    const matchRows = matchs.map(({ _id, video, category, sender }, index) => (
       <Row
         uri={video}
         active={index === 1}
-        username="Carlos"
+        username={sender.displayName}
         categoryName={category.name}
         key={_id}
       />
