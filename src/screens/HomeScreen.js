@@ -261,6 +261,7 @@ const HomeScreen = ({
   };
 
   const navigateToSettings = () => navigation.navigate('Settings');
+  const navigateToFFA = () => navigation.navigate('FFA');
 
   const handlePlay = (match, opponent) => () => {
     const route = match.state === 'play' ? 'Camera' : 'Match';
@@ -313,7 +314,7 @@ const HomeScreen = ({
     const position = getPositionString(args.index, title);
 
     if (title === 'Your Turn' && args.index === 0) {
-      return <FFARow position={position} onPress={() => {}} />;
+      return <FFARow position={position} onPress={navigateToFFA} />;
     }
 
     const { players, category, score, expiresOn, state } = args.item;
