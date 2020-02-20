@@ -26,7 +26,7 @@ const FFAMatchRow = ({ uri, active, username, categoryName }) => {
 
   const fetchSignedUri = async () => {
     const filename = uri.split('/').pop();
-    const signed = await getSignedUrl(filename, 'Videos');
+    const signed = await getSignedUrl(filename, 'FFAVideos');
     setSignedUri(signed);
   };
 
@@ -68,7 +68,7 @@ const FFAMatchRow = ({ uri, active, username, categoryName }) => {
       </View>
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Guess Word</Text>
-        <FontAwesome5 name="chevron-right" size={14} color="#000" />
+        <FontAwesome5 name="chevron-right" size={14} color="#7c4dff" />
       </TouchableOpacity>
     </View>
   );
@@ -121,7 +121,8 @@ const styles = StyleSheet.create({
     height: '50%',
     left: 0,
     position: 'absolute',
-    right: 0
+    right: 0,
+    zIndex: 1
   },
   loadingOverlay: {
     alignItems: 'center',
@@ -135,6 +136,7 @@ const styles = StyleSheet.create({
     zIndex: 1
   },
   buttonText: {
+    color: '#7c4dff',
     fontFamily: 'sf-medium',
     fontSize: 12,
     marginRight: 6

@@ -265,7 +265,7 @@ const HomeScreen = ({
   };
 
   const navigateToSettings = () => navigation.navigate('Settings');
-  const navigateToFFA = () => navigation.navigate('FFA');
+  const navigateToFFA = () => navigation.navigate('FFA', { userID: user._id });
 
   const handlePlay = (match, opponent) => () => {
     const route = match.state === 'play' ? 'Camera' : 'Match';

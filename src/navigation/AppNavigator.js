@@ -24,24 +24,11 @@ const AuthStack = createStackNavigator(
   }
 );
 
-const FFAStack = createStackNavigator(
-  {
-    FFA: {
-      screen: FFAScreen
-    }
-  },
-  {
-    defaultNavigationOptions: {
-      header: null
-    }
-  }
-);
-
 export default createAppContainer(
   createSwitchNavigator({
     AuthLoading: AuthLoadingScreen,
     Auth: AuthStack,
-    Main: MainTabNavigator,
-    FFA: FFAStack
+    FFA: FFAScreen,
+    Main: MainTabNavigator
   })
 );
