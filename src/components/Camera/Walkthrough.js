@@ -16,6 +16,7 @@ import Layout from '../../constants/Layout';
 import WordTooltip from './WordTooltip';
 import PowerUp from '../Match/PowerUp';
 import TopControls from './TopControls';
+import FFATopControls from './FFATopControls';
 
 import ArrowLeft from '../../../assets/icons/arrowLeft.svg';
 import ArrowRight from '../../../assets/icons/arrowRight.svg';
@@ -190,7 +191,7 @@ const Walkthrough = ({ close, word, category, opponent }) => {
       case 3:
         return <Powerups onPress={handleNext} />;
       case 4:
-        return (
+        return opponent ? (
           <TopControls
             goBack={handleNext}
             iconName="ios-arrow-round-back"
@@ -201,6 +202,8 @@ const Walkthrough = ({ close, word, category, opponent }) => {
             isRecording={false}
             category={category}
           />
+        ) : (
+          <FFATopControls iconName="ios-arrow-round-back" goBack={handleNext} />
         );
       default:
         return null;
@@ -391,8 +394,12 @@ RecordButton.defaultProps = {
 Walkthrough.propTypes = {
   close: func.isRequired,
   word: string.isRequired,
-  opponent: object.isRequired,
+  opponent: object,
   category: object.isRequired
+};
+
+Walkthrough.defaultProps = {
+  opponent: null
 };
 
 export default Walkthrough;

@@ -149,7 +149,12 @@ const PlayPopup = ({
   const handleFFADone = async () => {
     const finalCategory = getFinalCategory();
 
-    navigate('Camera', { categoryID: finalCategory, userID: user._id });
+    navigate('Camera', {
+      categoryID: finalCategory,
+      userID: user._id,
+      mode: 'ffa'
+    });
+    close();
   };
 
   const getFinalCategory = () => {
@@ -168,7 +173,7 @@ const PlayPopup = ({
       opponentID: selectedFriend,
       matchID: matchData.match._id,
       userID: user._id,
-      type: 'versus'
+      mode: 'versus'
     });
     close();
   };

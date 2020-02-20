@@ -7,6 +7,7 @@ import { toggleProgressBadge } from './popup';
 
 import UPDATE_MATCH from '../graphql/mutations/updateMatch';
 import UPDATE_USER from '../graphql/mutations/updateUser';
+import CREATE_FFA_MATCH from '../graphql/mutations/createFFAMatch';
 
 export const UPDATE_PROGRESS = 'UPDATE_PROGRESS';
 export const ADD_VIDEO_TO_QUEUE = 'ADD_VIDEO_TO_QUEUE';
@@ -61,6 +62,35 @@ const getSignedRequest = async ({ name, type }, folder, isStatic = false) => {
   } catch (exception) {
     console.log(exception.message);
   }
+};
+
+const uploadFFAVideoComplete = ({
+  sender,
+  actedWord,
+  cameraType,
+  category,
+  s3Url
+}) => async (dispatch, getState) => {
+  const {
+    file: { videos, completedCount }
+  } = getState();
+
+  const variables = {
+    sender,
+    actedWord,
+    cameraType,
+    category,
+    video: s3Url
+  };
+
+  await client.mutate({
+    mutation: CREATE_FFA_MATCH,
+    variables
+  });
+
+  if (completedCount + 1 === Object.keys(videos).length)
+    dispatch(finishVideoUpload());
+  else dispatch(completeVideo(completedCount + 1));
 };
 
 const uploadVideoComplete = ({ matchID, opponentID, s3Url }) => async (
@@ -121,6 +151,28 @@ export const upload = file => async dispatch => {
 
   const handleFinish = doneFile => {
     dispatch(uploadVideoComplete(doneFile));
+    deleteAsync(doneFile.uri, { idempotent: true });
+    AsyncStorage.removeItem('brokenUploadData');
+  };
+
+  const composeFile = { ...file, s3Url, progress: 0, uploadedBytes: 0 };
+
+  dispatch(addVideoToQueue(composeFile));
+  uploadFile(composeFile, signedRequest, handleProgress, handleFinish);
+};
+
+export const uploadFFA = file => async dispatch => {
+  const folder = 'FFAVideos';
+
+  dispatch(toggleProgressBadge(true));
+
+  const { signedRequest, url: s3Url } = await getSignedRequest(file, folder);
+
+  const handleProgress = (name, progress, uploadedBytes) =>
+    dispatch(updateProgress(name, progress, uploadedBytes));
+
+  const handleFinish = doneFile => {
+    dispatch(uploadFFAVideoComplete(doneFile));
     deleteAsync(doneFile.uri, { idempotent: true });
     AsyncStorage.removeItem('brokenUploadData');
   };

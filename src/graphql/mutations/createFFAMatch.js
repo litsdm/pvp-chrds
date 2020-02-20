@@ -6,8 +6,15 @@ export default gql`
     $category: String!
     $actedWord: String!
     $video: String!
+    $cameraType: Int!
   ) {
-    match: createFFAMatch {
+    createFFAMatch(
+      sender: $sender
+      category: $category
+      actedWord: $actedWord
+      video: $video
+      cameraType: $cameraType
+    ) {
       _id
     }
   }

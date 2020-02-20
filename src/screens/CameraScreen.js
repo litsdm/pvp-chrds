@@ -10,10 +10,11 @@ import { func, object } from 'prop-types';
 
 import mime from '../helpers/mimeTypes';
 import { useAnimation } from '../helpers/hooks';
-import { upload } from '../actions/file';
+import { upload, uploadFFA } from '../actions/file';
 import { toggleBadge, togglePurchaseModal } from '../actions/popup';
 
 import GET_DATA from '../graphql/queries/getCameraData';
+import GET_FFA_DATA from '../graphql/queries/getFFACameraData';
 import GET_USER from '../graphql/queries/getCameraUser';
 import UPDATE_MATCH from '../graphql/mutations/updateMatch';
 import UPDATE_USER from '../graphql/mutations/updateUser';
@@ -29,9 +30,11 @@ import PurchaseModal from '../components/Match/PurchaseModal';
 import PickWordModal from '../components/Camera/PickWordModal';
 import Hint from '../components/Match/HintModal';
 import Walkthrough from '../components/Camera/Walkthrough';
+import FFATopControls from '../components/Camera/FFATopControls';
 
 const mapDispatchToProps = dispatch => ({
   uploadFile: file => dispatch(upload(file)),
+  uploadFFAFile: file => dispatch(uploadFFA(file)),
   displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),
   openCoinShop: () => dispatch(togglePurchaseModal(true))
 });
@@ -44,6 +47,7 @@ let originalBrightness;
 const CameraScreen = ({
   navigation,
   uploadFile,
+  uploadFFAFile,
   displayBadge,
   openCoinShop
 }) => {
@@ -51,10 +55,15 @@ const CameraScreen = ({
   const opponentID = navigation.getParam('opponentID', '');
   const matchID = navigation.getParam('matchID', '');
   const userID = navigation.getParam('userID', '');
+  const mode = navigation.getParam('mode', '');
 
-  const { data } = useQuery(GET_DATA, {
-    variables: { categoryID, opponentID, matchID }
-  });
+  const { data } =
+    mode === 'versus'
+      ? useQuery(GET_DATA, {
+          variables: { categoryID, opponentID, matchID }
+        })
+      : useQuery(GET_FFA_DATA, { variables: { categoryID } });
+
   const { data: userData, refetch } = useQuery(GET_USER, {
     variables: { userID }
   });
@@ -113,8 +122,9 @@ const CameraScreen = ({
       randWord = category.words[randomIndex];
     } while (randWord.text === word.text);
 
-    AsyncStorage.setItem(`${matchID}-word`, JSON.stringify(randWord));
-    await setWord(randWord);
+    if (mode === 'versus')
+      AsyncStorage.setItem(`${matchID}-word`, JSON.stringify(randWord));
+    setWord(randWord);
   };
 
   const getCategoryWord = async () => {
@@ -153,10 +163,12 @@ const CameraScreen = ({
     const activePowerups =
       JSON.parse(await AsyncStorage.getItem(`${matchID}-activePowerups`)) || {};
     activePowerups[pwrup] = true;
-    await AsyncStorage.setItem(
-      `${matchID}-activePowerups`,
-      JSON.stringify(activePowerups)
-    );
+    if (mode === 'versus') {
+      await AsyncStorage.setItem(
+        `${matchID}-activePowerups`,
+        JSON.stringify(activePowerups)
+      );
+    }
   };
 
   const shouldDisplayWalkthrough = async () => {
@@ -259,6 +271,11 @@ const CameraScreen = ({
   };
 
   const handleSend = async () => {
+    if (mode === 'versus') handleVersusSend();
+    else handleFFASend();
+  };
+
+  const handleVersusSend = async () => {
     const { size } = await FileSystem.getInfoAsync(videoUri, { size: true });
     const extension = videoUri.split('.').pop();
     const name = `${match._id}-round.${extension}`;
@@ -283,6 +300,28 @@ const CameraScreen = ({
     navigation.navigate('Home');
   };
 
+  const handleFFASend = async () => {
+    const { size } = await FileSystem.getInfoAsync(videoUri, { size: true });
+    const extension = videoUri.split('.').pop();
+    const digits = Math.floor(1000 + Math.random() * 9000);
+    const name = `${user._id}-ffa-${digits}.${extension}`;
+
+    const file = {
+      uri: videoUri,
+      name,
+      size,
+      type: mime(extension),
+      actedWord: word._id,
+      sender: user._id,
+      cameraType,
+      category: categoryID
+    };
+
+    uploadFFAFile(file);
+
+    navigation.navigate('Home');
+  };
+
   const handleReplay = async () => {
     await AsyncStorage.setItem(
       `${matchID}-word`,
@@ -298,7 +337,8 @@ const CameraScreen = ({
 
     await getRandomWord();
     setRollCount(newRollCount);
-    await AsyncStorage.setItem(`${matchID}-rolls`, `${newRollCount}`);
+    if (mode === 'versus')
+      await AsyncStorage.setItem(`${matchID}-rolls`, `${newRollCount}`);
   };
 
   const handleHand = () => setPickWord(true);
@@ -312,8 +352,9 @@ const CameraScreen = ({
   const handlePickWord = async wordIndex => {
     const pickedWord = category.words[wordIndex];
 
-    AsyncStorage.setItem(`${matchID}-word`, JSON.stringify(pickedWord));
-    await setWord(pickedWord);
+    if (mode === 'versus')
+      AsyncStorage.setItem(`${matchID}-word`, JSON.stringify(pickedWord));
+    setWord(pickedWord);
 
     setPickWord(false);
   };
@@ -355,18 +396,24 @@ const CameraScreen = ({
   const openHint = () => setDisplayHint(true);
   const closeHint = () => setDisplayHint(false);
 
-  const renderTopControls = () => (
-    <TopControls
-      goBack={videoUri ? closeVideo : goBack}
-      iconName={videoUri ? 'md-close' : 'ios-arrow-round-back'}
-      uri={opponent.profilePic}
-      username={opponent.displayName}
-      userScore={match.score ? JSON.parse(match.score)[userID] : 0}
-      opponentScore={match.score ? JSON.parse(match.score)[opponent._id] : 0}
-      isRecording={isRecording}
-      category={category}
-    />
-  );
+  const renderTopControls = () =>
+    mode === 'versus' ? (
+      <TopControls
+        goBack={videoUri ? closeVideo : goBack}
+        iconName={videoUri ? 'md-close' : 'ios-arrow-round-back'}
+        uri={opponent.profilePic}
+        username={opponent.displayName}
+        userScore={match.score ? JSON.parse(match.score)[userID] : 0}
+        opponentScore={match.score ? JSON.parse(match.score)[opponent._id] : 0}
+        isRecording={isRecording}
+        category={category}
+      />
+    ) : (
+      <FFATopControls
+        goBack={videoUri ? closeVideo : goBack}
+        iconName={videoUri ? 'md-close' : 'ios-arrow-round-back'}
+      />
+    );
 
   return (
     <View style={styles.container}>
@@ -411,7 +458,7 @@ const CameraScreen = ({
       {displayWalkthrough ? (
         <Walkthrough
           close={closeWalkthrough}
-          word="James Bond"
+          word={word.text}
           category={category}
           opponent={opponent}
         />
@@ -479,6 +526,7 @@ const styles = StyleSheet.create({
 CameraScreen.propTypes = {
   navigation: object.isRequired,
   uploadFile: func.isRequired,
+  uploadFFAFile: func.isRequired,
   displayBadge: func.isRequired,
   openCoinShop: func.isRequired
 };
