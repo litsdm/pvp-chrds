@@ -161,11 +161,11 @@ const HomeScreen = ({
   const matchCount = data ? data.ffaMatchCount : 0;
 
   useEffect(() => {
-    if (matchesData) {
+    if (matchesData && data) {
       separateMatches();
       checkExpiredMatches();
     }
-  }, [matchesData]);
+  }, [matchesData, data]);
 
   useEffect(() => {
     if (subscribeToMore && !didSubscribe && data) {
