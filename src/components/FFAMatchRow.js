@@ -1,11 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import { Video } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { bool, string } from 'prop-types';
 
 import { getSignedUrl } from '../helpers/apiCaller';
+
+import Loader from './Loader';
 
 import Layout from '../constants/Layout';
 
@@ -56,12 +65,18 @@ const FFAMatchRow = ({ uri, active, username, categoryName }) => {
         colors={['transparent', 'rgba(0, 0, 0, 0.4)']}
         pointerEvents="none"
       />
+      {!loaded ? <Loader /> : null}
       <Video
         ref={video}
         onPlaybackStatusUpdate={handlePlaybackUpdate}
         resizeMode="cover"
         style={styles.video}
       />
+      {buffering && Platform.OS === 'ios' ? (
+        <View style={styles.buffering}>
+          <ActivityIndicator size="small" color="#fff" />
+        </View>
+      ) : null}
       <View style={styles.info}>
         <Text style={styles.username}>@{username}</Text>
         <Text style={styles.category}>Acting {categoryName}</Text>
@@ -140,6 +155,15 @@ const styles = StyleSheet.create({
     fontFamily: 'sf-medium',
     fontSize: 12,
     marginRight: 6
+  },
+  buffering: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    position: 'absolute',
+    right: 24,
+    top: 44,
+    zIndex: 6
   }
 });
 
