@@ -224,8 +224,8 @@ const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
     });
     const userProperties = JSON.stringify({ xp, wonGames, coins });
 
-    await setMedalCount(medals);
-    await setGameState(gameWon ? 'end' : 'finished');
+    setMedalCount(medals);
+    setGameState(gameWon ? 'end' : 'finished');
 
     await updateData({
       variables: { userID, matchID, userProperties, matchProperties }

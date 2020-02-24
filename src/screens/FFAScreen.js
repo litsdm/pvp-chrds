@@ -1,19 +1,25 @@
 import React, { useEffect, useState, useRef } from 'react';
 import {
+  BackHandler,
   ScrollView,
   StatusBar,
   StyleSheet,
   TouchableOpacity,
   View
 } from 'react-native';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
+import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { getDeviceId } from 'react-native-device-info';
-import { object } from 'prop-types';
+import { func, object } from 'prop-types';
 
 import GET_DATA from '../graphql/queries/getFFAData';
+import GET_USER_DATA from '../graphql/queries/getFFAUserData';
+import UPDATE_USER from '../graphql/mutations/updateUser';
 
-import Row from '../components/FFAMatchRow';
+import { toggleBadge, togglePurchaseModal } from '../actions/popup';
+
+import Row from '../components/FFA/MatchRow';
 
 import Layout from '../constants/Layout';
 
@@ -21,16 +27,33 @@ const deviceID = getDeviceId();
 const IS_IPHONE_X =
   deviceID.includes('iPhone12') || deviceID.includes('iPhone11');
 
-const FFAScreen = ({ navigation }) => {
+const mapDispatchToProps = dispatch => ({
+  openCoinShop: () => dispatch(togglePurchaseModal(true)),
+  displayBadge: (message, type) => dispatch(toggleBadge(true, message, type))
+});
+
+const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
   const userID = navigation.getParam('userID', '');
   const { data } = useQuery(GET_DATA);
+  const { data: userData, refetch } = useQuery(GET_USER_DATA, {
+    variables: { userID }
+  });
+  const [updateUser] = useMutation(UPDATE_USER);
   const [didScroll, setDidScroll] = useState(false);
-  const [rows, setRows] = useState(null);
+  const [selectedMatches, setSelectedMatches] = useState([]);
   const [midIndex, setMidIndex] = useState(0);
   const [activeIndex, setActiveIndex] = useState(1);
+  const [guessed, setGuessed] = useState({});
+  const [guessing, setGuessing] = useState(false);
   const scrollView = useRef(null);
 
   const matches = data ? data.matches : [];
+  const user = userData ? userData.user : {};
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', goBack);
+    return () => BackHandler.removeEventListener('hardwareBackPress');
+  }, []);
 
   useEffect(() => {
     if (data && data.matches) {
@@ -40,26 +63,19 @@ const FFAScreen = ({ navigation }) => {
           : data.matches;
       const index = data.matches.length < 3 ? 0 : 1;
       setActiveIndex(index);
-      createRows(initialMatches, index);
+      setSelectedMatches(initialMatches);
     }
   }, [data]);
 
-  const createRows = (matchs, overrideIndex = null) => {
-    const matchRows = matchs.map(({ _id, video, category, sender }, index) => (
-      <Row
-        uri={video}
-        active={
-          overrideIndex !== null
-            ? index === overrideIndex
-            : index === activeIndex
-        }
-        username={sender.displayName}
-        categoryName={category.name}
-        key={_id}
-      />
-    ));
-    setRows(matchRows);
-  };
+  useEffect(() => {
+    if (userData && userData.user) {
+      const { ffaGuessed } = userData.user;
+      setGuessed(JSON.parse(ffaGuessed || '{}'));
+    }
+  }, [userData]);
+
+  const addToGuessed = _id => result =>
+    setGuessed({ ...guessed, [_id]: result });
 
   const handleInitialSizeChange = (contentWidth, contentHeight) => {
     if (!didScroll && contentHeight !== 0 && data.matches.length > 2) {
@@ -85,7 +101,8 @@ const FFAScreen = ({ navigation }) => {
     if (data.matches.length === 1) return;
 
     if (data.matches.length === 2) {
-      createRows(data.matches, newIndex);
+      setActiveIndex(newIndex);
+      setSelectedMatches(data.matches);
       return;
     }
 
@@ -113,10 +130,41 @@ const FFAScreen = ({ navigation }) => {
 
     setMidIndex(useIndex);
 
-    createRows(newMatches);
+    setSelectedMatches(newMatches);
   };
 
-  const goBack = () => navigation.navigate('Home', { userID });
+  const goBack = async () => {
+    if (guessing) setGuessing(false);
+    else {
+      navigation.navigate('Home', { userID });
+      return true;
+    }
+    return false;
+  };
+
+  const renderMatches = () =>
+    selectedMatches.map(
+      ({ _id, video, category, sender, actedWord }, index) => (
+        <Row
+          _id={_id}
+          uri={video}
+          active={index === activeIndex}
+          username={sender.displayName}
+          categoryName={category.name}
+          word={actedWord}
+          openCoinShop={openCoinShop}
+          refetchUser={refetch}
+          user={user}
+          updateUser={updateUser}
+          guessed={guessed}
+          addToGuessed={addToGuessed(_id)}
+          guessing={guessing}
+          setGuessing={setGuessing}
+          displayBadge={displayBadge}
+          key={_id}
+        />
+      )
+    );
 
   return (
     <View style={styles.container}>
@@ -142,7 +190,7 @@ const FFAScreen = ({ navigation }) => {
           onContentSizeChange={handleInitialSizeChange}
           onMomentumScrollEnd={handleScrollEnd}
         >
-          {rows}
+          {renderMatches()}
         </ScrollView>
       </View>
     </View>
@@ -169,7 +217,12 @@ const styles = StyleSheet.create({
 });
 
 FFAScreen.propTypes = {
-  navigation: object.isRequired
+  navigation: object.isRequired,
+  openCoinShop: func.isRequired,
+  displayBadge: func.isRequired
 };
 
-export default FFAScreen;
+export default connect(
+  null,
+  mapDispatchToProps
+)(FFAScreen);
