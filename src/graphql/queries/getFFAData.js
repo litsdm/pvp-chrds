@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export default gql`
-  {
-    matches: FFAMatches {
+  query GetFFAData($userID: String!, $skip: Int!) {
+    matches: FFAMatches(_id: $userID, skip: $skip) {
       _id
       video
       sender {

@@ -34,7 +34,7 @@ const mapDispatchToProps = dispatch => ({
 
 const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
   const userID = navigation.getParam('userID', '');
-  const { data } = useQuery(GET_DATA);
+  const { data } = useQuery(GET_DATA, { variables: { userID, skip: 0 } });
   const { data: userData, refetch } = useQuery(GET_USER_DATA, {
     variables: { userID }
   });
