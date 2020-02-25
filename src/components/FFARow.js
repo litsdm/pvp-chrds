@@ -1,5 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  AsyncStorage,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import LottieView from 'lottie-react-native';
 import { func, string } from 'prop-types';
 
@@ -14,8 +20,16 @@ const FFARow = ({ position, onPress }) => {
   const expandAnimationRef = useRef(null);
 
   useEffect(() => {
-    expandAnimationRef.current.play(90, 91);
+    manageExpanded();
   }, []);
+
+  const manageExpanded = async () => {
+    const storedExpanded = await AsyncStorage.getItem('ffaExpand');
+    setExpanded(storedExpanded ? storedExpanded === 'true' : true);
+    if (!storedExpanded || storedExpanded === 'true')
+      expandAnimationRef.current.play(90, 91);
+    else expandAnimationRef.current.play(170, 180);
+  };
 
   const positionStyles = () => {
     if (position === 'FirstLast')
@@ -27,6 +41,7 @@ const FFARow = ({ position, onPress }) => {
   const handleExpand = () => {
     if (expanded) expandAnimationRef.current.play(170, 180);
     else expandAnimationRef.current.play(65, 85);
+    AsyncStorage.setItem('ffaExpand', (!expanded).toString());
     setExpanded(!expanded);
   };
 
