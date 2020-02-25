@@ -20,6 +20,7 @@ import UPDATE_USER from '../graphql/mutations/updateUser';
 import { toggleBadge, togglePurchaseModal } from '../actions/popup';
 
 import Row from '../components/FFA/MatchRow';
+// import EmptyRow from '../components/FFA/EmptyRow';
 
 import Layout from '../constants/Layout';
 
