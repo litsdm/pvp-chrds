@@ -31,12 +31,13 @@ import client from './src/apolloStore';
 import AppNavigator from './src/navigation/AppNavigator';
 import PopupManager from './src/components/PopupManager';
 import { toggleBadge, togglePurchaseModal } from './src/actions/popup';
-import { upload } from './src/actions/file';
+import { upload, uploadFFA } from './src/actions/file';
 
 const mapDispatchToProps = dispatch => ({
   displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),
   closePurchase: () => dispatch(togglePurchaseModal(false)),
-  uploadFile: data => dispatch(upload(data))
+  uploadFile: data => dispatch(upload(data)),
+  uploadFFAFile: data => dispatch(uploadFFA(data))
 });
 
 const mapStateToProps = ({ file: { videos } }) => ({
@@ -61,7 +62,8 @@ const App = ({
   displayBadge,
   closePurchase,
   videos,
-  uploadFile
+  uploadFile,
+  uploadFFAFile
 }) => {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
   const [didCheckBroken, setDidCheckBroken] = useState(false);
@@ -100,7 +102,9 @@ const App = ({
     const videoData = await AsyncStorage.getItem('brokenUploadData');
     if (videoData) {
       const vids = JSON.parse(videoData);
-      Object.values(vids).forEach(file => uploadFile(file));
+      Object.values(vids).forEach(file =>
+        file.sender ? uploadFFAFile(file) : uploadFile(file)
+      );
       await AsyncStorage.removeItem('brokenUploadData');
     }
     setDidCheckBroken(true);
@@ -205,6 +209,7 @@ App.propTypes = {
   displayBadge: func.isRequired,
   closePurchase: func.isRequired,
   uploadFile: func.isRequired,
+  uploadFFAFile: func.isRequired,
   videos: object
 };
 
