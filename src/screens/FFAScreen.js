@@ -20,9 +20,11 @@ import UPDATE_USER from '../graphql/mutations/updateUser';
 import { toggleBadge, togglePurchaseModal } from '../actions/popup';
 
 import Row from '../components/FFA/MatchRow';
-// import EmptyRow from '../components/FFA/EmptyRow';
+import EmptyRow from '../components/FFA/EmptyRow';
 
 import Layout from '../constants/Layout';
+
+const ITEMS = 50;
 
 const deviceID = getDeviceId();
 const IS_IPHONE_X =
@@ -35,8 +37,10 @@ const mapDispatchToProps = dispatch => ({
 
 const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
   const userID = navigation.getParam('userID', '');
-  const { data } = useQuery(GET_DATA, { variables: { userID, skip: 0 } });
-  const { data: userData, refetch } = useQuery(GET_USER_DATA, {
+  const { data, refetch } = useQuery(GET_DATA, {
+    variables: { userID, skip: 0 }
+  });
+  const { data: userData, refetch: refetchUser } = useQuery(GET_USER_DATA, {
     variables: { userID }
   });
   const [updateUser] = useMutation(UPDATE_USER);
@@ -46,9 +50,12 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
   const [activeIndex, setActiveIndex] = useState(1);
   const [guessed, setGuessed] = useState({});
   const [guessing, setGuessing] = useState(false);
+  const [skip, setSkip] = useState(ITEMS);
+  const [matches, setMatches] = useState([]);
+  const [didSetInitial, setDidSetInitial] = useState(false);
+  const [didRefetch, setDidRefetch] = useState(false);
   const scrollView = useRef(null);
 
-  const matches = data ? data.matches : [];
   const user = userData ? userData.user : {};
 
   useEffect(() => {
@@ -58,15 +65,36 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
 
   useEffect(() => {
     if (data && data.matches) {
-      const initialMatches =
-        data.matches.length > 2
-          ? [data.matches[matches.length - 1], data.matches[0], data.matches[1]]
-          : data.matches;
-      const index = data.matches.length < 3 ? 0 : 1;
-      setActiveIndex(index);
-      setSelectedMatches(initialMatches);
+      if (matches.length === 0) {
+        setMatches(data.matches);
+        return;
+      }
+
+      if (matches.length === ITEMS && !didSetInitial) {
+        const initialMatches =
+          data.matches.length > 2
+            ? [
+                data.matches[matches.length - 1],
+                data.matches[0],
+                data.matches[1]
+              ]
+            : data.matches;
+        const index = data.matches.length < 3 ? 0 : 1;
+        setDidSetInitial(true);
+        setActiveIndex(index);
+        setSelectedMatches(initialMatches);
+        return;
+      }
+
+      const includesID = data.matches.some(
+        ({ _id }) => _id === matches[matches.length - 1]._id
+      );
+      if (didRefetch && !includesID) {
+        setMatches([...matches, ...data.matches]);
+        setDidRefetch(false);
+      }
     }
-  }, [data]);
+  }, [data, matches, didRefetch]);
 
   useEffect(() => {
     if (userData && userData.user) {
@@ -74,6 +102,17 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
       setGuessed(JSON.parse(ffaGuessed || '{}'));
     }
   }, [userData]);
+
+  useEffect(() => {
+    if (!data) return;
+
+    const { length } = matches;
+    if (midIndex === length - 2 && matches[length - 1]._id !== 'empty') {
+      refetch({ userID, skip });
+      setDidRefetch(true);
+      setSkip(skip + ITEMS);
+    }
+  }, [midIndex, matches]);
 
   const addToGuessed = _id => result =>
     setGuessed({ ...guessed, [_id]: result });
@@ -98,6 +137,8 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
     const matchesLen = matches.length;
     let newMatches = [];
     let useIndex;
+
+    if (matchesLen >= 3 && newIndex === 1) return;
 
     if (data.matches.length === 1) return;
 
@@ -144,8 +185,8 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
   };
 
   const renderMatches = () =>
-    selectedMatches.map(
-      ({ _id, video, category, sender, actedWord }, index) => (
+    selectedMatches.map(({ _id, video, category, sender, actedWord }, index) =>
+      _id !== 'empty' ? (
         <Row
           _id={_id}
           uri={video}
@@ -154,7 +195,7 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
           categoryName={category.name}
           word={actedWord}
           openCoinShop={openCoinShop}
-          refetchUser={refetch}
+          refetchUser={refetchUser}
           user={user}
           updateUser={updateUser}
           guessed={guessed}
@@ -164,6 +205,8 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
           displayBadge={displayBadge}
           key={_id}
         />
+      ) : (
+        <EmptyRow key={_id} />
       )
     );
 
@@ -190,6 +233,7 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
           showsVerticalScrollIndicator={false}
           onContentSizeChange={handleInitialSizeChange}
           onMomentumScrollEnd={handleScrollEnd}
+          directionalLockEnabled
         >
           {renderMatches()}
         </ScrollView>
@@ -214,6 +258,10 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     zIndex: 5
+  },
+  back: {
+    height: 30,
+    width: 30
   }
 });
 

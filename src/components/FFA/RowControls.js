@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
     bottom: 24,
     left: 24,
     position: 'absolute',
+    width: '57%',
     zIndex: 2
   },
   username: {
