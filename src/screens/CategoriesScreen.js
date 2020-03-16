@@ -52,6 +52,7 @@ const CategoriesScreen = ({
   const [categoriesHash, setCategoriesHash] = useState({});
   const [featuredCategory, setFeaturedCategory] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [displayingNavbar, setDisplayingNavbar] = useState(false);
   const logoRefs = useRef([...Array(15)].map(() => createRef()));
 
   const categories = data ? data.categories : [];
@@ -116,6 +117,18 @@ const CategoriesScreen = ({
     setRefreshing(false);
   };
 
+  const handleScroll = ({
+    nativeEvent: {
+      contentOffset: { y }
+    }
+  }) => {
+    if (y >= 1 && !displayingNavbar) {
+      setDisplayingNavbar(true);
+    } else if (y < 1 && displayingNavbar) {
+      setDisplayingNavbar(false);
+    }
+  };
+
   const renderCategories = () =>
     categories.map(({ _id, name, description, image, color, price }, index) => (
       <CategoryColumn
@@ -166,14 +179,22 @@ const CategoriesScreen = ({
             </View>
           ) : null}
           <View style={{ paddingBottom: 52 }}>
-            <Text
-              style={[styles.title, featuredCategory ? { marginTop: 12 } : {}]}
-            >
-              Let&#39;s Play
-            </Text>
+            {!featuredCategory ? (
+              <View
+                style={[
+                  styles.nav,
+                  { backgroundColor: displayingNavbar ? '#fff' : '#FCFCFE' }
+                ]}
+              >
+                <Text style={styles.title}>Let&#39;s Play</Text>
+              </View>
+            ) : (
+              <Text style={styles.featureTitle}>Let&#39;s Play</Text>
+            )}
             <ScrollView
               horizontal={featuredCategory !== null}
               showsHorizontalScrollIndicator={false}
+              onScroll={handleScroll}
               refreshControl={
                 <RefreshControl
                   refreshing={refreshing}
@@ -252,11 +273,22 @@ const styles = StyleSheet.create({
     fontFamily: 'sf-bold',
     fontSize: 18
   },
+  nav: {
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    height: 52,
+    paddingLeft: 12
+  },
   title: {
+    fontFamily: 'sf-bold',
+    fontSize: 24
+  },
+  featureTitle: {
     fontFamily: 'sf-bold',
     fontSize: 24,
     marginBottom: 12,
-    marginLeft: 12
+    marginLeft: 12,
+    marginTop: 12
   },
   vertical: {
     flexDirection: 'row',
