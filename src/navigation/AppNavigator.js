@@ -6,6 +6,7 @@ import MainTabNavigator from './MainTabNavigator';
 import AuthScreen from '../screens/AuthScreen';
 import AuthUsernameScreen from '../screens/AuthUsernameScreen';
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
+import FFAScreen from '../screens/FFAScreen';
 
 const AuthStack = createStackNavigator(
   {
@@ -27,6 +28,7 @@ export default createAppContainer(
   createSwitchNavigator({
     AuthLoading: AuthLoadingScreen,
     Auth: AuthStack,
+    FFA: FFAScreen,
     Main: MainTabNavigator
   })
 );

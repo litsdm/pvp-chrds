@@ -45,6 +45,7 @@ const LetterSoup = ({
   resultStatus,
   setResultStatus,
   onSuccess,
+  onFailure,
   exploded,
   fillActive,
   setFillActive
@@ -157,7 +158,10 @@ const LetterSoup = ({
       if (joined === checkWord) {
         setResultStatus(1);
         onSuccess();
-      } else setResultStatus(2);
+      } else {
+        setResultStatus(2);
+        if (onFailure) onFailure();
+      }
     } else if (selectedLength + 1 + spaceCount !== word.length && resultStatus)
       setResultStatus(0);
   };
@@ -264,7 +268,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     left: 0,
     position: 'absolute',
-    right: 0
+    right: 0,
+    zIndex: 2
   },
   gradient: {
     bottom: 0,
@@ -390,12 +395,14 @@ LetterSoup.propTypes = {
   onSuccess: func.isRequired,
   exploded: bool,
   fillActive: bool,
-  setFillActive: func.isRequired
+  setFillActive: func.isRequired,
+  onFailure: func
 };
 
 LetterSoup.defaultProps = {
   exploded: false,
-  fillActive: false
+  fillActive: false,
+  onFailure: null
 };
 
 export default LetterSoup;

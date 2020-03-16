@@ -33,6 +33,7 @@ import MatchRow from '../components/MatchRow';
 import FinishedMatchRow from '../components/FinishedMatchRow';
 import Loader from '../components/Loader';
 import Empty from '../components/Empty';
+import FFARow from '../components/FFARow';
 
 import Layout from '../constants/Layout';
 
@@ -157,13 +158,14 @@ const HomeScreen = ({
 
   const user = data ? data.user : {};
   const friendRequests = data ? data.friendRequests : [];
+  const matchCount = data ? data.ffaMatchCount : 0;
 
   useEffect(() => {
-    if (matchesData) {
+    if (matchesData && data) {
       separateMatches();
       checkExpiredMatches();
     }
-  }, [matchesData]);
+  }, [matchesData, data]);
 
   useEffect(() => {
     if (subscribeToMore && !didSubscribe && data) {
@@ -253,13 +255,17 @@ const HomeScreen = ({
     const finished = matchesData.matches.filter(match => match.state === 'end');
 
     setMatches([
-      { title: 'Your Turn', data: yourTurn },
+      {
+        title: 'Your Turn',
+        data: matchCount > 0 ? [{ name: 'ffa' }, ...yourTurn] : yourTurn
+      },
       { title: 'Their Turn', data: theirTurn },
       { title: 'Finished Matches', data: finished }
     ]);
   };
 
   const navigateToSettings = () => navigation.navigate('Settings');
+  const navigateToFFA = () => navigation.navigate('FFA', { userID: user._id });
 
   const handlePlay = (match, opponent) => () => {
     const route = match.state === 'play' ? 'Camera' : 'Match';
@@ -309,11 +315,16 @@ const HomeScreen = ({
 
   const renderItem = args => {
     const { title } = args.section;
+    const position = getPositionString(args.index, title);
+
+    if (title === 'Your Turn' && args.index === 0 && matchCount > 0) {
+      return <FFARow position={position} onPress={navigateToFFA} />;
+    }
+
     const { players, category, score, expiresOn, state } = args.item;
     const opponent = getOpponent(players);
     const jsonScore = JSON.parse(score);
     const stringScore = `${jsonScore[user._id]} - ${jsonScore[opponent._id]}`;
-    const position = getPositionString(args.index, title);
 
     if (moment().diff(new Date(expiresOn)) > 0 && state !== 'end') return null;
 

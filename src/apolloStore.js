@@ -39,6 +39,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (networkError) {
     store.dispatch(toggleBadge(true, 'Network Error', 'error'));
     store.dispatch(toggleNetworkModal(true));
+    console.warn(networkError.message);
   }
 });
 
