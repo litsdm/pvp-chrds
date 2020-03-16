@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { StyleSheet, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { func } from 'prop-types';
+
+import VideoButton from '../VideoButton';
 
 const BottomControls = ({ send }) => (
   <View style={styles.container}>
@@ -12,10 +13,7 @@ const BottomControls = ({ send }) => (
       pointerEvents="none"
     />
     <View style={styles.bottom}>
-      <TouchableOpacity style={styles.send} onPress={send}>
-        <Text style={styles.sendText}>Send</Text>
-        <FontAwesome5 name="paper-plane" color="#7c4dff" size={18} />
-      </TouchableOpacity>
+      <VideoButton onPress={send} text="Send" iconName="paper-plane" />
     </View>
   </View>
 );

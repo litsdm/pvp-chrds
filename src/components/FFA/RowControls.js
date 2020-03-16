@@ -1,7 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { FontAwesome5, Ionicons } from '@expo/vector-icons';
+import { StyleSheet, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { func, number, string } from 'prop-types';
+
+import VideoButton from '../VideoButton';
 
 const RowControls = ({
   username,
@@ -27,25 +29,26 @@ const RowControls = ({
         <Text style={styles.username}>@{username}</Text>
         <Text style={styles.category}>Acting {categoryName}</Text>
       </View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleGuess}
-        disabled={didGuess}
-      >
-        <Text style={[styles.buttonText, didGuess ? styles.disabled : {}]}>
-          {text}
-        </Text>
-        {!didGuess ? (
-          <FontAwesome5 name={icon} size={14} color="#7c4dff" />
-        ) : (
+      {didGuess ? (
+        <View style={styles.button}>
+          <Text style={[styles.buttonText, didGuess ? styles.disabled : {}]}>
+            {text}
+          </Text>
           <Ionicons
             style={{ opacity: 0.6 }}
             name={icon}
             size={14}
             color={color}
           />
-        )}
-      </TouchableOpacity>
+        </View>
+      ) : (
+        <VideoButton
+          style={styles.vButton}
+          onPress={handleGuess}
+          text={text}
+          iconName={icon}
+        />
+      )}
     </>
   );
 };
@@ -78,6 +81,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 8,
     paddingHorizontal: 12,
+    position: 'absolute',
+    right: 24,
+    zIndex: 2
+  },
+  vButton: {
+    bottom: 24,
     position: 'absolute',
     right: 24,
     zIndex: 2

@@ -38,6 +38,6 @@
     },
     "entryPoint": "node_modules/expo/AppEntry.js"
   },
-  "displayName": "CHRDS",
+  "displayName": "Charades",
   "name": "charades"
 }

@@ -273,7 +273,8 @@ const HomeScreen = ({
       matchID: match._id,
       categoryID: match.category._id,
       opponentID: opponent._id,
-      userID: user._id
+      userID: user._id,
+      mode: 'versus'
     });
   };
 
