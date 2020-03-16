@@ -39,9 +39,9 @@ const PlayPopup = ({
   const [createMatch, { data: matchData }] = useMutation(CREATE_MATCH);
   const [selectedCategory, setSelectedCategory] = useState(category);
   const [selectedFriend, setSelectedFriend] = useState(friend);
-  const [selectedMode, setSelectedMode] = useState(0);
+  const [selectedMode, setSelectedMode] = useState(friend ? 1 : 0);
   const [search, setSearch] = useState('');
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(friend ? 1 : 0);
   const [categoryHash, setCategoryHash] = useState({});
   const scrollView = useRef(null);
 

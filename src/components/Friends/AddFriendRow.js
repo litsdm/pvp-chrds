@@ -23,23 +23,27 @@ const AddFriendRow = ({ openPopup }) => (
 const styles = StyleSheet.create({
   add: {
     alignItems: 'center',
-    backgroundColor: '#FDFDFF',
+    backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: 'rgba(0,0,0,0.04)',
     flexDirection: 'row',
     paddingHorizontal: 12,
-    paddingVertical: 6
+    paddingVertical: 6,
+    marginVertical: 24
   },
   icon: {
     alignItems: 'center',
+    borderRadius: 8,
     backgroundColor: '#7c4dff',
-    borderRadius: 42 / 2,
-    height: 42,
+    height: 36,
     justifyContent: 'center',
     marginRight: 12,
-    width: 42
+    width: 36
   },
   rowText: {
     fontFamily: 'sf-medium',
-    fontSize: 18
+    fontSize: 16
   }
 });
 

@@ -51,11 +51,11 @@ const FriendsScreen = ({ navigation, showPlay, openAdd }) => {
   const friendRequests = data ? data.friendRequests : [];
   const sectionsData = [
     {
-      title: 'FRIEND REQUESTS',
+      title: 'Friend Requests',
       data: friendRequests
     },
     {
-      title: 'FRIENDS',
+      title: 'Friends',
       data: friends
     }
   ];
@@ -98,9 +98,34 @@ const FriendsScreen = ({ navigation, showPlay, openAdd }) => {
     setRefreshing(false);
   };
 
+  const getListTitle = () => {
+    if (searching && results.length > 0) return 'Results';
+    if (friends.length > 0) return 'Friends';
+    return '';
+  };
+
+  const getPositionString = (index, title) => {
+    let dataLength;
+
+    if (title === 'Friends') dataLength = friends.length;
+    else dataLength = friendRequests.length;
+
+    if (searching) dataLength = results.length;
+
+    if (index === 0 && dataLength === index + 1) return 'FirstLast';
+    if (index === 0) return 'First';
+    if (dataLength === index + 1) return 'Last';
+
+    return 'Mid';
+  };
+
   const renderItem = args => {
     const { _id, from } = args.item;
     const { displayName, profilePic } = from || args.item;
+
+    const title = args.section ? args.section.title : 'Friends';
+    const position = getPositionString(args.index, title);
+
     return (
       <FriendRow
         username={displayName}
@@ -108,6 +133,7 @@ const FriendsScreen = ({ navigation, showPlay, openAdd }) => {
         requestID={from ? _id : null}
         resolveRequest={resolveRequest}
         onPress={openPlay(_id)}
+        position={position}
       />
     );
   };
@@ -123,9 +149,12 @@ const FriendsScreen = ({ navigation, showPlay, openAdd }) => {
         refreshing={refreshing}
         renderItem={renderItem}
         renderSectionHeader={({ section: { title } }) => (
-          <Text style={styles.title}>{title}</Text>
+          <Text
+            style={[styles.title, { marginTop: title === 'Friends' ? 24 : 0 }]}
+          >
+            {title}
+          </Text>
         )}
-        ListHeaderComponent={<AddFriendRow openPopup={openAdd} />}
         ListEmptyComponent={<Empty searching={searching} search={search} />}
       />
     ) : (
@@ -135,7 +164,7 @@ const FriendsScreen = ({ navigation, showPlay, openAdd }) => {
         keyExtractor={item => item._id}
         onRefresh={handleRefresh}
         refreshing={refreshing}
-        ListHeaderComponent={<AddFriendRow openPopup={openAdd} />}
+        ListHeaderComponent={<Text style={styles.title}>{getListTitle()}</Text>}
         ListEmptyComponent={<Empty searching={searching} search={search} />}
       />
     );
@@ -150,6 +179,7 @@ const FriendsScreen = ({ navigation, showPlay, openAdd }) => {
           goBack={goBack}
           onChangeText={handleTextChange}
         />
+        <AddFriendRow openPopup={openAdd} />
         {renderContent()}
       </View>
     </SafeAreaView>
@@ -165,12 +195,12 @@ const styles = StyleSheet.create({
     paddingBottom: 12
   },
   title: {
-    fontFamily: 'sf-light',
-    fontSize: 14,
-    marginBottom: 6,
+    fontFamily: 'sf-medium',
+    fontSize: 16,
     marginLeft: 12,
-    marginTop: 12,
-    opacity: 0.4
+    marginBottom: 12,
+    opacity: 0.6
+    // textTransform: 'uppercase'
   }
 });
 
