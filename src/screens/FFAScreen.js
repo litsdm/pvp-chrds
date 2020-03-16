@@ -1,6 +1,7 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable no-param-reassign, react/no-this-in-sfc */
 import React, { useEffect, useState } from 'react';
 import {
+  AppState,
   BackHandler,
   StatusBar,
   StyleSheet,
@@ -16,6 +17,7 @@ import {
   DataProvider,
   LayoutProvider
 } from 'recyclerlistview';
+import dayjs from 'dayjs';
 import { func, object } from 'prop-types';
 
 import GET_DATA from '../graphql/queries/getFFAData';
@@ -50,10 +52,14 @@ const layoutProvider = new LayoutProvider(
   }
 );
 
+let _initialDate = null;
+let _lastDate = null;
+let _guessing = false;
+
 const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
   const userID = navigation.getParam('userID', '');
   const { data, refetch } = useQuery(GET_DATA, {
-    variables: { userID, skip: 0 }
+    variables: { userID, skip: 0, stopFilter: false }
   });
   const { data: userData, refetch: refetchUser } = useQuery(GET_USER_DATA, {
     variables: { userID }
@@ -66,29 +72,69 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
   const [didRefetch, setDidRefetch] = useState(false);
   const [dataProvider, setDataProvider] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [seenMatches, setSeenMatches] = useState([]);
+  const [stopFilter, setStopFilter] = useState(false);
+  const [initialDate, setInitialDate] = useState(null);
+  const [lastDate, setLastDate] = useState(null);
 
   const user = userData ? userData.user : {};
 
+  // Expose these variables to goBack & background event listeners, need to find a better way but for now this is the easiest I came up with.
+  _initialDate = initialDate;
+  _lastDate = lastDate;
+  _guessing = guessing;
+
   useEffect(() => {
+    AppState.addEventListener('change', handleStateChange);
     BackHandler.addEventListener('hardwareBackPress', goBack);
-    return () => BackHandler.removeEventListener('hardwareBackPress');
+    return () => {
+      AppState.removeEventListener('change', handleStateChange);
+      BackHandler.removeEventListener('hardwareBackPress');
+    };
   }, []);
 
   useEffect(() => {
-    if (data && data.matches) {
+    if (data && data.FFAData) {
+      const { newMatches } = data.FFAData;
       if (matches.length === 0) {
-        setMatches(data.matches);
-        setDataProvider(provider.cloneWithRows(data.matches));
+        const matchesToSet =
+          data.FFAData.stopFilter || newMatches.length === 0
+            ? [...newMatches, ...data.FFAData.seenMatches]
+            : newMatches;
+
+        if (data.FFAData.stopFilter && !stopFilter) setStopFilter(true);
+        else if (!stopFilter) setSeenMatches(data.FFAData.seenMatches);
+        setMatches(matchesToSet);
+        setDataProvider(provider.cloneWithRows(matchesToSet));
+        if (!initialDate) {
+          setInitialDate(matchesToSet[0].createdOn);
+          setLastDate(matchesToSet[0].createdOn);
+        }
         return;
       }
 
-      const includesID = data.matches.some(
+      if (skip !== data.FFAData.skip) setSkip(data.FFAData.skip);
+
+      const includesID = data.FFAData.newMatches.some(
         ({ _id }) => _id === matches[matches.length - 1]._id
       );
       if (didRefetch && !includesID) {
-        const newMatches = [...matches, ...data.matches];
-        setMatches(newMatches);
-        setDataProvider(provider.cloneWithRows(newMatches));
+        const matchesToSet = data.FFAData.stopFilter
+          ? [
+              ...matches,
+              ...newMatches,
+              ...seenMatches,
+              ...data.FFAData.seenMatches
+            ]
+          : [...matches, ...newMatches];
+
+        if (data.FFAData.stopFilter && !stopFilter) {
+          setSeenMatches([]);
+          setStopFilter(true);
+        }
+
+        setMatches(matchesToSet);
+        setDataProvider(provider.cloneWithRows(matchesToSet));
         setDidRefetch(false);
       }
     }
@@ -106,7 +152,7 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
 
     const { length } = matches;
     if (activeIndex === length - 2 && matches[length - 1]._id !== 'empty') {
-      refetch({ userID, skip });
+      refetch({ userID, skip, stopFilter });
       setDidRefetch(true);
       setSkip(skip + ITEMS);
     }
@@ -115,9 +161,22 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
   const addToGuessed = _id => result =>
     setGuessed({ ...guessed, [_id]: result });
 
+  const handleStateChange = nextAppState => {
+    console.log(nextAppState);
+  };
+
+  const updateDatePointers = async () => {
+    const properties = JSON.stringify({
+      initialDate: _initialDate,
+      lastDate: _lastDate
+    });
+    await updateUser({ variables: { id: userID, properties } });
+  };
+
   const goBack = async () => {
-    if (guessing) setGuessing(false);
+    if (_guessing) setGuessing(false);
     else {
+      updateDatePointers();
       navigation.navigate('Home', { userID });
       return true;
     }
@@ -125,7 +184,19 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
   };
 
   const handleIndexChange = indeces => {
-    if (indeces.length === 1) setActiveIndex(indeces[0]);
+    if (indeces.length === 1) {
+      const index = indeces[0];
+      setActiveIndex(index);
+      console.log(matches[index].createdOn);
+      console.log(dayjs(matches[index].createdOn));
+      if (
+        matches[index]._id !== 'empty' &&
+        dayjs(matches[index].createdOn).isBefore(dayjs(lastDate))
+      ) {
+        console.log(index);
+        setLastDate(matches[index].createdOn);
+      }
+    }
   };
 
   const rowRenderer = (
