@@ -185,6 +185,10 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
     return false;
   };
 
+  const handleCreateOwn = () => {
+    navigation.navigate('Home', { userID, playFromFFA: true });
+  };
+
   const handleIndexChange = indeces => {
     if (indeces.length === 1) {
       const index = indeces[0];
@@ -224,7 +228,7 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
         key={_id}
       />
     ) : (
-      <EmptyRow key={_id} />
+      <EmptyRow key={_id} createOwn={handleCreateOwn} />
     );
 
   return (

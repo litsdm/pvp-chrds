@@ -31,18 +31,20 @@ const fuzzyOptions = {
 const PlayPopup = ({
   close,
   category,
+  mode,
   friend,
   navigate,
   openAdd,
   openPurchase
 }) => {
+  const modeNumber = mode === 'versus' ? 1 : 0;
   const [getData, { data }] = useLazyQuery(GET_DATA);
   const [createMatch, { data: matchData }] = useMutation(CREATE_MATCH);
   const [selectedCategory, setSelectedCategory] = useState(category);
   const [selectedFriend, setSelectedFriend] = useState(friend);
-  const [selectedMode, setSelectedMode] = useState(friend ? 1 : 0);
+  const [selectedMode, setSelectedMode] = useState(friend ? 1 : modeNumber);
   const [search, setSearch] = useState('');
-  const [page, setPage] = useState(friend ? 1 : 0);
+  const [page, setPage] = useState(friend || mode ? 1 : 0);
   const [categoryHash, setCategoryHash] = useState({});
   const scrollView = useRef(null);
 
@@ -99,7 +101,7 @@ const PlayPopup = ({
   };
 
   const selectFriend = _id => () => setSelectedFriend(_id);
-  const selectMode = mode => () => setSelectedMode(mode);
+  const selectMode = newMode => () => setSelectedMode(newMode);
 
   const handleNext = () => {
     if (selectedCategory === null) return;
@@ -234,12 +236,14 @@ PlayPopup.propTypes = {
   openAdd: func.isRequired,
   openPurchase: func.isRequired,
   category: string,
-  friend: string
+  friend: string,
+  mode: string
 };
 
 PlayPopup.defaultProps = {
   category: null,
-  friend: null
+  friend: null,
+  mode: null
 };
 
 export default PlayPopup;

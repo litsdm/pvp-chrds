@@ -1,17 +1,14 @@
 import React, { useRef, useEffect } from 'react';
-import {
-  Animated,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { Animated, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { func } from 'prop-types';
 
 import Layout from '../../constants/Layout';
 
-const EmptyRow = () => {
+import VideoButton from '../VideoButton';
+
+const EmptyRow = ({ createOwn }) => {
   const animationValue = useRef(new Animated.Value(0));
 
   useEffect(() => {
@@ -83,14 +80,7 @@ const EmptyRow = () => {
         You&apos;ve reached the end of the FFA matches. Add your own now or ask
         your friends to add their own and keep up the fun!
       </Text>
-      <TouchableOpacity style={styles.button}>
-        <View style={styles.onTop}>
-          <Text style={styles.buttonText}>Create your own!</Text>
-        </View>
-        <View style={styles.buttonBottom}>
-          <Text style={styles.buttonText}>Create your own!</Text>
-        </View>
-      </TouchableOpacity>
+      <VideoButton onPress={createOwn} text="Create your own!" />
       <LinearGradient
         style={styles.gradient}
         colors={['transparent', 'rgba(0, 0, 0, 0.4)']}
@@ -136,32 +126,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     width: '80%'
   },
-  onTop: {
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 24,
-    height: 42,
-    justifyContent: 'center',
-    paddingHorizontal: 12,
-    marginTop: 24,
-    zIndex: 1
-  },
-  buttonText: {
-    color: '#7c4dff',
-    fontFamily: 'sf-medium',
-    fontSize: 12,
-    marginRight: 6
-  },
-  buttonBottom: {
-    backgroundColor: '#7c4dff',
-    borderRadius: 24,
-    bottom: -3,
-    height: 42,
-    left: -1,
-    paddingHorizontal: 13,
-    position: 'absolute'
-    // width: '100%'
-  },
   iconWrapper: {
     alignItems: 'center',
     borderRadius: 60 / 2,
@@ -178,5 +142,9 @@ const styles = StyleSheet.create({
     zIndex: -1
   }
 });
+
+EmptyRow.propTypes = {
+  createOwn: func.isRequired
+};
 
 export default EmptyRow;

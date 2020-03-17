@@ -38,7 +38,7 @@ import FFARow from '../components/FFARow';
 import Layout from '../constants/Layout';
 
 const mapDispatchToProps = dispatch => ({
-  openPlay: () => dispatch(togglePlay(true)),
+  openPlay: (data = {}) => dispatch(togglePlay(true, data)),
   closeNetworkModal: () => dispatch(toggleNetworkModal(false)),
   openPurchase: () => dispatch(togglePurchaseModal(true))
 });
@@ -141,6 +141,7 @@ const HomeScreen = ({
   openPurchase
 }) => {
   const userID = navigation.getParam('userID', '');
+  const playFromFFA = navigation.getParam('playFromFFA', false);
   const { loading, data, refetch } = useQuery(GET_DATA, {
     variables: { _id: userID }
   });
@@ -178,6 +179,12 @@ const HomeScreen = ({
   useEffect(() => {
     if (!loading && data && displayNetworkModal) closeNetworkModal();
   }, [loading, data]);
+
+  useEffect(() => {
+    if (playFromFFA) {
+      setTimeout(() => openPlay({ playMode: 'FFA' }), 1);
+    }
+  }, [playFromFFA]);
 
   const subscribeToNewMatches = () =>
     subscribeToMore({

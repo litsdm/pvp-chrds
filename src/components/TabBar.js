@@ -22,17 +22,24 @@ import PlayPopup from './PlayPopup';
 const mapDispatchToProps = dispatch => ({
   showPlay: () => dispatch(togglePlay(true)),
   closePlay: () =>
-    dispatch(togglePlay(false, { playCategory: null, playFriend: null })),
+    dispatch(
+      togglePlay(false, {
+        playCategory: null,
+        playFriend: null,
+        playMode: null
+      })
+    ),
   openAdd: () => dispatch(toggleAdd(true)),
   openPurchase: data => dispatch(toggleCategoryPurchase(true, data))
 });
 
 const mapStateToProps = ({
-  popup: { displayPlay, playCategory, playFriend }
+  popup: { displayPlay, playCategory, playFriend, playMode }
 }) => ({
   displayPlay,
   playCategory,
-  playFriend
+  playFriend,
+  playMode
 });
 
 const TabBar = ({
@@ -42,6 +49,7 @@ const TabBar = ({
   displayPlay,
   playCategory,
   playFriend,
+  playMode,
   closePlay,
   showPlay,
   openAdd,
@@ -83,6 +91,7 @@ const TabBar = ({
           navigate={navigation.navigate}
           openAdd={openAdd}
           openPurchase={openPurchase}
+          mode={playMode}
         />
       ) : null}
     </>
@@ -119,6 +128,7 @@ TabBar.propTypes = {
   displayPlay: bool.isRequired,
   playCategory: string,
   playFriend: string,
+  playMode: string,
   closePlay: func.isRequired,
   showPlay: func.isRequired,
   openAdd: func.isRequired,
@@ -127,7 +137,8 @@ TabBar.propTypes = {
 
 TabBar.defaultProps = {
   playCategory: null,
-  playFriend: null
+  playFriend: null,
+  playMode: null
 };
 
 export default connect(

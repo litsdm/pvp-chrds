@@ -14,6 +14,7 @@ const initialState = {
   displayPlay: false,
   playCategory: null,
   playFriend: null,
+  playMode: null,
   displayCategory: false,
   categoryPopupData: null,
   displayAdd: false,
