@@ -266,11 +266,6 @@ const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
     refetchUser();
   };
 
-  const handleReplay = () => {
-    const properties = JSON.stringify({ replayWord: match.actedWord._id });
-    updateMatch({ variables: { matchID, properties } });
-  };
-
   const handlePlaybackUpdate = status => {
     if (status.isBuffering && !buffering) setBuffering(true);
     if (!status.isBuffering && buffering) setBuffering(false);
@@ -288,8 +283,6 @@ const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
       userID,
       mode: 'versus'
     });
-
-  console.log(match.cameraType);
 
   return (
     <View style={styles.container}>
@@ -397,10 +390,9 @@ const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
         ) : null}
         {gameState === 'finished' && resultStatus !== 1 ? (
           <FailOverlay
-            username={opponent.username}
+            word={match.actedWord.text.toUpperCase()}
             goHome={goBack}
             playNext={goToCamera}
-            handleReplay={handleReplay}
           />
         ) : null}
         {gameState === 'end' ? (

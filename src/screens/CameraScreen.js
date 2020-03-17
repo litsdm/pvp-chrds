@@ -17,7 +17,6 @@ import { toggleBadge, togglePurchaseModal } from '../actions/popup';
 import GET_DATA from '../graphql/queries/getCameraData';
 import GET_FFA_DATA from '../graphql/queries/getFFACameraData';
 import GET_USER from '../graphql/queries/getCameraUser';
-import UPDATE_MATCH from '../graphql/mutations/updateMatch';
 import UPDATE_USER from '../graphql/mutations/updateUser';
 
 import MainControls from '../components/Camera/MainControls';
@@ -25,7 +24,6 @@ import VideoOverlay from '../components/Camera/VideoOverlay';
 import CountdownPopup from '../components/Camera/CountdownPopup';
 import TopControls from '../components/Camera/TopControls';
 import BottomControls from '../components/Camera/BottomControls';
-import ReplayModal from '../components/Match/ReplayModal';
 import PowerUps from '../components/Camera/PowerUps';
 import PurchaseModal from '../components/Match/PurchaseModal';
 import PickWordModal from '../components/Camera/PickWordModal';
@@ -73,7 +71,6 @@ const CameraScreen = ({
   const [flash, setFlash] = useState(flashOff);
   const [isRecording, setRecording] = useState(false);
   const [isCounting, setCounting] = useState(false);
-  const [displayReplay, setDisplayReplay] = useState(false);
   const [videoUri, setVideoUri] = useState('');
   const [word, setWord] = useState('');
   const [powerup, setPowerup] = useState('');
@@ -82,7 +79,6 @@ const CameraScreen = ({
   const [rollCount, setRollCount] = useState(2);
   const [displayHint, setDisplayHint] = useState(false);
   const [displayWalkthrough, setDisplayWalkthrough] = useState(false);
-  const [updateMatch] = useMutation(UPDATE_MATCH);
   const [updateUser] = useMutation(UPDATE_USER);
   const { animationValue, animateTo } = useAnimation({ duration: 200 });
 
@@ -112,7 +108,6 @@ const CameraScreen = ({
 
   useEffect(() => {
     if (data && data.category) getCategoryWord();
-    if (data && data.match) displayReplayIfNeeded();
   }, [data]);
 
   const getRandomWord = async () => {
@@ -142,15 +137,6 @@ const CameraScreen = ({
   const getRolls = async () => {
     const rolls = await AsyncStorage.getItem(`${matchID}-rolls`);
     if (rolls) setRollCount(parseInt(rolls, 10));
-  };
-
-  const displayReplayIfNeeded = () => {
-    if (match.replayWord) setDisplayReplay(true);
-  };
-
-  const closeReplay = () => {
-    setDisplayReplay(false);
-    removeReplayWord();
   };
 
   const checkActivePowerUps = async () => {
@@ -327,15 +313,6 @@ const CameraScreen = ({
     navigation.navigate('Home');
   };
 
-  const handleReplay = async () => {
-    await AsyncStorage.setItem(
-      `${matchID}-word`,
-      JSON.stringify(match.replayWord)
-    );
-    setWord(match.replayWord);
-    removeReplayWord();
-  };
-
   const handleRoll = async () => {
     if (rollCount <= 0) return;
     const newRollCount = rollCount - 1;
@@ -389,11 +366,6 @@ const CameraScreen = ({
     await updateUser({ variables: { id: userID, properties } });
 
     refetch();
-  };
-
-  const removeReplayWord = () => {
-    const properties = JSON.stringify({ replayWord: null });
-    updateMatch({ variables: { matchID, properties } });
   };
 
   const closeVideo = () => {
@@ -497,13 +469,6 @@ const CameraScreen = ({
       {isCounting ? <CountdownPopup onEnd={handleCountdownEnd} /> : null}
       {isRecording && cameraType === frontType && flash === flashOn ? (
         <View style={styles.frontFlash} />
-      ) : null}
-      {displayReplay ? (
-        <ReplayModal
-          question={`${opponent.username} couldn't guess ${match.replayWord.text} and asked you to replay it. Do you want to replay that word?`}
-          close={closeReplay}
-          handleReplay={handleReplay}
-        />
       ) : null}
       {displayHint ? (
         <Hint hint={word.actorHint || word.hint} close={closeHint} />

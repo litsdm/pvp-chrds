@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Animated,
   StyleSheet,
@@ -10,13 +10,8 @@ import { func, string } from 'prop-types';
 
 import { useAnimation } from '../../helpers/hooks';
 
-import ReplayModal from './ReplayModal';
-
-const FailOverlay = ({ goHome, playNext, handleReplay, username }) => {
-  const [displayReplay, setDisplayReplay] = useState(true);
+const FailOverlay = ({ goHome, playNext, word }) => {
   const { animationValue } = useAnimation({ autoPlay: true });
-
-  const closeReplay = () => setDisplayReplay(false);
 
   const animateOpacity = {
     opacity: animationValue.current.interpolate({
@@ -29,19 +24,15 @@ const FailOverlay = ({ goHome, playNext, handleReplay, username }) => {
     <View style={styles.container}>
       <Animated.View style={[styles.overlay, animateOpacity]} />
       <Text style={styles.title}>Better luck next round!</Text>
+      <Text style={styles.word}>
+        The word was <Text style={{ fontFamily: 'sf-bold' }}>{word}</Text>
+      </Text>
       <TouchableOpacity style={styles.buttonPrimary} onPress={playNext}>
         <Text style={styles.buttonPrimaryText}>Play next round</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.buttonSecondary} onPress={goHome}>
         <Text style={styles.buttonSecondaryText}>Go to Home</Text>
       </TouchableOpacity>
-      {displayReplay ? (
-        <ReplayModal
-          close={closeReplay}
-          handleReplay={handleReplay}
-          question={`Ask ${username} to replay the same word next round?`}
-        />
-      ) : null}
     </View>
   );
 };
@@ -101,7 +92,14 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: 'sf-bold',
     fontSize: 24,
-    marginVertical: 48,
+    textAlign: 'center'
+  },
+  word: {
+    color: '#fff',
+    fontFamily: 'sf-regular',
+    fontSize: 18,
+    marginBottom: 48,
+    marginTop: 12,
     textAlign: 'center'
   }
 });
@@ -109,8 +107,7 @@ const styles = StyleSheet.create({
 FailOverlay.propTypes = {
   goHome: func.isRequired,
   playNext: func.isRequired,
-  handleReplay: func.isRequired,
-  username: string.isRequired
+  word: string.isRequired
 };
 
 export default FailOverlay;
