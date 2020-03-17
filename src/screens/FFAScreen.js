@@ -161,8 +161,10 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
   const addToGuessed = _id => result =>
     setGuessed({ ...guessed, [_id]: result });
 
-  const handleStateChange = nextAppState => {
-    console.log(nextAppState);
+  const handleStateChange = async nextAppState => {
+    if (nextAppState.match(/inactive|background/)) {
+      await updateDatePointers();
+    }
   };
 
   const updateDatePointers = async () => {
