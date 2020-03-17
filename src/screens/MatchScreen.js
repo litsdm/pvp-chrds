@@ -6,13 +6,11 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
-import { Ionicons } from '@expo/vector-icons';
 import { Video } from 'expo-av';
 import { AdMobRewarded, setTestDeviceIDAsync } from 'expo-ads-admob';
 import { func, object } from 'prop-types';
@@ -37,6 +35,7 @@ import PowerUps from '../components/Match/PowerUps';
 import Hint from '../components/Match/HintModal';
 import PurchaseModal from '../components/Match/PurchaseModal';
 import AdRetryModal from '../components/Match/AdRetryModal';
+import VideoButton from '../components/VideoButton';
 
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 const TIME = 600;
@@ -317,25 +316,24 @@ const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
               You can only play the video twice, you&#39;ll have 30 seconds to
               guess the word after the video ends.
             </Text>
-            <TouchableOpacity style={styles.button} onPress={playVideo}>
-              <Text style={styles.buttonText}>
-                {playCount < 1 ? 'Play' : 'Replay'} Video
-              </Text>
-              <Ionicons
-                name={`${PRE_ICON}-${playCount < 1 ? 'play' : 'repeat'}`}
-                color="#7c4dff"
-                size={18}
-              />
-            </TouchableOpacity>
+            <VideoButton
+              onPress={playVideo}
+              text={`${playCount < 1 ? 'Play' : 'Replay'} Video`}
+              iconName={`${PRE_ICON}-${playCount < 1 ? 'play' : 'repeat'}`}
+              iconType="Ion"
+            />
           </View>
         ) : null}
         {playCount > 0 &&
         gameState !== 'guessing' &&
         gameState !== 'finished' ? (
-          <TouchableOpacity style={styles.guessButton} onPress={switchToGuess}>
-            <Text style={styles.buttonText}>Guess Word</Text>
-            <Ionicons name="ios-arrow-forward" color="#7c4dff" size={18} />
-          </TouchableOpacity>
+          <VideoButton
+            style={styles.guessButton}
+            onPress={switchToGuess}
+            text="Guess Word"
+            iconName="ios-arrow-forward"
+            iconType="Ion"
+          />
         ) : null}
         <TopControls
           goBack={goBack}
@@ -466,14 +464,7 @@ const styles = StyleSheet.create({
     marginRight: 12
   },
   guessButton: {
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 24,
     bottom: 24,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
     position: 'absolute',
     right: 24,
     zIndex: 5

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { bool, func, number, object, string } from 'prop-types';
 
 const VideoButton = ({
@@ -9,6 +9,7 @@ const VideoButton = ({
   style,
   disabled,
   iconName,
+  iconType,
   paddingHorizontal
 }) => {
   const [bottomStyles, setBottomStyles] = useState({});
@@ -33,7 +34,13 @@ const VideoButton = ({
           {text}
         </Text>
         {iconName ? (
-          <FontAwesome5 name={iconName} size={14} color="#7c4dff" />
+          <>
+            {iconType === 'Ion' ? (
+              <Ionicons name={iconName} size={14} color="#7c4dff" />
+            ) : (
+              <FontAwesome5 name={iconName} size={14} color="#7c4dff" />
+            )}
+          </>
         ) : null}
       </View>
       <View style={[bottomStyles, styles.buttonBottom]} />
@@ -74,6 +81,7 @@ VideoButton.propTypes = {
   style: object,
   disabled: bool,
   iconName: string,
+  iconType: string,
   paddingHorizontal: number
 };
 
@@ -82,7 +90,8 @@ VideoButton.defaultProps = {
   style: {},
   disabled: false,
   iconName: '',
-  paddingHorizontal: 0
+  paddingHorizontal: 0,
+  iconType: 'FA5'
 };
 
 export default VideoButton;
