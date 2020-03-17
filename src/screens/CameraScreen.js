@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import * as Brightness from 'expo-brightness';
-import * as FileSystem from 'expo-file-system';
+import { getInfoAsync, deleteAsync } from 'expo-file-system';
 import { func, object } from 'prop-types';
 
 import mime from '../helpers/mimeTypes';
@@ -277,7 +277,7 @@ const CameraScreen = ({
   };
 
   const handleVersusSend = async () => {
-    const { size } = await FileSystem.getInfoAsync(videoUri, { size: true });
+    const { size } = await getInfoAsync(videoUri, { size: true });
     const extension = videoUri.split('.').pop();
     const name = `${match._id}-round.${extension}`;
 
@@ -302,7 +302,7 @@ const CameraScreen = ({
   };
 
   const handleFFASend = async () => {
-    const { size } = await FileSystem.getInfoAsync(videoUri, { size: true });
+    const { size } = await getInfoAsync(videoUri, { size: true });
     const extension = videoUri.split('.').pop();
     const digits = Math.floor(1000 + Math.random() * 9000);
     const name = `${user._id}-ffa-${digits}.${extension}`;
@@ -392,8 +392,12 @@ const CameraScreen = ({
     updateMatch({ variables: { matchID, properties } });
   };
 
+  const closeVideo = () => {
+    deleteAsync(videoUri, { idempotent: true });
+    setVideoUri(null);
+  };
+
   const waitForCountdown = () => setCounting(true);
-  const closeVideo = () => setVideoUri(null);
   const openHint = () => setDisplayHint(true);
   const closeHint = () => setDisplayHint(false);
 
