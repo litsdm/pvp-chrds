@@ -11,7 +11,7 @@ import {
 import { connect } from 'react-redux';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { FontAwesome5 } from '@expo/vector-icons';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { bool, func, number, object, shape, string } from 'prop-types';
 
 import GET_DATA from '../graphql/queries/getHomeData';
@@ -224,7 +224,7 @@ const HomeScreen = ({
     const deletePromises = [];
 
     matchesData.matches.forEach(({ _id, expiresOn, state }) => {
-      if (moment().diff(new Date(expiresOn)) > 0 && state !== 'end') {
+      if (dayjs().diff(new Date(expiresOn)) > 0 && state !== 'end') {
         deletePromises.push(deleteMatch({ variables: { _id } }));
         deleteFlag = true;
       }
@@ -327,7 +327,7 @@ const HomeScreen = ({
     const jsonScore = JSON.parse(score);
     const stringScore = `${jsonScore[user._id]} - ${jsonScore[opponent._id]}`;
 
-    if (moment().diff(new Date(expiresOn)) > 0 && state !== 'end') return null;
+    if (dayjs().diff(expiresOn) > 0 && state !== 'end') return null;
 
     return title !== 'Finished Matches' ? (
       <MatchRow
@@ -335,7 +335,7 @@ const HomeScreen = ({
         categoryUri={category.image}
         username={opponent.displayName}
         uri={opponent.profilePic}
-        expiryDate={moment(new Date(expiresOn))}
+        expiryDate={dayjs(expiresOn)}
         onPress={title === 'Your Turn' ? handlePlay(args.item, opponent) : null}
         position={position}
       />

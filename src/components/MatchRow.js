@@ -1,8 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import moment from 'moment';
-import { func, string } from 'prop-types';
-import { momentObj } from 'react-moment-proptypes';
+import dayjs from 'dayjs';
+import { func, instanceOf, string } from 'prop-types';
 
 import Layout from '../constants/Layout';
 
@@ -16,7 +15,7 @@ const MatchRow = ({
   position
 }) => {
   const timeLeft = () => {
-    const now = moment();
+    const now = dayjs();
     const days = expiryDate.diff(now, 'days');
     const hours = expiryDate.diff(now, 'hours');
 
@@ -133,7 +132,7 @@ const styles = StyleSheet.create({
 MatchRow.propTypes = {
   onPress: func,
   username: string.isRequired,
-  expiryDate: momentObj.isRequired,
+  expiryDate: instanceOf(dayjs).isRequired,
   score: string.isRequired,
   categoryUri: string.isRequired,
   uri: string.isRequired,
