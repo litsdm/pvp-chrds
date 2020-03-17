@@ -21,6 +21,7 @@ export default gql`
       _id
       score
       video
+      cameraType
       actedWord {
         _id
         text

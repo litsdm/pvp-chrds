@@ -14,7 +14,6 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { Video } from 'expo-av';
-import { Camera } from 'expo-camera';
 import { AdMobRewarded, setTestDeviceIDAsync } from 'expo-ads-admob';
 import { func, object } from 'prop-types';
 
@@ -39,7 +38,6 @@ import Hint from '../components/Match/HintModal';
 import PurchaseModal from '../components/Match/PurchaseModal';
 import AdRetryModal from '../components/Match/AdRetryModal';
 
-const { front } = Camera.Constants.Type;
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 const TIME = 600;
 
@@ -156,7 +154,7 @@ const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
 
   const handleAdReward = async () => {
     setGameState('guessing');
-    await setTimeLeft(TIME);
+    setTimeLeft(TIME);
     setDidReward(true);
   };
 
@@ -170,7 +168,7 @@ const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
 
   const handleAdRetry = async () => {
     displayBadge('Loading reward ad.', 'default');
-    await setLoadingAd(true);
+    setLoadingAd(true);
     await AdMobRewarded.requestAdAsync();
     await AdMobRewarded.showAdAsync();
   };
@@ -284,7 +282,15 @@ const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
   const goBack = () => navigation.navigate('Home');
 
   const goToCamera = () =>
-    navigation.navigate('Camera', { matchID, categoryID, opponentID, userID });
+    navigation.navigate('Camera', {
+      matchID,
+      categoryID,
+      opponentID,
+      userID,
+      mode: 'versus'
+    });
+
+  console.log(match.cameraType);
 
   return (
     <View style={styles.container}>
@@ -296,7 +302,7 @@ const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
           onPlaybackStatusUpdate={handlePlaybackUpdate}
           style={[
             styles.video,
-            match.cameraType === front ? { transform: [{ scaleX: -1 }] } : {}
+            match.cameraType === 1 ? { transform: [{ scaleX: -1 }] } : {}
           ]}
         />
         {buffering ? (

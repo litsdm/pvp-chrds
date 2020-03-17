@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import { StatusBar, StyleSheet, Text, View, Platform } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
@@ -281,6 +281,8 @@ const CameraScreen = ({
     const extension = videoUri.split('.').pop();
     const name = `${match._id}-round.${extension}`;
 
+    const iosCameraType = cameraType === frontType ? 1 : 2;
+
     const file = {
       uri: videoUri,
       name,
@@ -289,7 +291,7 @@ const CameraScreen = ({
       matchID: match._id,
       opponentID: opponent._id,
       actedWord: word._id,
-      cameraType
+      cameraType: Platform.OS === 'ios' ? iosCameraType : cameraType
     };
 
     await AsyncStorage.removeItem(`${matchID}-word`);
@@ -307,6 +309,8 @@ const CameraScreen = ({
     const digits = Math.floor(1000 + Math.random() * 9000);
     const name = `${user._id}-ffa-${digits}.${extension}`;
 
+    const iosCameraType = cameraType === frontType ? 1 : 2;
+
     const file = {
       uri: videoUri,
       name,
@@ -314,7 +318,7 @@ const CameraScreen = ({
       type: mime(extension),
       actedWord: word._id,
       sender: user._id,
-      cameraType,
+      cameraType: Platform.OS === 'ios' ? iosCameraType : cameraType,
       category: categoryID
     };
 

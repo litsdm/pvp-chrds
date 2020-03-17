@@ -30,7 +30,8 @@ const FFAMatchRow = ({
   addToGuessed,
   guessing,
   setGuessing,
-  guessed
+  guessed,
+  cameraType
 }) => {
   const [signedUri, setSignedUri] = useState('');
   const [buffering, setBuffering] = useState(false);
@@ -156,7 +157,10 @@ const FFAMatchRow = ({
         ref={video}
         onPlaybackStatusUpdate={handlePlaybackUpdate}
         resizeMode="cover"
-        style={styles.video}
+        style={[
+          styles.video,
+          cameraType === 1 ? { transform: [{ scaleX: -1 }] } : {}
+        ]}
       />
       {buffering && Platform.OS === 'ios' ? (
         <View style={styles.buffering}>
@@ -255,6 +259,7 @@ FFAMatchRow.propTypes = {
   addToGuessed: func.isRequired,
   guessing: bool.isRequired,
   setGuessing: func.isRequired,
+  cameraType: number.isRequired,
   word: shape({
     _id: string,
     text: string,

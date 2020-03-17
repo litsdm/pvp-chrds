@@ -6,6 +6,7 @@ export default gql`
       newMatches {
         _id
         createdOn
+        cameraType
         video
         sender {
           _id
@@ -24,6 +25,7 @@ export default gql`
       seenMatches {
         _id
         createdOn
+        cameraType
         video
         sender {
           _id

@@ -187,13 +187,10 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
     if (indeces.length === 1) {
       const index = indeces[0];
       setActiveIndex(index);
-      console.log(matches[index].createdOn);
-      console.log(dayjs(matches[index].createdOn));
       if (
         matches[index]._id !== 'empty' &&
         dayjs(matches[index].createdOn).isBefore(dayjs(lastDate))
       ) {
-        console.log(index);
         setLastDate(matches[index].createdOn);
       }
     }
@@ -201,7 +198,7 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
 
   const rowRenderer = (
     type,
-    { _id, video, category, sender, actedWord },
+    { _id, video, category, sender, actedWord, cameraType },
     index
   ) =>
     _id !== 'empty' ? (
@@ -221,6 +218,7 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
         guessing={guessing}
         setGuessing={setGuessing}
         displayBadge={displayBadge}
+        cameraType={cameraType}
         key={_id}
       />
     ) : (
