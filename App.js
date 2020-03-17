@@ -4,13 +4,13 @@ import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import {
   AppState,
-  AsyncStorage,
   Keyboard,
   Platform,
   StatusBar,
   StyleSheet,
   View
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { connect, Provider } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { ApolloProvider, useMutation } from '@apollo/react-hooks';

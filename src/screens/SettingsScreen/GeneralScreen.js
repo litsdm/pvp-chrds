@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import {
-  AsyncStorage,
   SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';

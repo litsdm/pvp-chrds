@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import {
   Animated,
-  AsyncStorage,
   BackHandler,
   Keyboard,
   PanResponder,
@@ -10,6 +9,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { arrayOf, bool, func, object, oneOfType, node } from 'prop-types';
 
 import { useAnimation } from '../helpers/hooks';

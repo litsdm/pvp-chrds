@@ -1,11 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import {
-  AsyncStorage,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import LottieView from 'lottie-react-native';
 import { func, string } from 'prop-types';
 

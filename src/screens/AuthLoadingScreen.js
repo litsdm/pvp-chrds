@@ -1,10 +1,6 @@
 import React, { useEffect } from 'react';
-import {
-  ActivityIndicator,
-  AsyncStorage,
-  StyleSheet,
-  View
-} from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { useLazyQuery } from '@apollo/react-hooks';
 import jwtDecode from 'jwt-decode';
 import { object } from 'prop-types';

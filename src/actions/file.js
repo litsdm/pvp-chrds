@@ -1,5 +1,5 @@
 import { readAsStringAsync, EncodingType, deleteAsync } from 'expo-file-system';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import client from '../apolloStore';
 import callApi, { uploadFile, uploadChunk } from '../helpers/apiCaller';

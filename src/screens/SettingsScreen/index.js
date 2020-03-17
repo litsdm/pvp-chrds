@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-  AsyncStorage,
   Image,
   Linking,
   Platform,
@@ -11,6 +10,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {
   useApolloClient,
   useLazyQuery,

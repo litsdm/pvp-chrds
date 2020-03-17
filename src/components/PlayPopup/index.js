@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { AsyncStorage, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import Fuse from 'fuse.js';
 import jwtDecode from 'jwt-decode';

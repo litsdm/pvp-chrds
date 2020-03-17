@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { AsyncStorage, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
 import { Camera } from 'expo-camera';

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  AsyncStorage,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -8,6 +7,7 @@ import {
   StyleSheet,
   ScrollView
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from 'react-redux';
 import jwtDecode from 'jwt-decode';
 import { func, object } from 'prop-types';

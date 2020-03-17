@@ -1,5 +1,5 @@
 /* global __DEV__ */
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const callApi = async (endpoint, body, method = 'GET') => {
   const token = (await AsyncStorage.getItem('CHRDS_TOKEN')) || null;

@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef, createRef } from 'react';
 import {
-  AsyncStorage,
   Image,
   RefreshControl,
   ScrollView,
@@ -10,6 +9,7 @@ import {
   View,
   SafeAreaView
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
 import jwtDecode from 'jwt-decode';
