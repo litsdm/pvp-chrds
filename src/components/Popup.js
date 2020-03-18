@@ -27,7 +27,7 @@ const Popup = ({
   const [contentHeight, setContentHeight] = useState(180);
   const [animateDisplay, setAnimateDisplay] = useState({});
   const { animationValue, animateTo } = useAnimation({
-    autoPlay: true,
+    type: 'spring',
     ...animationOptions
   });
   const position = useRef(new Animated.ValueXY());
@@ -113,6 +113,7 @@ const Popup = ({
 
     setAnimateDisplay({ transform });
     setContentHeight(height);
+    animateTo(1);
   };
 
   return (

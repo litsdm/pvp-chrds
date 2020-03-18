@@ -3,20 +3,24 @@ import { Animated } from 'react-native';
 
 const initialAnimationOpts = {
   duration: 200,
-  autoPlay: false
+  autoPlay: false,
+  type: 'timing'
 };
 
 export function useAnimation(options = {}) {
   const finalOptions = { ...initialAnimationOpts, ...options };
-  const { duration, autoPlay, delay } = finalOptions;
+  const { duration, autoPlay, delay, type } = finalOptions;
   const animationValue = useRef(new Animated.Value(0));
 
   const animateTo = toValue => {
-    Animated.timing(animationValue.current, {
+    const opts = {
       toValue,
       duration,
       useNativeDriver: true
-    }).start();
+    };
+    if (type === 'spring')
+      Animated.spring(animationValue.current, opts).start();
+    else Animated.timing(animationValue.current, opts).start();
   };
 
   if (autoPlay) {

@@ -16,6 +16,7 @@ const AnimatedCircle = ({
   const { animationValue } = useAnimation({
     autoPlay: true,
     delay,
+    type: 'spring',
     duration: 300
   });
 

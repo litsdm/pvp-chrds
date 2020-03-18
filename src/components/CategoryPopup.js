@@ -26,7 +26,7 @@ const CategoryPopup = ({
   category
 }) => {
   const [animateTransition, setAnimateTransition] = useState({});
-  const { animationValue, animateTo } = useAnimation({ autoPlay: true });
+  const { animationValue, animateTo } = useAnimation();
   const { x, y } = transitionPosition;
   const { name, description, words, image, price } = category;
 
@@ -62,6 +62,7 @@ const CategoryPopup = ({
     };
 
     setAnimateTransition(transition);
+    animateTo(1);
   };
 
   const renderWords = () => {
