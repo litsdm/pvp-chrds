@@ -68,6 +68,14 @@ const Popup = ({
     return true;
   };
 
+  const animatePosition = toValue => {
+    Animated.spring(position.current, {
+      toValue,
+      duration: 200,
+      useNativeDriver: true
+    }).start();
+  };
+
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
     onPanResponderMove: (event, gesture) => {
@@ -78,9 +86,9 @@ const Popup = ({
       const threshold = contentHeight * 0.65;
       const checkAgainst = contentHeight - gesture.dy;
       if (threshold > checkAgainst) {
-        position.current.setValue({ x: 0, y: contentHeight });
+        animatePosition({ x: 0, y: contentHeight });
         handleClose();
-      } else position.current.setValue({ x: 0, y: 0 });
+      } else animatePosition({ x: 0, y: 0 });
     }
   });
 

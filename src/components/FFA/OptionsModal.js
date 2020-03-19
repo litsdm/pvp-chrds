@@ -5,7 +5,7 @@ import { func } from 'prop-types';
 
 import Modal from '../Modal';
 
-const OptionsModal = ({ close }) => (
+const OptionsModal = ({ close, showReport }) => (
   <Modal style={styles.container} close={close} bgOpacity={0.4}>
     <View style={styles.content}>
       <View style={styles.header}>
@@ -15,7 +15,7 @@ const OptionsModal = ({ close }) => (
         </TouchableOpacity>
       </View>
       <View style={styles.divider} />
-      <TouchableOpacity style={styles.row}>
+      <TouchableOpacity style={styles.row} onPress={showReport}>
         <Ionicons name="ios-warning" size={18} color="#000" />
         <Text style={styles.rowText}>Report video</Text>
       </TouchableOpacity>
@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
 });
 
 OptionsModal.propTypes = {
-  close: func.isRequired
+  close: func.isRequired,
+  showReport: func.isRequired
 };
 
 export default OptionsModal;

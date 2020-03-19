@@ -23,12 +23,14 @@ import { func, object } from 'prop-types';
 import GET_DATA from '../graphql/queries/getFFAData';
 import GET_USER_DATA from '../graphql/queries/getFFAUserData';
 import UPDATE_USER from '../graphql/mutations/updateUser';
+import CREATE_REPORT from '../graphql/mutations/createReport';
 
 import { toggleBadge, togglePurchaseModal } from '../actions/popup';
 
 import Row from '../components/FFA/MatchRow';
 import EmptyRow from '../components/FFA/EmptyRow';
 import OptionsModal from '../components/FFA/OptionsModal';
+import ReportPopup from '../components/FFA/ReportPopup';
 
 import Layout from '../constants/Layout';
 
@@ -66,6 +68,7 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
     variables: { userID }
   });
   const [updateUser] = useMutation(UPDATE_USER);
+  const [createReport] = useMutation(CREATE_REPORT);
   const [guessed, setGuessed] = useState({});
   const [guessing, setGuessing] = useState(false);
   const [skip, setSkip] = useState(ITEMS);
@@ -78,6 +81,7 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
   const [initialDate, setInitialDate] = useState(null);
   const [lastDate, setLastDate] = useState(null);
   const [optionsMatch, setOptionsMatch] = useState(null);
+  const [reportMatch, setReportMatch] = useState(null);
 
   const user = userData ? userData.user : {};
 
@@ -189,6 +193,26 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
 
   const showOptions = match => () => setOptionsMatch(match);
   const hideOptions = () => setOptionsMatch(null);
+  const showReport = match => () => {
+    setReportMatch(match);
+    hideOptions();
+  };
+  const hideReport = () => setReportMatch(null);
+
+  const handleReportSubmit = async (reason, message) => {
+    try {
+      await createReport({
+        variables: { reason, message, sender: userID, matchID: reportMatch._id }
+      });
+      hideReport();
+      displayBadge(
+        'Report sent, thank you for keeping the community safe!',
+        'success'
+      );
+    } catch (exception) {
+      displayBadge(exception.message.slice(14), 'error');
+    }
+  };
 
   const handleCreateOwn = () => {
     navigation.navigate('Home', { userID, playFromFFA: true });
@@ -269,7 +293,15 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
           />
         ) : null}
       </View>
-      {optionsMatch ? <OptionsModal close={hideOptions} /> : null}
+      {optionsMatch ? (
+        <OptionsModal
+          close={hideOptions}
+          showReport={showReport(optionsMatch)}
+        />
+      ) : null}
+      {reportMatch ? (
+        <ReportPopup close={hideReport} submit={handleReportSubmit} />
+      ) : null}
     </View>
   );
 };
