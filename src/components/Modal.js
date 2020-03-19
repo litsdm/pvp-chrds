@@ -7,11 +7,11 @@ import {
   TouchableWithoutFeedback,
   View
 } from 'react-native';
-import { arrayOf, func, oneOfType, node } from 'prop-types';
+import { arrayOf, func, oneOfType, node, number, object } from 'prop-types';
 
 import { useAnimation } from '../helpers/hooks';
 
-const Modal = ({ children, close }) => {
+const Modal = ({ children, close, style, bgOpacity, kavStyle }) => {
   const { animationValue, animateTo } = useAnimation({ autoPlay: true });
 
   useEffect(() => {
@@ -52,10 +52,18 @@ const Modal = ({ children, close }) => {
   return (
     <Animated.View style={[styles.container, animateOpacity]}>
       <TouchableWithoutFeedback onPress={handleClose}>
-        <View style={styles.overlayButton} />
+        <View
+          style={[
+            styles.overlayButton,
+            { backgroundColor: `rgba(0,0,0,${bgOpacity})` }
+          ]}
+        />
       </TouchableWithoutFeedback>
-      <KeyboardAvoidingView behavior="position" style={{ width: '100%' }}>
-        <Animated.View style={[styles.modal, animateTranslate]}>
+      <KeyboardAvoidingView
+        behavior="position"
+        style={{ width: '100%', ...kavStyle }}
+      >
+        <Animated.View style={[styles.modal, animateTranslate, style]}>
           {children}
         </Animated.View>
       </KeyboardAvoidingView>
@@ -92,11 +100,17 @@ const styles = StyleSheet.create({
 
 Modal.propTypes = {
   children: oneOfType([arrayOf(node), node]).isRequired,
-  close: func
+  close: func,
+  style: object,
+  bgOpacity: number,
+  kavStyle: object
 };
 
 Modal.defaultProps = {
-  close: null
+  close: null,
+  style: {},
+  bgOpacity: 0.6,
+  kavStyle: {}
 };
 
 export default Modal;

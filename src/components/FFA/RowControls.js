@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { func, number, string } from 'prop-types';
 
@@ -9,7 +9,8 @@ const RowControls = ({
   username,
   categoryName,
   handleGuess,
-  guessedResult
+  guessedResult,
+  showOptions
 }) => {
   const guessedData = () => {
     if (guessedResult === 1)
@@ -17,7 +18,7 @@ const RowControls = ({
     if (guessedResult === 2)
       return { text: 'Failed', icon: 'ios-sad', color: '#FF5252' };
 
-    return { text: 'Guess Word', icon: 'chevron-right', color: '#7c4dff' };
+    return { text: 'Guess', icon: 'chevron-right', color: '#7c4dff' };
   };
 
   const { text, icon, color } = guessedData();
@@ -29,6 +30,9 @@ const RowControls = ({
         <Text style={styles.username}>@{username}</Text>
         <Text style={styles.category}>Acting {categoryName}</Text>
       </View>
+      <TouchableOpacity style={styles.options} onPress={showOptions}>
+        <Ionicons name="ios-options" size={30} color="#fff" />
+      </TouchableOpacity>
       {didGuess ? (
         <View style={styles.button}>
           <Text style={[styles.buttonText, didGuess ? styles.disabled : {}]}>
@@ -56,7 +60,7 @@ const RowControls = ({
 const styles = StyleSheet.create({
   info: {
     bottom: 24,
-    left: 24,
+    left: 18,
     position: 'absolute',
     width: '57%',
     zIndex: 2
@@ -65,7 +69,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: 'sf-medium',
     fontSize: 14,
-    marginBottom: 12
+    marginBottom: 6
   },
   category: {
     color: '#fff',
@@ -82,13 +86,13 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 12,
     position: 'absolute',
-    right: 24,
+    right: 18,
     zIndex: 2
   },
   vButton: {
     bottom: 24,
     position: 'absolute',
-    right: 24,
+    right: 18,
     zIndex: 2
   },
   buttonText: {
@@ -99,6 +103,12 @@ const styles = StyleSheet.create({
   },
   disabled: {
     color: '#afafaf'
+  },
+  options: {
+    bottom: 90,
+    position: 'absolute',
+    right: 18,
+    zIndex: 1
   }
 });
 
@@ -106,6 +116,7 @@ RowControls.propTypes = {
   username: string.isRequired,
   categoryName: string.isRequired,
   handleGuess: func.isRequired,
+  showOptions: func.isRequired,
   guessedResult: number
 };
 

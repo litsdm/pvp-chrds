@@ -31,7 +31,8 @@ const FFAMatchRow = ({
   guessing,
   setGuessing,
   guessed,
-  cameraType
+  cameraType,
+  showOptions
 }) => {
   const [signedUri, setSignedUri] = useState('');
   const [buffering, setBuffering] = useState(false);
@@ -197,6 +198,7 @@ const FFAMatchRow = ({
           categoryName={categoryName}
           handleGuess={handleGuess}
           guessedResult={guessed[_id]}
+          showOptions={showOptions}
         />
       )}
     </View>
@@ -260,6 +262,7 @@ FFAMatchRow.propTypes = {
   guessing: bool.isRequired,
   setGuessing: func.isRequired,
   cameraType: number.isRequired,
+  showOptions: func.isRequired,
   word: shape({
     _id: string,
     text: string,

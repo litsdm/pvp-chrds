@@ -28,6 +28,7 @@ import { toggleBadge, togglePurchaseModal } from '../actions/popup';
 
 import Row from '../components/FFA/MatchRow';
 import EmptyRow from '../components/FFA/EmptyRow';
+import OptionsModal from '../components/FFA/OptionsModal';
 
 import Layout from '../constants/Layout';
 
@@ -76,6 +77,7 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
   const [stopFilter, setStopFilter] = useState(false);
   const [initialDate, setInitialDate] = useState(null);
   const [lastDate, setLastDate] = useState(null);
+  const [optionsMatch, setOptionsMatch] = useState(null);
 
   const user = userData ? userData.user : {};
 
@@ -185,6 +187,9 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
     return false;
   };
 
+  const showOptions = match => () => setOptionsMatch(match);
+  const hideOptions = () => setOptionsMatch(null);
+
   const handleCreateOwn = () => {
     navigation.navigate('Home', { userID, playFromFFA: true });
   };
@@ -225,6 +230,7 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
         setGuessing={setGuessing}
         displayBadge={displayBadge}
         cameraType={cameraType}
+        showOptions={showOptions({ _id, sender })}
         key={_id}
       />
     ) : (
@@ -263,6 +269,7 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
           />
         ) : null}
       </View>
+      {optionsMatch ? <OptionsModal close={hideOptions} /> : null}
     </View>
   );
 };
