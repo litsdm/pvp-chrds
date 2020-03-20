@@ -5,7 +5,7 @@ import { func } from 'prop-types';
 
 import Modal from '../Modal';
 
-const OptionsModal = ({ close, showReport }) => (
+const OptionsModal = ({ close, showReport, blockUser }) => (
   <Modal style={styles.container} close={close} bgOpacity={0.4}>
     <View style={styles.content}>
       <View style={styles.header}>
@@ -20,7 +20,7 @@ const OptionsModal = ({ close, showReport }) => (
         <Text style={styles.rowText}>Report video</Text>
       </TouchableOpacity>
       <View style={styles.divider} />
-      <TouchableOpacity style={styles.row}>
+      <TouchableOpacity style={styles.row} onPress={blockUser}>
         <Ionicons name="md-eye-off" size={18} color="#000" />
         <Text style={styles.rowText}>Hide videos from this user</Text>
       </TouchableOpacity>
@@ -77,7 +77,8 @@ const styles = StyleSheet.create({
 
 OptionsModal.propTypes = {
   close: func.isRequired,
-  showReport: func.isRequired
+  showReport: func.isRequired,
+  blockUser: func.isRequired
 };
 
 export default OptionsModal;

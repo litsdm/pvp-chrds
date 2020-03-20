@@ -214,6 +214,25 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
     }
   };
 
+  const handleBlockUser = () => {
+    const { sender } = optionsMatch;
+    const properties = JSON.stringify({
+      blockedUsers: user.blockedUsers
+        ? [...user.blockedUsers, sender._id]
+        : [sender]
+    });
+    const filtered = matches.filter(match => {
+      if (!match.sender) return true;
+      return match.sender._id !== sender._id;
+    });
+
+    updateUser({ variables: { id: userID, properties } });
+
+    setMatches(filtered);
+    setDataProvider(provider.cloneWithRows(filtered));
+    setOptionsMatch(null);
+  };
+
   const handleCreateOwn = () => {
     navigation.navigate('Home', { userID, playFromFFA: true });
   };
@@ -297,6 +316,7 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
         <OptionsModal
           close={hideOptions}
           showReport={showReport(optionsMatch)}
+          blockUser={handleBlockUser}
         />
       ) : null}
       {reportMatch ? (

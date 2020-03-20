@@ -7,6 +7,7 @@ export default gql`
       coins
       ffaPoints
       ffaGuessed
+      blockedUsers
     }
   }
 `;
