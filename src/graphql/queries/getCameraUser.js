@@ -5,6 +5,7 @@ export default gql`
     user(_id: $userID) {
       _id
       coins
+      acceptedEula
     }
   }
 `;

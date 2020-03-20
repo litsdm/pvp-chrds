@@ -12,7 +12,11 @@ import { func, object } from 'prop-types';
 import mime from '../helpers/mimeTypes';
 import { useAnimation } from '../helpers/hooks';
 import { upload, uploadFFA } from '../actions/file';
-import { toggleBadge, togglePurchaseModal } from '../actions/popup';
+import {
+  toggleBadge,
+  togglePurchaseModal,
+  toggleTerms
+} from '../actions/popup';
 
 import GET_DATA from '../graphql/queries/getCameraData';
 import GET_FFA_DATA from '../graphql/queries/getFFACameraData';
@@ -35,7 +39,8 @@ const mapDispatchToProps = dispatch => ({
   uploadFile: file => dispatch(upload(file)),
   uploadFFAFile: file => dispatch(uploadFFA(file)),
   displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),
-  openCoinShop: () => dispatch(togglePurchaseModal(true))
+  openCoinShop: () => dispatch(togglePurchaseModal(true)),
+  openTerms: data => dispatch(toggleTerms(true, data))
 });
 
 const { front: frontType } = Camera.Constants.Type;
@@ -48,7 +53,8 @@ const CameraScreen = ({
   uploadFile,
   uploadFFAFile,
   displayBadge,
-  openCoinShop
+  openCoinShop,
+  openTerms
 }) => {
   const categoryID = navigation.getParam('categoryID', '');
   const opponentID = navigation.getParam('opponentID', '');
@@ -257,7 +263,14 @@ const CameraScreen = ({
     setState({ isRecording: false, videoUri: uri });
   };
 
+  const onAccept = () => refetch();
+
   const handleSend = async () => {
+    if (!user.acceptedEula) {
+      openTerms({ userID, onAccept });
+      return;
+    }
+
     if (mode === 'versus') handleVersusSend();
     else handleFFASend();
   };
@@ -502,7 +515,8 @@ CameraScreen.propTypes = {
   uploadFile: func.isRequired,
   uploadFFAFile: func.isRequired,
   displayBadge: func.isRequired,
-  openCoinShop: func.isRequired
+  openCoinShop: func.isRequired,
+  openTerms: func.isRequired
 };
 
 export default connect(
