@@ -7,6 +7,7 @@ export default gql`
     $actedWord: String!
     $video: String!
     $cameraType: Int!
+    $cloudFrontVideo: String!
   ) {
     createFFAMatch(
       sender: $sender
@@ -14,6 +15,7 @@ export default gql`
       actedWord: $actedWord
       video: $video
       cameraType: $cameraType
+      cloudFrontVideo: $cloudFrontVideo
     ) {
       _id
     }

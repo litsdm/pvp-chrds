@@ -69,7 +69,8 @@ const uploadFFAVideoComplete = ({
   actedWord,
   cameraType,
   category,
-  s3Url
+  s3Url,
+  name
 }) => async (dispatch, getState) => {
   const {
     file: { videos, completedCount }
@@ -80,7 +81,8 @@ const uploadFFAVideoComplete = ({
     actedWord,
     cameraType,
     category,
-    video: s3Url
+    video: s3Url,
+    cloudFrontVideo: `https://d1177oms4qawvj.cloudfront.net/${name}`
   };
 
   await client.mutate({

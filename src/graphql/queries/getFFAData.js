@@ -7,6 +7,7 @@ export default gql`
         _id
         createdOn
         cameraType
+        cloudFrontVideo
         video
         sender {
           _id
@@ -26,6 +27,7 @@ export default gql`
         _id
         createdOn
         cameraType
+        cloudFrontVideo
         video
         sender {
           _id

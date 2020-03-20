@@ -252,13 +252,13 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
 
   const rowRenderer = (
     type,
-    { _id, video, category, sender, actedWord, cameraType },
+    { _id, cloudFrontVideo, video, category, sender, actedWord, cameraType },
     index
   ) =>
     _id !== 'empty' ? (
       <Row
         _id={_id}
-        uri={video}
+        uri={cloudFrontVideo || video}
         active={index === activeIndex}
         username={sender.displayName}
         categoryName={category.name}
