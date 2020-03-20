@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Linking,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -84,6 +85,9 @@ const AuthUsernameScreen = ({ navigation, displayBadge, showPickUsername }) => {
     }
   };
 
+  const openTerms = () =>
+    Linking.openURL('https://cdiezmoran.github.io/chrds-eula/');
+
   const handleSuccess = async token => {
     const { _id } = jwtDecode(token);
     await AsyncStorage.setItem('CHRDS_TOKEN', token);
@@ -113,7 +117,8 @@ const AuthUsernameScreen = ({ navigation, displayBadge, showPickUsername }) => {
       const payload = {
         password,
         displayName: username,
-        username: username.toLowerCase()
+        username: username.toLowerCase(),
+        acceptedEula: true
       };
 
       const response = await callApi('signup', payload, 'POST');
@@ -214,6 +219,7 @@ const AuthUsernameScreen = ({ navigation, displayBadge, showPickUsername }) => {
               authorizing={authorizing}
               handleFB={loginWithFacebook}
               handleApple={loginWithApple}
+              handleTerms={openTerms}
             />
           ) : (
             <Login

@@ -22,7 +22,8 @@ const Signup = ({
   authorize,
   authorizing,
   handleFB,
-  handleApple
+  handleApple,
+  handleTerms
 }) => (
   <>
     <View style={styles.logoWrapper}>
@@ -51,6 +52,14 @@ const Signup = ({
       />
     </View>
     <View style={styles.footer}>
+      <View style={styles.disclaimer}>
+        <Text style={styles.disclaimerText}>
+          By pressing Sign Up you agree to our{' '}
+        </Text>
+        <TouchableOpacity onPress={handleTerms}>
+          <Text style={styles.discBtnText}>Terms & Conditions</Text>
+        </TouchableOpacity>
+      </View>
       <TouchableOpacity
         style={styles.signupButton}
         onPress={authorize}
@@ -206,6 +215,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: 12,
     width: 54
+  },
+  disclaimer: {
+    alignSelf: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginBottom: 12
+  },
+  disclaimerText: {
+    fontFamily: 'sf-regular',
+    fontSize: 10,
+    opacity: 0.5
+  },
+  discBtnText: {
+    color: '#2196F3',
+    fontFamily: 'sf-medium',
+    fontSize: 10
   }
 });
 
@@ -217,7 +244,8 @@ Signup.propTypes = {
   authorize: func.isRequired,
   authorizing: bool.isRequired,
   handleFB: func.isRequired,
-  handleApple: func.isRequired
+  handleApple: func.isRequired,
+  handleTerms: func.isRequired
 };
 
 export default Signup;
