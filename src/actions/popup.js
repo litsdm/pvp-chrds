@@ -7,6 +7,7 @@ export const TOGGLE_NETWORK_MODAL = 'TOGGLE_NETWORK_MODAL';
 export const TOGGLE_PURCHASE_MODAL = 'TOGGLE_PURCHASE_MODAL';
 export const TOGGLE_CATEGORY_PURCHASE = 'TOGGLE_CATEGORY_PURCHASE';
 export const TOGGLE_PICK_USERNAME = 'TOGGLE_PICK_USERNAME';
+export const TOGGLE_TERMS = 'TOGGLE_TERMS';
 
 export const togglePlay = (display, data = {}) => ({
   display,
@@ -63,4 +64,10 @@ export const toggleBadge = (
     message,
     type
   }
+});
+
+export const toggleTerms = (display, data = {}) => ({
+  display,
+  data,
+  type: TOGGLE_TERMS
 });

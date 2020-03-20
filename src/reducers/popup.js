@@ -7,7 +7,8 @@ import {
   TOGGLE_NETWORK_MODAL,
   TOGGLE_PURCHASE_MODAL,
   TOGGLE_CATEGORY_PURCHASE,
-  TOGGLE_PICK_USERNAME
+  TOGGLE_PICK_USERNAME,
+  TOGGLE_TERMS
 } from '../actions/popup';
 
 const initialState = {
@@ -25,7 +26,9 @@ const initialState = {
   categoryPurchaseData: null,
   displayCategoryPurchase: false,
   pickUsernameData: null,
-  displayPickUsername: false
+  displayPickUsername: false,
+  displayTerms: false,
+  termsData: null
 };
 
 const popup = (state = initialState, { type, display, data, badge }) => {
@@ -42,6 +45,8 @@ const popup = (state = initialState, { type, display, data, badge }) => {
       };
     case TOGGLE_ADD:
       return { ...state, displayAdd: display };
+    case TOGGLE_TERMS:
+      return { ...state, displayTerms: display, termsData: data };
     case TOGGLE_BADGE:
       return { ...state, badge };
     case TOGGLE_PROGRESS_BADGE:

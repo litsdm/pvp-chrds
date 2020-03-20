@@ -25,6 +25,7 @@ import expo.modules.constants.ConstantsPackage;
 import expo.modules.permissions.PermissionsPackage;
 import expo.modules.filesystem.FileSystemPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
+import com.reactnativecommunity.webview.RNCWebViewPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -53,6 +54,7 @@ public class MainApplication extends Application implements ReactApplication {
           new RNGestureHandlerPackage(),
           new RNScreensPackage(),
           new AsyncStoragePackage(),
+          new RNCWebViewPackage(),
           new ModuleRegistryAdapter(mModuleRegistryProvider)
       );
     }

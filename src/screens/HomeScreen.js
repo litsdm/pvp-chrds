@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { useQuery, useMutation } from '@apollo/react-hooks';
+import AsyncStorage from '@react-native-community/async-storage';
 import { FontAwesome5 } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { bool, func, number, object, shape, string } from 'prop-types';
@@ -24,7 +25,8 @@ import DELETE_MATCH from '../graphql/mutations/deleteMatch';
 import {
   togglePlay,
   toggleNetworkModal,
-  togglePurchaseModal
+  togglePurchaseModal,
+  toggleTerms
 } from '../actions/popup';
 
 import AnimatedCircle from '../components/AnimatedCircle';
@@ -40,7 +42,8 @@ import Layout from '../constants/Layout';
 const mapDispatchToProps = dispatch => ({
   openPlay: (data = {}) => dispatch(togglePlay(true, data)),
   closeNetworkModal: () => dispatch(toggleNetworkModal(false)),
-  openPurchase: () => dispatch(togglePurchaseModal(true))
+  openPurchase: () => dispatch(togglePurchaseModal(true)),
+  openTerms: data => dispatch(toggleTerms(true, data))
 });
 
 const mapStateToProps = ({ popup: { displayNetworkModal } }) => ({
@@ -138,7 +141,8 @@ const HomeScreen = ({
   openPlay,
   closeNetworkModal,
   displayNetworkModal,
-  openPurchase
+  openPurchase,
+  openTerms
 }) => {
   const userID = navigation.getParam('userID', '');
   const playFromFFA = navigation.getParam('playFromFFA', false);
@@ -186,6 +190,11 @@ const HomeScreen = ({
     }
   }, [playFromFFA]);
 
+  useEffect(() => {
+    if (Object.prototype.hasOwnProperty.call(user, '_id') && !user.acceptedEula)
+      displayTermsIfNeeded();
+  }, [user]);
+
   const subscribeToNewMatches = () =>
     subscribeToMore({
       document: CREATED_MATCH,
@@ -224,6 +233,16 @@ const HomeScreen = ({
         };
       }
     });
+
+  const onAccept = () => refetch();
+
+  const displayTermsIfNeeded = async () => {
+    const showedEula = (await AsyncStorage.getItem('eula')) === 'true';
+    if (showedEula) return;
+
+    openTerms({ userID, onAccept });
+    await AsyncStorage.setItem('eula', 'true');
+  };
 
   const checkExpiredMatches = async () => {
     if (!matchesData.matches) return;
@@ -558,7 +577,8 @@ HomeScreen.propTypes = {
   openPlay: func.isRequired,
   closeNetworkModal: func.isRequired,
   displayNetworkModal: bool.isRequired,
-  openPurchase: func.isRequired
+  openPurchase: func.isRequired,
+  openTerms: func.isRequired
 };
 
 Header.propTypes = {

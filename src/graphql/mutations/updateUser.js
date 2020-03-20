@@ -14,6 +14,7 @@ export default gql`
       facebookID
       categories
       token
+      acceptedEula
     }
   }
 `;

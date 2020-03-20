@@ -13,6 +13,7 @@ export default gql`
       nextXP
       facebookID
       categories
+      acceptedEula
     }
     friendRequests(_id: $_id) {
       _id

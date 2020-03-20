@@ -10,7 +10,8 @@ import {
   toggleProgressBadge,
   togglePurchaseModal,
   toggleCategoryPurchase,
-  togglePickUsername
+  togglePickUsername,
+  toggleTerms
 } from '../actions/popup';
 
 import CategoryPopup from './CategoryPopup';
@@ -21,6 +22,7 @@ import NetworkErrorModal from './NetworkErrorModal';
 import PurchaseModal from './PurchaseModal';
 import CategoryPurchase from './CategoryPurchase';
 import PickUsername from './PickUsernameModal';
+import TermsPopup from './TermsPopup';
 
 const mapDispatchToProps = dispatch => ({
   closeAdd: () => dispatch(toggleAdd(false)),
@@ -34,7 +36,8 @@ const mapDispatchToProps = dispatch => ({
   openStore: () => dispatch(togglePurchaseModal(true)),
   closePickUsername: () => dispatch(togglePickUsername(false)),
   displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),
-  openCategoryPurchase: data => dispatch(toggleCategoryPurchase(true, data))
+  openCategoryPurchase: data => dispatch(toggleCategoryPurchase(true, data)),
+  closeTerms: () => dispatch(toggleTerms(false))
 });
 
 const mapStateToProps = ({
@@ -49,7 +52,9 @@ const mapStateToProps = ({
     categoryPurchaseData,
     displayCategoryPurchase,
     displayPickUsername,
-    pickUsernameData
+    pickUsernameData,
+    displayTerms,
+    termsData
   },
   file: { videos }
 }) => ({
@@ -64,7 +69,9 @@ const mapStateToProps = ({
   categoryPurchaseData,
   displayCategoryPurchase,
   displayPickUsername,
-  pickUsernameData
+  pickUsernameData,
+  displayTerms,
+  termsData
 });
 
 const PopupManager = ({
@@ -90,7 +97,10 @@ const PopupManager = ({
   pickUsernameData,
   closePickUsername,
   displayBadge,
-  openCategoryPurchase
+  openCategoryPurchase,
+  displayTerms,
+  closeTerms,
+  termsData
 }) => {
   const openPlay = _id => () => showPlay({ playCategory: _id });
 
@@ -128,6 +138,7 @@ const PopupManager = ({
           {...pickUsernameData}
         />
       ) : null}
+      {displayTerms ? <TermsPopup close={closeTerms} {...termsData} /> : null}
     </>
   );
 };
@@ -180,7 +191,10 @@ PopupManager.propTypes = {
   }),
   closePickUsername: func.isRequired,
   displayBadge: func.isRequired,
-  openCategoryPurchase: func.isRequired
+  openCategoryPurchase: func.isRequired,
+  displayTerms: bool.isRequired,
+  closeTerms: func.isRequired,
+  termsData: object
 };
 
 PopupManager.defaultProps = {
@@ -188,7 +202,8 @@ PopupManager.defaultProps = {
   badge: {},
   videos: {},
   pickUsernameData: {},
-  categoryPopupData: {}
+  categoryPopupData: {},
+  termsData: {}
 };
 
 export default connect(
