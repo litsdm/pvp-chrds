@@ -119,7 +119,7 @@ const AuthScreen = ({ navigation, showPickUsername }) => {
 export const facebookAuth = async () => {
   await Facebook.initializeAsync('2531655210451972');
   const { type, token } = await Facebook.logInWithReadPermissionsAsync({
-    permissions: ['public_profile', 'user_friends']
+    permissions: ['public_profile']
   });
   if (type === 'success') {
     const response = await fetch(
