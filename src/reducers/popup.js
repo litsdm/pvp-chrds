@@ -8,7 +8,8 @@ import {
   TOGGLE_PURCHASE_MODAL,
   TOGGLE_CATEGORY_PURCHASE,
   TOGGLE_PICK_USERNAME,
-  TOGGLE_TERMS
+  TOGGLE_TERMS,
+  TOGGLE_FEEDBACK
 } from '../actions/popup';
 
 const initialState = {
@@ -28,7 +29,8 @@ const initialState = {
   pickUsernameData: null,
   displayPickUsername: false,
   displayTerms: false,
-  termsData: null
+  termsData: null,
+  displayFeedback: false
 };
 
 const popup = (state = initialState, { type, display, data, badge }) => {
@@ -57,6 +59,8 @@ const popup = (state = initialState, { type, display, data, badge }) => {
       return { ...state, displayPurchaseModal: display };
     case TOGGLE_PICK_USERNAME:
       return { ...state, displayPickUsername: display, pickUsernameData: data };
+    case TOGGLE_FEEDBACK:
+      return { ...state, displayFeedback: display };
     default:
       return state;
   }

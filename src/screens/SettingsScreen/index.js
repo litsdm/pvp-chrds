@@ -35,14 +35,15 @@ import Layout from '../../constants/Layout';
 import { useAnimation } from '../../helpers/hooks';
 import { uploadPic } from '../../actions/file';
 import { logoutUser } from '../../actions/user';
-import { toggleBadge } from '../../actions/popup';
+import { toggleBadge, toggleFeedback } from '../../actions/popup';
 
 import AnimatedSettingsNav from '../../components/AnimatedSettingsNav';
 
 const mapDispatchToProps = dispatch => ({
   uploadFile: (file, onFinish) => dispatch(uploadPic(file, onFinish)),
   resetReduxState: () => dispatch(logoutUser()),
-  displayBadge: (message, type) => dispatch(toggleBadge(true, message, type))
+  displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),
+  showFeedback: () => dispatch(toggleFeedback(true))
 });
 
 const mapStateToProps = ({ file: { uploadingPic, picProgress } }) => ({
@@ -58,7 +59,8 @@ const SettingsScreen = ({
   progress,
   uploading,
   resetReduxState,
-  displayBadge
+  displayBadge,
+  showFeedback
 }) => {
   const [getData, { data, refetch }] = useLazyQuery(GET_DATA);
   const [updateUser] = useMutation(UPDATE_USER);
@@ -315,7 +317,7 @@ const SettingsScreen = ({
               </TouchableOpacity>
             </View>
             <View style={styles.group}>
-              <TouchableOpacity style={styles.row}>
+              <TouchableOpacity style={styles.row} onPress={showFeedback}>
                 <View style={styles.info}>
                   <View style={styles.iconWrap}>
                     <Ionicons color="#fff" name="ios-chatbubbles" size={28} />
@@ -527,6 +529,7 @@ SettingsScreen.propTypes = {
   uploadFile: func.isRequired,
   resetReduxState: func.isRequired,
   displayBadge: func.isRequired,
+  showFeedback: func.isRequired,
   uploading: bool,
   progress: number
 };

@@ -8,6 +8,7 @@ export const TOGGLE_PURCHASE_MODAL = 'TOGGLE_PURCHASE_MODAL';
 export const TOGGLE_CATEGORY_PURCHASE = 'TOGGLE_CATEGORY_PURCHASE';
 export const TOGGLE_PICK_USERNAME = 'TOGGLE_PICK_USERNAME';
 export const TOGGLE_TERMS = 'TOGGLE_TERMS';
+export const TOGGLE_FEEDBACK = 'TOGGLE_FEEDBACK';
 
 export const togglePlay = (display, data = {}) => ({
   display,
@@ -70,4 +71,9 @@ export const toggleTerms = (display, data = {}) => ({
   display,
   data,
   type: TOGGLE_TERMS
+});
+
+export const toggleFeedback = display => ({
+  display,
+  type: TOGGLE_FEEDBACK
 });

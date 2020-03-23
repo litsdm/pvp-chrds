@@ -11,7 +11,8 @@ import {
   togglePurchaseModal,
   toggleCategoryPurchase,
   togglePickUsername,
-  toggleTerms
+  toggleTerms,
+  toggleFeedback
 } from '../actions/popup';
 
 import CategoryPopup from './CategoryPopup';
@@ -23,6 +24,7 @@ import PurchaseModal from './PurchaseModal';
 import CategoryPurchase from './CategoryPurchase';
 import PickUsername from './PickUsernameModal';
 import TermsPopup from './TermsPopup';
+import FeedbackPopup from './Settings/FeedbackPopup';
 
 const mapDispatchToProps = dispatch => ({
   closeAdd: () => dispatch(toggleAdd(false)),
@@ -37,7 +39,8 @@ const mapDispatchToProps = dispatch => ({
   closePickUsername: () => dispatch(togglePickUsername(false)),
   displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),
   openCategoryPurchase: data => dispatch(toggleCategoryPurchase(true, data)),
-  closeTerms: () => dispatch(toggleTerms(false))
+  closeTerms: () => dispatch(toggleTerms(false)),
+  closeFeedback: () => dispatch(toggleFeedback(false))
 });
 
 const mapStateToProps = ({
@@ -54,7 +57,8 @@ const mapStateToProps = ({
     displayPickUsername,
     pickUsernameData,
     displayTerms,
-    termsData
+    termsData,
+    displayFeedback
   },
   file: { videos }
 }) => ({
@@ -71,7 +75,8 @@ const mapStateToProps = ({
   displayPickUsername,
   pickUsernameData,
   displayTerms,
-  termsData
+  termsData,
+  displayFeedback
 });
 
 const PopupManager = ({
@@ -100,7 +105,9 @@ const PopupManager = ({
   openCategoryPurchase,
   displayTerms,
   closeTerms,
-  termsData
+  termsData,
+  displayFeedback,
+  closeFeedback
 }) => {
   const openPlay = _id => () => showPlay({ playCategory: _id });
 
@@ -139,6 +146,9 @@ const PopupManager = ({
         />
       ) : null}
       {displayTerms ? <TermsPopup close={closeTerms} {...termsData} /> : null}
+      {displayFeedback ? (
+        <FeedbackPopup close={closeFeedback} displayBadge={displayBadge} />
+      ) : null}
     </>
   );
 };
@@ -194,7 +204,9 @@ PopupManager.propTypes = {
   openCategoryPurchase: func.isRequired,
   displayTerms: bool.isRequired,
   closeTerms: func.isRequired,
-  termsData: object
+  termsData: object,
+  displayFeedback: bool.isRequired,
+  closeFeedback: func.isRequired
 };
 
 PopupManager.defaultProps = {

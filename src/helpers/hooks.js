@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Animated } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import jwtDecode from 'jwt-decode';
 
 const initialAnimationOpts = {
   duration: 200,
@@ -79,3 +81,19 @@ export function useCountdown(options = {}) {
 
   return timeLeft;
 }
+
+export const useUserID = () => {
+  const [userID, setUserID] = useState('');
+
+  useEffect(() => {
+    getUserID();
+  }, []);
+
+  const getUserID = async () => {
+    const token = await AsyncStorage.getItem('CHRDS_TOKEN');
+    const { _id } = jwtDecode(token);
+    setUserID(_id);
+  };
+
+  return userID;
+};
