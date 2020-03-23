@@ -144,7 +144,13 @@ export const appleAuth = async () => {
     ]
   });
 
-  return { appleID: credentials.email, name: credentials.fullName.givenName };
+  console.log(credentials.user);
+
+  return {
+    appleID: credentials.user,
+    name: credentials.fullName.givenName,
+    email: credentials.email
+  };
 };
 
 const styles = StyleSheet.create({
