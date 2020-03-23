@@ -5,28 +5,45 @@ import { func } from 'prop-types';
 
 import Modal from '../Modal';
 
-const OptionsModal = ({ close, showReport, blockUser }) => (
-  <Modal style={styles.container} close={close} bgOpacity={0.4}>
-    <View style={styles.content}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Options</Text>
-        <TouchableOpacity style={styles.closeIcon} onPress={close}>
-          <Ionicons name="md-close" size={24} color="#000" />
+import { useAnimation } from '../../helpers/hooks';
+
+const OptionsModal = ({ close, showReport, blockUser }) => {
+  const { animationValue, animateTo } = useAnimation({ autoPlay: true });
+
+  const handleClose = () => {
+    animateTo(0);
+    setTimeout(() => close(), 200);
+  };
+
+  return (
+    <Modal
+      style={styles.container}
+      close={close}
+      bgOpacity={0.4}
+      animationValue={animationValue}
+      animateTo={animateTo}
+    >
+      <View style={styles.content}>
+        <View style={styles.header}>
+          <Text style={styles.title}>Options</Text>
+          <TouchableOpacity style={styles.closeIcon} onPress={handleClose}>
+            <Ionicons name="md-close" size={24} color="#000" />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.divider} />
+        <TouchableOpacity style={styles.row} onPress={showReport}>
+          <Ionicons name="ios-warning" size={18} color="#000" />
+          <Text style={styles.rowText}>Report video</Text>
+        </TouchableOpacity>
+        <View style={styles.divider} />
+        <TouchableOpacity style={styles.row} onPress={blockUser}>
+          <Ionicons name="md-eye-off" size={18} color="#000" />
+          <Text style={styles.rowText}>Hide videos from this user</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.divider} />
-      <TouchableOpacity style={styles.row} onPress={showReport}>
-        <Ionicons name="ios-warning" size={18} color="#000" />
-        <Text style={styles.rowText}>Report video</Text>
-      </TouchableOpacity>
-      <View style={styles.divider} />
-      <TouchableOpacity style={styles.row} onPress={blockUser}>
-        <Ionicons name="md-eye-off" size={18} color="#000" />
-        <Text style={styles.rowText}>Hide videos from this user</Text>
-      </TouchableOpacity>
-    </View>
-  </Modal>
-);
+    </Modal>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

@@ -82,8 +82,8 @@ const SettingsScreen = ({
   };
 
   const goBack = () => navigation.navigate('Home');
-  const sendSMS = () => Linking.openURL('sms:+5215534889576');
-  const sendEmail = () => Linking.openURL('mailto:cdiezmoran@gmail.com');
+  const sendSMS = () => Linking.openURL('sms:+5215566096148');
+  const sendEmail = () => Linking.openURL('mailto:pame.aridjis@gmail.com');
   const goToGeneral = () => navigation.navigate('General');
   const goToPrivacy = () =>
     navigation.navigate('Privacy', { userID: user._id });

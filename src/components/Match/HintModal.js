@@ -4,16 +4,27 @@ import { func, string } from 'prop-types';
 
 import Modal from '../Modal';
 
-const HintModal = ({ close, hint }) => (
-  <Modal close={close}>
-    <View style={styles.container}>
-      <Text style={styles.hint}>{hint}</Text>
-      <TouchableOpacity style={styles.button} onPress={close}>
-        <Text style={styles.buttonText}>Close Hint</Text>
-      </TouchableOpacity>
-    </View>
-  </Modal>
-);
+import { useAnimation } from '../../helpers/hooks';
+
+const HintModal = ({ close, hint }) => {
+  const { animationValue, animateTo } = useAnimation({ autoPlay: true });
+
+  const handleClose = () => {
+    animateTo(0);
+    setTimeout(() => close(), 200);
+  };
+
+  return (
+    <Modal close={close} animationValue={animationValue} animateTo={animateTo}>
+      <View style={styles.container}>
+        <Text style={styles.hint}>{hint}</Text>
+        <TouchableOpacity style={styles.button} onPress={handleClose}>
+          <Text style={styles.buttonText}>Close Hint</Text>
+        </TouchableOpacity>
+      </View>
+    </Modal>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

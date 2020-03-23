@@ -19,6 +19,8 @@ import { func } from 'prop-types';
 import Modal from '../Modal';
 import Tier from './Tier';
 
+import { useAnimation } from '../../helpers/hooks';
+
 const coins = [80, 500, 1200];
 const tierNames = ['Tier 1', 'Tier 2', 'Tier 3'];
 const items = Platform.select({
@@ -33,6 +35,7 @@ const items = Platform.select({
 const PurchaseModal = ({ close }) => {
   const [selected, setSelected] = useState(0);
   const [products, setProducts] = useState([]);
+  const { animationValue, animateTo } = useAnimation({ autoPlay: true });
 
   const data = products.length > 0 ? products : [];
 
@@ -68,10 +71,15 @@ const PurchaseModal = ({ close }) => {
       />
     ));
 
+  const handleClose = () => {
+    animateTo(0);
+    setTimeout(() => close(), 200);
+  }
+
   return (
-    <Modal close={close}>
+    <Modal close={close} animationValue={animationValue} animateTo={animateTo}>
       <View style={styles.content}>
-        <TouchableOpacity style={styles.close} onPress={close}>
+        <TouchableOpacity style={styles.close} onPress={handleClose}>
           <Ionicons name="ios-close" size={30} color="#000" />
         </TouchableOpacity>
         <Text style={styles.title}>Coin Shop</Text>

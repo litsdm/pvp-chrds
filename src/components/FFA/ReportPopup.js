@@ -10,6 +10,8 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { func, string } from 'prop-types';
 
+import { useAnimation } from '../../helpers/hooks';
+
 import Popup from '../Popup';
 
 import Layout from '../../constants/Layout';
@@ -75,6 +77,7 @@ const ReportPopup = ({ close, submit }) => {
   const [page, setPage] = useState(0);
   const [reason, setReason] = useState('');
   const [message, setMessage] = useState('');
+  const { animationValue, animateTo } = useAnimation({ type: 'spring' });
   const scrollView = useRef(null);
 
   useEffect(() => {
@@ -106,13 +109,22 @@ const ReportPopup = ({ close, submit }) => {
     submit(reason, message);
   };
 
+  const handleClose = () => {
+    animateTo(0);
+    setTimeout(() => close(), 200);
+  };
+
   return (
-    <Popup close={close} showsDragIndicator={false}>
+    <Popup
+      close={close}
+      showsDragIndicator={false}
+      animation={{ animationValue, animateTo }}
+    >
       <View style={styles.container}>
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.closeButton}
-            onPress={page === 0 ? close : back}
+            onPress={page === 0 ? handleClose : back}
           >
             <Ionicons
               name={page === 0 ? 'md-close' : 'md-arrow-round-back'}

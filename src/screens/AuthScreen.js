@@ -144,8 +144,6 @@ export const appleAuth = async () => {
     ]
   });
 
-  console.log(credentials.user);
-
   return {
     appleID: credentials.user,
     name: credentials.fullName.givenName,

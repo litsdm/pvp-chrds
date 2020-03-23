@@ -5,6 +5,8 @@ import { func, number, string } from 'prop-types';
 
 import Modal from '../Modal';
 
+import { useAnimation } from '../../helpers/hooks';
+
 const PurchaseModal = ({
   close,
   coins,
@@ -12,6 +14,8 @@ const PurchaseModal = ({
   handlePurchase,
   openCoinShop
 }) => {
+  const { animationValue, animateTo } = useAnimation({ autoPlay: true });
+
   const getInfo = () => {
     switch (powerup) {
       case 'bomb':
@@ -65,8 +69,13 @@ const PurchaseModal = ({
 
   const { title, icon, description, cost } = getInfo();
 
+  const handleClose = () => {
+    animateTo(0);
+    setTimeout(() => close(), 200);
+  };
+
   return (
-    <Modal close={close}>
+    <Modal close={close} animationValue={animationValue} animateTo={animateTo}>
       <View style={styles.container}>
         <View style={styles.titleWrapper}>
           <FontAwesome5 name={icon} size={24} color="#000" />
@@ -88,7 +97,7 @@ const PurchaseModal = ({
             >
               <Text style={styles.yesText}>Buy Item</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={close}>
+            <TouchableOpacity style={styles.button} onPress={handleClose}>
               <Text style={styles.noText}>Cancel</Text>
             </TouchableOpacity>
           </View>

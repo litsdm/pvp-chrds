@@ -11,8 +11,22 @@ import { arrayOf, func, oneOfType, node, number, object } from 'prop-types';
 
 import { useAnimation } from '../helpers/hooks';
 
-const Modal = ({ children, close, style, bgOpacity, kavStyle }) => {
-  const { animationValue, animateTo } = useAnimation({ autoPlay: true });
+const Modal = ({
+  children,
+  close,
+  style,
+  bgOpacity,
+  kavStyle,
+  animationValue,
+  animateTo
+}) => {
+  const {
+    animationValue: _animationValue,
+    animateTo: _animateTo
+  } = useAnimation({ autoPlay: true });
+
+  const animValue = animationValue || _animationValue;
+  const animTo = animateTo || _animateTo;
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackPress);
@@ -20,7 +34,7 @@ const Modal = ({ children, close, style, bgOpacity, kavStyle }) => {
   }, []);
 
   const animateOpacity = {
-    opacity: animationValue.current.interpolate({
+    opacity: animValue.current.interpolate({
       inputRange: [0, 1],
       outputRange: [0, 1]
     })
@@ -29,7 +43,7 @@ const Modal = ({ children, close, style, bgOpacity, kavStyle }) => {
   const animateTranslate = {
     transform: [
       {
-        translateY: animationValue.current.interpolate({
+        translateY: animValue.current.interpolate({
           inputRange: [0, 1],
           outputRange: [-54, 0]
         })
@@ -45,7 +59,7 @@ const Modal = ({ children, close, style, bgOpacity, kavStyle }) => {
   const handleClose = () => {
     if (!close) return;
 
-    animateTo(0);
+    animTo(0);
     setTimeout(() => close(), 200);
   };
 
@@ -103,14 +117,18 @@ Modal.propTypes = {
   close: func,
   style: object,
   bgOpacity: number,
-  kavStyle: object
+  kavStyle: object,
+  animationValue: object,
+  animateTo: func
 };
 
 Modal.defaultProps = {
   close: null,
   style: {},
   bgOpacity: 0.6,
-  kavStyle: {}
+  kavStyle: {},
+  animationValue: null,
+  animateTo: null
 };
 
 export default Modal;

@@ -22,15 +22,22 @@ const Popup = ({
   animationOptions,
   onContentLayout,
   contentStyles,
+  animation,
   avoidKeyboard
 }) => {
   const [contentHeight, setContentHeight] = useState(180);
   const [animateDisplay, setAnimateDisplay] = useState({});
-  const { animationValue, animateTo } = useAnimation({
+  const {
+    animationValue: _animationValue,
+    animateTo: _animateTo
+  } = useAnimation({
     type: 'spring',
     ...animationOptions
   });
   const position = useRef(new Animated.ValueXY());
+
+  const animationValue = animation ? animation.animationValue : _animationValue;
+  const animateTo = animation ? animation.animateTo : _animateTo;
 
   const animateOpacity = {
     opacity: animationValue.current.interpolate({
@@ -204,7 +211,8 @@ Popup.propTypes = {
   animationOptions: object,
   onContentLayout: func,
   contentStyles: object,
-  avoidKeyboard: bool
+  avoidKeyboard: bool,
+  animation: object
 };
 
 Popup.defaultProps = {
@@ -213,7 +221,8 @@ Popup.defaultProps = {
   animationOptions: {},
   onContentLayout: null,
   contentStyles: null,
-  avoidKeyboard: true
+  avoidKeyboard: true,
+  animation: null
 };
 
 export default Popup;
