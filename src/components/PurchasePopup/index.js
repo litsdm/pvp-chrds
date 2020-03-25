@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   View
 } from 'react-native';
+import { useLazyQuery } from '@apollo/react-hooks';
 import {
   connectAsync,
   disconnectAsync,
@@ -17,7 +18,11 @@ import {
   IAPResponseCode
 } from 'expo-in-app-purchases';
 import { Ionicons } from '@expo/vector-icons';
-import { bool, func } from 'prop-types';
+import AsyncStorage from '@react-native-community/async-storage';
+import jwtDecode from 'jwt-decode';
+import { func } from 'prop-types';
+
+import GET_DATA from '../../graphql/queries/getPurchasePopupData';
 
 import Popup from '../Popup';
 import Tier from './Tier';
@@ -40,20 +45,29 @@ const items = Platform.select({
   android: ['pro_monthly', 'coins_small', 'coins_medium', 'coins_large']
 });
 
-const PurchasePopup = ({ close, isPro }) => {
-  const [selected, setSelected] = useState(!isPro ? 0 : 1);
+const PurchasePopup = ({ close }) => {
+  const [selected, setSelected] = useState(0);
   const [products, setProducts] = useState([]);
+  const [getData, { data: userData }] = useLazyQuery(GET_DATA);
   const { animationValue, animateTo } = useAnimation({
     autoPlay: true,
     type: 'spring'
   });
 
+  const user = userData ? userData.user : {};
   const data = products.length > 0 ? products : [];
 
   useEffect(() => {
+    fetchData();
     connectIAP();
     return () => disconnectAsync();
   }, []);
+
+  useEffect(() => {
+    if (user && user.isPro) {
+      setSelected(1);
+    }
+  }, [user]);
 
   const connectIAP = async () => {
     await connectAsync();
@@ -68,6 +82,13 @@ const PurchasePopup = ({ close, isPro }) => {
     otherIAP.sort((a, b) => a.priceAmountMicros - b.priceAmountMicros);
     if (responseCode === IAPResponseCode.OK)
       setProducts([subscription, ...otherIAP]);
+  };
+
+  const fetchData = async () => {
+    const token = await AsyncStorage.getItem('CHRDS_TOKEN');
+    const { _id } = jwtDecode(token);
+
+    getData({ variables: { _id } });
   };
 
   const select = index => () => setSelected(index);
@@ -163,11 +184,11 @@ const PurchasePopup = ({ close, isPro }) => {
         <View style={styles.footer}>
           {selected === 0 ? (
             <TouchableOpacity
-              style={[styles.button, isPro ? styles.disabled : {}]}
+              style={[styles.button, user.isPro ? styles.disabled : {}]}
               onPress={buyItem}
-              disabled={isPro}
+              disabled={user.isPro}
             >
-              {isPro ? (
+              {user.isPro ? (
                 <Text style={styles.buttonText}>You are already Pro!</Text>
               ) : (
                 <>
@@ -316,8 +337,7 @@ const styles = StyleSheet.create({
 });
 
 PurchasePopup.propTypes = {
-  close: func.isRequired,
-  isPro: bool.isRequired
+  close: func.isRequired
 };
 
 export default PurchasePopup;

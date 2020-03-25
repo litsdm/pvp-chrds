@@ -214,6 +214,7 @@ const PlayPopup = ({
           directPlay={friend !== null || selectedMode === 0}
           handleDone={handleDone}
           categoryHash={categoryHash}
+          isPro={user ? user.isPro : false}
           openPurchase={handleOpenPurchase}
         />
         <SelectFriend

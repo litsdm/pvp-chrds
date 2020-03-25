@@ -24,7 +24,6 @@ const initialState = {
   displayProgressBadge: false,
   displayNetworkModal: false,
   displayPurchasePopup: false,
-  purchaseData: null,
   categoryPurchaseData: null,
   displayCategoryPurchase: false,
   pickUsernameData: null,
@@ -57,7 +56,7 @@ const popup = (state = initialState, { type, display, data, badge }) => {
     case TOGGLE_NETWORK_MODAL:
       return { ...state, displayNetworkModal: display };
     case TOGGLE_PURCHASE_POPUP:
-      return { ...state, displayPurchasePopup: display, purchaseData: data };
+      return { ...state, displayPurchasePopup: display };
     case TOGGLE_PICK_USERNAME:
       return { ...state, displayPickUsername: display, pickUsernameData: data };
     case TOGGLE_FEEDBACK:

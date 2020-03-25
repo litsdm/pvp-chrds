@@ -44,7 +44,7 @@ import Layout from '../constants/Layout';
 const mapDispatchToProps = dispatch => ({
   openPlay: (data = {}) => dispatch(togglePlay(true, data)),
   closeNetworkModal: () => dispatch(toggleNetworkModal(false)),
-  openPurchase: data => dispatch(togglePurchasePopup(true, data)),
+  openPurchase: () => dispatch(togglePurchasePopup(true)),
   openTerms: data => dispatch(toggleTerms(true, data))
 });
 
@@ -340,8 +340,6 @@ const HomeScreen = ({
     return 'Mid';
   };
 
-  const handleOpenPurchase = () => openPurchase({ isPro: user.isPro });
-
   const handleRefresh = async () => {
     setRefreshing(true);
     await refetch();
@@ -429,7 +427,7 @@ const HomeScreen = ({
                 <Header
                   user={user}
                   navigateToSettings={navigateToSettings}
-                  openPurchase={handleOpenPurchase}
+                  openPurchase={openPurchase}
                   notificationCount={friendRequests.length}
                 />
               )}

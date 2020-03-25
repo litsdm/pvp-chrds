@@ -43,8 +43,7 @@ export const toggleNetworkModal = display => ({
   type: TOGGLE_NETWORK_MODAL
 });
 
-export const togglePurchasePopup = (display, data = {}) => ({
-  data,
+export const togglePurchasePopup = display => ({
   display,
   type: TOGGLE_PURCHASE_POPUP
 });

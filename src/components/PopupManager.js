@@ -52,7 +52,6 @@ const mapStateToProps = ({
     displayProgressBadge,
     displayNetworkModal,
     displayPurchasePopup,
-    purchaseData,
     categoryPurchaseData,
     displayCategoryPurchase,
     displayPickUsername,
@@ -77,7 +76,6 @@ const mapStateToProps = ({
   pickUsernameData,
   displayTerms,
   termsData,
-  purchaseData,
   displayFeedback
 });
 
@@ -96,7 +94,6 @@ const PopupManager = ({
   displayNetworkModal,
   closePurchasePopup,
   displayPurchasePopup,
-  purchaseData,
   categoryPurchaseData,
   displayCategoryPurchase,
   closeCategoryPurchase,
@@ -139,7 +136,7 @@ const PopupManager = ({
         />
       ) : null}
       {displayPurchasePopup ? (
-        <PurchasePopup close={closePurchasePopup} {...purchaseData} />
+        <PurchasePopup close={closePurchasePopup} />
       ) : null}
       {displayPickUsername ? (
         <PickUsername
@@ -208,7 +205,6 @@ PopupManager.propTypes = {
   displayTerms: bool.isRequired,
   closeTerms: func.isRequired,
   termsData: object,
-  purchaseData: object,
   displayFeedback: bool.isRequired,
   closeFeedback: func.isRequired
 };
@@ -219,8 +215,7 @@ PopupManager.defaultProps = {
   videos: {},
   pickUsernameData: {},
   categoryPopupData: {},
-  termsData: {},
-  purchaseData: {}
+  termsData: {}
 };
 
 export default connect(

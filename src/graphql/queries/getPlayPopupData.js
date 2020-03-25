@@ -20,6 +20,7 @@ export default gql`
       _id
       categories
       coins
+      isPro
     }
   }
 `;

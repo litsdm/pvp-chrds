@@ -20,7 +20,8 @@ const SelectCategory = ({
   directPlay,
   handleDone,
   categoryHash,
-  openPurchase
+  openPurchase,
+  isPro
 }) => {
   const renderCategories = () =>
     categories.map(({ _id, name, description, image, color, price }) => (
@@ -33,7 +34,7 @@ const SelectCategory = ({
         onPress={selectCategory(_id)}
         selecting
         selected={selectedCategory === _id}
-        hasCategory={categoryHash[_id] !== undefined}
+        hasCategory={categoryHash[_id] !== undefined || isPro}
         price={price}
         openPurchase={openPurchase({ _id, name, image, price })}
       />
@@ -120,7 +121,8 @@ SelectCategory.propTypes = {
       price: number
     })
   ),
-  categoryHash: object
+  categoryHash: object,
+  isPro: bool.isRequired
 };
 
 SelectCategory.defaultProps = {

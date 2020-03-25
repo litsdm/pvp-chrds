@@ -143,7 +143,7 @@ const CategoriesScreen = ({
         hideLogo={displayCategory && popupSelectedCategory._id === _id}
         parentBackgroundColor="#FCFCFE"
         containerStyles={verticalStyles}
-        hasCategory={categoriesHash[_id] !== undefined}
+        hasCategory={categoriesHash[_id] !== undefined || user.isPro}
         price={price}
         openPurchase={handleOpenPurchase({ _id, name, image, price })}
       />
