@@ -4,7 +4,7 @@ export const TOGGLE_ADD = 'TOGGLE_ADD';
 export const TOGGLE_BADGE = 'TOGGLE_BADGE';
 export const TOGGLE_PROGRESS_BADGE = 'TOGGLE_PROGRESS_BADGE';
 export const TOGGLE_NETWORK_MODAL = 'TOGGLE_NETWORK_MODAL';
-export const TOGGLE_PURCHASE_MODAL = 'TOGGLE_PURCHASE_MODAL';
+export const TOGGLE_PURCHASE_POPUP = 'TOGGLE_PURCHASE_POPUP';
 export const TOGGLE_CATEGORY_PURCHASE = 'TOGGLE_CATEGORY_PURCHASE';
 export const TOGGLE_PICK_USERNAME = 'TOGGLE_PICK_USERNAME';
 export const TOGGLE_TERMS = 'TOGGLE_TERMS';
@@ -43,9 +43,10 @@ export const toggleNetworkModal = display => ({
   type: TOGGLE_NETWORK_MODAL
 });
 
-export const togglePurchaseModal = display => ({
+export const togglePurchasePopup = (display, data = {}) => ({
+  data,
   display,
-  type: TOGGLE_PURCHASE_MODAL
+  type: TOGGLE_PURCHASE_POPUP
 });
 
 export const togglePickUsername = (display, data = {}) => ({

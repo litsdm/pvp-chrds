@@ -25,7 +25,7 @@ import DELETE_MATCH from '../graphql/mutations/deleteMatch';
 import {
   togglePlay,
   toggleNetworkModal,
-  togglePurchaseModal,
+  togglePurchasePopup,
   toggleTerms
 } from '../actions/popup';
 
@@ -44,7 +44,7 @@ import Layout from '../constants/Layout';
 const mapDispatchToProps = dispatch => ({
   openPlay: (data = {}) => dispatch(togglePlay(true, data)),
   closeNetworkModal: () => dispatch(toggleNetworkModal(false)),
-  openPurchase: () => dispatch(togglePurchaseModal(true)),
+  openPurchase: data => dispatch(togglePurchasePopup(true, data)),
   openTerms: data => dispatch(toggleTerms(true, data))
 });
 
@@ -171,8 +171,6 @@ const HomeScreen = ({
   const user = data ? data.user : {};
   const friendRequests = data ? data.friendRequests : [];
   const matchCount = data ? data.ffaMatchCount : 0;
-
-  console.log(user.isPro);
 
   useEffect(() => {
     if (matchesData && data) {
@@ -342,6 +340,8 @@ const HomeScreen = ({
     return 'Mid';
   };
 
+  const handleOpenPurchase = () => openPurchase({ isPro: user.isPro });
+
   const handleRefresh = async () => {
     setRefreshing(true);
     await refetch();
@@ -429,7 +429,7 @@ const HomeScreen = ({
                 <Header
                   user={user}
                   navigateToSettings={navigateToSettings}
-                  openPurchase={openPurchase}
+                  openPurchase={handleOpenPurchase}
                   notificationCount={friendRequests.length}
                 />
               )}

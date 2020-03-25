@@ -17,7 +17,7 @@ import {
   IAPResponseCode
 } from 'expo-in-app-purchases';
 import { Ionicons } from '@expo/vector-icons';
-import { func } from 'prop-types';
+import { bool, func } from 'prop-types';
 
 import Popup from '../Popup';
 import Tier from './Tier';
@@ -40,8 +40,8 @@ const items = Platform.select({
   android: ['pro_monthly', 'coins_small', 'coins_medium', 'coins_large']
 });
 
-const PurchasePopup = ({ close }) => {
-  const [selected, setSelected] = useState(0);
+const PurchasePopup = ({ close, isPro }) => {
+  const [selected, setSelected] = useState(!isPro ? 0 : 1);
   const [products, setProducts] = useState([]);
   const { animationValue, animateTo } = useAnimation({
     autoPlay: true,
@@ -162,12 +162,22 @@ const PurchasePopup = ({ close }) => {
         <View style={styles.divider} />
         <View style={styles.footer}>
           {selected === 0 ? (
-            <TouchableOpacity style={styles.button} onPress={buyItem}>
-              <Text style={styles.buttonText}>Buy Charades Pro</Text>
-              <Text style={styles.buttonSubtext}>
-                {data.length > 0 ? formatPrice(data[0].price) : ''} billed
-                monthly
-              </Text>
+            <TouchableOpacity
+              style={[styles.button, isPro ? styles.disabled : {}]}
+              onPress={buyItem}
+              disabled={isPro}
+            >
+              {isPro ? (
+                <Text style={styles.buttonText}>You are already Pro!</Text>
+              ) : (
+                <>
+                  <Text style={styles.buttonText}>Buy Charades Pro</Text>
+                  <Text style={styles.buttonSubtext}>
+                    {data.length > 0 ? formatPrice(data[0].price) : ''} billed
+                    monthly
+                  </Text>
+                </>
+              )}
             </TouchableOpacity>
           ) : (
             <TouchableOpacity style={styles.button} onPress={buyItem}>
@@ -175,7 +185,8 @@ const PurchasePopup = ({ close }) => {
                 Purchase {tierNames[selected]}
               </Text>
               <Text style={styles.buttonSubtext}>
-                One time payment of {formatPrice(data[selected].price)}
+                One time payment of{' '}
+                {data.length > 0 ? formatPrice(data[selected].price) : ''}
               </Text>
             </TouchableOpacity>
           )}
@@ -272,6 +283,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%'
   },
+  disabled: {
+    backgroundColor: '#999'
+  },
   buttonText: {
     color: '#fff',
     fontFamily: 'sf-medium'
@@ -302,7 +316,8 @@ const styles = StyleSheet.create({
 });
 
 PurchasePopup.propTypes = {
-  close: func.isRequired
+  close: func.isRequired,
+  isPro: bool.isRequired
 };
 
 export default PurchasePopup;

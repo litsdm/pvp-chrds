@@ -8,7 +8,7 @@ import {
   togglePlay,
   toggleBadge,
   toggleProgressBadge,
-  togglePurchaseModal,
+  togglePurchasePopup,
   toggleCategoryPurchase,
   togglePickUsername,
   toggleTerms,
@@ -33,9 +33,9 @@ const mapDispatchToProps = dispatch => ({
   showPlay: data => dispatch(togglePlay(true, data)),
   closeBadge: () => dispatch(toggleBadge(false, '')),
   closeProgressBadge: () => dispatch(toggleProgressBadge(false)),
-  closePurchaseModal: () => dispatch(togglePurchaseModal(false)),
+  closePurchasePopup: () => dispatch(togglePurchasePopup(false)),
   closeCategoryPurchase: () => dispatch(toggleCategoryPurchase(false)),
-  openStore: () => dispatch(togglePurchaseModal(true)),
+  openStore: () => dispatch(togglePurchasePopup(true)),
   closePickUsername: () => dispatch(togglePickUsername(false)),
   displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),
   openCategoryPurchase: data => dispatch(toggleCategoryPurchase(true, data)),
@@ -51,7 +51,8 @@ const mapStateToProps = ({
     badge,
     displayProgressBadge,
     displayNetworkModal,
-    displayPurchaseModal,
+    displayPurchasePopup,
+    purchaseData,
     categoryPurchaseData,
     displayCategoryPurchase,
     displayPickUsername,
@@ -69,13 +70,14 @@ const mapStateToProps = ({
   videos,
   displayProgressBadge,
   displayNetworkModal,
-  displayPurchaseModal,
+  displayPurchasePopup,
   categoryPurchaseData,
   displayCategoryPurchase,
   displayPickUsername,
   pickUsernameData,
   displayTerms,
   termsData,
+  purchaseData,
   displayFeedback
 });
 
@@ -92,8 +94,9 @@ const PopupManager = ({
   closeProgressBadge,
   videos,
   displayNetworkModal,
-  closePurchaseModal,
-  displayPurchaseModal,
+  closePurchasePopup,
+  displayPurchasePopup,
+  purchaseData,
   categoryPurchaseData,
   displayCategoryPurchase,
   closeCategoryPurchase,
@@ -135,8 +138,8 @@ const PopupManager = ({
           openStore={openStore}
         />
       ) : null}
-      {displayPurchaseModal ? (
-        <PurchasePopup close={closePurchaseModal} />
+      {displayPurchasePopup ? (
+        <PurchasePopup close={closePurchasePopup} {...purchaseData} />
       ) : null}
       {displayPickUsername ? (
         <PickUsername
@@ -169,8 +172,8 @@ PopupManager.propTypes = {
   displayProgressBadge: bool.isRequired,
   closeProgressBadge: func.isRequired,
   displayNetworkModal: bool.isRequired,
-  closePurchaseModal: func.isRequired,
-  displayPurchaseModal: bool.isRequired,
+  closePurchasePopup: func.isRequired,
+  displayPurchasePopup: bool.isRequired,
   videos: object,
   badge: shape({
     display: bool,
@@ -205,6 +208,7 @@ PopupManager.propTypes = {
   displayTerms: bool.isRequired,
   closeTerms: func.isRequired,
   termsData: object,
+  purchaseData: object,
   displayFeedback: bool.isRequired,
   closeFeedback: func.isRequired
 };
@@ -215,7 +219,8 @@ PopupManager.defaultProps = {
   videos: {},
   pickUsernameData: {},
   categoryPopupData: {},
-  termsData: {}
+  termsData: {},
+  purchaseData: {}
 };
 
 export default connect(
