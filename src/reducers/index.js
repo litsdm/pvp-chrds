@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux';
 import file from './file';
 import popup from './popup';
+import user from './user';
 
 import { LOGOUT } from '../actions/user';
 
 const appReducer = combineReducers({
   file,
-  popup
+  popup,
+  user
 });
 
 const rootReducer = (state, action) => {

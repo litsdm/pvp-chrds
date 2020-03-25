@@ -28,6 +28,7 @@ import {
   togglePurchasePopup,
   toggleTerms
 } from '../actions/popup';
+import { setRefetchUser } from '../actions/user';
 
 import AnimatedCircle from '../components/AnimatedCircle';
 import ProgressBar from '../components/LevelProgressBar';
@@ -45,11 +46,16 @@ const mapDispatchToProps = dispatch => ({
   openPlay: (data = {}) => dispatch(togglePlay(true, data)),
   closeNetworkModal: () => dispatch(toggleNetworkModal(false)),
   openPurchase: () => dispatch(togglePurchasePopup(true)),
-  openTerms: data => dispatch(toggleTerms(true, data))
+  openTerms: data => dispatch(toggleTerms(true, data)),
+  didRefetch: () => dispatch(setRefetchUser(false))
 });
 
-const mapStateToProps = ({ popup: { displayNetworkModal } }) => ({
-  displayNetworkModal
+const mapStateToProps = ({
+  popup: { displayNetworkModal },
+  user: { refetchUser }
+}) => ({
+  displayNetworkModal,
+  refetchUser
 });
 
 const Header = ({
@@ -149,7 +155,9 @@ const HomeScreen = ({
   closeNetworkModal,
   displayNetworkModal,
   openPurchase,
-  openTerms
+  openTerms,
+  didRefetch,
+  refetchUser
 }) => {
   const userID = navigation.getParam('userID', '');
   const playFromFFA = navigation.getParam('playFromFFA', false);
@@ -201,6 +209,13 @@ const HomeScreen = ({
     if (Object.prototype.hasOwnProperty.call(user, '_id') && !user.acceptedEula)
       displayTermsIfNeeded();
   }, [user]);
+
+  useEffect(() => {
+    if (refetchUser) {
+      refetch();
+      didRefetch();
+    }
+  }, [refetchUser]);
 
   const subscribeToNewMatches = () =>
     subscribeToMore({
@@ -596,7 +611,9 @@ HomeScreen.propTypes = {
   closeNetworkModal: func.isRequired,
   displayNetworkModal: bool.isRequired,
   openPurchase: func.isRequired,
-  openTerms: func.isRequired
+  openTerms: func.isRequired,
+  didRefetch: func.isRequired,
+  refetchUser: bool.isRequired
 };
 
 Header.propTypes = {

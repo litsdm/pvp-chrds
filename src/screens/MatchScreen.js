@@ -23,7 +23,7 @@ import UPDATE_USER from '../graphql/mutations/updateUser';
 import DELETE_MATCH from '../graphql/mutations/deleteMatch';
 
 import callApi, { getSignedUrl } from '../helpers/apiCaller';
-import { toggleBadge, togglePurchaseModal } from '../actions/popup';
+import { toggleBadge, togglePurchasePopup } from '../actions/popup';
 
 import TopControls from '../components/Camera/TopControls';
 import LetterSoup from '../components/Match/LetterSoup';
@@ -41,7 +41,7 @@ const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 const TIME = 600;
 
 const mapDispatchToProps = dispatch => ({
-  openCoinShop: () => dispatch(togglePurchaseModal(true)),
+  openCoinShop: () => dispatch(togglePurchasePopup(true)),
   displayBadge: (message, type) => dispatch(toggleBadge(true, message, type))
 });
 

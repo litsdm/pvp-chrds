@@ -14,7 +14,7 @@ import { useAnimation } from '../helpers/hooks';
 import { upload, uploadFFA } from '../actions/file';
 import {
   toggleBadge,
-  togglePurchaseModal,
+  togglePurchasePopup,
   toggleTerms
 } from '../actions/popup';
 
@@ -39,7 +39,7 @@ const mapDispatchToProps = dispatch => ({
   uploadFile: file => dispatch(upload(file)),
   uploadFFAFile: file => dispatch(uploadFFA(file)),
   displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),
-  openCoinShop: () => dispatch(togglePurchaseModal(true)),
+  openCoinShop: () => dispatch(togglePurchasePopup(true)),
   openTerms: data => dispatch(toggleTerms(true, data))
 });
 

@@ -31,14 +31,16 @@ import client from './src/apolloStore';
 
 import AppNavigator from './src/navigation/AppNavigator';
 import PopupManager from './src/components/PopupManager';
-import { toggleBadge, togglePurchaseModal } from './src/actions/popup';
+import { toggleBadge, togglePurchasePopup } from './src/actions/popup';
 import { upload, uploadFFA } from './src/actions/file';
+import { setRefetchUser } from './src/actions/user';
 
 const mapDispatchToProps = dispatch => ({
   displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),
-  closePurchase: () => dispatch(togglePurchaseModal(false)),
+  closePurchase: () => dispatch(togglePurchasePopup(false)),
   uploadFile: data => dispatch(upload(data)),
-  uploadFFAFile: data => dispatch(uploadFFA(data))
+  uploadFFAFile: data => dispatch(uploadFFA(data)),
+  askRefetchUser: () => dispatch(setRefetchUser(true))
 });
 
 const mapStateToProps = ({ file: { videos } }) => ({
@@ -64,7 +66,8 @@ const App = ({
   closePurchase,
   videos,
   uploadFile,
-  uploadFFAFile
+  uploadFFAFile,
+  askRefetchUser
 }) => {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
   const [didCheckBroken, setDidCheckBroken] = useState(false);
@@ -132,15 +135,24 @@ const App = ({
 
     const { _id } = JwtDecode(token);
     const coins = purchasedCoins[purchase.productId];
+    const isSubscription = purchase.productId.match(
+      /dev.products.pro|pro_monthly/
+    );
 
-    if (purchase.productId.match(/dev.products.pro|pro_monthly/))
-      await makePro({ variables: { _id, coins: 180 } });
-    else await addCoins({ variables: { _id, coins } });
+    try {
+      await finishTransactionAsync(purchase, !isSubscription);
 
-    displayBadge('Successful transaction.', 'success');
-    closePurchase();
+      if (isSubscription) await makePro({ variables: { _id, coins: 180 } });
+      else await addCoins({ variables: { _id, coins } });
 
-    finishTransactionAsync(purchase, true);
+      displayBadge('Successful transaction.', 'success');
+      closePurchase();
+
+      askRefetchUser();
+    } catch (exception) {
+      console.log(exception.message);
+      displayBadge('There was an issue completing your transaction.');
+    }
   };
 
   setPurchaseListener(({ responseCode, results, errorCode }) => {
@@ -214,6 +226,7 @@ App.propTypes = {
   closePurchase: func.isRequired,
   uploadFile: func.isRequired,
   uploadFFAFile: func.isRequired,
+  askRefetchUser: func.isRequired,
   videos: object
 };
 

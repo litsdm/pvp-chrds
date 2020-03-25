@@ -25,7 +25,7 @@ import GET_USER_DATA from '../graphql/queries/getFFAUserData';
 import UPDATE_USER from '../graphql/mutations/updateUser';
 import CREATE_REPORT from '../graphql/mutations/createReport';
 
-import { toggleBadge, togglePurchaseModal } from '../actions/popup';
+import { toggleBadge, togglePurchasePopup } from '../actions/popup';
 
 import Row from '../components/FFA/MatchRow';
 import EmptyRow from '../components/FFA/EmptyRow';
@@ -41,7 +41,7 @@ const IS_IPHONE_X =
   deviceID.includes('iPhone12') || deviceID.includes('iPhone11');
 
 const mapDispatchToProps = dispatch => ({
-  openCoinShop: () => dispatch(togglePurchaseModal(true)),
+  openCoinShop: () => dispatch(togglePurchasePopup(true)),
   displayBadge: (message, type) => dispatch(toggleBadge(true, message, type))
 });
 
