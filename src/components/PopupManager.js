@@ -20,7 +20,7 @@ import AddFriendPopup from './AddFriendPopup';
 import Badge from './Badge';
 import ProgressBadge from './ProgressBadge';
 import NetworkErrorModal from './NetworkErrorModal';
-import PurchaseModal from './PurchaseModal';
+import PurchasePopup from './PurchasePopup';
 import CategoryPurchase from './CategoryPurchase';
 import PickUsername from './PickUsernameModal';
 import TermsPopup from './TermsPopup';
@@ -136,7 +136,7 @@ const PopupManager = ({
         />
       ) : null}
       {displayPurchaseModal ? (
-        <PurchaseModal close={closePurchaseModal} />
+        <PurchasePopup close={closePurchaseModal} />
       ) : null}
       {displayPickUsername ? (
         <PickUsername

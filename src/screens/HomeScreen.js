@@ -37,6 +37,8 @@ import Loader from '../components/Loader';
 import Empty from '../components/Empty';
 import FFARow from '../components/FFARow';
 
+import Crown from '../../assets/icons/crown.svg';
+
 import Layout from '../constants/Layout';
 
 const mapDispatchToProps = dispatch => ({
@@ -107,6 +109,11 @@ const Header = ({
               </Text>
             </View>
           ) : null}
+          {user.isPro ? (
+            <View style={styles.proBadge}>
+              <Crown width={12} height={12} />
+            </View>
+          ) : null}
         </TouchableOpacity>
       </View>
     </View>
@@ -164,6 +171,8 @@ const HomeScreen = ({
   const user = data ? data.user : {};
   const friendRequests = data ? data.friendRequests : [];
   const matchCount = data ? data.ffaMatchCount : 0;
+
+  console.log(user.isPro);
 
   useEffect(() => {
     if (matchesData && data) {
@@ -569,6 +578,17 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: 'sf-bold',
     fontSize: 10
+  },
+  proBadge: {
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 18 / 2,
+    height: 18,
+    justifyContent: 'center',
+    position: 'absolute',
+    right: -3,
+    bottom: -3,
+    width: 18
   }
 });
 

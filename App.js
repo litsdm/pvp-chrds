@@ -24,6 +24,7 @@ import JwtDecode from 'jwt-decode';
 import { bool, func, object } from 'prop-types';
 
 import ADD_COINS from './src/graphql/mutations/addCoins';
+import MAKE_PRO from './src/graphql/mutations/makePro';
 
 import store from './src/reduxStore';
 import client from './src/apolloStore';
@@ -68,6 +69,7 @@ const App = ({
   const [isLoadingComplete, setLoadingComplete] = useState(false);
   const [didCheckBroken, setDidCheckBroken] = useState(false);
   const [addCoins] = useMutation(ADD_COINS);
+  const [makePro] = useMutation(MAKE_PRO);
 
   this.videos = videos;
 
@@ -131,7 +133,9 @@ const App = ({
     const { _id } = JwtDecode(token);
     const coins = purchasedCoins[purchase.productId];
 
-    await addCoins({ variables: { _id, coins } });
+    if (purchase.productId.match(/dev.products.pro|pro_monthly/))
+      await makePro({ variables: { _id, coins: 180 } });
+    else await addCoins({ variables: { _id, coins } });
 
     displayBadge('Successful transaction.', 'success');
     closePurchase();

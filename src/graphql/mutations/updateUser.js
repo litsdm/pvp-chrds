@@ -8,6 +8,7 @@ export default gql`
       displayName
       profilePic
       coins
+      isPro
       level
       xp
       nextXP

@@ -1,12 +1,8 @@
 import React from 'react';
-import {
-  Platform,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  Text,
-  View
-} from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, Text, View } from 'react-native';
 import { bool, func, number, string } from 'prop-types';
+
+import Layout from '../../constants/Layout';
 
 import SmallCoins from '../../../assets/icons/smallCoins.svg';
 import MediumCoins from '../../../assets/icons/mediumCoins.svg';
@@ -23,7 +19,7 @@ const Tier = ({ select, coins, cost, selected, index, name }) => (
     <View style={[styles.container, selected ? styles.selected : {}]}>
       <Text style={styles.title}>{name}</Text>
       <Text style={styles.coins}>{coins}</Text>
-      {icons[index]}
+      {icons[index - 1]}
       <Text style={styles.cost}>
         {cost.includes('.') ? cost : `${cost}.00`}
       </Text>
@@ -34,12 +30,12 @@ const Tier = ({ select, coins, cost, selected, index, name }) => (
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    borderColor: 'rgba(0,0,0,0.05)',
     borderRadius: 8,
-    borderWidth: 1,
-    borderColor: 'transparent',
+    borderWidth: 2,
     justifyContent: 'center',
-    paddingVertical: 18,
-    paddingHorizontal: 12
+    height: 180,
+    width: Layout.window.width / 3 - 16
   },
   selected: {
     borderColor: '#7c4dff',
@@ -58,7 +54,7 @@ const styles = StyleSheet.create({
   },
   cost: {
     fontFamily: 'sf-bold',
-    fontSize: Platform.OS === 'ios' ? 18 : 14,
+    fontSize: 14,
     marginTop: 12
   }
 });
