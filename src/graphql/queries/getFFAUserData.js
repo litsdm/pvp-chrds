@@ -8,6 +8,8 @@ export default gql`
       ffaPoints
       ffaGuessed
       blockedUsers
+      lives
+      isPro
     }
   }
 `;

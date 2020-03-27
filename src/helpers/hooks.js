@@ -2,6 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { Animated } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import jwtDecode from 'jwt-decode';
+import dayjs from 'dayjs';
+import RelativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(RelativeTime);
 
 const initialAnimationOpts = {
   duration: 200,
@@ -80,6 +84,40 @@ export function useCountdown(options = {}) {
   });
 
   return timeLeft;
+}
+
+const formatDiff = minutes => {
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes - 60 * hours;
+
+  return `${hours < 10 ? '0' : ''}${hours}:${mins < 10 ? '0' : ''}${mins}`;
+};
+
+export function useDateCountdown(startDate, endDate, onEnd = () => {}) {
+  const [countdown, setCountdown] = useState(
+    formatDiff(endDate.diff(startDate, 'm'))
+  );
+  let interval;
+
+  useEffect(() => {
+    interval = setInterval(() => {
+      setCountdown(() => {
+        const now = dayjs();
+        if (now.isAfter(endDate)) {
+          const prevEndDate = dayjs(endDate.toString());
+          clearInterval(interval);
+          onEnd();
+          return formatDiff(endDate.add(4, 'h').diff(prevEndDate, 'm'));
+        }
+
+        return formatDiff(endDate.diff(now, 'm'));
+      });
+    }, 60000);
+
+    return () => clearInterval(interval);
+  });
+
+  return countdown;
 }
 
 export const useUserID = () => {

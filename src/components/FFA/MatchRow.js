@@ -121,6 +121,7 @@ const FFAMatchRow = ({
     const ffaGuessed = JSON.stringify({ ...guessed, [_id]: 2 });
     const properties = JSON.stringify({
       ffaPoints: user.ffaPoints ? user.ffaPoints - 5 : 0,
+      lives: user.lives - 1,
       ffaGuessed
     });
 
@@ -137,7 +138,13 @@ const FFAMatchRow = ({
     addToGuessed(result);
   };
 
-  const handleGuess = () => setGuessing(true);
+  const handleGuess = () => {
+    if (!user.isPro && user.lives <= 0) {
+      // display lives promo for Charades Pro
+      return;
+    }
+    setGuessing(true);
+  };
 
   const handlePlaybackUpdate = status => {
     if (status.isBuffering && !buffering) setBuffering(true);

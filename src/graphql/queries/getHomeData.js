@@ -15,6 +15,8 @@ export default gql`
       facebookID
       categories
       acceptedEula
+      lives
+      lifeDate
     }
     friendRequests(_id: $_id) {
       _id

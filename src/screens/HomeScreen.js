@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import {
   Image,
+  Platform,
   SafeAreaView,
   SectionList,
   StyleSheet,
@@ -20,6 +21,7 @@ import GET_USER_MATCHES from '../graphql/queries/getUserMatches';
 import CREATED_MATCH from '../graphql/subscriptions/createdMatch';
 import UPDATED_MATCH from '../graphql/subscriptions/updatedMatch';
 import UPDATE_MATCH from '../graphql/mutations/updateMatch';
+import UPDATE_USER from '../graphql/mutations/updateUser';
 import DELETE_MATCH from '../graphql/mutations/deleteMatch';
 
 import {
@@ -29,6 +31,8 @@ import {
   toggleTerms
 } from '../actions/popup';
 import { setRefetchUser } from '../actions/user';
+
+import { useDateCountdown } from '../helpers/hooks';
 
 import AnimatedCircle from '../components/AnimatedCircle';
 import ProgressBar from '../components/LevelProgressBar';
@@ -62,92 +66,123 @@ const Header = ({
   user,
   navigateToSettings,
   openPurchase,
-  notificationCount
-}) => (
-  <>
-    <View style={styles.header}>
-      <AnimatedCircle
-        color="#7C4DFF"
-        size={152}
-        animationType="position-opacity"
-        endPosition={{ y: 152 - 152 / 4, x: -152 + 152 / 3 }}
-        circleStyle={{ right: -152, top: -152 }}
-      />
-      <AnimatedCircle
-        color="#FFC107"
-        size={115}
-        animationType="position-opacity"
-        delay={150}
-        endPosition={{ y: 115 - 115 / 3.5, x: 0 }}
-        circleStyle={{ top: -115, right: 42 }}
-      />
-      <AnimatedCircle
-        color="#FF5252"
-        size={90}
-        animationType="position-opacity"
-        delay={300}
-        endPosition={{ y: 90 - 90 / 1.8, x: 0 }}
-        circleStyle={{ top: -90, left: 42 }}
-        empty
-      />
-      <View style={styles.leftSide}>
-        <Text style={styles.greeting} numberOfLines={2} ellipsizeMode="tail">
-          Hello {user.displayName},
-        </Text>
-        <Text style={styles.subtitle}>Ready to Play?</Text>
+  notificationCount,
+  onCountdownEnd
+}) => {
+  const countdown = user.lifeDate
+    ? useDateCountdown(
+        dayjs(),
+        dayjs(user.lifeDate).add(4, 'h'),
+        onCountdownEnd
+      )
+    : '00:00';
+  return (
+    <>
+      <View style={styles.header}>
+        <AnimatedCircle
+          color="#7C4DFF"
+          size={152}
+          animationType="position-opacity"
+          endPosition={{ y: 152 - 152 / 4, x: -152 + 152 / 3 }}
+          circleStyle={{ right: -152, top: -152 }}
+        />
+        <AnimatedCircle
+          color="#FFC107"
+          size={115}
+          animationType="position-opacity"
+          delay={150}
+          endPosition={{ y: 115 - 115 / 3.5, x: 0 }}
+          circleStyle={{ top: -115, right: 42 }}
+        />
+        <AnimatedCircle
+          color="#FF5252"
+          size={90}
+          animationType="position-opacity"
+          delay={300}
+          endPosition={{ y: 90 - 90 / 1.8, x: 0 }}
+          circleStyle={{ top: -90, left: 42 }}
+          empty
+        />
+        <View style={styles.leftSide}>
+          <Text style={styles.greeting} numberOfLines={2} ellipsizeMode="tail">
+            Hello {user.displayName},
+          </Text>
+          <Text style={styles.subtitle}>Ready to Play?</Text>
+        </View>
+        <View style={styles.rightSide}>
+          <TouchableOpacity
+            style={styles.imgButton}
+            onPress={navigateToSettings}
+          >
+            <Image
+              resizeMode="cover"
+              source={{ uri: user.profilePic }}
+              style={styles.profilePic}
+            />
+            {notificationCount > 0 ? (
+              <View style={styles.badge}>
+                <Text
+                  style={[
+                    styles.badgeText,
+                    { fontSize: notificationCount < 10 ? 12 : 10 }
+                  ]}
+                >
+                  {notificationCount < 10 ? notificationCount : '9+'}
+                </Text>
+              </View>
+            ) : null}
+            {user.isPro ? (
+              <View style={styles.proBadge}>
+                <Crown width={12} height={12} />
+              </View>
+            ) : null}
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.rightSide}>
-        <TouchableOpacity style={styles.imgButton} onPress={navigateToSettings}>
-          <Image
-            resizeMode="cover"
-            source={{ uri: user.profilePic }}
-            style={styles.profilePic}
-          />
-          {notificationCount > 0 ? (
-            <View style={styles.badge}>
-              <Text
-                style={[
-                  styles.badgeText,
-                  { fontSize: notificationCount < 10 ? 12 : 10 }
-                ]}
-              >
-                {notificationCount < 10 ? notificationCount : '9+'}
-              </Text>
-            </View>
-          ) : null}
-          {user.isPro ? (
-            <View style={styles.proBadge}>
-              <Crown width={12} height={12} />
-            </View>
-          ) : null}
-        </TouchableOpacity>
-      </View>
-    </View>
-    <View style={styles.info}>
-      <View style={styles.levelSection}>
-        <Text style={styles.lvlTxtWrapper}>
-          Lvl <Text style={styles.lvlTxt}>{user.level}</Text>
-        </Text>
-        <ProgressBar progress={(user.xp * 100) / user.nextXP} />
-        <Text style={styles.progressTxt}>
-          {user.nextXP - user.xp} until next level
-        </Text>
-      </View>
-      <View style={styles.verticalDivider} />
-      <View style={styles.moneySection}>
-        <View style={styles.coinWrapper}>
-          <FontAwesome5 name="coins" size={24} color="#FFC107" />
-          <Text style={styles.coins}>
-            {user.coins} <Text style={styles.coinWord}>coins</Text>
+      <View style={styles.info}>
+        <View style={styles.levelSection}>
+          <Text style={styles.lvlTxtWrapper}>
+            Lvl <Text style={styles.lvlTxt}>{user.level}</Text>
+          </Text>
+          <ProgressBar progress={(user.xp * 100) / user.nextXP} />
+          <Text style={styles.progressTxt}>
+            {user.nextXP - user.xp} until next level
           </Text>
         </View>
-        <TouchableOpacity style={styles.getMore} onPress={openPurchase}>
-          <Text style={styles.getMoreText}>Get More</Text>
-        </TouchableOpacity>
+        <View style={styles.verticalDivider} />
+        <View style={styles.moneySection}>
+          <View style={styles.coinWrapper}>
+            <FontAwesome5 name="coins" size={24} color="#FFC107" />
+            <Text style={styles.coins}>
+              {user.coins} <Text style={styles.coinWord}>coins</Text>
+            </Text>
+          </View>
+          <TouchableOpacity style={styles.getMore} onPress={openPurchase}>
+            <Text style={styles.getMoreText}>Get More</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
-  </>
-);
+      <View style={styles.livesSection}>
+        <FontAwesome5 name="heart" color="#FF5252" size={14} solid />
+        {user.isPro ? (
+          <Text style={styles.livesText}>
+            <Text style={{ fontFamily: 'sf-bold' }}>∞</Text> lives.
+          </Text>
+        ) : (
+          <Text style={styles.livesText}>
+            You have <Text style={{ fontFamily: 'sf-bold' }}>{user.lives}</Text>{' '}
+            lives left.
+          </Text>
+        )}
+      </View>
+      {user.lifeDate && countdown.indexOf('-') === -1 ? (
+        <Text style={[styles.livesText, styles.nextLife]}>
+          Next life in {countdown} hours.
+        </Text>
+      ) : null}
+    </>
+  );
+};
 
 const HomeScreen = ({
   navigation,
@@ -173,8 +208,10 @@ const HomeScreen = ({
   const [matches, setMatches] = useState(null);
   const [didSubscribe, setDidSubscribe] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [didCheckLives, setCheckLives] = useState(false);
   const [updateMatch] = useMutation(UPDATE_MATCH);
   const [deleteMatch] = useMutation(DELETE_MATCH);
+  const [updateUser] = useMutation(UPDATE_USER);
 
   const user = data ? data.user : {};
   const friendRequests = data ? data.friendRequests : [];
@@ -208,6 +245,8 @@ const HomeScreen = ({
   useEffect(() => {
     if (Object.prototype.hasOwnProperty.call(user, '_id') && !user.acceptedEula)
       displayTermsIfNeeded();
+    if (Object.prototype.hasOwnProperty.call(user, '_id') && user.lifeDate)
+      handleLivesCheck();
   }, [user]);
 
   useEffect(() => {
@@ -264,6 +303,30 @@ const HomeScreen = ({
 
     openTerms({ userID, onAccept });
     await AsyncStorage.setItem('eula', 'true');
+  };
+
+  const handleLivesCheck = async () => {
+    const now = dayjs();
+    const date = dayjs(user.lifeDate).add(4, 'h');
+    let count = 0;
+    let lifeDate = null;
+
+    if (didCheckLives) return;
+    setCheckLives(true);
+
+    while (date.isBefore(now) && user.lives + count < 5) {
+      count += 1;
+      date.add(4, 'h');
+    }
+
+    if (count === 0) return;
+
+    if (user.lives + count < 5) lifeDate = date.subtract(4, 'hour').toString();
+
+    const properties = JSON.stringify({ lives: user.lives + count, lifeDate });
+
+    await updateUser({ variables: { id: user._id, properties } });
+    refetch();
   };
 
   const checkExpiredMatches = async () => {
@@ -362,6 +425,12 @@ const HomeScreen = ({
     setRefreshing(false);
   };
 
+  const handleCountdownEnd = async () => {
+    const properties = JSON.stringify({ lives: user.lives + 1 });
+    await updateUser({ variables: { id: user._id, properties } });
+    refetch();
+  };
+
   const renderItem = args => {
     const { title } = args.section;
     const position = getPositionString(args.index, title);
@@ -414,6 +483,27 @@ const HomeScreen = ({
     );
   };
 
+  const renderHeader = useMemo(() => {
+    return (
+      <Header
+        user={user}
+        navigateToSettings={navigateToSettings}
+        openPurchase={openPurchase}
+        notificationCount={friendRequests.length}
+        onCountdownEnd={handleCountdownEnd}
+      />
+    );
+  }, [user]);
+
+  const renderEmpty = () => (
+    <Empty
+      title="No matches yet."
+      description="Click play below to start playing with your friends!"
+      action={openPlay}
+      actionTitle="Play Now"
+    />
+  );
+
   const condition =
     matches &&
     matches[0].data.length === 0 &&
@@ -438,22 +528,8 @@ const HomeScreen = ({
               extraData={[matchesData, condition]}
               onRefresh={handleRefresh}
               refreshing={refreshing}
-              ListHeaderComponent={() => (
-                <Header
-                  user={user}
-                  navigateToSettings={navigateToSettings}
-                  openPurchase={openPurchase}
-                  notificationCount={friendRequests.length}
-                />
-              )}
-              ListEmptyComponent={() => (
-                <Empty
-                  title="No matches yet."
-                  description="Click play below to start playing with your friends!"
-                  action={openPlay}
-                  actionTitle="Play Now"
-                />
-              )}
+              ListHeaderComponent={renderHeader}
+              ListEmptyComponent={renderEmpty}
             />
           </View>
         </SafeAreaView>
@@ -602,6 +678,22 @@ const styles = StyleSheet.create({
     right: -3,
     bottom: -3,
     width: 18
+  },
+  livesSection: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 6
+  },
+  livesText: {
+    fontFamily: 'sf-regular',
+    fontSize: 12,
+    opacity: 0.6,
+    marginLeft: 6
+  },
+  nextLife: {
+    alignSelf: 'center',
+    top: Platform.OS !== 'ios' ? -6 : 0
   }
 });
 
@@ -628,7 +720,8 @@ Header.propTypes = {
     nextXP: number
   }).isRequired,
   notificationCount: number.isRequired,
-  openPurchase: func.isRequired
+  openPurchase: func.isRequired,
+  onCountdownEnd: func.isRequired
 };
 
 export default connect(

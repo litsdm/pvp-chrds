@@ -7,6 +7,7 @@ import jwtDecode from 'jwt-decode';
 import { func, string } from 'prop-types';
 
 import GET_DATA from '../../graphql/queries/getPlayPopupData';
+import UPDATE_USER from '../../graphql/mutations/updateUser';
 import CREATE_MATCH from '../../graphql/mutations/createMatch';
 
 import callApi from '../../helpers/apiCaller';
@@ -40,6 +41,7 @@ const PlayPopup = ({
   const modeNumber = mode === 'versus' ? 1 : 0;
   const [getData, { data }] = useLazyQuery(GET_DATA);
   const [createMatch, { data: matchData }] = useMutation(CREATE_MATCH);
+  const [updateUser] = useMutation(UPDATE_USER);
   const [selectedCategory, setSelectedCategory] = useState(category);
   const [selectedFriend, setSelectedFriend] = useState(friend);
   const [selectedMode, setSelectedMode] = useState(friend ? 1 : modeNumber);
@@ -132,6 +134,11 @@ const PlayPopup = ({
     const finalCategory = getFinalCategory();
     let opponent = selectedFriend;
 
+    if (!user.isPro && user.lives <= 0) {
+      // display lives promo for Charades Pro
+      return;
+    }
+
     if (selectedFriend === '-1') {
       opponent = await fetchRandomOpponent();
       setSelectedFriend(opponent);
@@ -146,6 +153,9 @@ const PlayPopup = ({
       score: JSON.stringify({ [user._id]: 0, [opponent]: 0 })
     };
 
+    const properties = JSON.stringify({ lives: user.lives - 1 });
+
+    await updateUser({ variables: { id: user._id, properties } });
     await createMatch({ variables });
   };
 

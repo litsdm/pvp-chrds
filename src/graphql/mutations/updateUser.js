@@ -16,6 +16,7 @@ export default gql`
       categories
       token
       acceptedEula
+      lives
     }
   }
 `;
