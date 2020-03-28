@@ -27,17 +27,13 @@ const Popup = ({
 }) => {
   const [contentHeight, setContentHeight] = useState(180);
   const [animateDisplay, setAnimateDisplay] = useState({});
-  const {
-    animationValue: _animationValue,
-    animateTo: _animateTo
-  } = useAnimation({
-    type: 'spring',
-    ...animationOptions
-  });
+  const { animationValue, animateTo } =
+    animation ||
+    useAnimation({
+      type: 'spring',
+      ...animationOptions
+    });
   const position = useRef(new Animated.ValueXY());
-
-  const animationValue = animation ? animation.animationValue : _animationValue;
-  const animateTo = animation ? animation.animateTo : _animateTo;
 
   const animateOpacity = {
     opacity: animationValue.current.interpolate({

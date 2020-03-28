@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -8,7 +8,6 @@ import {
   View
 } from 'react-native';
 import { useMutation } from '@apollo/react-hooks';
-import { Ionicons } from '@expo/vector-icons';
 import { func, string } from 'prop-types';
 
 import CREATE_FEEDBACK from '../../graphql/mutations/createFeedback';
@@ -16,7 +15,7 @@ import CREATE_FEEDBACK from '../../graphql/mutations/createFeedback';
 import { useAnimation, useUserID } from '../../helpers/hooks';
 import Layout from '../../constants/Layout';
 
-import Popup from '../Popup';
+import PagePopup from '../PagePopup';
 
 const types = ['Feedback', 'Bug Report', 'Other'];
 
@@ -69,22 +68,6 @@ const FeedbackPopup = ({ close, displayBadge }) => {
   const [message, setMessage] = useState('');
   const { animationValue, animateTo } = useAnimation({ type: 'spring' });
   const userID = useUserID();
-  const scrollView = useRef(null);
-
-  useEffect(() => {
-    scrollPage();
-  }, [page]);
-
-  const scrollPage = () => {
-    if (!scrollView.current) return;
-    if (page === 0) scrollView.current.scrollTo({ x: 0, y: 0, animated: true });
-    else
-      scrollView.current.scrollTo({
-        x: Layout.window.width * page,
-        y: 0,
-        animated: true
-      });
-  };
 
   const selectType = newType => () => {
     setType(newType);
@@ -120,68 +103,28 @@ const FeedbackPopup = ({ close, displayBadge }) => {
   };
 
   return (
-    <Popup
+    <PagePopup
       close={close}
-      showsDragIndicator={false}
+      back={back}
+      title="Tell us what you think"
+      page={page}
+      containerStyle={styles.container}
       animation={{ animationValue, animateTo }}
     >
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.closeButton}
-            onPress={page === 0 ? handleClose : back}
-          >
-            <Ionicons
-              name={page === 0 ? 'md-close' : 'md-arrow-round-back'}
-              size={24}
-              color="#000"
-            />
-          </TouchableOpacity>
-          <Text style={styles.title}>Tell us what you think</Text>
-        </View>
-        <View style={styles.divider} />
-        <ScrollView
-          ref={scrollView}
-          horizontal
-          scrollEnabled={false}
-          decelerationRate="fast"
-          snapToAlignment="start"
-          snapToInterval={Layout.window.width}
-          bounces={false}
-          disableIntervalMomentum
-          disableScrollViewPanResponder
-        >
-          <SelectTypePage selectType={selectType} />
-          <SubmitPage
-            message={message}
-            setMessage={setMessage}
-            type={type}
-            submit={submit}
-          />
-        </ScrollView>
-      </View>
-    </Popup>
+      <SelectTypePage selectType={selectType} />
+      <SubmitPage
+        message={message}
+        setMessage={setMessage}
+        type={type}
+        submit={submit}
+      />
+    </PagePopup>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     height: (Layout.window.height * 3) / 4
-  },
-  header: {
-    alignItems: 'center',
-    height: 52,
-    justifyContent: 'center'
-  },
-  closeButton: {
-    height: 24,
-    left: 12,
-    position: 'absolute',
-    width: 24
-  },
-  title: {
-    fontFamily: 'sf-bold',
-    fontSize: 18
   },
   typeTitle: {
     color: 'rgba(0,0,0,0.6)',

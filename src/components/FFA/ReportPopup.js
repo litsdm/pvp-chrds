@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -7,12 +7,9 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { func, string } from 'prop-types';
 
-import { useAnimation } from '../../helpers/hooks';
-
-import Popup from '../Popup';
+import PagePopup from '../PagePopup';
 
 import Layout from '../../constants/Layout';
 
@@ -77,23 +74,6 @@ const ReportPopup = ({ close, submit }) => {
   const [page, setPage] = useState(0);
   const [reason, setReason] = useState('');
   const [message, setMessage] = useState('');
-  const { animationValue, animateTo } = useAnimation({ type: 'spring' });
-  const scrollView = useRef(null);
-
-  useEffect(() => {
-    scrollPage();
-  }, [page]);
-
-  const scrollPage = () => {
-    if (!scrollView.current) return;
-    if (page === 0) scrollView.current.scrollTo({ x: 0, y: 0, animated: true });
-    else
-      scrollView.current.scrollTo({
-        x: Layout.window.width * page,
-        y: 0,
-        animated: true
-      });
-  };
 
   const selectReason = newReason => () => {
     setReason(newReason);
@@ -109,74 +89,28 @@ const ReportPopup = ({ close, submit }) => {
     submit(reason, message);
   };
 
-  const handleClose = () => {
-    animateTo(0);
-    setTimeout(() => close(), 200);
-  };
-
   return (
-    <Popup
+    <PagePopup
       close={close}
-      showsDragIndicator={false}
-      animation={{ animationValue, animateTo }}
+      back={back}
+      title="Report"
+      page={page}
+      containerStyle={styles.container}
     >
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.closeButton}
-            onPress={page === 0 ? handleClose : back}
-          >
-            <Ionicons
-              name={page === 0 ? 'md-close' : 'md-arrow-round-back'}
-              size={24}
-              color="#000"
-            />
-          </TouchableOpacity>
-          <Text style={styles.title}>Report</Text>
-        </View>
-        <View style={styles.divider} />
-        <ScrollView
-          ref={scrollView}
-          horizontal
-          scrollEnabled={false}
-          decelerationRate="fast"
-          snapToAlignment="start"
-          snapToInterval={Layout.window.width}
-          bounces={false}
-          disableIntervalMomentum
-          disableScrollViewPanResponder
-        >
-          <SelectReasonPage selectReason={selectReason} />
-          <SubmitPage
-            message={message}
-            setMessage={setMessage}
-            reason={reason}
-            submit={handleSubmit}
-          />
-        </ScrollView>
-      </View>
-    </Popup>
+      <SelectReasonPage selectReason={selectReason} />
+      <SubmitPage
+        message={message}
+        setMessage={setMessage}
+        reason={reason}
+        submit={handleSubmit}
+      />
+    </PagePopup>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     maxHeight: (Layout.window.height * 3) / 4
-  },
-  header: {
-    alignItems: 'center',
-    height: 52,
-    justifyContent: 'center'
-  },
-  closeButton: {
-    height: 24,
-    left: 12,
-    position: 'absolute',
-    width: 24
-  },
-  title: {
-    fontFamily: 'sf-bold',
-    fontSize: 18
   },
   reasonTitle: {
     color: 'rgba(0,0,0,0.6)',
