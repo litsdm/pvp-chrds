@@ -11,9 +11,16 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { useQuery, useMutation } from '@apollo/react-hooks';
+import {
+  connectAsync,
+  getBillingResponseCodeAsync,
+  getPurchaseHistoryAsync,
+  IAPResponseCode
+} from 'expo-in-app-purchases';
 import AsyncStorage from '@react-native-community/async-storage';
 import { FontAwesome5 } from '@expo/vector-icons';
 import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
 import { bool, func, number, object, shape, string } from 'prop-types';
 
 import GET_DATA from '../graphql/queries/getHomeData';
@@ -61,6 +68,8 @@ const mapStateToProps = ({
   displayNetworkModal,
   refetchUser
 });
+
+dayjs.extend(isBetween);
 
 const Header = ({
   user,
@@ -209,6 +218,7 @@ const HomeScreen = ({
   const [didSubscribe, setDidSubscribe] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [didCheckLives, setCheckLives] = useState(false);
+  const [didCheckHistory, setCheckHistory] = useState(false);
   const [updateMatch] = useMutation(UPDATE_MATCH);
   const [deleteMatch] = useMutation(DELETE_MATCH);
   const [updateUser] = useMutation(UPDATE_USER);
@@ -247,6 +257,8 @@ const HomeScreen = ({
       displayTermsIfNeeded();
     if (Object.prototype.hasOwnProperty.call(user, '_id') && user.lifeDate)
       handleLivesCheck();
+    if (Object.prototype.hasOwnProperty.call(user, '_id') && !didCheckHistory)
+      checkPurchaseHistory();
   }, [user]);
 
   useEffect(() => {
@@ -294,6 +306,73 @@ const HomeScreen = ({
         };
       }
     });
+
+  const handlePurchaseHistory = async history => {
+    const proDate = dayjs(user.proDate);
+    let count = 0;
+    history.some(item => {
+      const purchaseDate = dayjs(
+        item.originalPurchaseTime || item.purchaseTime
+      );
+
+      count += 1;
+
+      return proDate.isSame(purchaseDate, 'day');
+    });
+
+    if (count === 0) return;
+
+    const properties = JSON.stringify({
+      proDate: dayjs(
+        history[0].originalPurchaseTime || history[0].purchaseTime
+      ),
+      coins: user.coins + 180 * count
+    });
+
+    await updateUser({ variables: { id: user._id, properties } });
+    refetch();
+  };
+
+  const checkPurchaseHistory = async () => {
+    const proDate = dayjs(user.proDate);
+    const nextMonth = dayjs(user.proDate).add(1, 'month');
+
+    setCheckHistory(true);
+
+    if (!user.isPro) return;
+
+    if (dayjs().isBetween(proDate, nextMonth, 'day', '[]')) return;
+
+    const code = await getBillingResponseCodeAsync();
+    if (code === IAPResponseCode.ERROR) await connectAsync();
+
+    const { responseCode, results } = await getPurchaseHistoryAsync(true);
+    if (responseCode === IAPResponseCode.OK) {
+      const platformProductId =
+        Platform.OS === 'ios' ? 'dev.products.pro' : 'pro_monthly';
+      const subscriptionHistory = results.filter(
+        ({ productId }) => productId === platformProductId
+      );
+
+      if (
+        subscriptionHistory.length === 0 ||
+        dayjs().isAfter(
+          dayjs(subscriptionHistory[0].purchaseTime).add(1, 'month')
+        )
+      ) {
+        removePro();
+        return;
+      }
+
+      handlePurchaseHistory(subscriptionHistory);
+    }
+  };
+
+  const removePro = async () => {
+    const properties = JSON.stringify({ isPro: false, proDate: null });
+    await updateUser({ variables: { id: user._id, properties } });
+    refetch();
+  };
 
   const onAccept = () => refetch();
 

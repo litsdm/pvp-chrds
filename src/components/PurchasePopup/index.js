@@ -15,7 +15,8 @@ import {
   disconnectAsync,
   purchaseItemAsync,
   getProductsAsync,
-  IAPResponseCode
+  IAPResponseCode,
+  getBillingResponseCodeAsync
 } from 'expo-in-app-purchases';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -70,10 +71,13 @@ const PurchasePopup = ({ close }) => {
   }, [user]);
 
   const connectIAP = async () => {
-    await connectAsync();
+    const code = await getBillingResponseCodeAsync();
+    if (code === IAPResponseCode.ERROR) await connectAsync();
+
     let subscription;
     const otherIAP = [];
     const { responseCode, results } = await getProductsAsync(items);
+
     results.forEach(result => {
       if (result.productId.match(/dev.products.pro|pro_monthly/))
         subscription = result;

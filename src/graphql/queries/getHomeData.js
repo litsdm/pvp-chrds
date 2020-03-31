@@ -17,6 +17,7 @@ export default gql`
       acceptedEula
       lives
       lifeDate
+      proDate
     }
     friendRequests(_id: $_id) {
       _id
