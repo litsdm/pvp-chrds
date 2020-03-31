@@ -134,7 +134,7 @@ const SettingsScreen = ({
   const handleUploadFinish = () => refetch();
 
   const handleSuggest = () => {
-    if (user.isPro) {
+    if (!user.isPro) {
       // display upgrade to pro to suggest words modal
       return;
     }
@@ -578,6 +578,7 @@ SettingsScreen.propTypes = {
   resetReduxState: func.isRequired,
   displayBadge: func.isRequired,
   showFeedback: func.isRequired,
+  showSuggest: func.isRequired,
   uploading: bool,
   progress: number
 };
