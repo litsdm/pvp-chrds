@@ -9,6 +9,7 @@ export const TOGGLE_CATEGORY_PURCHASE = 'TOGGLE_CATEGORY_PURCHASE';
 export const TOGGLE_PICK_USERNAME = 'TOGGLE_PICK_USERNAME';
 export const TOGGLE_TERMS = 'TOGGLE_TERMS';
 export const TOGGLE_FEEDBACK = 'TOGGLE_FEEDBACK';
+export const TOGGLE_SUGGESTION = 'TOGGLE_SUGGESTION';
 
 export const togglePlay = (display, data = {}) => ({
   display,
@@ -52,6 +53,11 @@ export const togglePickUsername = (display, data = {}) => ({
   display,
   data,
   type: TOGGLE_PICK_USERNAME
+});
+
+export const toggleSuggest = display => ({
+  display,
+  type: TOGGLE_SUGGESTION
 });
 
 export const toggleBadge = (

@@ -17,7 +17,7 @@ import {
   useMutation
 } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
@@ -35,15 +35,21 @@ import Layout from '../../constants/Layout';
 import { useAnimation } from '../../helpers/hooks';
 import { uploadPic } from '../../actions/file';
 import { logoutUser } from '../../actions/user';
-import { toggleBadge, toggleFeedback } from '../../actions/popup';
+import {
+  toggleBadge,
+  toggleFeedback,
+  toggleSuggest
+} from '../../actions/popup';
 
 import AnimatedSettingsNav from '../../components/AnimatedSettingsNav';
+import Crown from '../../../assets/icons/crown.svg';
 
 const mapDispatchToProps = dispatch => ({
   uploadFile: (file, onFinish) => dispatch(uploadPic(file, onFinish)),
   resetReduxState: () => dispatch(logoutUser()),
   displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),
-  showFeedback: () => dispatch(toggleFeedback(true))
+  showFeedback: () => dispatch(toggleFeedback(true)),
+  showSuggest: () => dispatch(toggleSuggest(true))
 });
 
 const mapStateToProps = ({ file: { uploadingPic, picProgress } }) => ({
@@ -60,7 +66,8 @@ const SettingsScreen = ({
   uploading,
   resetReduxState,
   displayBadge,
-  showFeedback
+  showFeedback,
+  showSuggest
 }) => {
   const [getData, { data, refetch }] = useLazyQuery(GET_DATA);
   const [updateUser] = useMutation(UPDATE_USER);
@@ -125,6 +132,15 @@ const SettingsScreen = ({
   };
 
   const handleUploadFinish = () => refetch();
+
+  const handleSuggest = () => {
+    if (user.isPro) {
+      // display upgrade to pro to suggest words modal
+      return;
+    }
+
+    showSuggest();
+  };
 
   const pickImage = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -314,6 +330,29 @@ const SettingsScreen = ({
                   color="rgba(0,0,0,0.1)"
                   size={24}
                 />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.group}>
+              <TouchableOpacity style={styles.row} onPress={handleSuggest}>
+                <View style={styles.info}>
+                  <View style={styles.iconWrap}>
+                    <FontAwesome5
+                      color="#fff"
+                      size={24}
+                      name="lightbulb"
+                      solid
+                    />
+                  </View>
+                  <Text style={styles.rowText}>Suggest a word/category</Text>
+                </View>
+                <View style={styles.iconsRight}>
+                  <Crown height={18} width={18} style={styles.crown} />
+                  <Ionicons
+                    name="ios-arrow-forward"
+                    color="rgba(0,0,0,0.1)"
+                    size={24}
+                  />
+                </View>
               </TouchableOpacity>
             </View>
             <View style={styles.group}>
@@ -521,6 +560,15 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: 'sf-bold',
     fontSize: 10
+  },
+  iconsRight: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
+  },
+  crown: {
+    marginRight: 12,
+    opacity: 0.4
   }
 });
 
