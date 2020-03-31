@@ -14,7 +14,7 @@ import SelectCategory from './SelectCategory';
 import WordForm from './WordForm';
 import CategoryForm from './CategoryForm';
 
-const SuggestPopup = ({ close }) => {
+const SuggestPopup = ({ close, displayBadge }) => {
   const userID = useUserID();
   const [fetchData, { data }] = useLazyQuery(GET_DATA);
   const [suggestCategory] = useMutation(SUGGEST_CATEGORY);
@@ -82,7 +82,7 @@ const SuggestPopup = ({ close }) => {
     }
 
     if (errorMessage) {
-      // displayBadge
+      displayBadge(errorMessage, 'error');
       console.log(errorMessage);
       return false;
     }
@@ -102,11 +102,14 @@ const SuggestPopup = ({ close }) => {
 
     try {
       await suggestWord({ variables });
-      // displayBadge
+      displayBadge(
+        "Word submitted! We'll review it and get back to you.",
+        'success'
+      );
       close();
     } catch (exception) {
       console.log(exception.message);
-      // displayBadge
+      displayBadge('We encountered an error creating your word.', 'error');
     }
   };
 
@@ -117,11 +120,14 @@ const SuggestPopup = ({ close }) => {
 
     try {
       await suggestCategory({ variables });
-      // displayBadge
+      displayBadge(
+        "Category submitted! We'll review it and get back to you",
+        'success'
+      );
       close();
     } catch (exception) {
       console.log(exception.message);
-      // displayBadge
+      displayBadge('We encountered an error creating your category.', 'error');
     }
   };
 
@@ -156,7 +162,8 @@ const SuggestPopup = ({ close }) => {
 };
 
 SuggestPopup.propTypes = {
-  close: func.isRequired
+  close: func.isRequired,
+  displayBadge: func.isRequired
 };
 
 export default SuggestPopup;

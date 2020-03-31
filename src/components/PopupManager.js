@@ -156,7 +156,9 @@ const PopupManager = ({
       {displayFeedback ? (
         <FeedbackPopup close={closeFeedback} displayBadge={displayBadge} />
       ) : null}
-      {displaySuggest ? <SuggestPopup close={closeSuggest} /> : null}
+      {displaySuggest ? (
+        <SuggestPopup close={closeSuggest} displayBadge={displayBadge} />
+      ) : null}
     </>
   );
 };
