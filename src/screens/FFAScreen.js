@@ -184,7 +184,6 @@ const FFAScreen = ({
 
   const updateHistory = async () => {
     const history = JSON.stringify(_history);
-    console.log(history);
     await callApi('updateHistory', { history }, 'POST');
   };
 
@@ -269,6 +268,9 @@ const FFAScreen = ({
       const index = indeces[0];
       setActiveIndex(index);
       addToHistory(matches[index]);
+
+      if (_guessing) setGuessing(false);
+
       if (
         matches[index]._id !== 'empty' &&
         dayjs(matches[index].createdOn).isBefore(dayjs(lastDate))
