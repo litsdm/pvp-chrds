@@ -13,7 +13,8 @@ import {
   togglePickUsername,
   toggleTerms,
   toggleFeedback,
-  toggleSuggest
+  toggleSuggest,
+  togglePro
 } from '../actions/popup';
 
 import CategoryPopup from './CategoryPopup';
@@ -27,6 +28,7 @@ import PickUsername from './PickUsernameModal';
 import TermsPopup from './TermsPopup';
 import FeedbackPopup from './Settings/FeedbackPopup';
 import SuggestPopup from './SuggestPopup';
+import ProModal from './ProModal';
 
 const mapDispatchToProps = dispatch => ({
   closeAdd: () => dispatch(toggleAdd(false)),
@@ -43,7 +45,8 @@ const mapDispatchToProps = dispatch => ({
   openCategoryPurchase: data => dispatch(toggleCategoryPurchase(true, data)),
   closeTerms: () => dispatch(toggleTerms(false)),
   closeFeedback: () => dispatch(toggleFeedback(false)),
-  closeSuggest: () => dispatch(toggleSuggest(false))
+  closeSuggest: () => dispatch(toggleSuggest(false)),
+  closePro: () => dispatch(togglePro(false))
 });
 
 const mapStateToProps = ({
@@ -62,7 +65,9 @@ const mapStateToProps = ({
     displayTerms,
     termsData,
     displayFeedback,
-    displaySuggest
+    displaySuggest,
+    displayPro,
+    proType
   },
   file: { videos }
 }) => ({
@@ -81,7 +86,9 @@ const mapStateToProps = ({
   displayTerms,
   termsData,
   displayFeedback,
-  displaySuggest
+  displaySuggest,
+  displayPro,
+  proType
 });
 
 const PopupManager = ({
@@ -114,7 +121,10 @@ const PopupManager = ({
   displayFeedback,
   closeFeedback,
   displaySuggest,
-  closeSuggest
+  closeSuggest,
+  displayPro,
+  proType,
+  closePro
 }) => {
   const openPlay = _id => () => showPlay({ playCategory: _id });
 
@@ -158,6 +168,9 @@ const PopupManager = ({
       ) : null}
       {displaySuggest ? (
         <SuggestPopup close={closeSuggest} displayBadge={displayBadge} />
+      ) : null}
+      {displayPro ? (
+        <ProModal close={closePro} openShop={openStore} type={proType} />
       ) : null}
     </>
   );
@@ -218,7 +231,10 @@ PopupManager.propTypes = {
   displayFeedback: bool.isRequired,
   closeFeedback: func.isRequired,
   displaySuggest: bool.isRequired,
-  closeSuggest: func.isRequired
+  closeSuggest: func.isRequired,
+  displayPro: bool.isRequired,
+  proType: string.isRequired,
+  closePro: func.isRequired
 };
 
 PopupManager.defaultProps = {

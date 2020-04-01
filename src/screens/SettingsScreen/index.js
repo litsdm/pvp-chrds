@@ -38,7 +38,8 @@ import { logoutUser } from '../../actions/user';
 import {
   toggleBadge,
   toggleFeedback,
-  toggleSuggest
+  toggleSuggest,
+  togglePro
 } from '../../actions/popup';
 
 import AnimatedSettingsNav from '../../components/AnimatedSettingsNav';
@@ -49,7 +50,8 @@ const mapDispatchToProps = dispatch => ({
   resetReduxState: () => dispatch(logoutUser()),
   displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),
   showFeedback: () => dispatch(toggleFeedback(true)),
-  showSuggest: () => dispatch(toggleSuggest(true))
+  showSuggest: () => dispatch(toggleSuggest(true)),
+  showProModal: () => dispatch(togglePro(true, 'suggest'))
 });
 
 const mapStateToProps = ({ file: { uploadingPic, picProgress } }) => ({
@@ -67,7 +69,8 @@ const SettingsScreen = ({
   resetReduxState,
   displayBadge,
   showFeedback,
-  showSuggest
+  showSuggest,
+  showProModal
 }) => {
   const [getData, { data, refetch }] = useLazyQuery(GET_DATA);
   const [updateUser] = useMutation(UPDATE_USER);
@@ -135,7 +138,7 @@ const SettingsScreen = ({
 
   const handleSuggest = () => {
     if (!user.isPro) {
-      // display upgrade to pro to suggest words modal
+      showProModal();
       return;
     }
 
@@ -579,6 +582,7 @@ SettingsScreen.propTypes = {
   displayBadge: func.isRequired,
   showFeedback: func.isRequired,
   showSuggest: func.isRequired,
+  showProModal: func.isRequired,
   uploading: bool,
   progress: number
 };

@@ -25,7 +25,7 @@ import GET_USER_DATA from '../graphql/queries/getFFAUserData';
 import UPDATE_USER from '../graphql/mutations/updateUser';
 import CREATE_REPORT from '../graphql/mutations/createReport';
 
-import { toggleBadge, togglePurchasePopup } from '../actions/popup';
+import { toggleBadge, togglePurchasePopup, togglePro } from '../actions/popup';
 
 import Row from '../components/FFA/MatchRow';
 import EmptyRow from '../components/FFA/EmptyRow';
@@ -42,7 +42,8 @@ const IS_IPHONE_X =
 
 const mapDispatchToProps = dispatch => ({
   openCoinShop: () => dispatch(togglePurchasePopup(true)),
-  displayBadge: (message, type) => dispatch(toggleBadge(true, message, type))
+  displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),
+  openProModal: () => dispatch(togglePro(true))
 });
 
 const provider = new DataProvider((a, b) => a._id !== b._id);
@@ -59,7 +60,12 @@ let _initialDate = null;
 let _lastDate = null;
 let _guessing = false;
 
-const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
+const FFAScreen = ({
+  navigation,
+  openCoinShop,
+  displayBadge,
+  openProModal
+}) => {
   const userID = navigation.getParam('userID', '');
   const { data, refetch } = useQuery(GET_DATA, {
     variables: { userID, skip: 0, stopFilter: false }
@@ -275,6 +281,7 @@ const FFAScreen = ({ navigation, openCoinShop, displayBadge }) => {
         cameraType={cameraType}
         showOptions={showOptions({ _id, sender })}
         key={_id}
+        openProModal={openProModal}
       />
     ) : (
       <EmptyRow key={_id} createOwn={handleCreateOwn} />
@@ -352,7 +359,8 @@ const styles = StyleSheet.create({
 FFAScreen.propTypes = {
   navigation: object.isRequired,
   openCoinShop: func.isRequired,
-  displayBadge: func.isRequired
+  displayBadge: func.isRequired,
+  openProModal: func.isRequired
 };
 
 export default connect(

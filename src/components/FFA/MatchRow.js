@@ -32,7 +32,8 @@ const FFAMatchRow = ({
   setGuessing,
   guessed,
   cameraType,
-  showOptions
+  showOptions,
+  openProModal
 }) => {
   const [signedUri, setSignedUri] = useState('');
   const [buffering, setBuffering] = useState(false);
@@ -140,7 +141,7 @@ const FFAMatchRow = ({
 
   const handleGuess = () => {
     if (!user.isPro && user.lives <= 0) {
-      // display lives promo for Charades Pro
+      openProModal();
       return;
     }
     setGuessing(true);
@@ -270,6 +271,7 @@ FFAMatchRow.propTypes = {
   setGuessing: func.isRequired,
   cameraType: number.isRequired,
   showOptions: func.isRequired,
+  openProModal: func.isRequired,
   word: shape({
     _id: string,
     text: string,

@@ -36,7 +36,8 @@ const PlayPopup = ({
   friend,
   navigate,
   openAdd,
-  openPurchase
+  openPurchase,
+  openProModal
 }) => {
   const modeNumber = mode === 'versus' ? 1 : 0;
   const [getData, { data }] = useLazyQuery(GET_DATA);
@@ -135,7 +136,7 @@ const PlayPopup = ({
     let opponent = selectedFriend;
 
     if (!user.isPro && user.lives <= 0) {
-      // display lives promo for Charades Pro
+      openProModal();
       return;
     }
 
@@ -246,6 +247,7 @@ PlayPopup.propTypes = {
   navigate: func.isRequired,
   openAdd: func.isRequired,
   openPurchase: func.isRequired,
+  openProModal: func.isRequired,
   category: string,
   friend: string,
   mode: string
