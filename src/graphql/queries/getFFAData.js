@@ -9,6 +9,8 @@ export default gql`
         cameraType
         cloudFrontVideo
         video
+        viewedHash
+        uniqueViewCount
         sender {
           _id
           displayName
@@ -29,6 +31,8 @@ export default gql`
         cameraType
         cloudFrontVideo
         video
+        viewedHash
+        uniqueViewCount
         sender {
           _id
           displayName

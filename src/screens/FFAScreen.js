@@ -26,6 +26,7 @@ import UPDATE_USER from '../graphql/mutations/updateUser';
 import CREATE_REPORT from '../graphql/mutations/createReport';
 
 import { toggleBadge, togglePurchasePopup, togglePro } from '../actions/popup';
+import callApi from '../helpers/apiCaller';
 
 import Row from '../components/FFA/MatchRow';
 import EmptyRow from '../components/FFA/EmptyRow';
@@ -59,6 +60,7 @@ const layoutProvider = new LayoutProvider(
 let _initialDate = null;
 let _lastDate = null;
 let _guessing = false;
+const _history = {};
 
 const FFAScreen = ({
   navigation,
@@ -175,8 +177,15 @@ const FFAScreen = ({
 
   const handleStateChange = async nextAppState => {
     if (nextAppState.match(/inactive|background/)) {
+      updateHistory();
       await updateDatePointers();
     }
+  };
+
+  const updateHistory = async () => {
+    const history = JSON.stringify(_history);
+    console.log(history);
+    await callApi('updateHistory', { history }, 'POST');
   };
 
   const updateDatePointers = async () => {
@@ -191,6 +200,7 @@ const FFAScreen = ({
     if (_guessing) setGuessing(false);
     else {
       updateDatePointers();
+      updateHistory();
       navigation.navigate('Home', { userID });
       return true;
     }
@@ -243,10 +253,22 @@ const FFAScreen = ({
     navigation.navigate('Home', { userID, playFromFFA: true });
   };
 
+  const addToHistory = match => {
+    if (match._id === 'empty') return;
+    const parsedViewed = JSON.parse(match.viewedHash);
+
+    if (parsedViewed[userID]) return;
+
+    if (_history[match._id]) _history[match._id] = {};
+
+    _history[match._id] = { ..._history[match._id], [userID]: true };
+  };
+
   const handleIndexChange = indeces => {
     if (indeces.length === 1) {
       const index = indeces[0];
       setActiveIndex(index);
+      addToHistory(matches[index]);
       if (
         matches[index]._id !== 'empty' &&
         dayjs(matches[index].createdOn).isBefore(dayjs(lastDate))
