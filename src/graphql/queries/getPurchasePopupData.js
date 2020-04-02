@@ -5,6 +5,8 @@ export default gql`
     user(_id: $_id) {
       _id
       isPro
+      lives
+      coins
     }
   }
 `;

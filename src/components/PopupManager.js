@@ -153,7 +153,7 @@ const PopupManager = ({
         />
       ) : null}
       {displayPurchasePopup ? (
-        <PurchasePopup close={closePurchasePopup} />
+        <PurchasePopup close={closePurchasePopup} displayBadge={displayBadge} />
       ) : null}
       {displayPickUsername ? (
         <PickUsername
