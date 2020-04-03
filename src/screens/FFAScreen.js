@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { connect } from 'react-redux';
+import AsyncStorage from '@react-native-community/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import { getDeviceId } from 'react-native-device-info';
 import {
@@ -32,6 +33,7 @@ import Row from '../components/FFA/MatchRow';
 import EmptyRow from '../components/FFA/EmptyRow';
 import OptionsModal from '../components/FFA/OptionsModal';
 import ReportPopup from '../components/FFA/ReportPopup';
+import Walkthrough from '../components/FFA/WalkthroughOverlay';
 
 import Layout from '../constants/Layout';
 
@@ -90,6 +92,7 @@ const FFAScreen = ({
   const [lastDate, setLastDate] = useState(null);
   const [optionsMatch, setOptionsMatch] = useState(null);
   const [reportMatch, setReportMatch] = useState(null);
+  const [showWalkthrough, setShowWalkthrough] = useState(false);
 
   const user = userData ? userData.user : {};
 
@@ -101,6 +104,7 @@ const FFAScreen = ({
   useEffect(() => {
     AppState.addEventListener('change', handleStateChange);
     BackHandler.addEventListener('hardwareBackPress', goBack);
+    displayWalkthroughIfNeeded();
     return () => {
       AppState.removeEventListener('change', handleStateChange);
       BackHandler.removeEventListener('hardwareBackPress');
@@ -194,6 +198,16 @@ const FFAScreen = ({
     });
     await updateUser({ variables: { id: userID, properties } });
   };
+
+  const displayWalkthroughIfNeeded = async () => {
+    const didDisplay = await AsyncStorage.getItem('displayedWalkthrough');
+    if (didDisplay === 'true') return;
+
+    setShowWalkthrough(true);
+    await AsyncStorage.setItem('displayedWalkthrough', 'true');
+  };
+
+  const closeWalkthrough = () => setShowWalkthrough(false);
 
   const goBack = async () => {
     if (_guessing) setGuessing(false);
@@ -343,6 +357,7 @@ const FFAScreen = ({
           />
         ) : null}
       </View>
+      {showWalkthrough ? <Walkthrough close={closeWalkthrough} /> : null}
       {optionsMatch ? (
         <OptionsModal
           close={hideOptions}
