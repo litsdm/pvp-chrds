@@ -8,6 +8,8 @@ import {
   DataProvider,
   LayoutProvider
 } from 'recyclerlistview';
+import AsyncStorage from '@react-native-community/async-storage';
+import JwtDecode from 'jwt-decode';
 import { func, object } from 'prop-types';
 
 import GET_DATA from '../graphql/queries/getProfileData';
@@ -28,27 +30,9 @@ const mapStateToProps = ({ cache: { thumbnails } }) => ({
 
 const ViewTypes = {
   HEADER: 0,
-  MATCH_ROW: 1
+  SELF_HEADER: 1,
+  MATCH_ROW: 2
 };
-
-const layoutProvider = new LayoutProvider(
-  index => (index === 0 ? ViewTypes.HEADER : ViewTypes.MATCH_ROW),
-  (type, dim) => {
-    switch (type) {
-      case ViewTypes.HEADER:
-        dim.width = Layout.window.width;
-        dim.height = 358;
-        break;
-      case ViewTypes.MATCH_ROW:
-        dim.width = Layout.window.width;
-        dim.height = (Layout.window.width - 72) / 2 + 12;
-        break;
-      default:
-        dim.width = 0;
-        dim.height = 0;
-    }
-  }
-);
 
 const provider = new DataProvider((a, b) => a[0]._id !== b[0]._id);
 
@@ -56,9 +40,42 @@ const ProfileScreen = ({ navigation, thumbnailCache, addToCache }) => {
   const userID = navigation.getParam('userID', '');
   const { data } = useQuery(GET_DATA, { variables: { _id: userID } });
   const [dataProvider, setDataProvider] = useState(null);
+  const [localUserID, setLocalUserID] = useState('');
 
   const user = data ? data.user : {};
   const matches = data ? data.matches : [];
+
+  const layoutProvider = new LayoutProvider(
+    index => {
+      if (index === 0 && localUserID !== user._id) return ViewTypes.HEADER;
+      if (index === 0 && localUserID === user._id) return ViewTypes.SELF_HEADER;
+
+      return ViewTypes.MATCH_ROW;
+    },
+    (type, dim) => {
+      switch (type) {
+        case ViewTypes.HEADER:
+          dim.width = Layout.window.width;
+          dim.height = 358;
+          break;
+        case ViewTypes.SELF_HEADER:
+          dim.width = Layout.window.width;
+          dim.height = 298;
+          break;
+        case ViewTypes.MATCH_ROW:
+          dim.width = Layout.window.width;
+          dim.height = (Layout.window.width - 72) / 2 + 12;
+          break;
+        default:
+          dim.width = 0;
+          dim.height = 0;
+      }
+    }
+  );
+
+  useEffect(() => {
+    getLocalUserID();
+  }, []);
 
   useEffect(() => {
     if (matches.length > 0 && !dataProvider) createData();
@@ -78,11 +95,21 @@ const ProfileScreen = ({ navigation, thumbnailCache, addToCache }) => {
     setDataProvider(provider.cloneWithRows(dividedMatches));
   };
 
+  const getLocalUserID = async () => {
+    const { _id } = JwtDecode(await AsyncStorage.getItem('CHRDS_TOKEN'));
+    setLocalUserID(_id);
+  };
+
   const goBack = () => navigation.goBack();
 
   const rowRenderer = (type, rowMatches) =>
-    type === ViewTypes.HEADER ? (
-      <Header goBack={goBack} user={user} gameCount={matches.length} />
+    type === ViewTypes.HEADER || type === ViewTypes.SELF_HEADER ? (
+      <Header
+        goBack={goBack}
+        user={user}
+        gameCount={matches.length}
+        isSelf={user._id === localUserID}
+      />
     ) : (
       <MatchRow
         matches={rowMatches}

@@ -8,9 +8,9 @@ import {
   View
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { func, number, object } from 'prop-types';
+import { bool, func, number, object } from 'prop-types';
 
-const Header = ({ goBack, user, gameCount }) => (
+const Header = ({ goBack, user, gameCount, isSelf }) => (
   <View style={styles.header}>
     <View style={styles.nav}>
       <TouchableOpacity style={styles.back} onPress={goBack}>
@@ -42,14 +42,16 @@ const Header = ({ goBack, user, gameCount }) => (
       </View>
     </View>
     <View style={styles.divider} />
-    <View style={styles.actions}>
-      <TouchableOpacity style={styles.challengeButton}>
-        <Text style={styles.challengeText}>Challenge</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.moreButton}>
-        <Ionicons name="ios-more" size={30} color="#000" />
-      </TouchableOpacity>
-    </View>
+    {!isSelf ? (
+      <View style={styles.actions}>
+        <TouchableOpacity style={styles.challengeButton}>
+          <Text style={styles.challengeText}>Challenge</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.moreButton}>
+          <Ionicons name="ios-more" size={30} color="#000" />
+        </TouchableOpacity>
+      </View>
+    ) : null}
   </View>
 );
 
@@ -164,7 +166,8 @@ const styles = StyleSheet.create({
 Header.propTypes = {
   goBack: func.isRequired,
   user: object.isRequired,
-  gameCount: number.isRequired
+  gameCount: number.isRequired,
+  isSelf: bool.isRequired
 };
 
 export default Header;

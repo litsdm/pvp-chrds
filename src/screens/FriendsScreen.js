@@ -17,7 +17,7 @@ import { func, object } from 'prop-types';
 import GET_FRIENDS from '../graphql/queries/getFriends';
 import RESOLVE_REQUEST from '../graphql/mutations/resolveFriendRequest';
 
-import { toggleAdd, togglePlay } from '../actions/popup';
+import { toggleAdd } from '../actions/popup';
 
 import Navbar from '../components/Friends/Navbar';
 import FriendRow from '../components/Friends/FriendRow';
@@ -26,7 +26,6 @@ import Empty from '../components/Friends/Empty';
 import Loader from '../components/Loader';
 
 const mapDispatchToProps = dispatch => ({
-  showPlay: data => dispatch(togglePlay(true, data)),
   openAdd: () => dispatch(toggleAdd(true))
 });
 
@@ -40,7 +39,7 @@ const fuzzyOptions = {
   keys: ['username']
 };
 
-const FriendsScreen = ({ navigation, showPlay, openAdd }) => {
+const FriendsScreen = ({ navigation, openAdd }) => {
   const [getFriends, { loading, data, refetch }] = useLazyQuery(GET_FRIENDS);
   const [resolveFriendRequest] = useMutation(RESOLVE_REQUEST);
   const [resolving, setResolving] = useState(false);
@@ -81,12 +80,13 @@ const FriendsScreen = ({ navigation, showPlay, openAdd }) => {
   const toggleSearch = () => setSearching(!searching);
   const goBack = () => navigation.goBack();
 
-  const openPlay = _id => () => showPlay({ playFriend: _id });
+  const goToProfile = _id => () =>
+    navigation.navigate('Profile', { userID: _id });
 
   const resolveRequest = (requestID, type) => async () => {
     if (resolving) return;
 
-    await setResolving(true);
+    setResolving(true);
     await resolveFriendRequest({ variables: { requestID, type } });
     await refetch();
     setResolving(false);
@@ -132,7 +132,7 @@ const FriendsScreen = ({ navigation, showPlay, openAdd }) => {
         uri={profilePic}
         requestID={from ? _id : null}
         resolveRequest={resolveRequest}
-        onPress={openPlay(_id)}
+        onPress={goToProfile(_id)}
         position={position}
       />
     );
@@ -200,13 +200,11 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     marginBottom: 12,
     opacity: 0.6
-    // textTransform: 'uppercase'
   }
 });
 
 FriendsScreen.propTypes = {
   navigation: object.isRequired,
-  showPlay: func.isRequired,
   openAdd: func.isRequired
 };
 
