@@ -9,7 +9,14 @@ import { getSignedUrl, getCFSignedUrl } from '../../helpers/apiCaller';
 
 import Layout from '../../constants/Layout';
 
-const MatchColumn = ({ isLast, url, usingCF, cachedThumbnail, addToCache }) => {
+const MatchColumn = ({
+  isLast,
+  url,
+  usingCF,
+  cachedThumbnail,
+  addToCache,
+  openOptions
+}) => {
   const [thumbnail, setThumbnail] = useState('');
 
   useEffect(() => {
@@ -44,7 +51,10 @@ const MatchColumn = ({ isLast, url, usingCF, cachedThumbnail, addToCache }) => {
   };
 
   return (
-    <TouchableOpacity style={[styles.column, { marginRight: isLast ? 0 : 12 }]}>
+    <TouchableOpacity
+      style={[styles.column, { marginRight: isLast ? 0 : 12 }]}
+      onLongPress={openOptions}
+    >
       <View style={styles.overlay}>
         <Ionicons name="ios-play" size={30} color="#fff" style={styles.icon} />
         <LinearGradient
@@ -64,7 +74,7 @@ const MatchColumn = ({ isLast, url, usingCF, cachedThumbnail, addToCache }) => {
   );
 };
 
-const MatchRow = ({ matches, thumbnailCache, addToCache }) => {
+const MatchRow = ({ matches, thumbnailCache, addToCache, openOptions }) => {
   const handleAddCache = _id => uri => addToCache(_id, uri);
 
   const renderColumns = () =>
@@ -76,6 +86,7 @@ const MatchRow = ({ matches, thumbnailCache, addToCache }) => {
         isLast={index === matches.length - 1}
         cachedThumbnail={thumbnailCache[_id]}
         addToCache={handleAddCache(_id)}
+        openOptions={openOptions({ _id })}
       />
     ));
 
@@ -141,7 +152,8 @@ MatchRow.propTypes = {
     })
   ).isRequired,
   thumbnailCache: object.isRequired,
-  addToCache: func.isRequired
+  addToCache: func.isRequired,
+  openOptions: func.isRequired
 };
 
 MatchColumn.propTypes = {
@@ -149,7 +161,8 @@ MatchColumn.propTypes = {
   usingCF: bool.isRequired,
   isLast: bool.isRequired,
   cachedThumbnail: string,
-  addToCache: func.isRequired
+  addToCache: func.isRequired,
+  openOptions: func.isRequired
 };
 
 MatchColumn.defaultProps = {

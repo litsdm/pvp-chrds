@@ -10,7 +10,14 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { bool, func, number, object } from 'prop-types';
 
-const Header = ({ goBack, user, gameCount, isSelf, onChallenge }) => (
+const Header = ({
+  goBack,
+  user,
+  gameCount,
+  isSelf,
+  onChallengePress,
+  onMorePress
+}) => (
   <View style={styles.header}>
     <View style={styles.nav}>
       <TouchableOpacity style={styles.back} onPress={goBack}>
@@ -44,10 +51,13 @@ const Header = ({ goBack, user, gameCount, isSelf, onChallenge }) => (
     <View style={styles.divider} />
     {!isSelf ? (
       <View style={styles.actions}>
-        <TouchableOpacity style={styles.challengeButton} onPress={onChallenge}>
+        <TouchableOpacity
+          style={styles.challengeButton}
+          onPress={onChallengePress}
+        >
           <Text style={styles.challengeText}>Challenge</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.moreButton}>
+        <TouchableOpacity style={styles.moreButton} onPress={onMorePress}>
           <Ionicons name="ios-more" size={30} color="#000" />
         </TouchableOpacity>
       </View>
@@ -168,7 +178,8 @@ Header.propTypes = {
   user: object.isRequired,
   gameCount: number.isRequired,
   isSelf: bool.isRequired,
-  onChallenge: func.isRequired
+  onChallengePress: func.isRequired,
+  onMorePress: func.isRequired
 };
 
 export default Header;

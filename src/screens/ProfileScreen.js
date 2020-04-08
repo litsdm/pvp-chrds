@@ -20,6 +20,7 @@ import Layout from '../constants/Layout';
 
 import Header from '../components/Profile/Header';
 import MatchRow from '../components/Profile/MatchRow';
+import OptionsModal, { Option } from '../components/Profile/OptionsModal';
 
 const mapDispatchToProps = dispatch => ({
   addToCache: (_id, uri) => dispatch(addThumbnail(_id, uri)),
@@ -48,6 +49,8 @@ const ProfileScreen = ({
   const { data } = useQuery(GET_DATA, { variables: { _id: userID } });
   const [dataProvider, setDataProvider] = useState(null);
   const [localUserID, setLocalUserID] = useState('');
+  const [displayMore, setDisplayMore] = useState(false);
+  const [selectedMatch, setSelectedMatch] = useState(null);
 
   const user = data ? data.user : {};
   const matches = data ? data.matches : [];
@@ -108,6 +111,10 @@ const ProfileScreen = ({
   };
 
   const handleOpenPlay = () => openPlay({ playFriend: user._id });
+  const openMore = () => setDisplayMore(true);
+  const closeMore = () => setDisplayMore(false);
+  const openFFAOptions = match => () => setSelectedMatch(match);
+  const closeFFAOptions = () => setSelectedMatch(null);
 
   const goBack = () => navigation.goBack();
 
@@ -118,13 +125,15 @@ const ProfileScreen = ({
         user={user}
         gameCount={matches.length}
         isSelf={user._id === localUserID}
-        onChallenge={handleOpenPlay}
+        onChallengePress={handleOpenPlay}
+        onMorePress={openMore}
       />
     ) : (
       <MatchRow
         matches={rowMatches}
         thumbnailCache={thumbnailCache}
         addToCache={addToCache}
+        openOptions={openFFAOptions}
       />
     );
 
@@ -147,7 +156,8 @@ const ProfileScreen = ({
               user={user}
               gameCount={matches.length}
               isSelf={user._id === localUserID}
-              onChallenge={handleOpenPlay}
+              onChallengePress={handleOpenPlay}
+              onMorePress={openMore}
             />
             <View style={styles.empty}>
               <Text style={styles.emptyTitle}>No Games</Text>
@@ -157,6 +167,18 @@ const ProfileScreen = ({
             </View>
           </>
         )}
+        {displayMore ? (
+          <OptionsModal title="More" close={closeMore}>
+            <Option title="Add friend" iconName="md-person-add" />
+          </OptionsModal>
+        ) : null}
+        {selectedMatch ? (
+          <OptionsModal title="Options" close={closeFFAOptions}>
+            <Option title="Show Info" iconName="ios-information-circle" />
+            <View style={styles.divider} />
+            <Option title="Delete" iconName="ios-warning" />
+          </OptionsModal>
+        ) : null}
       </View>
     </SafeAreaView>
   );
@@ -185,6 +207,11 @@ const styles = StyleSheet.create({
     fontFamily: 'sf-light',
     fontSize: 16,
     opacity: 0.4
+  },
+  divider: {
+    backgroundColor: 'rgba(0,0,0,0.05)',
+    height: 1,
+    width: '100%'
   }
 });
 
