@@ -15,13 +15,15 @@ import { func, object } from 'prop-types';
 import GET_DATA from '../graphql/queries/getProfileData';
 
 import { addThumbnail } from '../actions/cache';
+import { togglePlay } from '../actions/popup';
 import Layout from '../constants/Layout';
 
 import Header from '../components/Profile/Header';
 import MatchRow from '../components/Profile/MatchRow';
 
 const mapDispatchToProps = dispatch => ({
-  addToCache: (_id, uri) => dispatch(addThumbnail(_id, uri))
+  addToCache: (_id, uri) => dispatch(addThumbnail(_id, uri)),
+  openPlay: data => dispatch(togglePlay(true, data))
 });
 
 const mapStateToProps = ({ cache: { thumbnails } }) => ({
@@ -36,7 +38,12 @@ const ViewTypes = {
 
 const provider = new DataProvider((a, b) => a[0]._id !== b[0]._id);
 
-const ProfileScreen = ({ navigation, thumbnailCache, addToCache }) => {
+const ProfileScreen = ({
+  navigation,
+  thumbnailCache,
+  addToCache,
+  openPlay
+}) => {
   const userID = navigation.getParam('userID', '');
   const { data } = useQuery(GET_DATA, { variables: { _id: userID } });
   const [dataProvider, setDataProvider] = useState(null);
@@ -100,6 +107,8 @@ const ProfileScreen = ({ navigation, thumbnailCache, addToCache }) => {
     setLocalUserID(_id);
   };
 
+  const handleOpenPlay = () => openPlay({ playFriend: user._id });
+
   const goBack = () => navigation.goBack();
 
   const rowRenderer = (type, rowMatches) =>
@@ -109,6 +118,7 @@ const ProfileScreen = ({ navigation, thumbnailCache, addToCache }) => {
         user={user}
         gameCount={matches.length}
         isSelf={user._id === localUserID}
+        onChallenge={handleOpenPlay}
       />
     ) : (
       <MatchRow
@@ -132,7 +142,13 @@ const ProfileScreen = ({ navigation, thumbnailCache, addToCache }) => {
           />
         ) : (
           <>
-            <Header goBack={goBack} user={user} gameCount={matches.length} />
+            <Header
+              goBack={goBack}
+              user={user}
+              gameCount={matches.length}
+              isSelf={user._id === localUserID}
+              onChallenge={handleOpenPlay}
+            />
             <View style={styles.empty}>
               <Text style={styles.emptyTitle}>No Games</Text>
               <Text style={styles.emptyText}>
@@ -175,7 +191,8 @@ const styles = StyleSheet.create({
 ProfileScreen.propTypes = {
   navigation: object.isRequired,
   thumbnailCache: object.isRequired,
-  addToCache: func.isRequired
+  addToCache: func.isRequired,
+  openPlay: func.isRequired
 };
 
 export default connect(

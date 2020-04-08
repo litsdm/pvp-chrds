@@ -103,7 +103,6 @@ const App = ({
 
   const handleStateChange = nextAppState => {
     if (nextAppState.match(/inactive|background/)) {
-      console.log(_cache);
       AsyncStorage.setItem('cache', JSON.stringify(_cache));
       if (Object.keys(this.videos).length > 0)
         AsyncStorage.setItem('brokenUploadData', JSON.stringify(this.videos));

@@ -89,13 +89,11 @@ const PlayPopup = ({
 
   const scrollPage = () => {
     if (!scrollView.current) return;
-    if (page === 0) scrollView.current.scrollTo({ x: 0, y: 0, animated: true });
-    else
-      scrollView.current.scrollTo({
-        x: Layout.window.width * page,
-        y: 0,
-        animated: true
-      });
+    scrollView.current.scrollTo({
+      x: Layout.window.width * page,
+      y: 0,
+      animated: true
+    });
   };
 
   const selectCategory = _id => () => {

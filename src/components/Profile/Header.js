@@ -10,7 +10,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { bool, func, number, object } from 'prop-types';
 
-const Header = ({ goBack, user, gameCount, isSelf }) => (
+const Header = ({ goBack, user, gameCount, isSelf, onChallenge }) => (
   <View style={styles.header}>
     <View style={styles.nav}>
       <TouchableOpacity style={styles.back} onPress={goBack}>
@@ -44,7 +44,7 @@ const Header = ({ goBack, user, gameCount, isSelf }) => (
     <View style={styles.divider} />
     {!isSelf ? (
       <View style={styles.actions}>
-        <TouchableOpacity style={styles.challengeButton}>
+        <TouchableOpacity style={styles.challengeButton} onPress={onChallenge}>
           <Text style={styles.challengeText}>Challenge</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.moreButton}>
@@ -167,7 +167,8 @@ Header.propTypes = {
   goBack: func.isRequired,
   user: object.isRequired,
   gameCount: number.isRequired,
-  isSelf: bool.isRequired
+  isSelf: bool.isRequired,
+  onChallenge: func.isRequired
 };
 
 export default Header;
