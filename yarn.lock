@@ -4328,6 +4328,11 @@ expo-store-review@~2.0.0:
   resolved "https://registry.yarnpkg.com/expo-store-review/-/expo-store-review-2.0.0.tgz#7f967973faf787472b007a33c43dd2ae0f4163e2"
   integrity sha512-QbIwQYk5plRw8aPGOZEBxqVJtQM6/Pe2j6k+FFwHzb3nbaeK3TfVEPUfbnzt0EUItkr6Gh86KMxMhdSCnOYFIg==
 
+expo-video-thumbnails@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/expo-video-thumbnails/-/expo-video-thumbnails-4.1.0.tgz#90e308198e36a5a0696fa5d5603d6c266c094824"
+  integrity sha512-gdyJdqTB4S9hw6NnsCgSoNPwrPnGFJrsf1KiXU3pY0DgJWbeItjLwwLjhqAA+x+yefbxtoq3qObasWZsE1fblQ==
+
 expo-web-browser@~8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/expo-web-browser/-/expo-web-browser-8.0.0.tgz#8a4451c744c115569a4c810dac8851f219a21c72"

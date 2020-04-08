@@ -100,6 +100,8 @@ const SettingsScreen = ({
   const goToPrivacy = () =>
     navigation.navigate('Privacy', { userID: user._id });
   const goToFriends = () => navigation.navigate('Friends');
+  const goToProfile = () =>
+    navigation.navigate('Profile', { userID: user._id });
   const rateApp = () => {
     // itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=1496562540
     const url =
@@ -206,7 +208,7 @@ const SettingsScreen = ({
             <TouchableOpacity style={styles.goBack} onPress={goBack}>
               <Ionicons name="ios-arrow-round-back" color="#000" size={30} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.imageWrapper} onPress={pickImage}>
+            <TouchableOpacity style={styles.imageWrapper} onPress={goToProfile}>
               {uploading ? (
                 <View style={styles.progressOverlay}>
                   <Text style={styles.progress}>
@@ -218,13 +220,11 @@ const SettingsScreen = ({
                 style={styles.profilePic}
                 source={{ uri: user.profilePic }}
               />
+              <TouchableOpacity style={styles.editImage} onPress={pickImage}>
+                <FontAwesome5 name="pen" size={18} color="#000" />
+              </TouchableOpacity>
             </TouchableOpacity>
             <Text style={styles.username}>@{user.displayName}</Text>
-            {/*
-              <TouchableOpacity style={styles.profileButton}>
-                <Text style={styles.pbText}>View Profile</Text>
-              </TouchableOpacity>
-            */}
           </View>
           <View style={styles.content}>
             <View style={styles.group}>
@@ -448,11 +448,11 @@ const styles = StyleSheet.create({
   },
   imageWrapper: {
     alignItems: 'center',
-    backgroundColor: '#fff',
     borderRadius: 108 / 2,
-    elevation: 4,
+    elevation: 8,
     height: 108,
     justifyContent: 'center',
+    marginTop: 24,
     shadowColor: 'rgba(0, 0, 0, 0.5)',
     shadowOffset: { width: 2, height: 4 },
     shadowOpacity: 0.2,
@@ -460,9 +460,9 @@ const styles = StyleSheet.create({
     width: 108
   },
   profilePic: {
-    borderRadius: 96 / 2,
-    height: 96,
-    width: 96
+    borderRadius: 108 / 2,
+    height: 108,
+    width: 108
   },
   username: {
     fontFamily: 'sf-bold',
@@ -471,7 +471,6 @@ const styles = StyleSheet.create({
   },
   profileButton: {
     alignItems: 'center',
-    paddingVertical: 6,
     justifyContent: 'center',
     width: '100%'
   },
@@ -572,6 +571,22 @@ const styles = StyleSheet.create({
   crown: {
     marginRight: 12,
     opacity: 0.4
+  },
+  editImage: {
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 36 / 2,
+    bottom: -6,
+    elevation: 4,
+    height: 36,
+    justifyContent: 'center',
+    position: 'absolute',
+    right: 0,
+    shadowColor: 'rgba(0, 0, 0, 0.5)',
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    width: 36
   }
 });
 

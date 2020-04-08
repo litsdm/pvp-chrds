@@ -34,17 +34,20 @@ import PopupManager from './src/components/PopupManager';
 import { toggleBadge, togglePurchasePopup } from './src/actions/popup';
 import { upload, uploadFFA } from './src/actions/file';
 import { setRefetchUser } from './src/actions/user';
+import { loadLocalCache } from './src/actions/cache';
 
 const mapDispatchToProps = dispatch => ({
   displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),
   closePurchase: () => dispatch(togglePurchasePopup(false)),
   uploadFile: data => dispatch(upload(data)),
   uploadFFAFile: data => dispatch(uploadFFA(data)),
-  askRefetchUser: () => dispatch(setRefetchUser(true))
+  askRefetchUser: () => dispatch(setRefetchUser(true)),
+  loadCache: () => dispatch(loadLocalCache())
 });
 
-const mapStateToProps = ({ file: { videos } }) => ({
-  videos
+const mapStateToProps = ({ file: { videos }, cache }) => ({
+  videos,
+  cache
 });
 
 const purchasedCoins = Platform.select({
@@ -60,6 +63,8 @@ const purchasedCoins = Platform.select({
   }
 });
 
+let _cache = {};
+
 const App = ({
   skipLoadingScreen,
   displayBadge,
@@ -67,7 +72,9 @@ const App = ({
   videos,
   uploadFile,
   uploadFFAFile,
-  askRefetchUser
+  askRefetchUser,
+  cache,
+  loadCache
 }) => {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
   const [didCheckBroken, setDidCheckBroken] = useState(false);
@@ -75,9 +82,11 @@ const App = ({
   const [makePro] = useMutation(MAKE_PRO);
 
   this.videos = videos;
+  _cache = cache;
 
   useEffect(() => {
     checkBrokenUpload();
+    loadCache();
     AppState.addEventListener('change', handleStateChange);
     Keyboard.addListener('keyboardDidShow', handleKeyboardShow);
     return () => {
@@ -93,12 +102,13 @@ const App = ({
   };
 
   const handleStateChange = nextAppState => {
-    if (
-      nextAppState.match(/inactive|background/) &&
-      Object.keys(this.videos).length > 0
-    ) {
-      AsyncStorage.setItem('brokenUploadData', JSON.stringify(this.videos));
-    } else if (nextAppState === 'active' && didCheckBroken) {
+    if (nextAppState.match(/inactive|background/)) {
+      console.log(_cache);
+      AsyncStorage.setItem('cache', JSON.stringify(_cache));
+      if (Object.keys(this.videos).length > 0)
+        AsyncStorage.setItem('brokenUploadData', JSON.stringify(this.videos));
+    }
+    if (nextAppState === 'active' && didCheckBroken) {
       AsyncStorage.removeItem('brokenUploadData');
     }
   };
@@ -227,12 +237,15 @@ App.propTypes = {
   uploadFile: func.isRequired,
   uploadFFAFile: func.isRequired,
   askRefetchUser: func.isRequired,
-  videos: object
+  loadCache: func.isRequired,
+  videos: object,
+  cache: object
 };
 
 App.defaultProps = {
   skipLoadingScreen: false,
-  videos: {}
+  videos: {},
+  cache: {}
 };
 
 const ConnectedApp = connect(

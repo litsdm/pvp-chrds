@@ -72,6 +72,16 @@ export const getSignedUrl = async (s3Filename, folder) => {
   }
 };
 
+export const getCFSignedUrl = async url => {
+  try {
+    const response = await callApi('s3/signCF', { url }, 'POST');
+    const { signedUrl } = await response.json();
+    return signedUrl;
+  } catch (exception) {
+    console.warn(`[apiCaller.getCFSignedUrl] ${exception.message}`);
+  }
+};
+
 export const getApiUrl = (isSocket = false) =>
   __DEV__
     ? `${isSocket ? 'ws' : 'http'}://192.168.15.5:8080`
