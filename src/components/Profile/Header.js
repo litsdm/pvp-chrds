@@ -68,7 +68,8 @@ const Header = ({
 const styles = StyleSheet.create({
   header: {
     padding: 24,
-    paddingTop: 0
+    paddingTop: 0,
+    zIndex: -1
   },
   nav: {
     alignItems: 'center',

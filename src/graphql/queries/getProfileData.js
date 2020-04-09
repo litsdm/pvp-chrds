@@ -12,6 +12,9 @@ export default gql`
       nextXP
       ffaPoints
       wonGames
+      friends {
+        _id
+      }
     }
     matches: userFFAMatches(_id: $_id) {
       _id

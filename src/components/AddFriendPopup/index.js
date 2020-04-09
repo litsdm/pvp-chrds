@@ -57,7 +57,7 @@ const AddFriendPopup = ({ close }) => {
     const token = await AsyncStorage.getItem('CHRDS_TOKEN');
     const { _id } = jwtDecode(token);
 
-    await setAdded({ ...added, [friendID]: true });
+    setAdded({ ...added, [friendID]: true });
 
     await createFriendRequest({ variables: { to: friendID, from: _id } });
   };

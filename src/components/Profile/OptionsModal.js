@@ -1,15 +1,21 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { arrayOf, func, node, oneOfType, string } from 'prop-types';
 
 import Modal from '../Modal';
 
 import { useAnimation } from '../../helpers/hooks';
 
-export const Option = ({ onPress, title, iconName }) => (
+export const Option = ({ onPress, title, iconName, iconType }) => (
   <TouchableOpacity style={styles.row} onPress={onPress}>
-    <Ionicons name={iconName} size={18} color="#000" />
+    <View style={styles.iconWrapper}>
+      {iconType === 'fa5' ? (
+        <FontAwesome5 name={iconName} size={16} color="#000" />
+      ) : (
+        <Ionicons name={iconName} size={18} color="#000" />
+      )}
+    </View>
     <Text style={styles.rowText}>{title}</Text>
   </TouchableOpacity>
 );
@@ -88,6 +94,12 @@ const styles = StyleSheet.create({
     fontFamily: 'sf-medium',
     fontSize: 14,
     marginLeft: 6
+  },
+  iconWrapper: {
+    alignItems: 'center',
+    height: 24,
+    justifyContent: 'center',
+    width: 24
   }
 });
 
@@ -95,6 +107,17 @@ OptionsModal.propTypes = {
   close: func.isRequired,
   title: string.isRequired,
   children: oneOfType([arrayOf(node), node]).isRequired
+};
+
+Option.propTypes = {
+  onPress: func.isRequired,
+  title: string.isRequired,
+  iconName: string.isRequired,
+  iconType: string
+};
+
+Option.defaultProps = {
+  iconType: 'ion'
 };
 
 export default OptionsModal;

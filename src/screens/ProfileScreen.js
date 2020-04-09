@@ -1,21 +1,22 @@
 /* eslint-disable no-param-reassign */
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Platform, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import {
   RecyclerListView,
   DataProvider,
   LayoutProvider
 } from 'recyclerlistview';
-import AsyncStorage from '@react-native-community/async-storage';
-import JwtDecode from 'jwt-decode';
 import { func, object } from 'prop-types';
 
 import GET_DATA from '../graphql/queries/getProfileData';
+import CREATE_FRIEND_REQUEST from '../graphql/mutations/createFriendRequest';
+import REMOVE_FRIEND from '../graphql/mutations/removeFriend';
 
 import { addThumbnail } from '../actions/cache';
-import { togglePlay } from '../actions/popup';
+import { togglePlay, toggleBadge } from '../actions/popup';
+import { useUserID } from '../helpers/hooks';
 import Layout from '../constants/Layout';
 
 import Header from '../components/Profile/Header';
@@ -24,7 +25,8 @@ import OptionsModal, { Option } from '../components/Profile/OptionsModal';
 
 const mapDispatchToProps = dispatch => ({
   addToCache: (_id, uri) => dispatch(addThumbnail(_id, uri)),
-  openPlay: data => dispatch(togglePlay(true, data))
+  openPlay: data => dispatch(togglePlay(true, data)),
+  displayBadge: (message, type) => dispatch(toggleBadge(true, message, type))
 });
 
 const mapStateToProps = ({ cache: { thumbnails } }) => ({
@@ -39,18 +41,24 @@ const ViewTypes = {
 
 const provider = new DataProvider((a, b) => a[0]._id !== b[0]._id);
 
+const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
+
 const ProfileScreen = ({
   navigation,
   thumbnailCache,
   addToCache,
-  openPlay
+  openPlay,
+  displayBadge
 }) => {
   const userID = navigation.getParam('userID', '');
-  const { data } = useQuery(GET_DATA, { variables: { _id: userID } });
+  const localUserID = useUserID();
+  const { data, refetch } = useQuery(GET_DATA, { variables: { _id: userID } });
+  const [createFriendRequest] = useMutation(CREATE_FRIEND_REQUEST);
+  const [removeFriend] = useMutation(REMOVE_FRIEND);
   const [dataProvider, setDataProvider] = useState(null);
-  const [localUserID, setLocalUserID] = useState('');
   const [displayMore, setDisplayMore] = useState(false);
   const [selectedMatch, setSelectedMatch] = useState(null);
+  const [isFriend, setIsFriend] = useState(false);
 
   const user = data ? data.user : {};
   const matches = data ? data.matches : [];
@@ -84,12 +92,13 @@ const ProfileScreen = ({
   );
 
   useEffect(() => {
-    getLocalUserID();
-  }, []);
-
-  useEffect(() => {
     if (matches.length > 0 && !dataProvider) createData();
   }, [matches, dataProvider]);
+
+  useEffect(() => {
+    if (Object.prototype.hasOwnProperty.call(user, '_id') && localUserID)
+      checkIfIsFriend();
+  }, [user, localUserID]);
 
   const createData = () => {
     const dividedMatches = [[{ _id: 'headerIndex' }]];
@@ -105,9 +114,38 @@ const ProfileScreen = ({
     setDataProvider(provider.cloneWithRows(dividedMatches));
   };
 
-  const getLocalUserID = async () => {
-    const { _id } = JwtDecode(await AsyncStorage.getItem('CHRDS_TOKEN'));
-    setLocalUserID(_id);
+  const handleAddFriend = async () => {
+    try {
+      await createFriendRequest({
+        variables: { to: user._id, from: localUserID }
+      });
+      displayBadge('Your Friend Request is on the way!', 'success');
+      refetch();
+      closeMore();
+    } catch (exception) {
+      console.warn(exception.message);
+    }
+  };
+
+  const handleRemoveFriend = async () => {
+    try {
+      await removeFriend({
+        variables: { _id: user._id, friendID: localUserID }
+      });
+      displayBadge('Friend removed successfully', 'success');
+      refetch();
+      closeMore();
+    } catch (exception) {
+      console.warn(exception);
+    }
+  };
+
+  const checkIfIsFriend = () => {
+    const index = user.friends.findIndex(({ _id }) => _id === localUserID);
+
+    if (index === -1) return;
+
+    setIsFriend(true);
   };
 
   const handleOpenPlay = () => openPlay({ playFriend: user._id });
@@ -140,6 +178,36 @@ const ProfileScreen = ({
   return (
     <SafeAreaView style={{ flex: 1 }} forceInset={{ top: 'never' }}>
       <View style={styles.container}>
+        {displayMore ? (
+          <OptionsModal title="More" close={closeMore}>
+            {isFriend ? (
+              <Option
+                title="Remove Friend"
+                iconName={`${PRE_ICON}-remove-circle-outline`}
+                onPress={handleRemoveFriend}
+              />
+            ) : (
+              <Option
+                title="Add friend"
+                iconName={`${PRE_ICON}-person-add`}
+                onPress={handleAddFriend}
+              />
+            )}
+            <View style={styles.divider} />
+            <Option
+              title="Block content from this user"
+              iconName="ban"
+              iconType="fa5"
+            />
+          </OptionsModal>
+        ) : null}
+        {selectedMatch ? (
+          <OptionsModal title="Options" close={closeFFAOptions}>
+            <Option title="Show Info" iconName="ios-information-circle" />
+            <View style={styles.divider} />
+            <Option title="Delete" iconName="ios-warning" />
+          </OptionsModal>
+        ) : null}
         {dataProvider !== null ? (
           <RecyclerListView
             layoutProvider={layoutProvider}
@@ -167,18 +235,6 @@ const ProfileScreen = ({
             </View>
           </>
         )}
-        {displayMore ? (
-          <OptionsModal title="More" close={closeMore}>
-            <Option title="Add friend" iconName="md-person-add" />
-          </OptionsModal>
-        ) : null}
-        {selectedMatch ? (
-          <OptionsModal title="Options" close={closeFFAOptions}>
-            <Option title="Show Info" iconName="ios-information-circle" />
-            <View style={styles.divider} />
-            <Option title="Delete" iconName="ios-warning" />
-          </OptionsModal>
-        ) : null}
       </View>
     </SafeAreaView>
   );
@@ -219,7 +275,8 @@ ProfileScreen.propTypes = {
   navigation: object.isRequired,
   thumbnailCache: object.isRequired,
   addToCache: func.isRequired,
-  openPlay: func.isRequired
+  openPlay: func.isRequired,
+  displayBadge: func.isRequired
 };
 
 export default connect(
