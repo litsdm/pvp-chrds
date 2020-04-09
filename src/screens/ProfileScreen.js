@@ -13,10 +13,10 @@ import { func, object } from 'prop-types';
 import GET_DATA from '../graphql/queries/getProfileData';
 import CREATE_FRIEND_REQUEST from '../graphql/mutations/createFriendRequest';
 import REMOVE_FRIEND from '../graphql/mutations/removeFriend';
+import UPDATE_USER from '../graphql/mutations/updateUser';
 
 import { addThumbnail } from '../actions/cache';
 import { togglePlay, toggleBadge } from '../actions/popup';
-import { useUserID } from '../helpers/hooks';
 import Layout from '../constants/Layout';
 
 import Header from '../components/Profile/Header';
@@ -51,22 +51,28 @@ const ProfileScreen = ({
   displayBadge
 }) => {
   const userID = navigation.getParam('userID', '');
-  const localUserID = useUserID();
-  const { data, refetch } = useQuery(GET_DATA, { variables: { _id: userID } });
+  const profileUserID = navigation.getParam('profileUserID', '');
+  const { data, refetch } = useQuery(GET_DATA, {
+    variables: { _id: profileUserID, userID }
+  });
   const [createFriendRequest] = useMutation(CREATE_FRIEND_REQUEST);
   const [removeFriend] = useMutation(REMOVE_FRIEND);
+  const [updateUser] = useMutation(UPDATE_USER);
   const [dataProvider, setDataProvider] = useState(null);
   const [displayMore, setDisplayMore] = useState(false);
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [isFriend, setIsFriend] = useState(false);
+  const [blockedIndex, setBlockedIndex] = useState(-1);
 
   const user = data ? data.user : {};
+  const profileUser = data ? data.profileUser : {};
   const matches = data ? data.matches : [];
 
   const layoutProvider = new LayoutProvider(
     index => {
-      if (index === 0 && localUserID !== user._id) return ViewTypes.HEADER;
-      if (index === 0 && localUserID === user._id) return ViewTypes.SELF_HEADER;
+      if (index === 0 && userID !== profileUser._id) return ViewTypes.HEADER;
+      if (index === 0 && userID === profileUser._id)
+        return ViewTypes.SELF_HEADER;
 
       return ViewTypes.MATCH_ROW;
     },
@@ -96,9 +102,13 @@ const ProfileScreen = ({
   }, [matches, dataProvider]);
 
   useEffect(() => {
-    if (Object.prototype.hasOwnProperty.call(user, '_id') && localUserID)
+    if (Object.prototype.hasOwnProperty.call(profileUser, '_id') && userID)
       checkIfIsFriend();
-  }, [user, localUserID]);
+  }, [profileUser, userID]);
+
+  useEffect(() => {
+    if (Object.prototype.hasOwnProperty.call(user, '_id')) checkBlockIndex();
+  }, [data]);
 
   const createData = () => {
     const dividedMatches = [[{ _id: 'headerIndex' }]];
@@ -117,7 +127,7 @@ const ProfileScreen = ({
   const handleAddFriend = async () => {
     try {
       await createFriendRequest({
-        variables: { to: user._id, from: localUserID }
+        variables: { to: profileUser._id, from: userID }
       });
       displayBadge('Your Friend Request is on the way!', 'success');
       refetch();
@@ -130,7 +140,7 @@ const ProfileScreen = ({
   const handleRemoveFriend = async () => {
     try {
       await removeFriend({
-        variables: { _id: user._id, friendID: localUserID }
+        variables: { _id: profileUser._id, friendID: userID }
       });
       displayBadge('Friend removed successfully', 'success');
       refetch();
@@ -140,15 +150,52 @@ const ProfileScreen = ({
     }
   };
 
+  const handleBlockUser = async () => {
+    const properties = JSON.stringify({
+      blockedUsers: user.blockedUsers
+        ? [...user.blockedUsers, profileUserID]
+        : [profileUserID]
+    });
+
+    await updateUser({ variables: { id: userID, properties } });
+
+    refetch();
+  };
+
+  const handleUnblockUser = async () => {
+    const properties = JSON.stringify({
+      blockedUsers: [
+        ...user.blockedUsers.slice(0, blockedIndex),
+        ...user.blockedUsers.slice(blockedIndex + 1)
+      ]
+    });
+
+    await updateUser({ variables: { id: userID, properties } });
+
+    refetch();
+  };
+
   const checkIfIsFriend = () => {
-    const index = user.friends.findIndex(({ _id }) => _id === localUserID);
+    const index = profileUser.friends.findIndex(({ _id }) => _id === userID);
 
     if (index === -1) return;
 
     setIsFriend(true);
   };
 
-  const handleOpenPlay = () => openPlay({ playFriend: user._id });
+  const checkBlockIndex = () => {
+    const index = user.blockedUsers
+      ? user.blockedUsers.indexOf(profileUserID)
+      : -1;
+
+    console.log(user.blockedUsers);
+    console.log(profileUserID);
+
+    console.log(index);
+    setBlockedIndex(index);
+  };
+
+  const handleOpenPlay = () => openPlay({ playFriend: profileUser._id });
   const openMore = () => setDisplayMore(true);
   const closeMore = () => setDisplayMore(false);
   const openFFAOptions = match => () => setSelectedMatch(match);
@@ -160,9 +207,9 @@ const ProfileScreen = ({
     type === ViewTypes.HEADER || type === ViewTypes.SELF_HEADER ? (
       <Header
         goBack={goBack}
-        user={user}
+        user={profileUser}
         gameCount={matches.length}
-        isSelf={user._id === localUserID}
+        isSelf={profileUserID === userID}
         onChallengePress={handleOpenPlay}
         onMorePress={openMore}
       />
@@ -194,11 +241,21 @@ const ProfileScreen = ({
               />
             )}
             <View style={styles.divider} />
-            <Option
-              title="Block content from this user"
-              iconName="ban"
-              iconType="fa5"
-            />
+            {blockedIndex === -1 ? (
+              <Option
+                title="Block content from this user"
+                iconName="ban"
+                iconType="fa5"
+                onPress={handleBlockUser}
+              />
+            ) : (
+              <Option
+                title="Un-block content from this user"
+                iconName="ban"
+                iconType="fa5"
+                onPress={handleUnblockUser}
+              />
+            )}
           </OptionsModal>
         ) : null}
         {selectedMatch ? (
@@ -208,7 +265,7 @@ const ProfileScreen = ({
             <Option title="Delete" iconName="ios-warning" />
           </OptionsModal>
         ) : null}
-        {dataProvider !== null ? (
+        {dataProvider !== null && blockedIndex === -1 ? (
           <RecyclerListView
             layoutProvider={layoutProvider}
             dataProvider={dataProvider}
@@ -221,18 +278,27 @@ const ProfileScreen = ({
           <>
             <Header
               goBack={goBack}
-              user={user}
+              user={profileUser}
               gameCount={matches.length}
-              isSelf={user._id === localUserID}
+              isSelf={profileUserID === userID}
               onChallengePress={handleOpenPlay}
               onMorePress={openMore}
             />
-            <View style={styles.empty}>
-              <Text style={styles.emptyTitle}>No Games</Text>
-              <Text style={styles.emptyText}>
-                This user has no Free for All games.
-              </Text>
-            </View>
+            {blockedIndex === -1 ? (
+              <View style={styles.empty}>
+                <Text style={styles.emptyTitle}>No Games</Text>
+                <Text style={styles.emptyText}>
+                  This user has no Free for All games.
+                </Text>
+              </View>
+            ) : (
+              <View style={styles.empty}>
+                <Text style={styles.emptyTitle}>Content Blocked</Text>
+                <Text style={styles.emptyText}>
+                  You have blocked this user.
+                </Text>
+              </View>
+            )}
           </>
         )}
       </View>

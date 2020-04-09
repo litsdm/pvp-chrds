@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export default gql`
-  query ProfileData($_id: String!) {
-    user(_id: $_id) {
+  query ProfileData($_id: String!, $userID: String!) {
+    profileUser: user(_id: $_id) {
       _id
       displayName
       profilePic
@@ -20,6 +20,10 @@ export default gql`
       _id
       video
       cloudFrontVideo
+    }
+    user(_id: $userID) {
+      _id
+      blockedUsers
     }
   }
 `;

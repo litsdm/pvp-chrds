@@ -101,7 +101,10 @@ const SettingsScreen = ({
     navigation.navigate('Privacy', { userID: user._id });
   const goToFriends = () => navigation.navigate('Friends');
   const goToProfile = () =>
-    navigation.navigate('Profile', { userID: user._id });
+    navigation.navigate('Profile', {
+      userID: user._id,
+      profileUserID: user._id
+    });
   const rateApp = () => {
     // itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=1496562540
     const url =

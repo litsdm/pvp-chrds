@@ -80,8 +80,11 @@ const FriendsScreen = ({ navigation, openAdd }) => {
   const toggleSearch = () => setSearching(!searching);
   const goBack = () => navigation.goBack();
 
-  const goToProfile = _id => () =>
-    navigation.navigate('Profile', { userID: _id });
+  const goToProfile = _id => async () => {
+    const token = await AsyncStorage.getItem('CHRDS_TOKEN');
+    const { _id: userID } = jwtDecode(token);
+    navigation.navigate('Profile', { profileUserID: _id, userID });
+  };
 
   const resolveRequest = (requestID, type) => async () => {
     if (resolving) return;
