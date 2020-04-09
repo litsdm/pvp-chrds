@@ -15,7 +15,7 @@ const deviceID = getDeviceId();
 const IS_IPHONE_X =
   deviceID.includes('iPhone12') || deviceID.includes('iPhone11');
 
-const AnimatedSettingsNav = ({ animationValue, goBack, uri }) => {
+const AnimatedNav = ({ animationValue, goBack, uri, title }) => {
   const animateOpacity = {
     opacity: animationValue.current.interpolate({
       inputRange: [0, 1],
@@ -40,7 +40,7 @@ const AnimatedSettingsNav = ({ animationValue, goBack, uri }) => {
         <Ionicons name="ios-arrow-round-back" color="#000" size={30} />
       </TouchableOpacity>
       <Image source={{ uri }} style={styles.image} />
-      <Text style={styles.title}>Settings</Text>
+      <Text style={styles.title}>{title}</Text>
     </Animated.View>
   );
 };
@@ -76,14 +76,16 @@ const styles = StyleSheet.create({
   }
 });
 
-AnimatedSettingsNav.propTypes = {
+AnimatedNav.propTypes = {
   animationValue: object.isRequired,
   goBack: func.isRequired,
-  uri: string
+  uri: string,
+  title: string
 };
 
-AnimatedSettingsNav.defaultProps = {
-  uri: 'https://feather-static.s3-us-west-2.amazonaws.com/chrds-logo-bg.jpeg'
+AnimatedNav.defaultProps = {
+  uri: 'https://feather-static.s3-us-west-2.amazonaws.com/chrds-logo-bg.jpeg',
+  title: 'Settings'
 };
 
-export default AnimatedSettingsNav;
+export default AnimatedNav;

@@ -42,7 +42,7 @@ import {
   togglePro
 } from '../../actions/popup';
 
-import AnimatedSettingsNav from '../../components/AnimatedSettingsNav';
+import AnimatedNav from '../../components/AnimatedNav';
 import Crown from '../../../assets/icons/crown.svg';
 
 const mapDispatchToProps = dispatch => ({
@@ -200,7 +200,7 @@ const SettingsScreen = ({
 
   return (
     <SafeAreaView style={{ flex: 1 }} forceInset={{ top: 'never' }}>
-      <AnimatedSettingsNav
+      <AnimatedNav
         animationValue={animationValue}
         goBack={goBack}
         uri={user.profilePic}

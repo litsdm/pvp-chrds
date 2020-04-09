@@ -96,8 +96,6 @@ const SuggestPopup = ({ close, displayBadge }) => {
     if (category.sender) variables.suggestCategory = category._id;
     else variables.category = category._id;
 
-    console.log(variables);
-
     if (!isValid()) return;
 
     try {

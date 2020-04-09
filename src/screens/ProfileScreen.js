@@ -18,11 +18,13 @@ import DELETE_FFA_MATCH from '../graphql/mutations/deleteFFAMatch';
 
 import { addThumbnail } from '../actions/cache';
 import { togglePlay, toggleBadge } from '../actions/popup';
+import { useAnimation } from '../helpers/hooks';
 import Layout from '../constants/Layout';
 
 import Header from '../components/Profile/Header';
 import MatchRow from '../components/Profile/MatchRow';
 import OptionsModal, { Option } from '../components/Profile/OptionsModal';
+import AnimatedNav from '../components/AnimatedNav';
 
 const mapDispatchToProps = dispatch => ({
   addToCache: (_id, uri) => dispatch(addThumbnail(_id, uri)),
@@ -61,43 +63,21 @@ const ProfileScreen = ({
   const [updateUser] = useMutation(UPDATE_USER);
   const [deleteMatch] = useMutation(DELETE_FFA_MATCH);
   const [dataProvider, setDataProvider] = useState(null);
+  const [layoutProvider, setLayoutProvider] = useState(null);
   const [displayMore, setDisplayMore] = useState(false);
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [isFriend, setIsFriend] = useState(false);
   const [blockedIndex, setBlockedIndex] = useState(-1);
+  const [displayingNavbar, setDisplayingNavbar] = useState(false);
+  const { animationValue, animateTo } = useAnimation();
 
   const user = data ? data.user : {};
   const profileUser = data ? data.profileUser : {};
   const matches = data ? data.matches : [];
 
-  const layoutProvider = new LayoutProvider(
-    index => {
-      if (index === 0 && userID !== profileUser._id) return ViewTypes.HEADER;
-      if (index === 0 && userID === profileUser._id)
-        return ViewTypes.SELF_HEADER;
-
-      return ViewTypes.MATCH_ROW;
-    },
-    (type, dim) => {
-      switch (type) {
-        case ViewTypes.HEADER:
-          dim.width = Layout.window.width;
-          dim.height = 358;
-          break;
-        case ViewTypes.SELF_HEADER:
-          dim.width = Layout.window.width;
-          dim.height = 298;
-          break;
-        case ViewTypes.MATCH_ROW:
-          dim.width = Layout.window.width;
-          dim.height = (Layout.window.width - 72) / 2 + 12;
-          break;
-        default:
-          dim.width = 0;
-          dim.height = 0;
-      }
-    }
-  );
+  useEffect(() => {
+    createLayoutProvider();
+  }, []);
 
   useEffect(() => {
     if (Object.prototype.hasOwnProperty.call(user, '_id')) checkBlockIndex();
@@ -106,12 +86,41 @@ const ProfileScreen = ({
       checkIfIsFriend();
   }, [data]);
 
+  const createLayoutProvider = () => {
+    const LP = new LayoutProvider(
+      index => {
+        if (index === 0 && userID !== profileUser._id) return ViewTypes.HEADER;
+        if (index === 0 && userID === profileUser._id)
+          return ViewTypes.SELF_HEADER;
+        return ViewTypes.MATCH_ROW;
+      },
+      (type, dim) => {
+        switch (type) {
+          case ViewTypes.HEADER:
+            dim.width = Layout.window.width;
+            dim.height = 358;
+            break;
+          case ViewTypes.SELF_HEADER:
+            dim.width = Layout.window.width;
+            dim.height = 298;
+            break;
+          case ViewTypes.MATCH_ROW:
+            dim.width = Layout.window.width;
+            dim.height = (Layout.window.width - 72) / 2 + 12;
+            break;
+          default:
+            dim.width = 0;
+            dim.height = 0;
+        }
+      }
+    );
+    setLayoutProvider(LP);
+  };
+
   const createData = () => {
     const dividedMatches = [[{ _id: 'headerIndex' }]];
     const numberOfRows = Math.ceil(matches.length / 3);
     let sliceFrom = 0;
-
-    console.log(matches.length);
 
     for (let i = 0; i < numberOfRows; i += 1) {
       const sliceTo = sliceFrom + 3;
@@ -198,6 +207,19 @@ const ProfileScreen = ({
     }
   };
 
+  const handleScroll = ({
+    nativeEvent: {
+      contentOffset: { y }
+    }
+  }) => {
+    if (y >= 138 && !displayingNavbar) {
+      animateTo(1);
+      setDisplayingNavbar(true);
+    } else if (y < 138 && displayingNavbar) {
+      animateTo(0);
+      setDisplayingNavbar(false);
+    }
+  };
   const checkIfIsFriend = () => {
     const index = profileUser.friends.findIndex(({ _id }) => _id === userID);
 
@@ -248,6 +270,12 @@ const ProfileScreen = ({
 
   return (
     <SafeAreaView style={{ flex: 1 }} forceInset={{ top: 'never' }}>
+      <AnimatedNav
+        animationValue={animationValue}
+        goBack={goBack}
+        uri={profileUser.profilePic}
+        title={profileUser.displayName}
+      />
       <View style={styles.container}>
         {displayMore ? (
           <OptionsModal title="More" close={closeMore}>
@@ -293,11 +321,14 @@ const ProfileScreen = ({
             />
           </OptionsModal>
         ) : null}
-        {dataProvider !== null && blockedIndex === -1 ? (
+        {dataProvider !== null &&
+        blockedIndex === -1 &&
+        layoutProvider !== null ? (
           <RecyclerListView
             layoutProvider={layoutProvider}
             dataProvider={dataProvider}
             rowRenderer={rowRenderer}
+            onScroll={handleScroll}
             scrollViewProps={{
               showsVerticalScrollIndicator: false
             }}

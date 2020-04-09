@@ -5,7 +5,6 @@ export const SET_CACHE = 'SET_CACHE';
 
 export const loadLocalCache = () => async dispatch => {
   const cacheString = await AsyncStorage.getItem('cache');
-  console.log(cacheString);
 
   if (!cacheString) return;
 
