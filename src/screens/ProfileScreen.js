@@ -14,6 +14,7 @@ import GET_DATA from '../graphql/queries/getProfileData';
 import CREATE_FRIEND_REQUEST from '../graphql/mutations/createFriendRequest';
 import REMOVE_FRIEND from '../graphql/mutations/removeFriend';
 import UPDATE_USER from '../graphql/mutations/updateUser';
+import DELETE_FFA_MATCH from '../graphql/mutations/deleteFFAMatch';
 
 import { addThumbnail } from '../actions/cache';
 import { togglePlay, toggleBadge } from '../actions/popup';
@@ -58,6 +59,7 @@ const ProfileScreen = ({
   const [createFriendRequest] = useMutation(CREATE_FRIEND_REQUEST);
   const [removeFriend] = useMutation(REMOVE_FRIEND);
   const [updateUser] = useMutation(UPDATE_USER);
+  const [deleteMatch] = useMutation(DELETE_FFA_MATCH);
   const [dataProvider, setDataProvider] = useState(null);
   const [displayMore, setDisplayMore] = useState(false);
   const [selectedMatch, setSelectedMatch] = useState(null);
@@ -98,22 +100,18 @@ const ProfileScreen = ({
   );
 
   useEffect(() => {
-    if (matches.length > 0 && !dataProvider) createData();
-  }, [matches, dataProvider]);
-
-  useEffect(() => {
-    if (Object.prototype.hasOwnProperty.call(profileUser, '_id') && userID)
-      checkIfIsFriend();
-  }, [profileUser, userID]);
-
-  useEffect(() => {
     if (Object.prototype.hasOwnProperty.call(user, '_id')) checkBlockIndex();
+    if (data && data.matches && data.matches.length > 0) createData();
+    if (Object.prototype.hasOwnProperty.call(profileUser, '_id'))
+      checkIfIsFriend();
   }, [data]);
 
   const createData = () => {
     const dividedMatches = [[{ _id: 'headerIndex' }]];
     const numberOfRows = Math.ceil(matches.length / 3);
     let sliceFrom = 0;
+
+    console.log(matches.length);
 
     for (let i = 0; i < numberOfRows; i += 1) {
       const sliceTo = sliceFrom + 3;
@@ -157,9 +155,15 @@ const ProfileScreen = ({
         : [profileUserID]
     });
 
-    await updateUser({ variables: { id: userID, properties } });
-
-    refetch();
+    try {
+      await updateUser({ variables: { id: userID, properties } });
+      refetch();
+      displayBadge('User has been blocked!', 'success');
+      closeMore();
+    } catch (exception) {
+      console.warn(exception.message);
+      displayBadge('There was an error blocking this user.', 'error');
+    }
   };
 
   const handleUnblockUser = async () => {
@@ -170,15 +174,37 @@ const ProfileScreen = ({
       ]
     });
 
-    await updateUser({ variables: { id: userID, properties } });
+    try {
+      await updateUser({ variables: { id: userID, properties } });
+      refetch();
+      displayBadge('User has been un-blocked!', 'success');
+      closeMore();
+    } catch (exception) {
+      console.warn(exception.message);
+      displayBadge('There was an error un-blocking this user.', 'error');
+    }
+  };
 
-    refetch();
+  const handleDeleteMatch = async () => {
+    const { _id } = selectedMatch;
+    try {
+      await deleteMatch({ variables: { _id } });
+      await refetch();
+      displayBadge('Match deleted successfully!', 'success');
+      closeFFAOptions();
+    } catch (exception) {
+      console.warn(exception.message);
+      displayBadge('There was an error deleting your match.', 'error');
+    }
   };
 
   const checkIfIsFriend = () => {
     const index = profileUser.friends.findIndex(({ _id }) => _id === userID);
 
-    if (index === -1) return;
+    if (index === -1) {
+      if (isFriend) setIsFriend(false);
+      return;
+    }
 
     setIsFriend(true);
   };
@@ -187,18 +213,16 @@ const ProfileScreen = ({
     const index = user.blockedUsers
       ? user.blockedUsers.indexOf(profileUserID)
       : -1;
-
-    console.log(user.blockedUsers);
-    console.log(profileUserID);
-
-    console.log(index);
     setBlockedIndex(index);
   };
 
   const handleOpenPlay = () => openPlay({ playFriend: profileUser._id });
   const openMore = () => setDisplayMore(true);
   const closeMore = () => setDisplayMore(false);
-  const openFFAOptions = match => () => setSelectedMatch(match);
+  const openFFAOptions = match => () => {
+    if (profileUserID !== userID) return;
+    setSelectedMatch(match);
+  };
   const closeFFAOptions = () => setSelectedMatch(null);
 
   const goBack = () => navigation.goBack();
@@ -260,9 +284,13 @@ const ProfileScreen = ({
         ) : null}
         {selectedMatch ? (
           <OptionsModal title="Options" close={closeFFAOptions}>
-            <Option title="Show Info" iconName="ios-information-circle" />
+            {/* <Option title="Show Info" iconName="ios-information-circle" /> */}
             <View style={styles.divider} />
-            <Option title="Delete" iconName="ios-warning" />
+            <Option
+              title="Delete"
+              iconName="ios-warning"
+              onPress={handleDeleteMatch}
+            />
           </OptionsModal>
         ) : null}
         {dataProvider !== null && blockedIndex === -1 ? (
