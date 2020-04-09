@@ -1,6 +1,13 @@
 /* eslint-disable no-param-reassign */
 import React, { useEffect, useState } from 'react';
-import { Platform, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import {
+  Platform,
+  RefreshControl,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
 import { connect } from 'react-redux';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import {
@@ -69,6 +76,7 @@ const ProfileScreen = ({
   const [isFriend, setIsFriend] = useState(false);
   const [blockedIndex, setBlockedIndex] = useState(-1);
   const [displayingNavbar, setDisplayingNavbar] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const { animationValue, animateTo } = useAnimation();
 
   const user = data ? data.user : {};
@@ -207,6 +215,12 @@ const ProfileScreen = ({
     }
   };
 
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  };
+
   const handleScroll = ({
     nativeEvent: {
       contentOffset: { y }
@@ -330,7 +344,13 @@ const ProfileScreen = ({
             rowRenderer={rowRenderer}
             onScroll={handleScroll}
             scrollViewProps={{
-              showsVerticalScrollIndicator: false
+              showsVerticalScrollIndicator: false,
+              refreshControl: (
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={handleRefresh}
+                />
+              )
             }}
           />
         ) : (
