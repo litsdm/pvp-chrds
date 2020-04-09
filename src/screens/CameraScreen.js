@@ -323,7 +323,7 @@ const CameraScreen = ({
 
     uploadFFAFile(file);
 
-    navigation.navigate('Home');
+    navigation.navigate('Home', { displayFFANotification: true });
   };
 
   const handleRoll = async () => {

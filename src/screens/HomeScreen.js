@@ -48,6 +48,7 @@ import FinishedMatchRow from '../components/FinishedMatchRow';
 import Loader from '../components/Loader';
 import Empty from '../components/Empty';
 import FFARow from '../components/FFARow';
+import NotificationModal from '../components/FFA/NotificationModal';
 
 import Crown from '../../assets/icons/crown.svg';
 
@@ -205,6 +206,10 @@ const HomeScreen = ({
 }) => {
   const userID = navigation.getParam('userID', '');
   const playFromFFA = navigation.getParam('playFromFFA', false);
+  const displayFFANotification = navigation.getParam(
+    'displayFFANotification',
+    false
+  );
   const { loading, data, refetch } = useQuery(GET_DATA, {
     variables: { _id: userID }
   });
@@ -219,6 +224,7 @@ const HomeScreen = ({
   const [refreshing, setRefreshing] = useState(false);
   const [didCheckLives, setCheckLives] = useState(false);
   const [didCheckHistory, setCheckHistory] = useState(false);
+  const [displayProfileModal, setDisplayProfileModal] = useState(false);
   const [updateMatch] = useMutation(UPDATE_MATCH);
   const [deleteMatch] = useMutation(DELETE_MATCH);
   const [updateUser] = useMutation(UPDATE_USER);
@@ -251,6 +257,10 @@ const HomeScreen = ({
       setTimeout(() => openPlay({ playMode: 'FFA' }), 1);
     }
   }, [playFromFFA]);
+
+  useEffect(() => {
+    if (displayFFANotification) openProfileModalIfNeeded();
+  }, [displayFFANotification]);
 
   useEffect(() => {
     if (Object.prototype.hasOwnProperty.call(user, '_id') && !user.acceptedEula)
@@ -384,6 +394,14 @@ const HomeScreen = ({
     await AsyncStorage.setItem('eula', 'true');
   };
 
+  const openProfileModalIfNeeded = async () => {
+    const showedProfile = (await AsyncStorage.getItem('askProfile')) === 'true';
+    if (showedProfile) return;
+
+    openProfileModal();
+    await AsyncStorage.setItem('askProfile', 'true');
+  };
+
   const handleLivesCheck = async () => {
     const now = dayjs();
     const date = dayjs(user.lifeDate).add(4, 'h');
@@ -456,6 +474,11 @@ const HomeScreen = ({
 
   const navigateToSettings = () => navigation.navigate('Settings');
   const navigateToFFA = () => navigation.navigate('FFA', { userID: user._id });
+  const navigateToProfile = () =>
+    navigation.navigate('Profile', { profileUserID: userID, userID });
+
+  const openProfileModal = () => setDisplayProfileModal(true);
+  const closeProfileModal = () => setDisplayProfileModal(false);
 
   const handlePlay = (match, opponent) => () => {
     const route = match.state === 'play' ? 'Camera' : 'Match';
@@ -610,6 +633,12 @@ const HomeScreen = ({
               ListHeaderComponent={renderHeader}
               ListEmptyComponent={renderEmpty}
             />
+            {displayProfileModal ? (
+              <NotificationModal
+                close={closeProfileModal}
+                goToProfile={navigateToProfile}
+              />
+            ) : null}
           </View>
         </SafeAreaView>
       )}
