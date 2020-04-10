@@ -4,8 +4,6 @@ import { Video } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
 import { bool, func, number, object, string, shape } from 'prop-types';
 
-import { getSignedUrl } from '../../helpers/apiCaller';
-
 import Loader from '../Loader';
 import RowControls from './RowControls';
 import LetterSoup from '../Match/LetterSoup';
@@ -36,7 +34,6 @@ const FFAMatchRow = ({
   openProModal,
   isSelf
 }) => {
-  const [signedUri, setSignedUri] = useState('');
   const [buffering, setBuffering] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [resultStatus, setResultStatus] = useState(0);
@@ -47,23 +44,13 @@ const FFAMatchRow = ({
   const video = useRef(null);
 
   useEffect(() => {
-    if (signedUri && !loaded) loadVideo();
+    if (!loaded) loadVideo();
     manageVideo();
-  }, [active, signedUri]);
-
-  useEffect(() => {
-    if (uri) fetchSignedUri();
-  }, [uri]);
-
-  const fetchSignedUri = async () => {
-    const filename = uri.split('/').pop();
-    const signed = await getSignedUrl(filename, 'FFAVideos');
-    setSignedUri(signed);
-  };
+  }, [active]);
 
   const loadVideo = async () => {
     await video.current.loadAsync(
-      { uri: signedUri, androidImplementation: 'MediaPlayer' },
+      { uri, androidImplementation: 'MediaPlayer' },
       { isLooping: true, shouldPlay: active }
     );
   };

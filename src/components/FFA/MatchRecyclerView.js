@@ -141,6 +141,7 @@ const MatchRecyclerView = ({
         _id={_id}
         uri={cloudFrontVideo || video}
         active={index === activeIndex}
+        usingCF={!!cloudFrontVideo}
         username={sender.displayName}
         categoryName={category.name}
         word={actedWord}
