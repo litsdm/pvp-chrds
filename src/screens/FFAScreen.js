@@ -1,75 +1,29 @@
 /* eslint-disable no-param-reassign, react/no-this-in-sfc */
 import React, { useEffect, useState } from 'react';
-import {
-  AppState,
-  BackHandler,
-  StatusBar,
-  StyleSheet,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { AppState, BackHandler } from 'react-native';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import { connect } from 'react-redux';
-import AsyncStorage from '@react-native-community/async-storage';
-import { Ionicons } from '@expo/vector-icons';
-import { getDeviceId } from 'react-native-device-info';
-import {
-  RecyclerListView,
-  DataProvider,
-  LayoutProvider
-} from 'recyclerlistview';
+import { DataProvider } from 'recyclerlistview';
 import dayjs from 'dayjs';
-import { func, object } from 'prop-types';
+import { object } from 'prop-types';
 
 import GET_DATA from '../graphql/queries/getFFAData';
 import GET_USER_DATA from '../graphql/queries/getFFAUserData';
 import UPDATE_USER from '../graphql/mutations/updateUser';
-import CREATE_REPORT from '../graphql/mutations/createReport';
 
-import { toggleBadge, togglePurchasePopup, togglePro } from '../actions/popup';
 import callApi from '../helpers/apiCaller';
 
-import Row from '../components/FFA/MatchRow';
-import EmptyRow from '../components/FFA/EmptyRow';
-import OptionsModal from '../components/FFA/OptionsModal';
-import ReportPopup from '../components/FFA/ReportPopup';
-import Walkthrough from '../components/FFA/WalkthroughOverlay';
-
-import Layout from '../constants/Layout';
+import MatchRecyclerView from '../components/FFA/MatchRecyclerView';
 
 const ITEMS = 30;
 
-const deviceID = getDeviceId();
-const IS_IPHONE_X =
-  deviceID.includes('iPhone12') || deviceID.includes('iPhone11');
-
-const mapDispatchToProps = dispatch => ({
-  openCoinShop: () => dispatch(togglePurchasePopup(true)),
-  displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),
-  openProModal: () => dispatch(togglePro(true))
-});
-
 const provider = new DataProvider((a, b) => a._id !== b._id);
-
-const layoutProvider = new LayoutProvider(
-  () => 0,
-  (type, dim) => {
-    dim.width = Layout.window.width;
-    dim.height = Layout.window.height;
-  }
-);
 
 let _initialDate = null;
 let _lastDate = null;
 let _guessing = false;
 const _history = {};
 
-const FFAScreen = ({
-  navigation,
-  openCoinShop,
-  displayBadge,
-  openProModal
-}) => {
+const FFAScreen = ({ navigation }) => {
   const userID = navigation.getParam('userID', '');
   const { data, refetch } = useQuery(GET_DATA, {
     variables: { userID, skip: 0, stopFilter: false }
@@ -78,7 +32,6 @@ const FFAScreen = ({
     variables: { userID }
   });
   const [updateUser] = useMutation(UPDATE_USER);
-  const [createReport] = useMutation(CREATE_REPORT);
   const [guessed, setGuessed] = useState({});
   const [guessing, setGuessing] = useState(false);
   const [skip, setSkip] = useState(ITEMS);
@@ -90,9 +43,6 @@ const FFAScreen = ({
   const [stopFilter, setStopFilter] = useState(false);
   const [initialDate, setInitialDate] = useState(null);
   const [lastDate, setLastDate] = useState(null);
-  const [optionsMatch, setOptionsMatch] = useState(null);
-  const [reportMatch, setReportMatch] = useState(null);
-  const [showWalkthrough, setShowWalkthrough] = useState(false);
 
   const user = userData ? userData.user : {};
 
@@ -104,7 +54,6 @@ const FFAScreen = ({
   useEffect(() => {
     AppState.addEventListener('change', handleStateChange);
     BackHandler.addEventListener('hardwareBackPress', goBack);
-    displayWalkthroughIfNeeded();
     return () => {
       AppState.removeEventListener('change', handleStateChange);
       BackHandler.removeEventListener('hardwareBackPress');
@@ -199,16 +148,6 @@ const FFAScreen = ({
     await updateUser({ variables: { id: userID, properties } });
   };
 
-  const displayWalkthroughIfNeeded = async () => {
-    const didDisplay = await AsyncStorage.getItem('displayedWalkthrough');
-    if (didDisplay === 'true') return;
-
-    setShowWalkthrough(true);
-    await AsyncStorage.setItem('displayedWalkthrough', 'true');
-  };
-
-  const closeWalkthrough = () => setShowWalkthrough(false);
-
   const goBack = async () => {
     if (_guessing) setGuessing(false);
     else {
@@ -220,46 +159,14 @@ const FFAScreen = ({
     return false;
   };
 
-  const showOptions = match => () => setOptionsMatch(match);
-  const hideOptions = () => setOptionsMatch(null);
-  const showReport = match => () => {
-    setReportMatch(match);
-    hideOptions();
-  };
-  const hideReport = () => setReportMatch(null);
-
-  const handleReportSubmit = async (reason, message) => {
-    try {
-      await createReport({
-        variables: { reason, message, sender: userID, matchID: reportMatch._id }
-      });
-      hideReport();
-      displayBadge(
-        'Report sent, thank you for keeping the community safe!',
-        'success'
-      );
-    } catch (exception) {
-      displayBadge(exception.message.slice(14), 'error');
-    }
-  };
-
-  const handleBlockUser = () => {
-    const { sender } = optionsMatch;
-    const properties = JSON.stringify({
-      blockedUsers: user.blockedUsers
-        ? [...user.blockedUsers, sender._id]
-        : [sender]
-    });
+  const handleBlockUser = sender => {
     const filtered = matches.filter(match => {
       if (!match.sender) return true;
       return match.sender._id !== sender._id;
     });
 
-    updateUser({ variables: { id: userID, properties } });
-
     setMatches(filtered);
     setDataProvider(provider.cloneWithRows(filtered));
-    setOptionsMatch(null);
   };
 
   const handleCreateOwn = () => {
@@ -294,115 +201,26 @@ const FFAScreen = ({
     }
   };
 
-  const rowRenderer = (
-    type,
-    { _id, cloudFrontVideo, video, category, sender, actedWord, cameraType },
-    index
-  ) =>
-    _id !== 'empty' ? (
-      <Row
-        _id={_id}
-        uri={cloudFrontVideo || video}
-        active={index === activeIndex}
-        username={sender.displayName}
-        categoryName={category.name}
-        word={actedWord}
-        openCoinShop={openCoinShop}
-        refetchUser={refetchUser}
-        user={user}
-        updateUser={updateUser}
-        guessed={guessed}
-        addToGuessed={addToGuessed(_id)}
-        guessing={guessing}
-        setGuessing={setGuessing}
-        displayBadge={displayBadge}
-        cameraType={cameraType}
-        showOptions={showOptions({ _id, sender })}
-        key={_id}
-        openProModal={openProModal}
-      />
-    ) : (
-      <EmptyRow key={_id} createOwn={handleCreateOwn} />
-    );
-
   return (
-    <View style={styles.container}>
-      <StatusBar
-        backgroundColor="rgba(0,0,0,0)"
-        barStyle="light-content"
-        translucent
-      />
-      <View style={styles.navbar}>
-        <TouchableOpacity style={styles.back} onPress={goBack}>
-          <Ionicons name="ios-arrow-round-back" color="#fff" size={30} />
-        </TouchableOpacity>
-      </View>
-      <View style={{ height: '100%' }}>
-        {dataProvider !== null ? (
-          <RecyclerListView
-            layoutProvider={layoutProvider}
-            dataProvider={dataProvider}
-            rowRenderer={rowRenderer}
-            onVisibleIndicesChanged={handleIndexChange}
-            extendedState={{ activeIndex }}
-            scrollViewProps={{
-              bounces: false,
-              disableIntervalMomentum: true,
-              pagingEnabled: true,
-              decelerationRate: 'fast',
-              snapToAlignment: 'start',
-              showsVerticalScrollIndicator: false,
-              directionalLockEnabled: true
-            }}
-          />
-        ) : null}
-      </View>
-      {showWalkthrough ? <Walkthrough close={closeWalkthrough} /> : null}
-      {optionsMatch ? (
-        <OptionsModal
-          close={hideOptions}
-          showReport={showReport(optionsMatch)}
-          blockUser={handleBlockUser}
-        />
-      ) : null}
-      {reportMatch ? (
-        <ReportPopup close={hideReport} submit={handleReportSubmit} />
-      ) : null}
-    </View>
+    <MatchRecyclerView
+      user={user}
+      refetchUser={refetchUser}
+      goBack={goBack}
+      onVisibleIndicesChanged={handleIndexChange}
+      handleEmptyCreate={handleCreateOwn}
+      onBlockUser={handleBlockUser}
+      guessed={guessed}
+      addToGuessed={addToGuessed}
+      guessing={guessing}
+      activeIndex={activeIndex}
+      setGuessing={setGuessing}
+      dataProvider={dataProvider}
+    />
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#2f2f2f',
-    flex: 1
-  },
-  navbar: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    height: 52,
-    left: 0,
-    paddingHorizontal: 24,
-    paddingTop: IS_IPHONE_X ? 44 : 24,
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    zIndex: 5
-  },
-  back: {
-    height: 30,
-    width: 30
-  }
-});
-
 FFAScreen.propTypes = {
-  navigation: object.isRequired,
-  openCoinShop: func.isRequired,
-  displayBadge: func.isRequired,
-  openProModal: func.isRequired
+  navigation: object.isRequired
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(FFAScreen);
+export default FFAScreen;

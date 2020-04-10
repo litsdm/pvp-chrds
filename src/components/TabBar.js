@@ -64,7 +64,9 @@ const TabBar = ({
 
   return (
     <>
-      {nestedRouteName !== 'Camera' && nestedRouteName !== 'Match' ? (
+      {nestedRouteName !== 'Camera' &&
+      nestedRouteName !== 'Match' &&
+      nestedRouteName !== 'ProfileFFA' ? (
         <SafeAreaView>
           <View style={styles.container}>
             <Tab

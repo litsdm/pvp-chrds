@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { func, number, string } from 'prop-types';
+import { bool, func, number, string } from 'prop-types';
 
 import VideoButton from '../VideoButton';
 
@@ -10,7 +10,8 @@ const RowControls = ({
   categoryName,
   handleGuess,
   guessedResult,
-  showOptions
+  showOptions,
+  isSelf
 }) => {
   const guessedData = () => {
     if (guessedResult === 1)
@@ -30,29 +31,35 @@ const RowControls = ({
         <Text style={styles.username}>@{username}</Text>
         <Text style={styles.category}>Acting {categoryName}</Text>
       </View>
-      <TouchableOpacity style={styles.options} onPress={showOptions}>
-        <Ionicons name="ios-options" size={30} color="#fff" />
-      </TouchableOpacity>
-      {didGuess ? (
-        <View style={styles.button}>
-          <Text style={[styles.buttonText, didGuess ? styles.disabled : {}]}>
-            {text}
-          </Text>
-          <Ionicons
-            style={{ opacity: 0.6 }}
-            name={icon}
-            size={14}
-            color={color}
-          />
-        </View>
-      ) : (
-        <VideoButton
-          style={styles.vButton}
-          onPress={handleGuess}
-          text={text}
-          iconName={icon}
-        />
-      )}
+      {!isSelf ? (
+        <>
+          <TouchableOpacity style={styles.options} onPress={showOptions}>
+            <Ionicons name="ios-options" size={30} color="#fff" />
+          </TouchableOpacity>
+          {didGuess ? (
+            <View style={styles.button}>
+              <Text
+                style={[styles.buttonText, didGuess ? styles.disabled : {}]}
+              >
+                {text}
+              </Text>
+              <Ionicons
+                style={{ opacity: 0.6 }}
+                name={icon}
+                size={14}
+                color={color}
+              />
+            </View>
+          ) : (
+            <VideoButton
+              style={styles.vButton}
+              onPress={handleGuess}
+              text={text}
+              iconName={icon}
+            />
+          )}
+        </>
+      ) : null}
     </>
   );
 };
@@ -117,7 +124,8 @@ RowControls.propTypes = {
   categoryName: string.isRequired,
   handleGuess: func.isRequired,
   showOptions: func.isRequired,
-  guessedResult: number
+  guessedResult: number,
+  isSelf: bool.isRequired
 };
 
 RowControls.defaultProps = {

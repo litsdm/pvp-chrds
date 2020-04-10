@@ -33,7 +33,8 @@ const FFAMatchRow = ({
   guessed,
   cameraType,
   showOptions,
-  openProModal
+  openProModal,
+  isSelf
 }) => {
   const [signedUri, setSignedUri] = useState('');
   const [buffering, setBuffering] = useState(false);
@@ -207,6 +208,7 @@ const FFAMatchRow = ({
           handleGuess={handleGuess}
           guessedResult={guessed[_id]}
           showOptions={showOptions}
+          isSelf={isSelf}
         />
       )}
     </View>
@@ -272,6 +274,7 @@ FFAMatchRow.propTypes = {
   cameraType: number.isRequired,
   showOptions: func.isRequired,
   openProModal: func.isRequired,
+  isSelf: bool.isRequired,
   word: shape({
     _id: string,
     text: string,

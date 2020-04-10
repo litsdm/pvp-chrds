@@ -97,8 +97,8 @@ const ProfileScreen = ({
   const createLayoutProvider = () => {
     const LP = new LayoutProvider(
       index => {
-        if (index === 0 && userID !== profileUser._id) return ViewTypes.HEADER;
-        if (index === 0 && userID === profileUser._id)
+        if (index === 0 && userID !== profileUserID) return ViewTypes.HEADER;
+        if (index === 0 && userID === profileUserID)
           return ViewTypes.SELF_HEADER;
         return ViewTypes.MATCH_ROW;
       },
@@ -262,8 +262,14 @@ const ProfileScreen = ({
   const closeFFAOptions = () => setSelectedMatch(null);
 
   const goBack = () => navigation.goBack();
+  const goToVideo = index => () =>
+    navigation.navigate('ProfileFFA', {
+      userID,
+      profileUserID,
+      initialRenderIndex: index
+    });
 
-  const rowRenderer = (type, rowMatches) =>
+  const rowRenderer = (type, rowMatches, index) =>
     type === ViewTypes.HEADER || type === ViewTypes.SELF_HEADER ? (
       <Header
         goBack={goBack}
@@ -279,6 +285,8 @@ const ProfileScreen = ({
         thumbnailCache={thumbnailCache}
         addToCache={addToCache}
         openOptions={openFFAOptions}
+        goToVideo={goToVideo}
+        rowIndex={index - 1}
       />
     );
 

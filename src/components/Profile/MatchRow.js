@@ -3,7 +3,7 @@ import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { getThumbnailAsync } from 'expo-video-thumbnails';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
-import { arrayOf, bool, func, object, shape, string } from 'prop-types';
+import { arrayOf, bool, func, number, object, shape, string } from 'prop-types';
 
 import { getSignedUrl, getCFSignedUrl } from '../../helpers/apiCaller';
 
@@ -15,7 +15,8 @@ const MatchColumn = ({
   usingCF,
   cachedThumbnail,
   addToCache,
-  openOptions
+  openOptions,
+  onPress
 }) => {
   const [thumbnail, setThumbnail] = useState('');
 
@@ -54,6 +55,7 @@ const MatchColumn = ({
     <TouchableOpacity
       style={[styles.column, { marginRight: isLast ? 0 : 12 }]}
       onLongPress={openOptions}
+      onPress={onPress}
     >
       <View style={styles.overlay}>
         <Ionicons name="ios-play" size={30} color="#fff" style={styles.icon} />
@@ -74,7 +76,14 @@ const MatchColumn = ({
   );
 };
 
-const MatchRow = ({ matches, thumbnailCache, addToCache, openOptions }) => {
+const MatchRow = ({
+  matches,
+  thumbnailCache,
+  addToCache,
+  openOptions,
+  goToVideo,
+  rowIndex
+}) => {
   const handleAddCache = _id => uri => addToCache(_id, uri);
 
   const renderColumns = () =>
@@ -87,6 +96,7 @@ const MatchRow = ({ matches, thumbnailCache, addToCache, openOptions }) => {
         cachedThumbnail={thumbnailCache[_id]}
         addToCache={handleAddCache(_id)}
         openOptions={openOptions({ _id })}
+        onPress={goToVideo(rowIndex * 3 + index)}
       />
     ));
 
@@ -153,7 +163,9 @@ MatchRow.propTypes = {
   ).isRequired,
   thumbnailCache: object.isRequired,
   addToCache: func.isRequired,
-  openOptions: func.isRequired
+  openOptions: func.isRequired,
+  goToVideo: func.isRequired,
+  rowIndex: number.isRequired
 };
 
 MatchColumn.propTypes = {
@@ -162,7 +174,8 @@ MatchColumn.propTypes = {
   isLast: bool.isRequired,
   cachedThumbnail: string,
   addToCache: func.isRequired,
-  openOptions: func.isRequired
+  openOptions: func.isRequired,
+  onPress: func.isRequired
 };
 
 MatchColumn.defaultProps = {

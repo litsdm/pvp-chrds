@@ -13,6 +13,7 @@ import GeneralScreen from '../screens/SettingsScreen/GeneralScreen';
 import PrivacyScreen from '../screens/SettingsScreen/PrivacyScreen';
 import FriendsScreen from '../screens/FriendsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import ProfileFFAScreen from '../screens/ProfileFFAScreen';
 
 import TabBarIcon from '../components/TabBarIcon';
 import TabBar from '../components/TabBar';
@@ -44,8 +45,7 @@ const SettingsStack = createStackNavigator(
     Main: SettingsScreen,
     General: GeneralScreen,
     Privacy: PrivacyScreen,
-    Friends: FriendsScreen,
-    Profile: ProfileScreen
+    Friends: FriendsScreen
   },
   config
 );
@@ -57,7 +57,9 @@ const HomeStack = createStackNavigator(
     Camera: CameraStack,
     Match: {
       screen: MatchScreen
-    }
+    },
+    Profile: ProfileScreen,
+    ProfileFFA: ProfileFFAScreen
   },
   config
 );
