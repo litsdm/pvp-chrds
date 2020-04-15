@@ -172,6 +172,23 @@ const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
     await AdMobRewarded.showAdAsync();
   };
 
+  const handleRetryBuy = async () => {
+    const price = 40;
+    const remainingCoins = user.coins - price;
+    const properties = JSON.stringify({ coins: remainingCoins });
+    if (user.coins < price) {
+      displayBadge('You do not have enough coins!', 'error');
+      openCoinShop();
+      return;
+    }
+
+    await updateUser({ variables: { id: user._id, properties } });
+    displayBadge(`Retry bought! ${remainingCoins} coins left.`, 'success');
+    setGameState('guessing');
+    setTimeLeft(TIME);
+    setDidReward(true);
+  };
+
   const openAdModal = () => setGameState('adRetry');
 
   const handleFailure = async () => {
@@ -375,7 +392,8 @@ const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
         ) : null}
         {gameState === 'adRetry' ? (
           <AdRetryModal
-            handleAccept={handleAdRetry}
+            handleWatchAd={handleAdRetry}
+            handleBuy={handleRetryBuy}
             handleReject={handleFailure}
             isLoading={isLoadingAd}
           />

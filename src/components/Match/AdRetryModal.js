@@ -6,31 +6,34 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { bool, func } from 'prop-types';
 
 import Modal from '../Modal';
 
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 
-const ReplayModal = ({ handleAccept, handleReject, isLoading }) => (
+const RetryModal = ({ handleWatchAd, handleBuy, handleReject, isLoading }) => (
   <Modal>
     <View style={styles.container}>
-      <Text style={styles.question}>Do you want to try again?</Text>
-      <TouchableOpacity
-        style={styles.yesButton}
-        onPress={handleAccept}
-        disabled={isLoading}
-      >
-        <Text style={styles.yesText}>Watch Ad</Text>
-        <Ionicons name={`${PRE_ICON}-play-circle`} size={24} color="#fff" />
+      <TouchableOpacity style={styles.close} onPress={handleReject}>
+        <Ionicons name="md-close" size={20} color="#000" />
       </TouchableOpacity>
+      <Text style={styles.question}>Do you want to try again?</Text>
+      <TouchableOpacity style={styles.yesButton} onPress={handleBuy}>
+        <Text style={styles.yesText}>
+          Retry for <Text style={{ fontFamily: 'sf-bold' }}>40</Text>
+        </Text>
+        <FontAwesome5 name="coins" size={18} color="#FFC107" />
+      </TouchableOpacity>
+      <Text style={styles.orText}>OR</Text>
       <TouchableOpacity
-        style={styles.button}
-        onPress={handleReject}
+        style={[styles.yesSecondButton]}
+        onPress={handleWatchAd}
         disabled={isLoading}
       >
-        <Text style={styles.noText}>Cancel</Text>
+        <Text style={styles.yesSecondText}>Watch Ad</Text>
+        <Ionicons name={`${PRE_ICON}-play-circle`} size={24} color="#7c4dff" />
       </TouchableOpacity>
     </View>
   </Modal>
@@ -64,10 +67,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     paddingHorizontal: 12,
-    paddingVertical: 8
+    paddingVertical: 8,
+    width: 160
   },
   yesText: {
     color: '#fff',
+    fontFamily: 'sf-medium',
+    fontSize: 18,
+    marginRight: 8
+  },
+  yesSecondButton: {
+    alignItems: 'center',
+    borderColor: '#7c4dff',
+    borderRadius: 8,
+    borderWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    width: 160
+  },
+  yesSecondText: {
+    color: '#7c4dff',
     fontFamily: 'sf-medium',
     fontSize: 18,
     marginRight: 8
@@ -76,13 +97,31 @@ const styles = StyleSheet.create({
     color: 'rgba(0,0,0,0.7)',
     fontFamily: 'sf-medium',
     fontSize: 16
+  },
+  orText: {
+    color: '#7c4dff',
+    fontFamily: 'sf-bold',
+    fontSize: 12,
+    marginVertical: 6
+  },
+  close: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.05)',
+    borderRadius: 24 / 2,
+    height: 24,
+    right: 12,
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 6,
+    width: 24
   }
 });
 
-ReplayModal.propTypes = {
-  handleAccept: func.isRequired,
+RetryModal.propTypes = {
+  handleWatchAd: func.isRequired,
+  handleBuy: func.isRequired,
   handleReject: func.isRequired,
   isLoading: bool.isRequired
 };
 
-export default ReplayModal;
+export default RetryModal;
