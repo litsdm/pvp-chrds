@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import { getDeviceId } from 'react-native-device-info';
 import { RecyclerListView, LayoutProvider } from 'recyclerlistview';
+import { AdMobRewarded, setTestDeviceIDAsync } from 'expo-ads-admob';
 import { bool, func, number, object } from 'prop-types';
 
 import UPDATE_USER from '../../graphql/mutations/updateUser';
@@ -23,8 +24,11 @@ import EmptyRow from './EmptyRow';
 import OptionsModal from './OptionsModal';
 import ReportPopup from './ReportPopup';
 import Walkthrough from './WalkthroughOverlay';
+import AdRetryModal from '../Match/AdRetryModal';
 
 import Layout from '../../constants/Layout';
+import { GuessedTypes } from '../../constants/Types';
+import AdData from '../../constants/AdData';
 
 const deviceID = getDeviceId();
 const IS_IPHONE_X =
@@ -67,10 +71,25 @@ const MatchRecyclerView = ({
   const [createReport] = useMutation(CREATE_REPORT);
   const [optionsMatch, setOptionsMatch] = useState(null);
   const [reportMatch, setReportMatch] = useState(null);
+  const [retryID, setRetryID] = useState('');
   const [showWalkthrough, setShowWalkthrough] = useState(false);
+  const [isLoadingAd, setLoadingAd] = useState(false);
 
   useEffect(() => {
+    AdMobRewarded.setAdUnitID(AdData.unitID);
+    setTestDeviceIDAsync(AdData.deviceID);
     displayWalkthroughIfNeeded();
+
+    AdMobRewarded.addEventListener(
+      'rewardedVideoDidRewardUser',
+      handleAdReward
+    );
+    AdMobRewarded.addEventListener('rewardedVideoDidFailToLoad', handleAdFail);
+    AdMobRewarded.addEventListener('rewardedVideoDidLoad', handleAdLoaded);
+    return () => {
+      AdMobRewarded.removeEventListener('rewardedVideoDidRewardUser');
+      AdMobRewarded.removeEventListener('rewardedVideoDidFailToLoad');
+    };
   }, []);
 
   const displayWalkthroughIfNeeded = async () => {
@@ -91,6 +110,9 @@ const MatchRecyclerView = ({
   };
   const hideReport = () => setReportMatch(null);
 
+  const openRetry = _id => () => setRetryID(_id);
+  const hideRetry = () => setRetryID('');
+
   const handleBlockUser = () => {
     const { sender } = optionsMatch;
     const index = user.blockedUsers
@@ -107,6 +129,53 @@ const MatchRecyclerView = ({
 
     updateUser({ variables: { id: user._id, properties } });
     setOptionsMatch(null);
+  };
+
+  const handleRetry = async (extraProperties = {}, message = '') => {
+    const ffaGuessed = JSON.stringify({
+      ...guessed,
+      [retryID]: GuessedTypes.RETRY
+    });
+    const properties = JSON.stringify({ ...extraProperties, ffaGuessed });
+
+    await updateUser({ variables: { id: user._id, properties } });
+    refetchUser();
+
+    if (message) displayBadge(message, 'success');
+    setRetryID('');
+    setGuessing(true);
+  };
+
+  const handleAdReward = () => handleRetry();
+
+  const handleAdFail = () => {
+    displayBadge('Ad failed to load.', 'error');
+    setLoadingAd(false);
+    setRetryID('');
+  };
+
+  const handleAdLoaded = () => setLoadingAd(false);
+
+  const handleAdRetry = async () => {
+    displayBadge('Loading reward ad.', 'default');
+    setLoadingAd(true);
+    await AdMobRewarded.requestAdAsync();
+    await AdMobRewarded.showAdAsync();
+  };
+
+  const handleRetryBuy = async () => {
+    const price = 40;
+    const remainingCoins = user.coins - price;
+    const extraProperties = { coins: remainingCoins };
+    const message = `Retry bought! ${remainingCoins} coins left.`;
+
+    if (user.coins < 40) {
+      displayBadge('You do not have enough coins!', 'error');
+      openCoinShop();
+      return;
+    }
+
+    handleRetry(extraProperties, message);
   };
 
   const handleReportSubmit = async (reason, message) => {
@@ -159,6 +228,7 @@ const MatchRecyclerView = ({
         key={_id}
         openProModal={openProModal}
         isSelf={isSelf}
+        openRetry={openRetry}
       />
     ) : (
       <EmptyRow key={_id} createOwn={handleEmptyCreate} />
@@ -207,6 +277,14 @@ const MatchRecyclerView = ({
       ) : null}
       {reportMatch ? (
         <ReportPopup close={hideReport} submit={handleReportSubmit} />
+      ) : null}
+      {retryID ? (
+        <AdRetryModal
+          handleWatchAd={handleAdRetry}
+          handleBuy={handleRetryBuy}
+          handleReject={hideRetry}
+          isLoading={isLoadingAd}
+        />
       ) : null}
     </View>
   );

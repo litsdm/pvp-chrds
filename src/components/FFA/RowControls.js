@@ -5,25 +5,32 @@ import { bool, func, number, string } from 'prop-types';
 
 import VideoButton from '../VideoButton';
 
+import { GuessedTypes } from '../../constants/Types';
+
 const RowControls = ({
   username,
   categoryName,
   handleGuess,
   guessedResult,
   showOptions,
-  isSelf
+  isSelf,
+  openRetry
 }) => {
   const guessedData = () => {
-    if (guessedResult === 1)
+    if (guessedResult === GuessedTypes.SUCCESS)
       return { text: 'Guessed', icon: 'md-checkmark', color: '#4CD964' };
-    if (guessedResult === 2)
+    if (guessedResult === GuessedTypes.FAIL)
+      return { text: 'Retry', icon: 'chevron-right', color: '#7c4dff' };
+    if (guessedResult === GuessedTypes.FAIL_RETRY)
       return { text: 'Failed', icon: 'ios-sad', color: '#FF5252' };
 
     return { text: 'Guess', icon: 'chevron-right', color: '#7c4dff' };
   };
 
   const { text, icon, color } = guessedData();
-  const didGuess = guessedResult !== 0;
+  const didGuess =
+    guessedResult === GuessedTypes.SUCCESS ||
+    guessedResult === GuessedTypes.FAIL_RETRY;
 
   return (
     <>
@@ -53,7 +60,9 @@ const RowControls = ({
           ) : (
             <VideoButton
               style={styles.vButton}
-              onPress={handleGuess}
+              onPress={
+                guessedResult === GuessedTypes.FAIL ? openRetry : handleGuess
+              }
               text={text}
               iconName={icon}
             />
@@ -125,7 +134,8 @@ RowControls.propTypes = {
   handleGuess: func.isRequired,
   showOptions: func.isRequired,
   guessedResult: number,
-  isSelf: bool.isRequired
+  isSelf: bool.isRequired,
+  openRetry: func.isRequired
 };
 
 RowControls.defaultProps = {

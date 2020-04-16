@@ -25,6 +25,8 @@ import DELETE_MATCH from '../graphql/mutations/deleteMatch';
 import callApi, { getSignedUrl } from '../helpers/apiCaller';
 import { toggleBadge, togglePurchasePopup } from '../actions/popup';
 
+import AdData from '../constants/AdData';
+
 import TopControls from '../components/Camera/TopControls';
 import LetterSoup from '../components/Match/LetterSoup';
 import TimeBar from '../components/Match/TimeBar';
@@ -43,17 +45,6 @@ const TIME = 600;
 const mapDispatchToProps = dispatch => ({
   openCoinShop: () => dispatch(togglePurchasePopup(true)),
   displayBadge: (message, type) => dispatch(toggleBadge(true, message, type))
-});
-
-const adData = Platform.select({
-  ios: {
-    unitID: 'ca-app-pub-1607117345046468/5224593058',
-    deviceID: '68f2b459f373512472f6b6a1224d2cd9ea2f4b26'
-  },
-  android: {
-    unitID: 'ca-app-pub-1607117345046468/8212900235',
-    deviceID: '988a1c413145323445'
-  }
 });
 
 const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
@@ -97,8 +88,8 @@ const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
   }, [match, videoRef]);
 
   useEffect(() => {
-    AdMobRewarded.setAdUnitID(adData.unitID);
-    setTestDeviceIDAsync(adData.deviceID);
+    AdMobRewarded.setAdUnitID(AdData.unitID);
+    setTestDeviceIDAsync(AdData.deviceID);
 
     BackHandler.addEventListener('hardwareBackPress', handleBackPress);
     AdMobRewarded.addEventListener(

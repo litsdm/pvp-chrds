@@ -12,6 +12,7 @@ import Hint from '../Match/HintModal';
 import PurchaseModal from '../Match/PurchaseModal';
 
 import Layout from '../../constants/Layout';
+import { GuessedTypes } from '../../constants/Types';
 
 const FFAMatchRow = ({
   _id,
@@ -32,7 +33,8 @@ const FFAMatchRow = ({
   cameraType,
   showOptions,
   openProModal,
-  isSelf
+  isSelf,
+  openRetry
 }) => {
   const [buffering, setBuffering] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -92,13 +94,16 @@ const FFAMatchRow = ({
   };
 
   const handleSuccess = async () => {
-    const ffaGuessed = JSON.stringify({ ...guessed, [_id]: 1 });
+    const ffaGuessed = JSON.stringify({
+      ...guessed,
+      [_id]: GuessedTypes.SUCCESS
+    });
     const properties = JSON.stringify({
       ffaPoints: user.ffaPoints ? user.ffaPoints + 15 : 15,
       ffaGuessed
     });
 
-    handleGuessFinish(1);
+    handleGuessFinish(GuessedTypes.SUCCESS);
 
     await updateUser({ variables: { id: user._id, properties } });
     refetchUser();
@@ -107,19 +112,27 @@ const FFAMatchRow = ({
   };
 
   const handleFailure = async () => {
-    const ffaGuessed = JSON.stringify({ ...guessed, [_id]: 2 });
+    const guessedResult =
+      guessed[_id] === GuessedTypes.RETRY
+        ? GuessedTypes.FAIL_RETRY
+        : GuessedTypes.FAIL;
+    const ffaGuessed = JSON.stringify({ ...guessed, [_id]: guessedResult });
     const properties = JSON.stringify({
       ffaPoints: user.ffaPoints ? user.ffaPoints - 5 : 0,
       lives: user.lives - 1,
       ffaGuessed
     });
+    const message =
+      guessedResult === GuessedTypes.FAIL
+        ? 'Nice try, you can have one more try!'
+        : `Nice try, the word was ${word.text}`;
 
-    handleGuessFinish(2);
+    handleGuessFinish(GuessedTypes.FAIL);
 
     await updateUser({ variables: { id: user._id, properties } });
     refetchUser();
 
-    displayBadge(`Nice try, the word was ${word.text}`, 'default');
+    displayBadge(message, 'default');
   };
 
   const handleGuessFinish = result => {
@@ -196,6 +209,7 @@ const FFAMatchRow = ({
           guessedResult={guessed[_id]}
           showOptions={showOptions}
           isSelf={isSelf}
+          openRetry={openRetry(_id)}
         />
       )}
     </View>
@@ -262,6 +276,7 @@ FFAMatchRow.propTypes = {
   showOptions: func.isRequired,
   openProModal: func.isRequired,
   isSelf: bool.isRequired,
+  openRetry: func.isRequired,
   word: shape({
     _id: string,
     text: string,
