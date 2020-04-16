@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     overflow: 'hidden',
     marginHorizontal: 12,
-    width: Layout.window.width / 2.308
+    width: Layout.window.width / 2 - 24
   },
   imageWrapper: {
     alignItems: 'center',
