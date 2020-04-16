@@ -32,6 +32,7 @@ import Header from '../components/Profile/Header';
 import MatchRow from '../components/Profile/MatchRow';
 import OptionsModal, { Option } from '../components/Profile/OptionsModal';
 import AnimatedNav from '../components/AnimatedNav';
+import Loader from '../components/Profile/Loader';
 
 const mapDispatchToProps = dispatch => ({
   addToCache: (_id, uri) => dispatch(addThumbnail(_id, uri)),
@@ -77,6 +78,7 @@ const ProfileScreen = ({
   const [blockedIndex, setBlockedIndex] = useState(-1);
   const [displayingNavbar, setDisplayingNavbar] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { animationValue, animateTo } = useAnimation();
 
   const user = data ? data.user : {};
@@ -90,6 +92,7 @@ const ProfileScreen = ({
   useEffect(() => {
     if (Object.prototype.hasOwnProperty.call(user, '_id')) checkBlockIndex();
     if (data && data.matches && data.matches.length > 0) createData();
+    if (data && data.matches && data.matches.length === 0) setLoading(false);
     if (Object.prototype.hasOwnProperty.call(profileUser, '_id'))
       checkIfIsFriend();
   }, [data]);
@@ -137,6 +140,7 @@ const ProfileScreen = ({
     }
 
     setDataProvider(provider.cloneWithRows(dividedMatches));
+    setLoading(false);
   };
 
   const handleAddFriend = async () => {
@@ -269,16 +273,20 @@ const ProfileScreen = ({
       initialRenderIndex: index
     });
 
+  const renderHeader = () => (
+    <Header
+      goBack={goBack}
+      user={profileUser}
+      gameCount={matches.length}
+      isSelf={profileUserID === userID}
+      onChallengePress={handleOpenPlay}
+      onMorePress={openMore}
+    />
+  );
+
   const rowRenderer = (type, rowMatches, index) =>
     type === ViewTypes.HEADER || type === ViewTypes.SELF_HEADER ? (
-      <Header
-        goBack={goBack}
-        user={profileUser}
-        gameCount={matches.length}
-        isSelf={profileUserID === userID}
-        onChallengePress={handleOpenPlay}
-        onMorePress={openMore}
-      />
+      renderHeader()
     ) : (
       <MatchRow
         matches={rowMatches}
@@ -290,7 +298,11 @@ const ProfileScreen = ({
       />
     );
 
-  return (
+  return loading ? (
+    <SafeAreaView style={{ flex: 1 }} forceInset={{ top: 'never' }}>
+      <Loader goBack={goBack} isSelf={profileUserID === userID} />
+    </SafeAreaView>
+  ) : (
     <SafeAreaView style={{ flex: 1 }} forceInset={{ top: 'never' }}>
       <AnimatedNav
         animationValue={animationValue}
@@ -363,14 +375,7 @@ const ProfileScreen = ({
           />
         ) : (
           <>
-            <Header
-              goBack={goBack}
-              user={profileUser}
-              gameCount={matches.length}
-              isSelf={profileUserID === userID}
-              onChallengePress={handleOpenPlay}
-              onMorePress={openMore}
-            />
+            {renderHeader()}
             {blockedIndex === -1 ? (
               <View style={styles.empty}>
                 <Text style={styles.emptyTitle}>No Games</Text>
