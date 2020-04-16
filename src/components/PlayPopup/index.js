@@ -37,7 +37,8 @@ const PlayPopup = ({
   navigate,
   openAdd,
   openPurchase,
-  openProModal
+  openProModal,
+  openShop
 }) => {
   const modeNumber = mode === 'versus' ? 1 : 0;
   const [getData, { data }] = useLazyQuery(GET_DATA);
@@ -225,6 +226,7 @@ const PlayPopup = ({
           categoryHash={categoryHash}
           isPro={user ? user.isPro : false}
           openPurchase={handleOpenPurchase}
+          openShop={openShop}
         />
         <SelectFriend
           handleDone={handleDone}
@@ -248,7 +250,8 @@ PlayPopup.propTypes = {
   openProModal: func.isRequired,
   category: string,
   friend: string,
-  mode: string
+  mode: string,
+  openShop: func.isRequired
 };
 
 PlayPopup.defaultProps = {

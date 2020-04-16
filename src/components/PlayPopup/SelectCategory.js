@@ -21,24 +21,30 @@ const SelectCategory = ({
   handleDone,
   categoryHash,
   openPurchase,
+  openShop,
   isPro
 }) => {
   const renderCategories = () =>
-    categories.map(({ _id, name, description, image, color, price }) => (
-      <CategoryColumn
-        key={_id}
-        name={name}
-        description={description}
-        image={image}
-        color={color}
-        onPress={selectCategory(_id)}
-        selecting
-        selected={selectedCategory === _id}
-        hasCategory={categoryHash[_id] !== undefined || isPro}
-        price={price}
-        openPurchase={openPurchase({ _id, name, image, price })}
-      />
-    ));
+    categories.map(
+      ({ _id, name, description, image, color, price, proOnly }) => (
+        <CategoryColumn
+          key={_id}
+          name={name}
+          description={description}
+          image={image}
+          color={color}
+          onPress={selectCategory(_id)}
+          selecting
+          selected={selectedCategory === _id}
+          hasCategory={categoryHash[_id] !== undefined || isPro}
+          price={price}
+          openPurchase={
+            proOnly ? openShop : openPurchase({ _id, name, image, price })
+          }
+          proOnly={proOnly}
+        />
+      )
+    );
 
   const disabled = selectedCategory === null;
 
@@ -122,7 +128,8 @@ SelectCategory.propTypes = {
     })
   ),
   categoryHash: object,
-  isPro: bool.isRequired
+  isPro: bool.isRequired,
+  openShop: func.isRequired
 };
 
 SelectCategory.defaultProps = {

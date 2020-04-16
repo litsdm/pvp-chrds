@@ -9,6 +9,7 @@ export default gql`
       image
       color
       price
+      proOnly
     }
     friends(_id: $_id) {
       _id

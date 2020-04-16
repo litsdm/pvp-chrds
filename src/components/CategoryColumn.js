@@ -13,6 +13,8 @@ import { bool, func, number, object, string } from 'prop-types';
 
 import Layout from '../constants/Layout';
 
+import Crown from '../../assets/icons/crown.svg';
+
 const Touchable =
   Platform.OS === 'ios' ? TouchableOpacity : TouchableWithoutFeedback;
 
@@ -31,7 +33,8 @@ const CategoryColumn = ({
   containerStyles,
   hasCategory,
   price,
-  openPurchase
+  openPurchase,
+  proOnly
 }) => {
   const [logoOpacity, setLogoOpacity] = useState(1);
 
@@ -44,14 +47,23 @@ const CategoryColumn = ({
     if (!hasCategory) {
       return (
         <TouchableOpacity style={styles.button} onPress={openPurchase}>
-          <Text style={styles.buttonText}>Buy</Text>
-          <FontAwesome5
-            name="coins"
-            size={16}
-            color="#FFC107"
-            style={styles.coins}
-          />
-          <Text style={styles.price}>{price}</Text>
+          {proOnly ? (
+            <>
+              <Text style={styles.buttonText}>Pro Only</Text>
+              <Crown height={16} width={16} style={{ marginLeft: 6 }} />
+            </>
+          ) : (
+            <>
+              <Text style={styles.buttonText}>Buy</Text>
+              <FontAwesome5
+                name="coins"
+                size={16}
+                color="#FFC107"
+                style={styles.coins}
+              />
+              <Text style={styles.price}>{price}</Text>
+            </>
+          )}
         </TouchableOpacity>
       );
     }
@@ -249,7 +261,8 @@ CategoryColumn.propTypes = {
   containerStyles: object,
   hasCategory: bool,
   price: number,
-  openPurchase: func.isRequired
+  openPurchase: func.isRequired,
+  proOnly: bool.isRequired
 };
 
 CategoryColumn.defaultProps = {

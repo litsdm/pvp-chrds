@@ -16,12 +16,15 @@ import Popup from './Popup';
 
 import Layout from '../constants/Layout';
 
+import Crown from '../../assets/icons/crown.svg';
+
 const CategoryPopup = ({
   close,
   play,
   transitionPosition,
   hasCategory,
   openPurchase,
+  openShop,
   user,
   category
 }) => {
@@ -97,7 +100,8 @@ const CategoryPopup = ({
 
   const handleOpenPurchase = () => {
     handleClose();
-    openPurchase({ category, user });
+    if (!category.proOnly) openPurchase({ category, user });
+    else openShop();
   };
 
   return (
@@ -123,14 +127,23 @@ const CategoryPopup = ({
               style={styles.button}
               onPress={handleOpenPurchase}
             >
-              <Text style={styles.buyText}>Buy</Text>
-              <FontAwesome5
-                name="coins"
-                size={16}
-                color="#FFC107"
-                style={styles.coins}
-              />
-              <Text style={styles.price}>{price}</Text>
+              {category.proOnly ? (
+                <>
+                  <Text style={styles.buttonText}>Pro Only</Text>
+                  <Crown height={16} width={16} style={{ marginLeft: 6 }} />
+                </>
+              ) : (
+                <>
+                  <Text style={styles.buttonText}>Buy</Text>
+                  <FontAwesome5
+                    name="coins"
+                    size={16}
+                    color="#FFC107"
+                    style={styles.coins}
+                  />
+                  <Text style={styles.price}>{price}</Text>
+                </>
+              )}
             </TouchableOpacity>
           )}
         </View>
@@ -241,7 +254,8 @@ CategoryPopup.propTypes = {
   }).isRequired,
   hasCategory: bool,
   openPurchase: func.isRequired,
-  user: object.isRequired
+  user: object.isRequired,
+  openShop: func.isRequired
 };
 
 CategoryPopup.defaultProps = {

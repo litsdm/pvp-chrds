@@ -14,7 +14,8 @@ import {
   togglePlay,
   toggleAdd,
   toggleCategoryPurchase,
-  togglePro
+  togglePro,
+  togglePurchasePopup
 } from '../actions/popup';
 
 import Tab from './Tab';
@@ -32,7 +33,8 @@ const mapDispatchToProps = dispatch => ({
     ),
   openAdd: () => dispatch(toggleAdd(true)),
   openPurchase: data => dispatch(toggleCategoryPurchase(true, data)),
-  openProModal: () => dispatch(togglePro(true))
+  openProModal: () => dispatch(togglePro(true)),
+  openShop: () => dispatch(togglePurchasePopup(true))
 });
 
 const mapStateToProps = ({
@@ -56,7 +58,8 @@ const TabBar = ({
   showPlay,
   openAdd,
   openPurchase,
-  openProModal
+  openProModal,
+  openShop
 }) => {
   const { routes, index } = navigation.state;
   const homeStack = routes[index];
@@ -98,6 +101,7 @@ const TabBar = ({
           openPurchase={openPurchase}
           mode={playMode}
           openProModal={openProModal}
+          openShop={openShop}
         />
       ) : null}
     </>
@@ -139,7 +143,8 @@ TabBar.propTypes = {
   showPlay: func.isRequired,
   openAdd: func.isRequired,
   openPurchase: func.isRequired,
-  openProModal: func.isRequired
+  openProModal: func.isRequired,
+  openShop: func.isRequired
 };
 
 TabBar.defaultProps = {

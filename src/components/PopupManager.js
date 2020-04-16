@@ -136,6 +136,7 @@ const PopupManager = ({
           close={closeCategory}
           play={openPlay(categoryPopupData.category._id)}
           openPurchase={openCategoryPurchase}
+          openShop={openStore}
           {...categoryPopupData}
         />
       ) : null}

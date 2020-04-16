@@ -21,7 +21,8 @@ import GET_USER from '../graphql/queries/getCategoryUser';
 import {
   toggleCategory,
   togglePlay,
-  toggleCategoryPurchase
+  toggleCategoryPurchase,
+  togglePurchasePopup
 } from '../actions/popup';
 
 import CategoryColumn from '../components/CategoryColumn';
@@ -32,7 +33,8 @@ import Layout from '../constants/Layout';
 const mapDispatchToProps = dispatch => ({
   showCategory: data => dispatch(toggleCategory(true, data)),
   showPlay: data => dispatch(togglePlay(true, data)),
-  openPurchase: data => dispatch(toggleCategoryPurchase(true, data))
+  openPurchase: data => dispatch(toggleCategoryPurchase(true, data)),
+  openShop: () => dispatch(togglePurchasePopup(true))
 });
 
 const mapStateToProps = ({ popup: { displayCategory, selectedCategory } }) => ({
@@ -45,7 +47,8 @@ const CategoriesScreen = ({
   popupSelectedCategory,
   showCategory,
   showPlay,
-  openPurchase
+  openPurchase,
+  openShop
 }) => {
   const { loading, data, refetch } = useQuery(GET_CATEGORIES);
   const [getUser, { data: userData }] = useLazyQuery(GET_USER);
@@ -89,7 +92,8 @@ const CategoriesScreen = ({
 
   const showPopup = index => () => {
     const selectedCategory = categories[index];
-    const hasCategory = categoriesHash[selectedCategory._id] !== undefined;
+    const hasCategory =
+      categoriesHash[selectedCategory._id] !== undefined || user.isPro;
     logoRefs.current[index].current.measureInWindow((x, y) => {
       const transitionPosition = { __typename: 'Position', x, y };
       showCategory({
@@ -130,24 +134,29 @@ const CategoriesScreen = ({
   };
 
   const renderCategories = () =>
-    categories.map(({ _id, name, description, image, color, price }, index) => (
-      <CategoryColumn
-        key={_id}
-        name={name}
-        description={description}
-        image={image}
-        color={color}
-        onPressInner={openPlay(_id)}
-        onPress={showPopup(index)}
-        logoRef={logoRefs ? logoRefs.current[index] : null}
-        hideLogo={displayCategory && popupSelectedCategory._id === _id}
-        parentBackgroundColor="#FCFCFE"
-        containerStyles={verticalStyles}
-        hasCategory={categoriesHash[_id] !== undefined || user.isPro}
-        price={price}
-        openPurchase={handleOpenPurchase({ _id, name, image, price })}
-      />
-    ));
+    categories.map(
+      ({ _id, name, description, image, color, price, proOnly }, index) => (
+        <CategoryColumn
+          key={_id}
+          name={name}
+          description={description}
+          image={image}
+          color={color}
+          onPressInner={openPlay(_id)}
+          onPress={showPopup(index)}
+          logoRef={logoRefs ? logoRefs.current[index] : null}
+          hideLogo={displayCategory && popupSelectedCategory._id === _id}
+          parentBackgroundColor="#FCFCFE"
+          containerStyles={verticalStyles}
+          hasCategory={categoriesHash[_id] !== undefined || user.isPro}
+          price={price}
+          openPurchase={
+            proOnly ? openShop : handleOpenPurchase({ _id, name, image, price })
+          }
+          proOnly={proOnly}
+        />
+      )
+    );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -301,7 +310,8 @@ CategoriesScreen.propTypes = {
   popupSelectedCategory: object,
   showCategory: func.isRequired,
   showPlay: func.isRequired,
-  openPurchase: func.isRequired
+  openPurchase: func.isRequired,
+  openShop: func.isRequired
 };
 
 CategoriesScreen.defaultProps = {

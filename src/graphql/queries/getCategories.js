@@ -11,6 +11,7 @@ export default gql`
       isFeatured
       featureImage
       price
+      proOnly
       words {
         _id
         text
