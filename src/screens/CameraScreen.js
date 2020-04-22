@@ -519,7 +519,4 @@ CameraScreen.propTypes = {
   openTerms: func.isRequired
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(CameraScreen);
+export default connect(null, mapDispatchToProps)(CameraScreen);

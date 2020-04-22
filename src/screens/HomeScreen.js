@@ -481,8 +481,8 @@ const HomeScreen = ({
   const closeProfileModal = () => setDisplayProfileModal(false);
 
   const handlePlay = (match, opponent) => () => {
-    const route = match.state === 'play' ? 'Camera' : 'Match';
-    navigation.navigate(route, {
+    const newRoute = match.state === 'play' ? 'Camera' : 'Match';
+    navigation.navigate(newRoute, {
       matchID: match._id,
       categoryID: match.category._id,
       opponentID: opponent._id,
@@ -832,7 +832,4 @@ Header.propTypes = {
   onCountdownEnd: func.isRequired
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HomeScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

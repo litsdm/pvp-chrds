@@ -255,7 +255,4 @@ GeneralScreen.propTypes = {
   displayBadge: func.isRequired
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(GeneralScreen);
+export default connect(null, mapDispatchToProps)(GeneralScreen);

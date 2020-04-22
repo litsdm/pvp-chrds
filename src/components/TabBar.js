@@ -153,7 +153,4 @@ TabBar.defaultProps = {
   playMode: null
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TabBar);
+export default connect(mapStateToProps, mapDispatchToProps)(TabBar);

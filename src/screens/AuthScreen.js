@@ -237,7 +237,4 @@ AuthScreen.propTypes = {
   showPickUsername: func.isRequired
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(AuthScreen);
+export default connect(null, mapDispatchToProps)(AuthScreen);

@@ -211,7 +211,4 @@ FriendsScreen.propTypes = {
   openAdd: func.isRequired
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(FriendsScreen);
+export default connect(null, mapDispatchToProps)(FriendsScreen);

@@ -437,7 +437,4 @@ ProfileScreen.propTypes = {
   displayBadge: func.isRequired
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProfileScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);

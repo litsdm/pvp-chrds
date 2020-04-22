@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "501355168652",
+    "firebase_url": "https://chrds-fc5f1.firebaseio.com",
+    "project_id": "chrds-fc5f1",
+    "storage_bucket": "chrds-fc5f1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501355168652:android:e5c71b1f429739fa204ca9",
+        "android_client_info": {
+          "package_name": "com.cdiezmoran.chrds"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501355168652-blubl7vnq820cll5hvejk61ur9vsclt5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_YZdNKPe8EYYKMnuhU2hTmeoLEC1XQlQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501355168652-blubl7vnq820cll5hvejk61ur9vsclt5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "501355168652-p6hr197fto45n4sua3ofp3j23jb926rd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cdiezmoran.chrdsapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

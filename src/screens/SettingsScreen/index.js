@@ -610,7 +610,4 @@ SettingsScreen.defaultProps = {
   progress: 0
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SettingsScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen);

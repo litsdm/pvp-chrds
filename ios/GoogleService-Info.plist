@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>501355168652-p6hr197fto45n4sua3ofp3j23jb926rd.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.501355168652-p6hr197fto45n4sua3ofp3j23jb926rd</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCgna0Fjc3dlbZZURjjnoxZCPqRBcv8HLc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>501355168652</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.cdiezmoran.chrdsapp</string>
+	<key>PROJECT_ID</key>
+	<string>chrds-fc5f1</string>
+	<key>STORAGE_BUCKET</key>
+	<string>chrds-fc5f1.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:501355168652:ios:16f9d0e0d019c740204ca9</string>
+	<key>DATABASE_URL</key>
+	<string>https://chrds-fc5f1.firebaseio.com</string>
+</dict>
+</plist>

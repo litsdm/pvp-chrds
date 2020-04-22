@@ -19,7 +19,7 @@
     "no-use-before-define": "off",
     "no-multi-assign": "off",
     "no-underscore-dangle": "off",
-    "prettier/prettier": ["error", { "singleQuote": true, "parser": "flow" }],
+    "prettier/prettier": ["error", { "singleQuote": true, "parser": "flow", "arrowParens": "avoid", "trailingComma": "none" }],
     "promise/param-names": "error",
     "promise/always-return": "error",
     "promise/catch-or-return": "error",

@@ -247,10 +247,7 @@ App.defaultProps = {
   cache: {}
 };
 
-const ConnectedApp = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
 export default () => (
   <ApolloProvider client={client}>

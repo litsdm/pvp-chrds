@@ -78,7 +78,4 @@ PrivacyScreen.propTypes = {
   displayBadge: func.isRequired
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(PrivacyScreen);
+export default connect(null, mapDispatchToProps)(PrivacyScreen);

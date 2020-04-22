@@ -490,7 +490,4 @@ MatchScreen.propTypes = {
   displayBadge: func.isRequired
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(MatchScreen);
+export default connect(null, mapDispatchToProps)(MatchScreen);
