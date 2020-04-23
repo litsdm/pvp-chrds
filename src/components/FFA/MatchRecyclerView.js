@@ -128,11 +128,13 @@ const MatchRecyclerView = ({
       blockedUsers: [...user.blockedUsers, sender._id]
     });
 
+    analytics.logEvent('block_user', { blocked_user: sender._id });
+
     updateUser({ variables: { id: user._id, properties } });
     setOptionsMatch(null);
   };
 
-  const handleRetry = async (extraProperties = {}, message = '') => {
+  const handleRetry = async (extraProperties, message, method) => {
     const ffaGuessed = JSON.stringify({
       ...guessed,
       [retryID]: GuessedTypes.RETRY
@@ -145,9 +147,11 @@ const MatchRecyclerView = ({
     if (message) displayBadge(message, 'success');
     setRetryID('');
     setGuessing(true);
+
+    analytics.logEvent('retry', { mode: 'ffa', method });
   };
 
-  const handleAdReward = () => handleRetry();
+  const handleAdReward = () => handleRetry({}, '', 'ad');
 
   const handleAdFail = () => {
     displayBadge('Ad failed to load.', 'error');
@@ -182,7 +186,7 @@ const MatchRecyclerView = ({
       virtual_currency_name: 'coins'
     });
 
-    handleRetry(extraProperties, message);
+    handleRetry(extraProperties, message, 'buy');
   };
 
   const handleReportSubmit = async (reason, message) => {

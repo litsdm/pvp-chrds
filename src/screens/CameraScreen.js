@@ -84,6 +84,7 @@ const CameraScreen = ({
   const [useAudio, setUseAudio] = useState(false);
   const [pickWord, setPickWord] = useState(false);
   const [rollCount, setRollCount] = useState(2);
+  const [rolledWords, setRolledWords] = useState([]);
   const [displayHint, setDisplayHint] = useState(false);
   const [displayWalkthrough, setDisplayWalkthrough] = useState(false);
   const [updateUser] = useMutation(UPDATE_USER);
@@ -143,8 +144,11 @@ const CameraScreen = ({
   };
 
   const getRolls = async () => {
-    const rolls = await AsyncStorage.getItem(`${matchID}-rolls`);
-    if (rolls) setRollCount(parseInt(rolls, 10));
+    const rolls = JSON.parse(await AsyncStorage.getItem(`${matchID}-rolls`));
+    if (rolls && rolls.length > 0) {
+      setRolledWords(rolls);
+      setRollCount(rolls.length - 2);
+    }
   };
 
   const checkActivePowerUps = async () => {
@@ -275,6 +279,11 @@ const CameraScreen = ({
 
     if (mode === 'versus') handleVersusSend();
     else handleFFASend();
+
+    analytics.logEvent('word_skips', {
+      count: rolledWords.length,
+      skippedWords: rolledWords
+    });
   };
 
   const handleVersusSend = async () => {
@@ -325,17 +334,27 @@ const CameraScreen = ({
 
     uploadFFAFile(file);
 
+    analytics.logEvent('match_create_ffa', {
+      category: categoryID,
+      word: word.text
+    });
+
     navigation.navigate('Home', { displayFFANotification: true });
   };
 
   const handleRoll = async () => {
     if (rollCount <= 0) return;
     const newRollCount = rollCount - 1;
+    const newRolledWords = [...rolledWords, word.text];
 
+    setRolledWords(newRolledWords);
     await getRandomWord();
     setRollCount(newRollCount);
     if (mode === 'versus')
-      await AsyncStorage.setItem(`${matchID}-rolls`, `${newRollCount}`);
+      await AsyncStorage.setItem(
+        `${matchID}-rolls`,
+        JSON.stringify(newRolledWords)
+      );
   };
 
   const handleHand = () => setPickWord(true);

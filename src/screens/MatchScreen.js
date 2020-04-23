@@ -149,6 +149,8 @@ const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
     setGameState('guessing');
     setTimeLeft(TIME);
     setDidReward(true);
+
+    analytics.logEvent('retry', { mode: '1v1', method: 'ad' });
   };
 
   const handleAdFail = () => {
@@ -184,6 +186,7 @@ const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
       value: price,
       virtual_currency_name: 'coins'
     });
+    analytics.logEvent('retry', { mode: '1v1', method: 'buy' });
 
     setGameState('guessing');
     setTimeLeft(TIME);

@@ -163,6 +163,7 @@ const PurchasePopup = ({ close, displayBadge }) => {
 
   const buyItem = async () => {
     const { productId } = products[selected];
+    analytics.logEvent('checkout_start', { product_id: productId });
     await purchaseItemAsync(productId);
   };
 

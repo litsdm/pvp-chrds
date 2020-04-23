@@ -9,6 +9,8 @@ import {
 import { FontAwesome5 } from '@expo/vector-icons';
 import { func, string } from 'prop-types';
 
+import analytics from '../helpers/analyticsClient';
+
 import Modal from './Modal';
 
 import Crown from '../../assets/icons/crown.svg';
@@ -21,6 +23,7 @@ const ProModal = ({ close, openShop, type }) => {
   const footerAnimValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
+    analytics.logEvent('show_pro_offer', { type });
     const config = {
       toValue: 1,
       duration: 200,

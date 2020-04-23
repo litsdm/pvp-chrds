@@ -170,11 +170,15 @@ const App = ({
 
       displayBadge('Successful transaction.', 'success');
       closePurchase();
+      analytics.logEvent('checkout_success', {
+        product_id: purchase.productId
+      });
 
       askRefetchUser();
     } catch (exception) {
       console.log(exception.message);
       displayBadge('There was an issue completing your transaction.');
+      analytics.logEvent('checkout_failed');
     }
   };
 
@@ -185,15 +189,18 @@ const App = ({
       });
     } else if (responseCode === IAPResponseCode.USER_CANCELED) {
       displayBadge('Transaction was cancelled.', 'default');
+      analytics.logEvent('checkout_cancel');
     } else if (responseCode === IAPResponseCode.DEFERRED) {
       console.log(
         'User does not have permissions to buy but requested parental approval (iOS only)'
       );
+      analytics.logEvent('checkout_deferred');
     } else {
       displayBadge(
         "We couldn't complete your order, please try again or contact support.",
         'error'
       );
+      analytics.logEvent('checkout_failed');
       console.warn(
         `Something went wrong with the purchase. Received errorCode ${errorCode}`
       );

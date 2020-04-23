@@ -146,6 +146,7 @@ const FFAMatchRow = ({
   const handleGuessFinish = result => {
     setGuessing(false);
     addToGuessed(result);
+    analytics.logEvent('guessed_ffa', { result });
   };
 
   const handleGuess = () => {
