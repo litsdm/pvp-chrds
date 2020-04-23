@@ -1500,24 +1500,29 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.6.tgz#c7f2ac187c1f25aa8c30d11baa8f4398eca3bb84"
   integrity sha512-PpMoeXwPUoldCRKDuSi+zK5rT+sJTW6ri6RdGPkSKRzU77Q1d9IaR0O5IKvBj0XSdL3p+dcOa05gk35aGDffBQ==
 
-"@react-native-firebase/analytics@^6.6.0":
-  version "6.6.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-6.6.0.tgz#b2bcb919ec387604d48f86dfe60edd423a1e97f7"
-  integrity sha512-zl2y1nhq4+9hCHc3xitFStJxOv696yVpIbRdvUQvel9qciC+FpXGnEPBZRm7BsJJ6ijNgcYUD6Jjvx4dbb6cLA==
+"@react-native-firebase/analytics@^6.7.1":
+  version "6.7.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-6.7.1.tgz#c7f0e62fe0205ace83a26825604f4444cdde85a0"
+  integrity sha512-NUgnvMcl5GgfDBDj0pj+ScGHSgDjwP2IVfokTMSwRdaha7lLMU+Z/MXX51IAJulQvrn61mKoS8waTRllega9wA==
 
-"@react-native-firebase/app-types@6.4.0":
-  version "6.4.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app-types/-/app-types-6.4.0.tgz#f3d8c1d63f5bc5f6d5f9683caa428b189a968839"
-  integrity sha512-c8rYdh4DJReKjTl/jUjPNrCwhbAlNcgCch3n3rCOuATjYleiSt3zhskn37aRQeCOKohvNzuxvYy5ZYtzAxMYmw==
+"@react-native-firebase/app-types@6.7.1":
+  version "6.7.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app-types/-/app-types-6.7.1.tgz#93497885e6c112203db310636616647c16478da9"
+  integrity sha512-jfP2wdBUaptGXO6BC0g3RYMgmGLGOkdWhkGxPhZZy1uxIxN4IXPfeUKEPL0as6ZJqfdx0IMvSvtcp7ywoFNxyg==
 
-"@react-native-firebase/app@^6.4.0":
-  version "6.4.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-6.4.0.tgz#cc3f22ebed03397fc85e855634f4db3729d242d9"
-  integrity sha512-QCV+SY0hdx3OTR+KQngvF/ejuPkEP8V5pr0ie8hic/yV6vcGtrMEN/NGSvgILjbPYRhspYDZSi4HdTgc70WUIA==
+"@react-native-firebase/app@^6.7.1":
+  version "6.7.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-6.7.1.tgz#0fe8bb9a82292d672da524763dc42e224dda4fde"
+  integrity sha512-MzRlcR+5+RCU3Za+QMV064oPpZhkXvLoZbB8CdYxI66Qd2XKAGUT0FoQlFaeXZxkrfisdhLbvRUYJo1TY/Iuxg==
   dependencies:
-    "@react-native-firebase/app-types" "6.4.0"
+    "@react-native-firebase/app-types" "6.7.1"
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
+
+"@react-native-firebase/messaging@^6.7.1":
+  version "6.7.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-6.7.1.tgz#d53b73791567366d95fb423f094e2057027cc9fa"
+  integrity sha512-j5aSUtdWapnfYCu57wAZ/xBWfh/ym68veplA/Fs+lTtKnBGmrFB5qbW2lKN0gRENC1MloOkD57rnLHEr5tTvUA==
 
 "@react-navigation/core@^3.7.5":
   version "3.7.5"

@@ -31,7 +31,7 @@ import Tier from './Tier';
 import LifeTier from './LifeTier';
 import Loader from '../Loader';
 
-import analytics from '../../helpers/analyticsClient';
+import { analytics } from '../../helpers/firebaseClients';
 import { useAnimation } from '../../helpers/hooks';
 import Layout from '../../constants/Layout';
 

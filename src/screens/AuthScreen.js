@@ -20,7 +20,7 @@ import jwtDecode from 'jwt-decode';
 import { func, object } from 'prop-types';
 
 import callApi from '../helpers/apiCaller';
-import analytics from '../helpers/analyticsClient';
+import { analytics } from '../helpers/firebaseClients';
 import { togglePickUsername } from '../actions/popup';
 
 import OnBoarding from '../components/Auth/OnBoarding';
@@ -38,7 +38,7 @@ const AuthScreen = ({ navigation, showPickUsername }) => {
   const goToLogin = () => navigation.navigate('AuthEmail', { isNew: false });
 
   useEffect(() => {
-    analytics.setCurrentScreen({ screenName: 'Auth' });
+    analytics.setCurrentScreen('Auth');
   }, []);
 
   const loginWithFacebook = async () => {

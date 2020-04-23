@@ -9,7 +9,7 @@ import {
 import { FontAwesome5 } from '@expo/vector-icons';
 import { func, string } from 'prop-types';
 
-import analytics from '../helpers/analyticsClient';
+import { analytics } from '../helpers/firebaseClients';
 
 import Modal from './Modal';
 

@@ -13,7 +13,7 @@ import { bool, func, number, object } from 'prop-types';
 import UPDATE_USER from '../../graphql/mutations/updateUser';
 import CREATE_REPORT from '../../graphql/mutations/createReport';
 
-import analytics from '../../helpers/analyticsClient';
+import { analytics } from '../../helpers/firebaseClients';
 import {
   toggleBadge,
   togglePurchasePopup,

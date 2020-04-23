@@ -39,7 +39,7 @@ import {
 } from '../actions/popup';
 import { setRefetchUser } from '../actions/user';
 
-import analytics from '../helpers/analyticsClient';
+import { analytics, messaging } from '../helpers/firebaseClients';
 import { useDateCountdown } from '../helpers/hooks';
 
 import AnimatedCircle from '../components/AnimatedCircle';
@@ -235,8 +235,12 @@ const HomeScreen = ({
   const matchCount = data ? data.ffaMatchCount : 0;
 
   useEffect(() => {
-    analytics.setCurrentScreen({ screenName: 'Home' });
+    analytics.setCurrentScreen('Home');
   }, []);
+
+  useEffect(() => {
+    if (data && data.user) updateFirebaseToken();
+  }, [data]);
 
   useEffect(() => {
     if (matchesData && data) {
@@ -321,6 +325,18 @@ const HomeScreen = ({
         };
       }
     });
+
+  const updateFirebaseToken = async () => {
+    const didSetToken =
+      (await AsyncStorage.getItem(`${user._id}-fbtokenExists`)) === 'true';
+    if (didSetToken) return;
+
+    const firebaseToken = await messaging.getToken();
+    const properties = JSON.stringify({ firebaseToken });
+
+    updateUser({ variables: { id: user._id, properties } });
+    AsyncStorage.setItem(`${user._id}-fbtokenExists`, 'true');
+  };
 
   const handlePurchaseHistory = async history => {
     const proDate = dayjs(user.proDate);

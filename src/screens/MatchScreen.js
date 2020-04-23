@@ -23,7 +23,7 @@ import UPDATE_USER from '../graphql/mutations/updateUser';
 import DELETE_MATCH from '../graphql/mutations/deleteMatch';
 
 import callApi, { getSignedUrl } from '../helpers/apiCaller';
-import analytics from '../helpers/analyticsClient';
+import { analytics } from '../helpers/firebaseClients';
 import { toggleBadge, togglePurchasePopup } from '../actions/popup';
 
 import AdData from '../constants/AdData';
@@ -100,7 +100,7 @@ const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
     AdMobRewarded.addEventListener('rewardedVideoDidFailToLoad', handleAdFail);
     AdMobRewarded.addEventListener('rewardedVideoDidLoad', handleAdLoaded);
 
-    analytics.setCurrentScreen({ screenName: 'Match' });
+    analytics.setCurrentScreen('Match');
     return () => {
       BackHandler.removeEventListener('hardwareBackPress');
       AdMobRewarded.removeEventListener('rewardedVideoDidRewardUser');

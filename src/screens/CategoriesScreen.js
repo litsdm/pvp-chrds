@@ -18,7 +18,7 @@ import { bool, func, object } from 'prop-types';
 import GET_CATEGORIES from '../graphql/queries/getCategories';
 import GET_USER from '../graphql/queries/getCategoryUser';
 
-import analytics from '../helpers/analyticsClient';
+import { analytics } from '../helpers/firebaseClients';
 import {
   toggleCategory,
   togglePlay,
@@ -64,7 +64,7 @@ const CategoriesScreen = ({
 
   useEffect(() => {
     fetchUser();
-    analytics.setCurrentScreen({ screenName: 'Categories' });
+    analytics.setCurrentScreen('Categories');
   }, []);
 
   useEffect(() => {

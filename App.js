@@ -36,7 +36,7 @@ import { upload, uploadFFA } from './src/actions/file';
 import { setRefetchUser } from './src/actions/user';
 import { loadLocalCache } from './src/actions/cache';
 
-import analytics from './src/helpers/analyticsClient';
+import { analytics } from './src/helpers/firebaseClients';
 
 const mapDispatchToProps = dispatch => ({
   displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),

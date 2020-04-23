@@ -6,7 +6,7 @@ import { arrayOf, func, number, shape, string } from 'prop-types';
 
 import UPDATE_USER from '../graphql/mutations/updateUser';
 
-import analytics from '../helpers/analyticsClient';
+import { analytics } from '../helpers/firebaseClients';
 
 import Modal from './Modal';
 

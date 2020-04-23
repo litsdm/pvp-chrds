@@ -6,7 +6,7 @@ import { object } from 'prop-types';
 import GET_DATA from '../graphql/queries/getProfileFFAData';
 import GET_USER_DATA from '../graphql/queries/getFFAUserData';
 
-import analytics from '../helpers/analyticsClient';
+import { analytics } from '../helpers/firebaseClients';
 
 import MatchRecyclerView from '../components/FFA/MatchRecyclerView';
 
@@ -32,7 +32,7 @@ const ProfileFFAScreen = ({ navigation }) => {
   _guessing = guessing;
 
   useEffect(() => {
-    analytics.setCurrentScreen({ screenName: 'ProfileFFA' });
+    analytics.setCurrentScreen('ProfileFFA');
   }, []);
 
   useEffect(() => {

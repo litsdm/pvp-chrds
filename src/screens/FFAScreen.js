@@ -11,7 +11,7 @@ import GET_USER_DATA from '../graphql/queries/getFFAUserData';
 import UPDATE_USER from '../graphql/mutations/updateUser';
 
 import callApi from '../helpers/apiCaller';
-import analytics from '../helpers/analyticsClient';
+import { analytics } from '../helpers/firebaseClients';
 
 import MatchRecyclerView from '../components/FFA/MatchRecyclerView';
 
@@ -55,7 +55,7 @@ const FFAScreen = ({ navigation }) => {
   useEffect(() => {
     AppState.addEventListener('change', handleStateChange);
     BackHandler.addEventListener('hardwareBackPress', goBack);
-    analytics.setCurrentScreen({ screenName: 'FFA' });
+    analytics.setCurrentScreen('FFA');
     return () => {
       AppState.removeEventListener('change', handleStateChange);
       BackHandler.removeEventListener('hardwareBackPress');

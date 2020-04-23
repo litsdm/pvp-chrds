@@ -4,7 +4,7 @@ import { Video } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
 import { bool, func, number, object, string, shape } from 'prop-types';
 
-import analytics from '../../helpers/analyticsClient';
+import { analytics } from '../../helpers/firebaseClients';
 
 import Loader from '../Loader';
 import RowControls from './RowControls';

@@ -11,7 +11,7 @@ import UPDATE_USER from '../../graphql/mutations/updateUser';
 import CREATE_MATCH from '../../graphql/mutations/createMatch';
 
 import callApi from '../../helpers/apiCaller';
-import analytics from '../../helpers/analyticsClient';
+import { analytics } from '../../helpers/firebaseClients';
 
 import Popup from '../Popup';
 import SelectCategory from './SelectCategory';
@@ -156,7 +156,7 @@ const PlayPopup = ({
 
     const properties = JSON.stringify({ lives: user.lives - 1 });
 
-    analytics.logEvent('match_create', {
+    analytics.logEvent('match_create_versus', {
       category: finalCategory,
       friend: opponent,
       isRandom: selectedFriend === '-1'

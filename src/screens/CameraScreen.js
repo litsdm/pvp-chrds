@@ -10,7 +10,7 @@ import { getInfoAsync, deleteAsync } from 'expo-file-system';
 import { func, object } from 'prop-types';
 
 import mime from '../helpers/mimeTypes';
-import analytics from '../helpers/analyticsClient';
+import { analytics } from '../helpers/firebaseClients';
 import { useAnimation } from '../helpers/hooks';
 import { upload, uploadFFA } from '../actions/file';
 import {
@@ -105,7 +105,7 @@ const CameraScreen = ({
     setBrightness(true);
     getRolls();
     shouldDisplayWalkthrough();
-    analytics.setCurrentScreen({ screenName: 'Camera' });
+    analytics.setCurrentScreen('Camera');
   }, []);
 
   useEffect(() => {

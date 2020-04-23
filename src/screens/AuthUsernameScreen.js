@@ -14,7 +14,7 @@ import jwtDecode from 'jwt-decode';
 import { func, object } from 'prop-types';
 
 import callApi from '../helpers/apiCaller';
-import analytics from '../helpers/analyticsClient';
+import { analytics } from '../helpers/firebaseClients';
 import { facebookAuth, appleAuth } from './AuthScreen';
 import { toggleBadge, togglePickUsername } from '../actions/popup';
 
@@ -35,7 +35,7 @@ const AuthUsernameScreen = ({ navigation, displayBadge, showPickUsername }) => {
   const [authorizing, setAuthorizing] = useState(false);
 
   useEffect(() => {
-    analytics.setCurrentScreen({ screenName: 'AuthUsername' });
+    analytics.setCurrentScreen('AuthUsername');
   }, []);
 
   const toggleScreen = () => setNew(!isNew);
