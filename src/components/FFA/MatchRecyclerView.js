@@ -13,6 +13,7 @@ import { bool, func, number, object } from 'prop-types';
 import UPDATE_USER from '../../graphql/mutations/updateUser';
 import CREATE_REPORT from '../../graphql/mutations/createReport';
 
+import analytics from '../../helpers/analyticsClient';
 import {
   toggleBadge,
   togglePurchasePopup,
@@ -174,6 +175,12 @@ const MatchRecyclerView = ({
       openCoinShop();
       return;
     }
+
+    analytics.logSpendVirtualCurrency({
+      item_name: 'retry_ffa',
+      value: price,
+      virtual_currency_name: 'coins'
+    });
 
     handleRetry(extraProperties, message);
   };
@@ -340,7 +347,4 @@ MatchRecyclerView.defaultProps = {
   isSelf: false
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(MatchRecyclerView);
+export default connect(null, mapDispatchToProps)(MatchRecyclerView);

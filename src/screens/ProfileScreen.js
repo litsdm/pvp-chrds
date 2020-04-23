@@ -23,6 +23,7 @@ import REMOVE_FRIEND from '../graphql/mutations/removeFriend';
 import UPDATE_USER from '../graphql/mutations/updateUser';
 import DELETE_FFA_MATCH from '../graphql/mutations/deleteFFAMatch';
 
+import analytics from '../helpers/analyticsClient';
 import { addThumbnail } from '../actions/cache';
 import { togglePlay, toggleBadge } from '../actions/popup';
 import { useAnimation } from '../helpers/hooks';
@@ -87,6 +88,7 @@ const ProfileScreen = ({
 
   useEffect(() => {
     createLayoutProvider();
+    analytics.setCurrentScreen({ screenName: 'Profile' });
   }, []);
 
   useEffect(() => {

@@ -39,6 +39,7 @@ import {
 } from '../actions/popup';
 import { setRefetchUser } from '../actions/user';
 
+import analytics from '../helpers/analyticsClient';
 import { useDateCountdown } from '../helpers/hooks';
 
 import AnimatedCircle from '../components/AnimatedCircle';
@@ -232,6 +233,10 @@ const HomeScreen = ({
   const user = data ? data.user : {};
   const friendRequests = data ? data.friendRequests : [];
   const matchCount = data ? data.ffaMatchCount : 0;
+
+  useEffect(() => {
+    analytics.setCurrentScreen({ screenName: 'Home' });
+  }, []);
 
   useEffect(() => {
     if (matchesData && data) {

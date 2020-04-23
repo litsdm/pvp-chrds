@@ -23,6 +23,7 @@ import UPDATE_USER from '../graphql/mutations/updateUser';
 import DELETE_MATCH from '../graphql/mutations/deleteMatch';
 
 import callApi, { getSignedUrl } from '../helpers/apiCaller';
+import analytics from '../helpers/analyticsClient';
 import { toggleBadge, togglePurchasePopup } from '../actions/popup';
 
 import AdData from '../constants/AdData';
@@ -98,6 +99,8 @@ const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
     );
     AdMobRewarded.addEventListener('rewardedVideoDidFailToLoad', handleAdFail);
     AdMobRewarded.addEventListener('rewardedVideoDidLoad', handleAdLoaded);
+
+    analytics.setCurrentScreen({ screenName: 'Match' });
     return () => {
       BackHandler.removeEventListener('hardwareBackPress');
       AdMobRewarded.removeEventListener('rewardedVideoDidRewardUser');
@@ -175,6 +178,13 @@ const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
 
     await updateUser({ variables: { id: user._id, properties } });
     displayBadge(`Retry bought! ${remainingCoins} coins left.`, 'success');
+
+    analytics.logSpendVirtualCurrency({
+      item_name: 'retry_1v1',
+      value: price,
+      virtual_currency_name: 'coins'
+    });
+
     setGameState('guessing');
     setTimeLeft(TIME);
     setDidReward(true);
@@ -270,6 +280,12 @@ const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
     closePurchase();
 
     await updateUser({ variables: { id: userID, properties } });
+
+    analytics.logSpendVirtualCurrency({
+      item_name: `${powerup}_powerup`,
+      value: cost,
+      virtual_currency_name: 'coins'
+    });
 
     refetchUser();
   };

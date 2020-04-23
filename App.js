@@ -36,6 +36,8 @@ import { upload, uploadFFA } from './src/actions/file';
 import { setRefetchUser } from './src/actions/user';
 import { loadLocalCache } from './src/actions/cache';
 
+import analytics from './src/helpers/analyticsClient';
+
 const mapDispatchToProps = dispatch => ({
   displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),
   closePurchase: () => dispatch(togglePurchasePopup(false)),
@@ -87,6 +89,7 @@ const App = ({
   useEffect(() => {
     checkBrokenUpload();
     loadCache();
+    handleAnalytics();
     AppState.addEventListener('change', handleStateChange);
     Keyboard.addListener('keyboardDidShow', handleKeyboardShow);
     return () => {
@@ -94,6 +97,17 @@ const App = ({
       Keyboard.removeListener('keyboardDidShow');
     };
   }, []);
+
+  const handleAnalytics = async () => {
+    const { _id } = JwtDecode(await AsyncStorage.getItem('CHRDS_TOKEN'));
+    const analyticsUserID = await AsyncStorage.getItem('analyticsUserID');
+    if (analyticsUserID !== _id) {
+      analytics.setUserId(_id);
+      await AsyncStorage.setItem('analyticsUserID', _id);
+    }
+
+    analytics.logAppOpen();
+  };
 
   const handleKeyboardShow = async ({ endCoordinates }) => {
     const keyboardSize = await AsyncStorage.getItem('keyboardSize');

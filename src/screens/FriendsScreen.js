@@ -17,6 +17,7 @@ import { func, object } from 'prop-types';
 import GET_FRIENDS from '../graphql/queries/getFriends';
 import RESOLVE_REQUEST from '../graphql/mutations/resolveFriendRequest';
 
+import analytics from '../helpers/analyticsClient';
 import { toggleAdd } from '../actions/popup';
 
 import Navbar from '../components/Friends/Navbar';
@@ -64,6 +65,7 @@ const FriendsScreen = ({ navigation, openAdd }) => {
 
   useEffect(() => {
     fetchData();
+    analytics.setCurrentScreen({ screenName: 'Friends' });
   }, []);
 
   useEffect(() => {

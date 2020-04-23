@@ -4,6 +4,8 @@ import { Video } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
 import { bool, func, number, object, string, shape } from 'prop-types';
 
+import analytics from '../../helpers/analyticsClient';
+
 import Loader from '../Loader';
 import RowControls from './RowControls';
 import LetterSoup from '../Match/LetterSoup';
@@ -89,6 +91,12 @@ const FFAMatchRow = ({
     closePurchase();
 
     await updateUser({ variables: { id: user._id, properties } });
+
+    analytics.logSpendVirtualCurrency({
+      item_name: `${powerup}_powerup_ffa`,
+      value: cost,
+      virtual_currency_name: 'coins'
+    });
 
     refetchUser();
   };

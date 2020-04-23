@@ -31,6 +31,7 @@ import Tier from './Tier';
 import LifeTier from './LifeTier';
 import Loader from '../Loader';
 
+import analytics from '../../helpers/analyticsClient';
 import { useAnimation } from '../../helpers/hooks';
 import Layout from '../../constants/Layout';
 
@@ -145,6 +146,13 @@ const PurchasePopup = ({ close, displayBadge }) => {
     try {
       await updateUser({ variables: { id: user._id, properties } });
       refetch();
+
+      analytics.logSpendVirtualCurrency({
+        item_name: life.title.toLowerCase().split(' ').join('_'),
+        value: life.cost,
+        virtual_currency_name: 'coins'
+      });
+
       displayBadge('Purchase successful', 'success');
       handleClose();
     } catch (exception) {

@@ -6,6 +6,8 @@ import { arrayOf, func, number, shape, string } from 'prop-types';
 
 import UPDATE_USER from '../graphql/mutations/updateUser';
 
+import analytics from '../helpers/analyticsClient';
+
 import Modal from './Modal';
 
 const CategoryPurchase = ({ close, category, user, openStore }) => {
@@ -18,6 +20,12 @@ const CategoryPurchase = ({ close, category, user, openStore }) => {
     });
 
     await updateUser({ variables: { id: user._id, properties } });
+
+    analytics.logSpendVirtualCurrency({
+      item_name: 'category_unlock',
+      value: category.price,
+      virtual_currency_name: 'coins'
+    });
 
     close();
   };

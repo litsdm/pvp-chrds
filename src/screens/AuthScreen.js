@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Platform,
   SafeAreaView,
@@ -20,6 +20,7 @@ import jwtDecode from 'jwt-decode';
 import { func, object } from 'prop-types';
 
 import callApi from '../helpers/apiCaller';
+import analytics from '../helpers/analyticsClient';
 import { togglePickUsername } from '../actions/popup';
 
 import OnBoarding from '../components/Auth/OnBoarding';
@@ -36,11 +37,15 @@ const AuthScreen = ({ navigation, showPickUsername }) => {
   const goToSignUp = () => navigation.navigate('AuthEmail', { isNew: true });
   const goToLogin = () => navigation.navigate('AuthEmail', { isNew: false });
 
+  useEffect(() => {
+    analytics.setCurrentScreen({ screenName: 'Auth' });
+  }, []);
+
   const loginWithFacebook = async () => {
     try {
       const user = await facebookAuth();
       const response = await callApi('facebook', user, 'POST');
-      const { token, message } = await response.json();
+      const { token, didExist, message } = await response.json();
 
       if (message === 'displayUserPick') {
         showPickUsername({
@@ -52,7 +57,7 @@ const AuthScreen = ({ navigation, showPickUsername }) => {
         return;
       }
 
-      handleSuccess(token);
+      handleSuccess(token, 'facebook', didExist);
     } catch (exception) {
       console.log(exception.message);
     }
@@ -62,23 +67,26 @@ const AuthScreen = ({ navigation, showPickUsername }) => {
     try {
       const user = await appleAuth();
       const response = await callApi('apple', user, 'POST');
-      const { token, message } = await response.json();
+      const { token, didExist, message } = await response.json();
 
       if (message === 'displayUserPick') {
         showPickUsername({ ...user, onSuccess: handleSuccess });
         return;
       }
 
-      handleSuccess(token);
+      handleSuccess(token, 'apple', didExist);
     } catch (exception) {
       console.log(exception);
     }
   };
 
-  const handleSuccess = async token => {
+  const handleSuccess = async (token, method, didExist) => {
     const { _id } = jwtDecode(token);
     await AsyncStorage.setItem('CHRDS_TOKEN', token);
     navigation.navigate('Home', { userID: _id });
+
+    if (didExist) analytics.logLogin({ method });
+    else analytics.logSignUp({ method });
   };
 
   return (

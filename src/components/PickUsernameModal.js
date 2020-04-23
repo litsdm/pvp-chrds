@@ -22,6 +22,7 @@ const PickUsernameModal = ({
 
   const handleSubmit = async () => {
     try {
+      const method = facebookID ? 'facebook' : 'apple';
       const payload = {
         username: displayName.toLowerCase(),
         appleID,
@@ -34,7 +35,7 @@ const PickUsernameModal = ({
 
       if (message) throw new Error(message);
 
-      onSuccess(token);
+      onSuccess(token, method, true);
     } catch (exception) {
       displayBadge(exception.message, 'error');
     }

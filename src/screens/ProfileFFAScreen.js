@@ -6,6 +6,8 @@ import { object } from 'prop-types';
 import GET_DATA from '../graphql/queries/getProfileFFAData';
 import GET_USER_DATA from '../graphql/queries/getFFAUserData';
 
+import analytics from '../helpers/analyticsClient';
+
 import MatchRecyclerView from '../components/FFA/MatchRecyclerView';
 
 const provider = new DataProvider((a, b) => a._id !== b._id);
@@ -28,6 +30,10 @@ const ProfileFFAScreen = ({ navigation }) => {
   const user = userData ? userData.user : {};
 
   _guessing = guessing;
+
+  useEffect(() => {
+    analytics.setCurrentScreen({ screenName: 'ProfileFFA' });
+  }, []);
 
   useEffect(() => {
     if (data && data.matches && data.matches.length > 0)
