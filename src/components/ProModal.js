@@ -24,6 +24,7 @@ const ProModal = ({ close, openShop, type }) => {
 
   useEffect(() => {
     analytics.logEvent('show_pro_offer', { type });
+
     const config = {
       toValue: 1,
       duration: 200,
