@@ -147,6 +147,12 @@ const PlayPopup = ({
 
     if (!opponent) return;
 
+    const payload = {
+      userID: opponent,
+      opponentUsername: user.displayName,
+      type: 'create'
+    };
+
     const variables = {
       players: [user._id, opponent],
       category: finalCategory,
@@ -164,6 +170,8 @@ const PlayPopup = ({
 
     await updateUser({ variables: { id: user._id, properties } });
     await createMatch({ variables });
+
+    await callApi('notify', payload, 'POST');
   };
 
   const handleFFADone = async () => {

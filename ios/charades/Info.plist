@@ -54,7 +54,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow CHRDS to access your microphone to add sound to your act if you get the sound powerup.</string>
 	<key>NSMotionUsageDescription</key>
-	<string>Allow CHRDS to access your device's accelerometer</string>
+	<string>Allow CHRDS to access your device&apos;s accelerometer</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Give CHRDS periences permission to save photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -63,6 +63,11 @@
 	<string>Allow CHRDS to access your reminders</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
+	<key>UIBackgroundModes</key>
+	<array>
+			<string>remote-notification</string>
+			<string>fetch</string>
+	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

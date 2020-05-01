@@ -19,6 +19,7 @@ export default gql`
     }
     user(_id: $_id) {
       _id
+      displayName
       categories
       coins
       isPro

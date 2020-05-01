@@ -331,10 +331,19 @@ const HomeScreen = ({
       (await AsyncStorage.getItem(`${user._id}-fbtokenExists`)) === 'true';
     if (didSetToken) return;
 
+    const settings = await messaging.requestPermission();
+    if (settings !== 1) return;
+
     const firebaseToken = await messaging.getToken();
     const properties = JSON.stringify({ firebaseToken });
 
-    updateUser({ variables: { id: user._id, properties } });
+    console.log(firebaseToken);
+
+    if (!firebaseToken) return;
+
+    console.log('should update');
+
+    await updateUser({ variables: { id: user._id, properties } });
     AsyncStorage.setItem(`${user._id}-fbtokenExists`, 'true');
   };
 

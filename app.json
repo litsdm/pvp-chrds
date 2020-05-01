@@ -2,6 +2,7 @@
   "expo": {
     "name": "charades",
     "slug": "charades",
+    "sdkVersion": "37.0.3",
     "platforms": [
       "ios",
       "android"
@@ -15,12 +16,6 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.cdiezmoran.chrdsapp"
@@ -29,6 +24,5 @@
       "package": "com.cdiezmoran.chrds"
     },
     "entryPoint": "node_modules/expo/AppEntry.js"
-  },
-  "displayName": "Charades"
+  }
 }

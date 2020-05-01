@@ -34,7 +34,6 @@
     "expo-in-app-purchases": "^8.1.0",
     "expo-linear-gradient": "^8.1.0",
     "expo-store-review": "^2.1.0",
-    "expo-updates": "~0.1.0",
     "expo-video-thumbnails": "^4.1.1",
     "expo-web-browser": "~8.1.0",
     "fuse.js": "^5.2.2",

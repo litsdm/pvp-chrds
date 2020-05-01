@@ -99,7 +99,11 @@ const App = ({
   }, []);
 
   const handleAnalytics = async () => {
-    const { _id } = JwtDecode(await AsyncStorage.getItem('CHRDS_TOKEN'));
+    const token = await AsyncStorage.getItem('CHRDS_TOKEN');
+
+    if (!token) return;
+
+    const { _id } = JwtDecode(token);
     const analyticsUserID = await AsyncStorage.getItem('analyticsUserID');
     if (analyticsUserID !== _id) {
       analytics.setUserId(_id);
