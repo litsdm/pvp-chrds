@@ -9,6 +9,7 @@ import * as Brightness from 'expo-brightness';
 import { getInfoAsync, deleteAsync } from 'expo-file-system';
 import { func, object } from 'prop-types';
 
+import callApi from '../helpers/apiCaller';
 import mime from '../helpers/mimeTypes';
 import { analytics } from '../helpers/firebaseClients';
 import { useAnimation } from '../helpers/hooks';
@@ -37,7 +38,7 @@ import Walkthrough from '../components/Camera/Walkthrough';
 import FFATopControls from '../components/Camera/FFATopControls';
 
 const mapDispatchToProps = dispatch => ({
-  uploadFile: file => dispatch(upload(file)),
+  uploadFile: (file, finishCB) => dispatch(upload(file, finishCB)),
   uploadFFAFile: file => dispatch(uploadFFA(file)),
   displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),
   openCoinShop: () => dispatch(togglePurchasePopup(true)),
@@ -286,6 +287,10 @@ const CameraScreen = ({
     });
   };
 
+  const handleUploadFinish = notificationPayload => () => {
+    callApi('notify', notificationPayload, 'POST');
+  };
+
   const handleVersusSend = async () => {
     const { size } = await getInfoAsync(videoUri, { size: true });
     const extension = videoUri.split('.').pop();
@@ -304,11 +309,17 @@ const CameraScreen = ({
       cameraType: Platform.OS === 'ios' ? iosCameraType : cameraType
     };
 
+    const notificationPayload = {
+      userID: opponent._id,
+      opponentUsername: user.displayName,
+      type: 'turn'
+    };
+
     await AsyncStorage.removeItem(`${matchID}-word`);
     await AsyncStorage.removeItem(`${matchID}-rolls`);
     await AsyncStorage.removeItem(`${matchID}-activePowerups`);
 
-    uploadFile(file);
+    uploadFile(file, handleUploadFinish(notificationPayload));
 
     navigation.navigate('Home');
   };

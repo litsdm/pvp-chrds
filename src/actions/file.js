@@ -132,7 +132,7 @@ const uploadPicComplete = ({ userID, s3Url }, onFinish) => async dispatch => {
   dispatch(finishPicUpload());
 };
 
-export const upload = file => async dispatch => {
+export const upload = (file, finishCB = null) => async dispatch => {
   const { matchID, actedWord, cameraType } = file;
   const folder = 'Videos';
 
@@ -154,6 +154,7 @@ export const upload = file => async dispatch => {
   const handleFinish = doneFile => {
     dispatch(uploadVideoComplete(doneFile));
     deleteAsync(doneFile.uri, { idempotent: true });
+    if (finishCB) finishCB(doneFile);
     AsyncStorage.removeItem('brokenUploadData');
   };
 
