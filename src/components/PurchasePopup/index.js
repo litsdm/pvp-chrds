@@ -184,21 +184,25 @@ const PurchasePopup = ({ close, displayBadge }) => {
   };
 
   const renderTiers = () =>
-    data.reduce((result, { price, priceAmountMicros }, index) => {
-      if (index === 0) return result;
-      result.push(
-        <Tier
-          selected={index === selected}
-          select={select(index)}
-          cost={price}
-          coins={coins[index]}
-          name={tierNames[index]}
-          index={index}
-          key={priceAmountMicros}
-        />
-      );
-      return result;
-    }, []);
+    data.reduce(
+      (result, { price, priceAmountMicros, priceCurrencyCode }, index) => {
+        if (index === 0) return result;
+        result.push(
+          <Tier
+            selected={index === selected}
+            select={select(index)}
+            cost={price}
+            coins={coins[index]}
+            name={tierNames[index]}
+            index={index}
+            key={priceAmountMicros}
+            currencyCode={priceCurrencyCode}
+          />
+        );
+        return result;
+      },
+      []
+    );
 
   const renderLifeTiers = () =>
     livesData.map((life, index) => (
@@ -224,8 +228,10 @@ const PurchasePopup = ({ close, displayBadge }) => {
             <>
               <Text style={styles.buttonText}>Buy Charades Pro</Text>
               <Text style={styles.buttonSubtext}>
-                {data.length > 0 ? formatPrice(data[0].price) : ''} billed
-                monthly
+                {data.length > 0
+                  ? `${formatPrice(data[0].price)} ${data[0].priceCurrencyCode}`
+                  : ''}{' '}
+                billed monthly
               </Text>
             </>
           )}
@@ -239,7 +245,11 @@ const PurchasePopup = ({ close, displayBadge }) => {
           <Text style={styles.buttonText}>Purchase {tierNames[selected]}</Text>
           <Text style={styles.buttonSubtext}>
             One time payment of{' '}
-            {data.length > 0 ? formatPrice(data[selected].price) : ''}
+            {data.length > 0
+              ? `${formatPrice(data[selected].price)} ${
+                  data[selected].priceCurrencyCode
+                }`
+              : ''}
           </Text>
         </TouchableOpacity>
       );
@@ -306,7 +316,9 @@ const PurchasePopup = ({ close, displayBadge }) => {
                   <Text style={styles.subPrice}>
                     {formatPrice(data[0].price)}
                   </Text>
-                  <Text style={styles.subpriceText}> per month</Text>
+                  <Text style={styles.subpriceText}>
+                    {data[0].priceCurrencyCode} per month
+                  </Text>
                 </View>
               </View>
             </TouchableWithoutFeedback>

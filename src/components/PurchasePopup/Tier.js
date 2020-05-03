@@ -14,7 +14,7 @@ const icons = [
   <LargeCoins width={36} height={36} />
 ];
 
-const Tier = ({ select, coins, cost, selected, index, name }) => (
+const Tier = ({ select, coins, cost, selected, index, name, currencyCode }) => (
   <TouchableWithoutFeedback onPress={select}>
     <View style={[styles.container, selected ? styles.selected : {}]}>
       <Text style={styles.title}>{name}</Text>
@@ -22,6 +22,7 @@ const Tier = ({ select, coins, cost, selected, index, name }) => (
       {icons[index - 1]}
       <Text style={styles.cost}>
         {cost.includes('.') ? cost : `${cost}.00`}
+        <Text style={styles.currencyCode}> {currencyCode}</Text>
       </Text>
     </View>
   </TouchableWithoutFeedback>
@@ -55,7 +56,13 @@ const styles = StyleSheet.create({
   cost: {
     fontFamily: 'sf-bold',
     fontSize: 14,
-    marginTop: 12
+    marginTop: 12,
+    textAlign: 'center'
+  },
+  currencyCode: {
+    fontFamily: 'sf-light',
+    fontSize: 10,
+    opacity: 0.6
   }
 });
 
@@ -65,7 +72,8 @@ Tier.propTypes = {
   cost: string.isRequired,
   coins: number.isRequired,
   index: number.isRequired,
-  name: string.isRequired
+  name: string.isRequired,
+  currencyCode: string.isRequired
 };
 
 export default Tier;
