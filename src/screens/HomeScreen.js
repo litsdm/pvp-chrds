@@ -18,7 +18,6 @@ import {
   IAPResponseCode
 } from 'expo-in-app-purchases';
 import AsyncStorage from '@react-native-community/async-storage';
-import { FontAwesome5 } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { bool, func, number, object, shape, string } from 'prop-types';
@@ -31,19 +30,12 @@ import UPDATE_MATCH from '../graphql/mutations/updateMatch';
 import UPDATE_USER from '../graphql/mutations/updateUser';
 import DELETE_MATCH from '../graphql/mutations/deleteMatch';
 
-import {
-  togglePlay,
-  toggleNetworkModal,
-  togglePurchasePopup,
-  toggleTerms
-} from '../actions/popup';
+import { togglePlay, toggleNetworkModal, toggleTerms } from '../actions/popup';
 import { setRefetchUser } from '../actions/user';
 
 import { analytics, messaging } from '../helpers/firebaseClients';
-import { useDateCountdown } from '../helpers/hooks';
 
 import AnimatedCircle from '../components/AnimatedCircle';
-import ProgressBar from '../components/LevelProgressBar';
 import MatchRow from '../components/MatchRow';
 import FinishedMatchRow from '../components/FinishedMatchRow';
 import Loader from '../components/Loader';
@@ -52,13 +44,14 @@ import FFARow from '../components/FFARow';
 import NotificationModal from '../components/FFA/NotificationModal';
 
 import Crown from '../../assets/icons/crown.svg';
+import FFAIcon from '../../assets/icons/ffa.svg';
+import VersusIcon from '../../assets/icons/1v1.svg';
 
 import Layout from '../constants/Layout';
 
 const mapDispatchToProps = dispatch => ({
   openPlay: (data = {}) => dispatch(togglePlay(true, data)),
   closeNetworkModal: () => dispatch(toggleNetworkModal(false)),
-  openPurchase: () => dispatch(togglePurchasePopup(true)),
   openTerms: data => dispatch(toggleTerms(true, data)),
   didRefetch: () => dispatch(setRefetchUser(false))
 });
@@ -73,20 +66,14 @@ const mapStateToProps = ({
 
 dayjs.extend(isBetween);
 
-const Header = ({
-  user,
-  navigateToSettings,
-  openPurchase,
-  notificationCount,
-  onCountdownEnd
-}) => {
-  const countdown = user.lifeDate
+const Header = ({ user, navigateToSettings, notificationCount }) => {
+  /* const countdown = user.lifeDate
     ? useDateCountdown(
         dayjs(),
         dayjs(user.lifeDate).add(4, 'h'),
         onCountdownEnd
       )
-    : '00:00';
+    : '00:00'; */
   return (
     <>
       <View style={styles.header}>
@@ -150,6 +137,28 @@ const Header = ({
           </TouchableOpacity>
         </View>
       </View>
+      <Text style={styles.title}>Create a Match</Text>
+      <View style={styles.createSection}>
+        <TouchableOpacity style={styles.createRow}>
+          <View style={styles.iconWrapper}>
+            <FFAIcon width={60} height={60} />
+          </View>
+          <Text style={styles.createRowText}>Create Free for All match</Text>
+        </TouchableOpacity>
+        <View style={styles.verticalDivider} />
+        <TouchableOpacity style={styles.createRow}>
+          <View
+            style={[
+              styles.iconWrapper,
+              { backgroundColor: 'rgba(255,82,82, 0.2)' }
+            ]}
+          >
+            <VersusIcon width={60} height={60} />
+          </View>
+          <Text style={styles.createRowText}>Create 1 VS 1 match</Text>
+        </TouchableOpacity>
+      </View>
+      {/*
       <View style={styles.info}>
         <View style={styles.levelSection}>
           <Text style={styles.lvlTxtWrapper}>
@@ -191,6 +200,7 @@ const Header = ({
           Next life in {countdown} hours.
         </Text>
       ) : null}
+      */}
     </>
   );
 };
@@ -200,7 +210,6 @@ const HomeScreen = ({
   openPlay,
   closeNetworkModal,
   displayNetworkModal,
-  openPurchase,
   openTerms,
   didRefetch,
   refetchUser
@@ -557,11 +566,11 @@ const HomeScreen = ({
     setRefreshing(false);
   };
 
-  const handleCountdownEnd = async () => {
+  /* const handleCountdownEnd = async () => {
     const properties = JSON.stringify({ lives: user.lives + 1 });
     await updateUser({ variables: { id: user._id, properties } });
     refetch();
-  };
+  }; */
 
   const renderItem = args => {
     const { title } = args.section;
@@ -620,9 +629,7 @@ const HomeScreen = ({
       <Header
         user={user}
         navigateToSettings={navigateToSettings}
-        openPurchase={openPurchase}
         notificationCount={friendRequests.length}
-        onCountdownEnd={handleCountdownEnd}
       />
     );
   }, [user]);
@@ -731,7 +738,6 @@ const styles = StyleSheet.create({
   verticalDivider: {
     backgroundColor: 'rgba(0, 0, 0, 0.05)',
     height: '100%',
-    marginHorizontal: 12,
     width: 1
   },
   moneySection: {
@@ -832,6 +838,34 @@ const styles = StyleSheet.create({
   nextLife: {
     alignSelf: 'center',
     top: Platform.OS !== 'ios' ? -6 : 0
+  },
+  createSection: {
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderColor: 'rgba(0,0,0,0.04)',
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  createRow: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    width: Layout.window.width / 2 - 0.5
+  },
+  iconWrapper: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(1,180,75, 0.2)',
+    borderRadius: 84 / 2,
+    height: 84,
+    justifyContent: 'center',
+    width: 84
+  },
+  createRowText: {
+    fontFamily: 'sf-medium',
+    fontSize: 12,
+    marginTop: 6
   }
 });
 
@@ -840,7 +874,6 @@ HomeScreen.propTypes = {
   openPlay: func.isRequired,
   closeNetworkModal: func.isRequired,
   displayNetworkModal: bool.isRequired,
-  openPurchase: func.isRequired,
   openTerms: func.isRequired,
   didRefetch: func.isRequired,
   refetchUser: bool.isRequired
@@ -857,9 +890,7 @@ Header.propTypes = {
     xp: number,
     nextXP: number
   }).isRequired,
-  notificationCount: number.isRequired,
-  openPurchase: func.isRequired,
-  onCountdownEnd: func.isRequired
+  notificationCount: number.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
