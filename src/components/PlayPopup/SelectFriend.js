@@ -21,6 +21,8 @@ const SelectFriend = ({ select, openAdd, search, onChangeText, friends }) => {
 
   const ListHeader = (
     <>
+      <Text style={styles.title}>Please select an opponent</Text>
+      <SearchBar search={search} onChangeText={onChangeText} />
       <FriendRow username="Add Friend" onPress={openAdd} />
       <FriendRow username="Random Opponent" onPress={select('-1')} />
     </>
@@ -28,8 +30,6 @@ const SelectFriend = ({ select, openAdd, search, onChangeText, friends }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Please select an opponent</Text>
-      <SearchBar search={search} onChangeText={onChangeText} />
       <FlatList
         data={friends}
         keyExtractor={item => item._id}

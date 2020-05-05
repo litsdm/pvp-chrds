@@ -66,7 +66,7 @@ const mapStateToProps = ({
 
 dayjs.extend(isBetween);
 
-const Header = ({ user, navigateToSettings, notificationCount }) => {
+const Header = ({ user, navigateToSettings, notificationCount, openPlay }) => {
   /* const countdown = user.lifeDate
     ? useDateCountdown(
         dayjs(),
@@ -139,14 +139,14 @@ const Header = ({ user, navigateToSettings, notificationCount }) => {
       </View>
       <Text style={styles.title}>Create a Match</Text>
       <View style={styles.createSection}>
-        <TouchableOpacity style={styles.createRow}>
+        <TouchableOpacity style={styles.createRow} onPress={openPlay('ffa')}>
           <View style={styles.iconWrapper}>
             <FFAIcon width={60} height={60} />
           </View>
           <Text style={styles.createRowText}>Create Free for All match</Text>
         </TouchableOpacity>
         <View style={styles.verticalDivider} />
-        <TouchableOpacity style={styles.createRow}>
+        <TouchableOpacity style={styles.createRow} onPress={openPlay('versus')}>
           <View
             style={[
               styles.iconWrapper,
@@ -425,6 +425,8 @@ const HomeScreen = ({
 
   const onAccept = () => refetch();
 
+  const handleOpenPlay = playMode => () => openPlay({ playMode });
+
   const displayTermsIfNeeded = async () => {
     const showedEula = (await AsyncStorage.getItem('eula')) === 'true';
     if (showedEula) return;
@@ -630,6 +632,7 @@ const HomeScreen = ({
         user={user}
         navigateToSettings={navigateToSettings}
         notificationCount={friendRequests.length}
+        openPlay={handleOpenPlay}
       />
     );
   }, [user]);
@@ -881,6 +884,7 @@ HomeScreen.propTypes = {
 
 Header.propTypes = {
   navigateToSettings: func.isRequired,
+  openPlay: func.isRequired,
   user: shape({
     _id: string,
     displayName: string,

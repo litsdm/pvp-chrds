@@ -39,11 +39,11 @@ const SelectCategory = ({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Please select a category</Text>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentContainer}
       >
+        <Text style={styles.title}>Please select a category</Text>
         <View style={{ marginBottom: 24 }}>
           <CategoryColumn
             name="Random"
@@ -67,14 +67,13 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    paddingTop: 24,
     width: Layout.window.width
   },
   title: {
     color: 'rgba(0,0,0,0.6)',
     fontFamily: 'sf-regular',
     fontSize: 14,
-    marginTop: 12,
+    marginVertical: 12,
     marginLeft: 18,
     textTransform: 'uppercase'
   }
