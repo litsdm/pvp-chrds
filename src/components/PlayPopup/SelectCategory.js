@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyleSheet, ScrollView, Text, View } from 'react-native';
+import {
+  StyleSheet,
+  ScrollView,
+  Text,
+  TouchableWithoutFeedback,
+  View
+} from 'react-native';
 import { arrayOf, bool, func, number, object, shape, string } from 'prop-types';
 
 import CategoryColumn from '../CategoryColumn';
@@ -39,21 +45,22 @@ const SelectCategory = ({
 
   return (
     <View style={styles.container}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainer}
-      >
-        <Text style={styles.title}>Please select a category</Text>
-        <View style={{ marginBottom: 24 }}>
-          <CategoryColumn
-            name="Random"
-            description="Selects a random category"
-            onPress={selectCategory('-1')}
-            color="#03A9F4"
-            selecting
-          />
-        </View>
-        {renderCategories()}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <TouchableWithoutFeedback>
+          <View style={styles.contentContainer}>
+            <Text style={styles.title}>Please select a category</Text>
+            <View style={{ marginBottom: 24 }}>
+              <CategoryColumn
+                name="Random"
+                description="Selects a random category"
+                onPress={selectCategory('-1')}
+                color="#03A9F4"
+                selecting
+              />
+            </View>
+            {renderCategories()}
+          </View>
+        </TouchableWithoutFeedback>
       </ScrollView>
     </View>
   );
