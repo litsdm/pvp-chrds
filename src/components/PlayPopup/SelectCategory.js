@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { StyleSheet, ScrollView, Text, View } from 'react-native';
 import { arrayOf, bool, func, number, object, shape, string } from 'prop-types';
 
 import CategoryColumn from '../CategoryColumn';
@@ -13,109 +7,81 @@ import CategoryColumn from '../CategoryColumn';
 import Layout from '../../constants/Layout';
 
 const SelectCategory = ({
-  handleNext,
-  selectCategory,
-  selectedCategory,
   categories,
-  directPlay,
-  handleDone,
+  selectCategory,
   categoryHash,
-  openPurchase,
+  isPro,
   openShop,
-  isPro
+  openPurchase
 }) => {
   const renderCategories = () =>
     categories.map(
       ({ _id, name, description, image, color, price, proOnly }) => (
-        <CategoryColumn
-          key={_id}
-          name={name}
-          description={description}
-          image={image}
-          color={color}
-          onPress={selectCategory(_id)}
-          selecting
-          selected={selectedCategory === _id}
-          hasCategory={categoryHash[_id] !== undefined || isPro}
-          price={price}
-          openPurchase={
-            proOnly ? openShop : openPurchase({ _id, name, image, price })
-          }
-          proOnly={proOnly}
-        />
+        <View key={_id} style={{ marginBottom: 24 }}>
+          <CategoryColumn
+            key={_id}
+            name={name}
+            description={description}
+            image={image}
+            color={color}
+            onPress={selectCategory(_id)}
+            selecting
+            hasCategory={categoryHash[_id] !== undefined || isPro}
+            price={price}
+            openPurchase={
+              proOnly ? openShop : openPurchase({ _id, name, image, price })
+            }
+            proOnly={proOnly}
+          />
+        </View>
       )
     );
 
-  const disabled = selectedCategory === null;
-
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Select Category</Text>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <CategoryColumn
-          name="Random"
-          description="Selects a random category"
-          onPress={selectCategory('-1')}
-          color="#03A9F4"
-          selecting
-          selected={selectedCategory === '-1'}
-        />
+      <Text style={styles.title}>Please select a category</Text>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainer}
+      >
+        <View style={{ marginBottom: 24 }}>
+          <CategoryColumn
+            name="Random"
+            description="Selects a random category"
+            onPress={selectCategory('-1')}
+            color="#03A9F4"
+            selecting
+          />
+        </View>
         {renderCategories()}
       </ScrollView>
-      <TouchableOpacity
-        style={[styles.button, disabled ? styles.disabled : {}]}
-        onPress={directPlay ? handleDone : handleNext}
-        disabled={disabled}
-      >
-        <Text style={[styles.buttonText, disabled ? styles.disabledText : {}]}>
-          {directPlay ? 'Play' : 'Next'}
-        </Text>
-      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
     paddingBottom: 24,
     width: Layout.window.width
   },
+  contentContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingTop: 24,
+    width: Layout.window.width
+  },
   title: {
-    fontFamily: 'sf-bold',
-    fontSize: 24,
-    marginVertical: 24
-  },
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#7c4dff',
-    borderRadius: 8,
-    justifyContent: 'center',
-    marginVertical: 24,
-    paddingVertical: 6,
-    width: '50%'
-  },
-  buttonText: {
-    color: '#fff',
-    fontFamily: 'sf-bold',
-    fontSize: 18
-  },
-  disabled: {
-    backgroundColor: 'rgba(44, 44, 44, 0.2)'
-  },
-  disabledText: {
-    color: '#777'
+    color: 'rgba(0,0,0,0.6)',
+    fontFamily: 'sf-regular',
+    fontSize: 14,
+    marginTop: 12,
+    marginLeft: 18,
+    textTransform: 'uppercase'
   }
 });
 
 SelectCategory.propTypes = {
-  handleNext: func.isRequired,
   selectCategory: func.isRequired,
-  selectedCategory: string,
-  directPlay: bool.isRequired,
-  handleDone: func.isRequired,
   openPurchase: func.isRequired,
   categories: arrayOf(
     shape({
@@ -134,7 +100,6 @@ SelectCategory.propTypes = {
 
 SelectCategory.defaultProps = {
   categories: [],
-  selectedCategory: null,
   categoryHash: {}
 };
 

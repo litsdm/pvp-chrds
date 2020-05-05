@@ -8,21 +8,13 @@ import {
   View
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { bool, func, string } from 'prop-types';
+import { func, string } from 'prop-types';
 
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 
-const FriendRow = ({ username, uri, onPress, selected }) => (
-  <TouchableOpacity
-    style={[styles.container, selected ? styles.containerSelect : {}]}
-    onPress={onPress}
-  >
+const FriendRow = ({ username, uri, onPress }) => (
+  <TouchableOpacity style={styles.container} onPress={onPress}>
     <View style={styles.imageWrapper}>
-      {selected ? (
-        <View style={styles.imageOverlay}>
-          <Ionicons name="ios-checkmark" size={36} color="#7c4dff" />
-        </View>
-      ) : null}
       {uri ? (
         <Image style={styles.image} source={{ uri }} />
       ) : (
@@ -46,9 +38,7 @@ const FriendRow = ({ username, uri, onPress, selected }) => (
         </View>
       )}
     </View>
-    <Text style={[styles.username, { color: selected ? '#7c4dff' : '#000' }]}>
-      {username}
-    </Text>
+    <Text style={styles.username}>{username}</Text>
   </TouchableOpacity>
 );
 
@@ -61,9 +51,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingVertical: 6,
     paddingHorizontal: 6
-  },
-  containerSelect: {
-    backgroundColor: 'rgba(124,77,255, 0.1)'
   },
   imageWrapper: {
     alignItems: 'center',
@@ -119,8 +106,7 @@ const styles = StyleSheet.create({
 FriendRow.propTypes = {
   username: string.isRequired,
   uri: string,
-  onPress: func.isRequired,
-  selected: bool.isRequired
+  onPress: func.isRequired
 };
 
 FriendRow.defaultProps = {

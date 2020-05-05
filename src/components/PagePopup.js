@@ -9,6 +9,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import {
   arrayOf,
+  bool,
   func,
   node,
   number,
@@ -30,7 +31,8 @@ const PagePopup = ({
   title,
   page,
   containerStyle,
-  animation
+  animation,
+  avoidKeyboard
 }) => {
   const { animationValue, animateTo } =
     animation || useAnimation({ type: 'spring' });
@@ -61,6 +63,7 @@ const PagePopup = ({
       close={close}
       animation={{ animationValue, animateTo }}
       showsDragIndicator={false}
+      avoidKeyboard={avoidKeyboard}
     >
       <View style={[containerStyle || styles.container]}>
         <View style={styles.header}>
@@ -128,14 +131,16 @@ PagePopup.propTypes = {
   title: string.isRequired,
   page: number.isRequired,
   containerStyle: object,
-  animation: object
+  animation: object,
+  avoidKeyboard: bool
 };
 
 PagePopup.defaultProps = {
   children: null,
   back: null,
   containerStyle: null,
-  animation: null
+  animation: null,
+  avoidKeyboard: true
 };
 
 export default PagePopup;

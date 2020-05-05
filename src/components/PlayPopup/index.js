@@ -1,24 +1,24 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { ScrollView } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
-import Fuse from 'fuse.js';
+import AsyncStorage from '@react-native-community/async-storage';
 import jwtDecode from 'jwt-decode';
+import Fuse from 'fuse.js';
 import { func, string } from 'prop-types';
+
+import callApi from '../../helpers/apiCaller';
+import { analytics } from '../../helpers/firebaseClients';
+
+import Layout from '../../constants/Layout';
 
 import GET_DATA from '../../graphql/queries/getPlayPopupData';
 import UPDATE_USER from '../../graphql/mutations/updateUser';
 import CREATE_MATCH from '../../graphql/mutations/createMatch';
 
-import callApi from '../../helpers/apiCaller';
-import { analytics } from '../../helpers/firebaseClients';
-
-import Popup from '../Popup';
+import PagePopup from '../PagePopup';
+import SelectMode from './SelectMode';
 import SelectCategory from './SelectCategory';
 import SelectFriend from './SelectFriend';
-import SelectMode from './SelectMode';
-
-import Layout from '../../constants/Layout';
 
 const fuzzyOptions = {
   shouldSort: true,
@@ -30,37 +30,47 @@ const fuzzyOptions = {
   keys: ['username']
 };
 
+const Page = {
+  MODE: 0,
+  CATEGORY: 1,
+  FRIEND: 2
+};
+
 const PlayPopup = ({
   close,
   category,
-  mode,
   friend,
+  mode,
+  openShop,
+  openPurchase,
   navigate,
   openAdd,
-  openPurchase,
-  openProModal,
-  openShop
+  openProModal
 }) => {
-  const modeNumber = mode === 'versus' ? 1 : 0;
   const [getData, { data }] = useLazyQuery(GET_DATA);
   const [createMatch, { data: matchData }] = useMutation(CREATE_MATCH);
   const [updateUser] = useMutation(UPDATE_USER);
+  const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(category);
   const [selectedFriend, setSelectedFriend] = useState(friend);
-  const [selectedMode, setSelectedMode] = useState(friend ? 1 : modeNumber);
-  const [search, setSearch] = useState('');
-  const [page, setPage] = useState(friend || mode ? 1 : 0);
+  const [selectedMode, setSelectedMode] = useState(null);
   const [categoryHash, setCategoryHash] = useState({});
-  const scrollView = useRef(null);
+  const [page, setPage] = useState(Page.MODE);
 
   const friends = data ? data.friends : [];
   const { categories, user } = data || {};
 
   const fuse = new Fuse(friends, fuzzyOptions);
-  const results = fuse.search(search);
+  const results = fuse.search(search).map(({ item }) => item);
 
   useEffect(() => {
     fetchFriends();
+
+    if (friend || mode) {
+      const modeNumber = mode && mode === 'versus' ? 1 : 0;
+      setSelectedMode(friend ? 1 : modeNumber);
+      setPage(Page.CATEGORY);
+    }
   }, []);
 
   useEffect(() => {
@@ -74,10 +84,6 @@ const PlayPopup = ({
   }, [user]);
 
   useEffect(() => {
-    scrollPage();
-  }, [page]);
-
-  useEffect(() => {
     if (matchData && matchData.match) navigateOnDone();
   }, [matchData]);
 
@@ -87,33 +93,31 @@ const PlayPopup = ({
     getData({ variables: { _id } });
   };
 
-  const handleTextChange = text => setSearch(text);
-
-  const scrollPage = () => {
-    if (!scrollView.current) return;
-    scrollView.current.scrollTo({
-      x: Layout.window.width * page,
-      y: 0,
-      animated: true
+  const navigateOnDone = () => {
+    navigate('Camera', {
+      categoryID: selectedCategory,
+      opponentID: selectedFriend,
+      matchID: matchData.match._id,
+      userID: user._id,
+      mode: 'versus'
     });
+    close();
   };
 
-  const selectCategory = _id => () => {
-    if (_id === selectedCategory) setSelectedCategory(null);
-    else setSelectedCategory(_id);
+  const back = () => {
+    if (page === Page.FRIEND) setSelectedFriend(null);
+    else if (page === Page.CATEGORY) setSelectedCategory(null);
+    setPage(page - 1);
   };
 
-  const selectFriend = _id => () => setSelectedFriend(_id);
-  const selectMode = newMode => () => setSelectedMode(newMode);
-
-  const handleNext = () => {
-    if (selectedCategory === null) return;
-    setPage(2);
-  };
-
-  const handleModeNext = () => {
-    if (category !== null) setPage(2);
-    else setPage(1);
+  const getFinalCategory = actualCategory => {
+    let finalCategory = actualCategory;
+    if (selectedCategory === '-1') {
+      const randomIndex = Math.floor(Math.random() * user.categories.length);
+      finalCategory = user.categories[randomIndex];
+      setSelectedCategory(finalCategory);
+    }
+    return finalCategory;
   };
 
   const fetchRandomOpponent = async () => {
@@ -126,14 +130,24 @@ const PlayPopup = ({
     }
   };
 
-  const handleDone = async () => {
-    if (selectedMode === 0) handleFFADone();
-    else handleVersusDone();
+  const handleFFAPlay = async actualCategory => {
+    const finalCategory = getFinalCategory(actualCategory);
+
+    analytics.logEvent('play_select_ffa', {
+      category: finalCategory
+    });
+
+    navigate('Camera', {
+      categoryID: finalCategory,
+      userID: user._id,
+      mode: 'ffa'
+    });
+    close();
   };
 
-  const handleVersusDone = async () => {
-    const finalCategory = getFinalCategory();
-    let opponent = selectedFriend;
+  const handleVersusPlay = async (actualCategory, actualFriend) => {
+    const finalCategory = getFinalCategory(actualCategory);
+    let opponent = actualFriend;
 
     if (!user.isPro && user.lives <= 0) {
       openProModal();
@@ -174,40 +188,36 @@ const PlayPopup = ({
     await callApi('notify', payload, 'POST');
   };
 
-  const handleFFADone = async () => {
-    const finalCategory = getFinalCategory();
+  const handlePlay = async (args = {}) => {
+    const { newMode, newCategory, newFriend } = args;
+    const actualMode = newMode !== undefined ? newMode : selectedMode;
+    const actualFriend = newFriend !== undefined ? newFriend : selectedFriend;
+    const actualCategory =
+      newCategory !== undefined ? newCategory : selectedCategory;
 
-    analytics.logEvent('play_select_ffa', {
-      category: finalCategory
-    });
-
-    navigate('Camera', {
-      categoryID: finalCategory,
-      userID: user._id,
-      mode: 'ffa'
-    });
-    close();
+    if (actualMode === 0) handleFFAPlay(actualCategory);
+    else handleVersusPlay(actualCategory, actualFriend);
   };
 
-  const getFinalCategory = () => {
-    let finalCategory = selectedCategory;
-    if (selectedCategory === '-1') {
-      const randomIndex = Math.floor(Math.random() * user.categories.length);
-      finalCategory = user.categories[randomIndex];
-      setSelectedCategory(finalCategory);
-    }
-    return finalCategory;
+  const selectMode = newMode => () => {
+    setSelectedMode(newMode);
+
+    if (selectedCategory !== null && newMode === 0) handlePlay({ newMode });
+    else if (selectedCategory !== null && newMode === 1) setPage(Page.FRIEND);
+    else setPage(Page.CATEGORY);
   };
 
-  const navigateOnDone = () => {
-    navigate('Camera', {
-      categoryID: selectedCategory,
-      opponentID: selectedFriend,
-      matchID: matchData.match._id,
-      userID: user._id,
-      mode: 'versus'
-    });
-    close();
+  const selectCategory = newCategory => () => {
+    setSelectedCategory(newCategory);
+
+    if (selectedFriend !== null || selectedMode === 0)
+      handlePlay({ newCategory });
+    else setPage(Page.FRIEND);
+  };
+
+  const selectFriend = newFriend => () => {
+    setSelectedFriend(newFriend);
+    handlePlay({ newFriend });
   };
 
   const handleOpenPurchase = dataCategory => () => {
@@ -215,51 +225,42 @@ const PlayPopup = ({
     openPurchase(openData);
   };
 
+  const handleTextChange = text => setSearch(text);
+
   return (
-    <Popup close={close}>
-      <ScrollView
-        ref={scrollView}
-        horizontal
-        scrollEnabled={false}
-        decelerationRate="fast"
-        snapToAlignment="start"
-        snapToInterval={Layout.window.width}
-        bounces={false}
-        disableIntervalMomentum
-        disableScrollViewPanResponder
-      >
-        <SelectMode
-          handleNext={handleModeNext}
-          selectMode={selectMode}
-          selected={selectedMode}
-          handlePlay={handleDone}
-          didSelectCategory={category !== null}
-        />
-        <SelectCategory
-          handleNext={handleNext}
-          selectCategory={selectCategory}
-          selectedCategory={selectedCategory}
-          categories={categories || []}
-          directPlay={friend !== null || selectedMode === 0}
-          handleDone={handleDone}
-          categoryHash={categoryHash}
-          isPro={user ? user.isPro : false}
-          openPurchase={handleOpenPurchase}
-          openShop={openShop}
-        />
-        <SelectFriend
-          handleDone={handleDone}
-          friends={results.length > 0 ? results : friends}
-          onChangeText={handleTextChange}
-          selected={selectedFriend}
-          select={selectFriend}
-          search={search}
-          openAdd={openAdd}
-        />
-      </ScrollView>
-    </Popup>
+    <PagePopup
+      close={close}
+      back={back}
+      title="Create a Match"
+      page={page}
+      containerStyle={styles.container}
+      avoidKeyboard={false}
+    >
+      <SelectMode selectMode={selectMode} />
+      <SelectCategory
+        categories={categories || []}
+        selectCategory={selectCategory}
+        categoryHash={categoryHash}
+        isPro={user ? user.isPro : false}
+        openPurchase={handleOpenPurchase}
+        openShop={openShop}
+      />
+      <SelectFriend
+        friends={results.length > 0 ? results : friends}
+        select={selectFriend}
+        search={search}
+        openAdd={openAdd}
+        onChangeText={handleTextChange}
+      />
+    </PagePopup>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    height: (Layout.window.height * 7) / 8
+  }
+});
 
 PlayPopup.propTypes = {
   close: func.isRequired,
