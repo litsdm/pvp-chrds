@@ -93,7 +93,7 @@ const SettingsScreen = ({
     getData({ variables: { _id } });
   };
 
-  const goBack = () => navigation.navigate('Home');
+  const goBack = () => navigation.navigate('Profile');
   const sendSMS = () => Linking.openURL('sms:+5215566096148');
   const sendEmail = () => Linking.openURL('mailto:pame.aridjis@gmail.com');
   const goToGeneral = () => navigation.navigate('General');

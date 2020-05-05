@@ -66,7 +66,7 @@ const mapStateToProps = ({
 
 dayjs.extend(isBetween);
 
-const Header = ({ user, navigateToSettings, notificationCount, openPlay }) => {
+const Header = ({ user, navigateToProfile, notificationCount, openPlay }) => {
   /* const countdown = user.lifeDate
     ? useDateCountdown(
         dayjs(),
@@ -110,7 +110,7 @@ const Header = ({ user, navigateToSettings, notificationCount, openPlay }) => {
         <View style={styles.rightSide}>
           <TouchableOpacity
             style={styles.imgButton}
-            onPress={navigateToSettings}
+            onPress={navigateToProfile}
           >
             <Image
               resizeMode="cover"
@@ -513,7 +513,6 @@ const HomeScreen = ({
     ]);
   };
 
-  const navigateToSettings = () => navigation.navigate('Settings');
   const navigateToFFA = () => navigation.navigate('FFA', { userID: user._id });
   const navigateToProfile = () =>
     navigation.navigate('Profile', { profileUserID: userID, userID });
@@ -630,7 +629,7 @@ const HomeScreen = ({
     return (
       <Header
         user={user}
-        navigateToSettings={navigateToSettings}
+        navigateToProfile={navigateToProfile}
         notificationCount={friendRequests.length}
         openPlay={handleOpenPlay}
       />
@@ -883,7 +882,7 @@ HomeScreen.propTypes = {
 };
 
 Header.propTypes = {
-  navigateToSettings: func.isRequired,
+  navigateToProfile: func.isRequired,
   openPlay: func.isRequired,
   user: shape({
     _id: string,

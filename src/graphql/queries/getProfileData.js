@@ -9,6 +9,7 @@ export default gql`
       isPro
       level
       xp
+      coins
       nextXP
       ffaPoints
       wonGames

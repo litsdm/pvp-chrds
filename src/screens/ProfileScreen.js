@@ -25,7 +25,7 @@ import DELETE_FFA_MATCH from '../graphql/mutations/deleteFFAMatch';
 
 import { analytics } from '../helpers/firebaseClients';
 import { addThumbnail } from '../actions/cache';
-import { togglePlay, toggleBadge } from '../actions/popup';
+import { togglePlay, toggleBadge, togglePurchasePopup } from '../actions/popup';
 import { useAnimation } from '../helpers/hooks';
 import Layout from '../constants/Layout';
 
@@ -38,7 +38,8 @@ import Loader from '../components/Profile/Loader';
 const mapDispatchToProps = dispatch => ({
   addToCache: (_id, uri) => dispatch(addThumbnail(_id, uri)),
   openPlay: data => dispatch(togglePlay(true, data)),
-  displayBadge: (message, type) => dispatch(toggleBadge(true, message, type))
+  displayBadge: (message, type) => dispatch(toggleBadge(true, message, type)),
+  openShop: () => dispatch(togglePurchasePopup(true))
 });
 
 const mapStateToProps = ({ cache: { thumbnails } }) => ({
@@ -60,7 +61,8 @@ const ProfileScreen = ({
   thumbnailCache,
   addToCache,
   openPlay,
-  displayBadge
+  displayBadge,
+  openShop
 }) => {
   const userID = navigation.getParam('userID', '');
   const profileUserID = navigation.getParam('profileUserID', '');
@@ -274,6 +276,7 @@ const ProfileScreen = ({
       profileUserID,
       initialRenderIndex: index
     });
+  const goToSettings = () => navigation.navigate('Settings');
 
   const renderHeader = () => (
     <Header
@@ -283,6 +286,8 @@ const ProfileScreen = ({
       isSelf={profileUserID === userID}
       onChallengePress={handleOpenPlay}
       onMorePress={openMore}
+      navigateToSettings={goToSettings}
+      openShop={openShop}
     />
   );
 
@@ -436,7 +441,8 @@ ProfileScreen.propTypes = {
   thumbnailCache: object.isRequired,
   addToCache: func.isRequired,
   openPlay: func.isRequired,
-  displayBadge: func.isRequired
+  displayBadge: func.isRequired,
+  openShop: func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);

@@ -53,13 +53,13 @@ const SettingsStack = createStackNavigator(
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
-    Settings: SettingsStack,
     Camera: CameraStack,
     Match: {
       screen: MatchScreen
     },
     Profile: ProfileScreen,
-    ProfileFFA: ProfileFFAScreen
+    ProfileFFA: ProfileFFAScreen,
+    Settings: SettingsStack
   },
   config
 );
