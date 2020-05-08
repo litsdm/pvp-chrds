@@ -524,7 +524,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#7c4dff'
   },
   goBack: {
+    alignItems: 'center',
     height: 30,
+    justifyContent: 'center',
     left: 24,
     position: 'absolute',
     top: 24,

@@ -102,6 +102,12 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     zIndex: -1
   },
+  back: {
+    alignItems: 'center',
+    height: 30,
+    justifyContent: 'center',
+    width: 30
+  },
   nav: {
     alignItems: 'center',
     flexDirection: 'row',

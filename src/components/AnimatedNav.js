@@ -61,7 +61,9 @@ const styles = StyleSheet.create({
     zIndex: 3
   },
   button: {
+    alignItems: 'center',
     height: 30,
+    justifyContent: 'center',
     width: 30
   },
   title: {
