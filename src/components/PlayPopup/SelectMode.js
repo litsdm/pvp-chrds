@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import { func } from 'prop-types';
 
 import Layout from '../../constants/Layout';
@@ -92,8 +98,8 @@ const styles = StyleSheet.create({
   buttonBottom: {
     backgroundColor: '#7c4dff',
     borderRadius: 12,
-    bottom: 0,
-    height: 198 + 6,
+    bottom: Platform.OS === 'ios' ? 8 : 0,
+    height: Platform.OS === 'ios' ? 198 - 2 : 198 + 6,
     position: 'absolute',
     width: Layout.window.width / 2 - 18
   }

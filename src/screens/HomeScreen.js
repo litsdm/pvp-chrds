@@ -767,7 +767,8 @@ const styles = StyleSheet.create({
   createWrapper: {
     alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    paddingTop: Platform.OS === 'ios' ? 18 : 0
   },
   shopButton: {
     alignItems: 'center',
