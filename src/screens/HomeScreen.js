@@ -18,6 +18,7 @@ import {
   IAPResponseCode
 } from 'expo-in-app-purchases';
 import AsyncStorage from '@react-native-community/async-storage';
+import { Ionicons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { bool, func, number, object, shape, string } from 'prop-types';
@@ -30,7 +31,12 @@ import UPDATE_MATCH from '../graphql/mutations/updateMatch';
 import UPDATE_USER from '../graphql/mutations/updateUser';
 import DELETE_MATCH from '../graphql/mutations/deleteMatch';
 
-import { togglePlay, toggleNetworkModal, toggleTerms } from '../actions/popup';
+import {
+  togglePlay,
+  toggleNetworkModal,
+  toggleTerms,
+  togglePurchasePopup
+} from '../actions/popup';
 import { setRefetchUser } from '../actions/user';
 
 import { analytics, messaging } from '../helpers/firebaseClients';
@@ -53,7 +59,8 @@ const mapDispatchToProps = dispatch => ({
   openPlay: (data = {}) => dispatch(togglePlay(true, data)),
   closeNetworkModal: () => dispatch(toggleNetworkModal(false)),
   openTerms: data => dispatch(toggleTerms(true, data)),
-  didRefetch: () => dispatch(setRefetchUser(false))
+  didRefetch: () => dispatch(setRefetchUser(false)),
+  openShop: () => dispatch(togglePurchasePopup(true))
 });
 
 const mapStateToProps = ({
@@ -64,146 +71,105 @@ const mapStateToProps = ({
   refetchUser
 });
 
+const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
+
 dayjs.extend(isBetween);
 
-const Header = ({ user, navigateToProfile, notificationCount, openPlay }) => {
-  /* const countdown = user.lifeDate
-    ? useDateCountdown(
-        dayjs(),
-        dayjs(user.lifeDate).add(4, 'h'),
-        onCountdownEnd
-      )
-    : '00:00'; */
-  return (
-    <>
-      <View style={styles.header}>
-        <AnimatedCircle
-          color="#7C4DFF"
-          size={152}
-          animationType="position-opacity"
-          endPosition={{ y: 152 - 152 / 4, x: -152 + 152 / 3 }}
-          circleStyle={{ right: -152, top: -152 }}
-        />
-        <AnimatedCircle
-          color="#FFC107"
-          size={115}
-          animationType="position-opacity"
-          delay={150}
-          endPosition={{ y: 115 - 115 / 3.5, x: 0 }}
-          circleStyle={{ top: -115, right: 42 }}
-        />
-        <AnimatedCircle
-          color="#FF5252"
-          size={90}
-          animationType="position-opacity"
-          delay={300}
-          endPosition={{ y: 90 - 90 / 1.8, x: 0 }}
-          circleStyle={{ top: -90, left: 42 }}
-          empty
-        />
-        <View style={styles.leftSide}>
-          <Text style={styles.greeting} numberOfLines={2} ellipsizeMode="tail">
-            Hello {user.displayName},
-          </Text>
-          <Text style={styles.subtitle}>Ready to Play?</Text>
-        </View>
-        <View style={styles.rightSide}>
-          <TouchableOpacity
-            style={styles.imgButton}
-            onPress={navigateToProfile}
-          >
-            <Image
-              resizeMode="cover"
-              source={{ uri: user.profilePic }}
-              style={styles.profilePic}
-            />
-            {notificationCount > 0 ? (
-              <View style={styles.badge}>
-                <Text
-                  style={[
-                    styles.badgeText,
-                    { fontSize: notificationCount < 10 ? 12 : 10 }
-                  ]}
-                >
-                  {notificationCount < 10 ? notificationCount : '9+'}
-                </Text>
-              </View>
-            ) : null}
-            {user.isPro ? (
-              <View style={styles.proBadge}>
-                <Crown width={12} height={12} />
-              </View>
-            ) : null}
-          </TouchableOpacity>
-        </View>
-      </View>
-      <Text style={styles.title}>Create a Match</Text>
-      <View style={styles.createSection}>
-        <TouchableOpacity style={styles.createRow} onPress={openPlay('ffa')}>
-          <View style={styles.iconWrapper}>
-            <FFAIcon width={60} height={60} />
-          </View>
-          <Text style={styles.createRowText}>Create Free for All match</Text>
-        </TouchableOpacity>
-        <View style={styles.verticalDivider} />
-        <TouchableOpacity style={styles.createRow} onPress={openPlay('versus')}>
-          <View
-            style={[
-              styles.iconWrapper,
-              { backgroundColor: 'rgba(255,82,82, 0.2)' }
-            ]}
-          >
-            <VersusIcon width={60} height={60} />
-          </View>
-          <Text style={styles.createRowText}>Create 1 VS 1 match</Text>
-        </TouchableOpacity>
-      </View>
-      {/*
-      <View style={styles.info}>
-        <View style={styles.levelSection}>
-          <Text style={styles.lvlTxtWrapper}>
-            Lvl <Text style={styles.lvlTxt}>{user.level}</Text>
-          </Text>
-          <ProgressBar progress={(user.xp * 100) / user.nextXP} />
-          <Text style={styles.progressTxt}>
-            {user.nextXP - user.xp} until next level
-          </Text>
-        </View>
-        <View style={styles.verticalDivider} />
-        <View style={styles.moneySection}>
-          <View style={styles.coinWrapper}>
-            <FontAwesome5 name="coins" size={24} color="#FFC107" />
-            <Text style={styles.coins}>
-              {user.coins} <Text style={styles.coinWord}>coins</Text>
-            </Text>
-          </View>
-          <TouchableOpacity style={styles.getMore} onPress={openPurchase}>
-            <Text style={styles.getMoreText}>Get More</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={styles.livesSection}>
-        <FontAwesome5 name="heart" color="#FF5252" size={14} solid />
-        {user.isPro ? (
-          <Text style={styles.livesText}>
-            <Text style={{ fontFamily: 'sf-bold' }}>∞</Text> lives.
-          </Text>
-        ) : (
-          <Text style={styles.livesText}>
-            You have <Text style={{ fontFamily: 'sf-bold' }}>{user.lives}</Text>{' '}
-            lives left.
-          </Text>
-        )}
-      </View>
-      {user.lifeDate && countdown.indexOf('-') === -1 ? (
-        <Text style={[styles.livesText, styles.nextLife]}>
-          Next life in {countdown} hours.
+const Header = ({
+  user,
+  navigateToProfile,
+  notificationCount,
+  openPlay,
+  openShop
+}) => (
+  <>
+    <View style={styles.header}>
+      <AnimatedCircle
+        color="#7C4DFF"
+        size={152}
+        animationType="position-opacity"
+        endPosition={{ y: 152 - 152 / 4, x: -152 + 152 / 3 }}
+        circleStyle={{ right: -152, top: -152 }}
+      />
+      <AnimatedCircle
+        color="#FFC107"
+        size={115}
+        animationType="position-opacity"
+        delay={150}
+        endPosition={{ y: 115 - 115 / 3.5, x: 0 }}
+        circleStyle={{ top: -115, right: 42 }}
+      />
+      <AnimatedCircle
+        color="#FF5252"
+        size={90}
+        animationType="position-opacity"
+        delay={300}
+        endPosition={{ y: 90 - 90 / 1.8, x: 0 }}
+        circleStyle={{ top: -90, left: 42 }}
+        empty
+      />
+      <View style={styles.leftSide}>
+        <Text style={styles.greeting} numberOfLines={2} ellipsizeMode="tail">
+          Hello {user.displayName},
         </Text>
-      ) : null}
-      */}
-    </>
-  );
-};
+        <Text style={styles.subtitle}>Ready to Play?</Text>
+      </View>
+      <View style={styles.rightSide}>
+        <TouchableOpacity style={styles.imgButton} onPress={navigateToProfile}>
+          <Image
+            resizeMode="cover"
+            source={{ uri: user.profilePic }}
+            style={styles.profilePic}
+          />
+          {notificationCount > 0 ? (
+            <View style={styles.badge}>
+              <Text
+                style={[
+                  styles.badgeText,
+                  { fontSize: notificationCount < 10 ? 12 : 10 }
+                ]}
+              >
+                {notificationCount < 10 ? notificationCount : '9+'}
+              </Text>
+            </View>
+          ) : null}
+          {user.isPro ? (
+            <View style={styles.proBadge}>
+              <Crown width={12} height={12} />
+            </View>
+          ) : null}
+        </TouchableOpacity>
+      </View>
+    </View>
+    <View style={styles.createWrapper}>
+      <Text style={styles.title}>Create a Match</Text>
+      <TouchableOpacity style={styles.shopButton} onPress={openShop}>
+        <Ionicons name={`${PRE_ICON}-cart`} size={16} color="#7c4dff" />
+        <Text style={styles.shopText}>Shop</Text>
+      </TouchableOpacity>
+    </View>
+    <View style={styles.createSection}>
+      <TouchableOpacity style={styles.createRow} onPress={openPlay('ffa')}>
+        <View style={styles.iconWrapper}>
+          <FFAIcon width={60} height={60} />
+        </View>
+        <Text style={styles.createRowText}>Create Free for All match</Text>
+      </TouchableOpacity>
+      <View style={styles.verticalDivider} />
+      <TouchableOpacity style={styles.createRow} onPress={openPlay('versus')}>
+        <View
+          style={[
+            styles.iconWrapper,
+            { backgroundColor: 'rgba(255,82,82, 0.2)' }
+          ]}
+        >
+          <VersusIcon width={60} height={60} />
+        </View>
+        <Text style={styles.createRowText}>Create 1 VS 1 match</Text>
+      </TouchableOpacity>
+    </View>
+  </>
+);
 
 const HomeScreen = ({
   navigation,
@@ -212,7 +178,8 @@ const HomeScreen = ({
   displayNetworkModal,
   openTerms,
   didRefetch,
-  refetchUser
+  refetchUser,
+  openShop
 }) => {
   const userID = navigation.getParam('userID', '');
   const playFromFFA = navigation.getParam('playFromFFA', false);
@@ -567,12 +534,6 @@ const HomeScreen = ({
     setRefreshing(false);
   };
 
-  /* const handleCountdownEnd = async () => {
-    const properties = JSON.stringify({ lives: user.lives + 1 });
-    await updateUser({ variables: { id: user._id, properties } });
-    refetch();
-  }; */
-
   const renderItem = args => {
     const { title } = args.section;
     const position = getPositionString(args.index, title);
@@ -632,6 +593,7 @@ const HomeScreen = ({
         navigateToProfile={navigateToProfile}
         notificationCount={friendRequests.length}
         openPlay={handleOpenPlay}
+        openShop={openShop}
       />
     );
   }, [user]);
@@ -727,61 +689,10 @@ const styles = StyleSheet.create({
     height: 42,
     width: 42
   },
-  info: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    marginTop: 24,
-    paddingLeft: 24,
-    paddingRight: 24
-  },
-  levelSection: {
-    flexBasis: '50%'
-  },
   verticalDivider: {
     backgroundColor: 'rgba(0, 0, 0, 0.05)',
     height: '100%',
     width: 1
-  },
-  moneySection: {
-    alignItems: 'center',
-    flexBasis: '50%'
-  },
-  progressTxt: {
-    fontFamily: 'sf-medium',
-    textAlign: 'center'
-  },
-  lvlTxtWrapper: {
-    fontFamily: 'sf-regular',
-    fontSize: 16
-  },
-  lvlTxt: {
-    fontSize: 24
-  },
-  coinWrapper: {
-    alignItems: 'center',
-    flexDirection: 'row'
-  },
-  coins: {
-    fontFamily: 'sf-bold',
-    fontSize: 18,
-    marginLeft: 12
-  },
-  coinWord: {
-    fontSize: 8,
-    fontFamily: 'sf-light'
-  },
-  getMore: {
-    alignItems: 'center',
-    borderRadius: 6,
-    backgroundColor: '#7C4DFF',
-    justifyContent: 'center',
-    paddingVertical: 3,
-    marginTop: 6,
-    width: '80%'
-  },
-  getMoreText: {
-    fontFamily: 'sf-medium',
-    color: '#fff'
   },
   title: {
     fontFamily: 'sf-medium',
@@ -825,22 +736,6 @@ const styles = StyleSheet.create({
     bottom: -3,
     width: 18
   },
-  livesSection: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 6
-  },
-  livesText: {
-    fontFamily: 'sf-regular',
-    fontSize: 12,
-    opacity: 0.6,
-    marginLeft: 6
-  },
-  nextLife: {
-    alignSelf: 'center',
-    top: Platform.OS !== 'ios' ? -6 : 0
-  },
   createSection: {
     alignItems: 'center',
     backgroundColor: '#fff',
@@ -868,6 +763,26 @@ const styles = StyleSheet.create({
     fontFamily: 'sf-medium',
     fontSize: 12,
     marginTop: 6
+  },
+  createWrapper: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  shopButton: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(124,77,255, 0.2)',
+    borderRadius: 24,
+    flexDirection: 'row',
+    height: 30,
+    justifyContent: 'center',
+    marginRight: 8,
+    paddingHorizontal: 12
+  },
+  shopText: {
+    color: '#7c4dff',
+    fontFamily: 'sf-medium',
+    marginLeft: 6
   }
 });
 
