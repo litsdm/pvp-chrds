@@ -10,6 +10,7 @@ export default gql`
       blockedUsers
       lives
       isPro
+      xp
     }
   }
 `;

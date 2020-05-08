@@ -107,6 +107,7 @@ const FFAMatchRow = ({
       [_id]: GuessedTypes.SUCCESS
     });
     const properties = JSON.stringify({
+      xp: user.xp + 1,
       ffaPoints: user.ffaPoints ? user.ffaPoints + 15 : 15,
       ffaGuessed
     });
