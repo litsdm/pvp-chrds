@@ -19,6 +19,7 @@ import PagePopup from '../PagePopup';
 import SelectMode from './SelectMode';
 import SelectCategory from './SelectCategory';
 import SelectFriend from './SelectFriend';
+import Setup from './Setup';
 
 const fuzzyOptions = {
   shouldSort: true,
@@ -55,6 +56,7 @@ const PlayPopup = ({
   const [selectedFriend, setSelectedFriend] = useState(friend);
   const [selectedMode, setSelectedMode] = useState(null);
   const [categoryHash, setCategoryHash] = useState({});
+  const [settingUp, setSettingUp] = useState(false);
   const [page, setPage] = useState(Page.MODE);
 
   const friends = data ? data.friends : [];
@@ -195,8 +197,17 @@ const PlayPopup = ({
     const actualCategory =
       newCategory !== undefined ? newCategory : selectedCategory;
 
-    if (actualMode === 0) handleFFAPlay(actualCategory);
-    else handleVersusPlay(actualCategory, actualFriend);
+    if (settingUp) return;
+
+    setSettingUp(true);
+
+    try {
+      if (actualMode === 0) handleFFAPlay(actualCategory);
+      else handleVersusPlay(actualCategory, actualFriend);
+    } catch (exception) {
+      console.warn(exception.message);
+      setSettingUp(false);
+    }
   };
 
   const selectMode = newMode => () => {
@@ -245,13 +256,17 @@ const PlayPopup = ({
         openPurchase={handleOpenPurchase}
         openShop={openShop}
       />
-      <SelectFriend
-        friends={results.length > 0 ? results : friends}
-        select={selectFriend}
-        search={search}
-        openAdd={openAdd}
-        onChangeText={handleTextChange}
-      />
+      {settingUp ? (
+        <Setup />
+      ) : (
+        <SelectFriend
+          friends={results.length > 0 ? results : friends}
+          select={selectFriend}
+          search={search}
+          openAdd={openAdd}
+          onChangeText={handleTextChange}
+        />
+      )}
     </PagePopup>
   );
 };

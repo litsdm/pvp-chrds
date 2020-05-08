@@ -793,7 +793,8 @@ HomeScreen.propTypes = {
   displayNetworkModal: bool.isRequired,
   openTerms: func.isRequired,
   didRefetch: func.isRequired,
-  refetchUser: bool.isRequired
+  refetchUser: bool.isRequired,
+  openShop: func.isRequired
 };
 
 Header.propTypes = {
@@ -808,7 +809,8 @@ Header.propTypes = {
     xp: number,
     nextXP: number
   }).isRequired,
-  notificationCount: number.isRequired
+  notificationCount: number.isRequired,
+  openShop: func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
