@@ -306,7 +306,8 @@ const CameraScreen = ({
       matchID: match._id,
       opponentID: opponent._id,
       actedWord: word._id,
-      cameraType: Platform.OS === 'ios' ? iosCameraType : cameraType
+      cameraType: Platform.OS === 'ios' ? iosCameraType : cameraType,
+      useAudio
     };
 
     const notificationPayload = {
@@ -340,7 +341,8 @@ const CameraScreen = ({
       actedWord: word._id,
       sender: user._id,
       cameraType: Platform.OS === 'ios' ? iosCameraType : cameraType,
-      category: categoryID
+      category: categoryID,
+      useAudio
     };
 
     uploadFFAFile(file);

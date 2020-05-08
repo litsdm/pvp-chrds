@@ -1,5 +1,6 @@
 import { readAsStringAsync, EncodingType, deleteAsync } from 'expo-file-system';
 import AsyncStorage from '@react-native-community/async-storage';
+import { ProcessingManager } from 'react-native-video-processing';
 
 import client from '../apolloStore';
 import callApi, { uploadFile, uploadChunk } from '../helpers/apiCaller';
@@ -50,6 +51,19 @@ const finishVideoUpload = () => ({
 const finishPicUpload = () => ({
   type: FINISH_PIC_UPLOAD
 });
+
+const compressVideo = async (videoUri, useAudio) => {
+  const options = {
+    width: 720,
+    height: 1280,
+    bitrateMultiplier: 3,
+    minimumBitrate: 500000,
+    removeAudio: !useAudio
+  };
+
+  const videoData = await ProcessingManager.compress(videoUri, options);
+  return typeof videoData === 'object' ? videoData.source : videoData;
+};
 
 const getSignedRequest = async ({ name, type }, folder, isStatic = false) => {
   try {
@@ -146,7 +160,11 @@ export const upload = (file, finishCB = null) => async dispatch => {
 
   dispatch(toggleProgressBadge(true));
 
+  // const compressedUri = await compressVideo(file.uri, file.useAudio);
   const { signedRequest, url: s3Url } = await getSignedRequest(file, folder);
+
+  // file.oldUri = file.uri;
+  // file.uri = compressedUri;
 
   const handleProgress = (name, progress, uploadedBytes) =>
     dispatch(updateProgress(name, progress, uploadedBytes));
@@ -169,7 +187,11 @@ export const uploadFFA = file => async dispatch => {
 
   dispatch(toggleProgressBadge(true));
 
+  // const compressedUri = await compressVideo(file.uri, file.useAudio);
   const { signedRequest, url: s3Url } = await getSignedRequest(file, folder);
+
+  // file.oldUri = file.uri;
+  // file.uri = compressedUri;
 
   const handleProgress = (name, progress, uploadedBytes) =>
     dispatch(updateProgress(name, progress, uploadedBytes));
