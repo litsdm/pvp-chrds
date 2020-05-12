@@ -166,7 +166,8 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: Platform.OS === 'ios' ? 18 : 9
+    padding: Platform.OS === 'ios' ? 18 : 9,
+    marginBottom: 24
   },
   title: {
     fontFamily: 'sf-bold',
@@ -195,7 +196,8 @@ const styles = StyleSheet.create({
   word: {
     fontFamily: 'sf-light',
     fontSize: 22,
-    marginBottom: Platform.OS === 'ios' ? 12 : 6
+    marginBottom: Platform.OS === 'ios' ? 12 : 6,
+    textTransform: 'capitalize'
   },
   button: {
     alignItems: 'center',
