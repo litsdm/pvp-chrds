@@ -36,7 +36,8 @@ const FFAMatchRow = ({
   showOptions,
   openProModal,
   isSelf,
-  openRetry
+  openRetry,
+  openShare
 }) => {
   const [buffering, setBuffering] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -220,6 +221,7 @@ const FFAMatchRow = ({
           showOptions={showOptions}
           isSelf={isSelf}
           openRetry={openRetry(_id)}
+          openShare={openShare}
         />
       )}
     </View>
@@ -287,6 +289,7 @@ FFAMatchRow.propTypes = {
   openProModal: func.isRequired,
   isSelf: bool.isRequired,
   openRetry: func.isRequired,
+  openShare: func.isRequired,
   word: shape({
     _id: string,
     text: string,

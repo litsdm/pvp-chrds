@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { func } from 'prop-types';
 
 import VideoButton from '../VideoButton';
 
-const BottomControls = ({ send }) => (
+const BottomControls = ({ send, openShare }) => (
   <View style={styles.container}>
     <LinearGradient
       style={styles.gradient}
@@ -13,6 +14,9 @@ const BottomControls = ({ send }) => (
       pointerEvents="none"
     />
     <View style={styles.bottom}>
+      <TouchableOpacity onPress={openShare}>
+        <FontAwesome5 name="share" color="#fff" size={30} />
+      </TouchableOpacity>
       <VideoButton onPress={send} text="Send" iconName="paper-plane" />
     </View>
   </View>
@@ -51,11 +55,16 @@ const styles = StyleSheet.create({
     fontFamily: 'sf-medium',
     fontSize: 16,
     marginRight: 6
+  },
+  bottom: {
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end'
   }
 });
 
 BottomControls.propTypes = {
-  send: func.isRequired
+  send: func.isRequired,
+  openShare: func.isRequired
 };
 
 export default BottomControls;

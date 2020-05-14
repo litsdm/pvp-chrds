@@ -36,6 +36,7 @@ import PickWordModal from '../components/Camera/PickWordModal';
 import Hint from '../components/Match/HintModal';
 import Walkthrough from '../components/Camera/Walkthrough';
 import FFATopControls from '../components/Camera/FFATopControls';
+import SharePopup from '../components/SharePopup';
 
 const mapDispatchToProps = dispatch => ({
   uploadFile: (file, finishCB) => dispatch(upload(file, finishCB)),
@@ -88,6 +89,7 @@ const CameraScreen = ({
   const [rolledWords, setRolledWords] = useState([]);
   const [displayHint, setDisplayHint] = useState(false);
   const [displayWalkthrough, setDisplayWalkthrough] = useState(false);
+  const [shareOptions, setShareOptions] = useState(null);
   const [updateUser] = useMutation(UPDATE_USER);
   const { animationValue, animateTo } = useAnimation({ duration: 200 });
 
@@ -258,6 +260,19 @@ const CameraScreen = ({
     camera.current.stopRecording();
     setRecording(false);
   };
+
+  const openShare = () => {
+    const options = {
+      title: 'Some title',
+      subject: 'Some title',
+      message: 'Can you guess what I just acted?',
+      url: videoUri
+    };
+
+    setShareOptions(options);
+  };
+
+  const closeShare = () => setShareOptions(null);
 
   const recordVideo = async () => {
     if (camera.current === null) return;
@@ -497,6 +512,9 @@ const CameraScreen = ({
           opponent={opponent}
         />
       ) : null}
+      {shareOptions ? (
+        <SharePopup close={closeShare} baseOptions={shareOptions} />
+      ) : null}
       {videoUri ? (
         <VideoOverlay
           uri={videoUri}
@@ -504,7 +522,7 @@ const CameraScreen = ({
           cameraType={cameraType}
         >
           {renderTopControls()}
-          <BottomControls send={handleSend} />
+          <BottomControls send={handleSend} openShare={openShare} />
         </VideoOverlay>
       ) : null}
       {powerup ? (

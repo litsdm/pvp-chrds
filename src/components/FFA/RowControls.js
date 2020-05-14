@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { bool, func, number, string } from 'prop-types';
 
 import VideoButton from '../VideoButton';
@@ -14,7 +14,8 @@ const RowControls = ({
   guessedResult,
   showOptions,
   isSelf,
-  openRetry
+  openRetry,
+  openShare
 }) => {
   const guessedData = () => {
     if (guessedResult === GuessedTypes.SUCCESS)
@@ -43,6 +44,9 @@ const RowControls = ({
           <TouchableOpacity style={styles.options} onPress={showOptions}>
             <Ionicons name="ios-options" size={30} color="#fff" />
           </TouchableOpacity>
+          <TouchableOpacity style={styles.share} onPress={openShare}>
+            <FontAwesome5 name="share" size={30} color="#fff" />
+          </TouchableOpacity>
           {didGuess ? (
             <View style={styles.button}>
               <Text
@@ -68,7 +72,11 @@ const RowControls = ({
             />
           )}
         </>
-      ) : null}
+      ) : (
+        <TouchableOpacity style={styles.share} onPress={openShare}>
+          <FontAwesome5 name="share" size={30} color="#fff" />
+        </TouchableOpacity>
+      )}
     </>
   );
 };
@@ -120,8 +128,14 @@ const styles = StyleSheet.create({
   disabled: {
     color: '#afafaf'
   },
-  options: {
+  share: {
     bottom: 90,
+    position: 'absolute',
+    right: 18,
+    zIndex: 1
+  },
+  options: {
+    bottom: 114,
     position: 'absolute',
     right: 18,
     zIndex: 1
@@ -135,7 +149,8 @@ RowControls.propTypes = {
   showOptions: func.isRequired,
   guessedResult: number,
   isSelf: bool.isRequired,
-  openRetry: func.isRequired
+  openRetry: func.isRequired,
+  openShare: func.isRequired
 };
 
 RowControls.defaultProps = {

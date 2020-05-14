@@ -23,10 +23,12 @@ const Popup = ({
   onContentLayout,
   contentStyles,
   animation,
-  avoidKeyboard
+  avoidKeyboard,
+  preventBackHandler
 }) => {
   const [contentHeight, setContentHeight] = useState(180);
   const [animateDisplay, setAnimateDisplay] = useState({});
+  const [didEnableBackHandler, setEnableBackHandler] = useState(false);
   const { animationValue, animateTo } =
     animation ||
     useAnimation({
@@ -51,7 +53,6 @@ const Popup = ({
       Keyboard.addListener('keyboardDidShow', handleKeyboardShow);
       Keyboard.addListener('keyboardDidHide', handleKeyboardHide);
     }
-    BackHandler.addEventListener('hardwareBackPress', handleBackPress);
     return () => {
       if (Platform.OS === 'ios') {
         Keyboard.removeListener('keyboardWillShow', handleKeyboardShow);
@@ -60,9 +61,20 @@ const Popup = ({
         Keyboard.removeListener('keyboardDidShow');
         Keyboard.removeListener('keyboardDidHide');
       }
-      BackHandler.removeEventListener('hardwareBackPress');
     };
   }, []);
+
+  useEffect(() => {
+    if (preventBackHandler && didEnableBackHandler)
+      BackHandler.removeEventListener('hardwareBackPress');
+
+    if (!preventBackHandler && !didEnableBackHandler) {
+      BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+      setEnableBackHandler(true);
+    }
+
+    return () => BackHandler.removeEventListener('hardwareBackPress');
+  }, [preventBackHandler, didEnableBackHandler]);
 
   const handleKeyboardShow = () => animateTo(2);
   const handleKeyboardHide = () => animateTo(1);
@@ -164,7 +176,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     top: 0,
-    zIndex: 5
+    zIndex: 10
   },
   overlay: {
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
@@ -208,7 +220,8 @@ Popup.propTypes = {
   onContentLayout: func,
   contentStyles: object,
   avoidKeyboard: bool,
-  animation: object
+  animation: object,
+  preventBackHandler: bool
 };
 
 Popup.defaultProps = {
@@ -218,7 +231,8 @@ Popup.defaultProps = {
   onContentLayout: null,
   contentStyles: null,
   avoidKeyboard: true,
-  animation: null
+  animation: null,
+  preventBackHandler: false
 };
 
 export default Popup;

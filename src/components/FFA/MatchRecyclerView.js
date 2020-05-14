@@ -26,6 +26,7 @@ import OptionsModal from './OptionsModal';
 import ReportPopup from './ReportPopup';
 import Walkthrough from './WalkthroughOverlay';
 import AdRetryModal from '../Match/AdRetryModal';
+import SharePopup from '../SharePopup';
 
 import Layout from '../../constants/Layout';
 import { GuessedTypes } from '../../constants/Types';
@@ -75,6 +76,7 @@ const MatchRecyclerView = ({
   const [retryID, setRetryID] = useState('');
   const [showWalkthrough, setShowWalkthrough] = useState(false);
   const [isLoadingAd, setLoadingAd] = useState(false);
+  const [shareOptions, setShareOptions] = useState(null);
 
   useEffect(() => {
     AdMobRewarded.setAdUnitID(AdData.unitID);
@@ -113,6 +115,18 @@ const MatchRecyclerView = ({
 
   const openRetry = _id => () => setRetryID(_id);
   const hideRetry = () => setRetryID('');
+
+  const openShare = url => () => {
+    const options = {
+      title: 'Charades',
+      subject: 'Charades',
+      message: 'Can you guess the word?',
+      url
+    };
+
+    setShareOptions(options);
+  };
+  const closeShare = () => setShareOptions(null);
 
   const handleBlockUser = () => {
     const { sender } = optionsMatch;
@@ -240,6 +254,7 @@ const MatchRecyclerView = ({
         openProModal={openProModal}
         isSelf={isSelf}
         openRetry={openRetry}
+        openShare={openShare(cloudFrontVideo || video)}
       />
     ) : (
       <EmptyRow key={_id} createOwn={handleEmptyCreate} />
@@ -295,6 +310,13 @@ const MatchRecyclerView = ({
           handleBuy={handleRetryBuy}
           handleReject={hideRetry}
           isLoading={isLoadingAd}
+        />
+      ) : null}
+      {shareOptions ? (
+        <SharePopup
+          close={closeShare}
+          baseOptions={shareOptions}
+          downloadFirst
         />
       ) : null}
     </View>
