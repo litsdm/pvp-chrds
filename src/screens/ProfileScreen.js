@@ -56,7 +56,7 @@ const provider = new DataProvider((a, b) => a[0]._id !== b[0]._id);
 
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 
-// let profileUserID = '';
+let profileUserID = '';
 
 const ProfileScreen = ({
   navigation,
@@ -66,7 +66,7 @@ const ProfileScreen = ({
   displayBadge,
   openShop
 }) => {
-  const profileUserID = navigation.getParam('profileUserID', '');
+  profileUserID = navigation.getParam('profileUserID', '');
   const userID = navigation.getParam('userID', '');
 
   const { data, refetch } = useQuery(GET_DATA, {
@@ -94,13 +94,11 @@ const ProfileScreen = ({
   useEffect(() => {
     createLayoutProvider();
     analytics.setCurrentScreen('Profile');
-    if (data) refetch();
   }, []);
 
   useEffect(() => {
     if (Object.prototype.hasOwnProperty.call(user, '_id')) checkBlockIndex();
-    if (data && data.matches && data.matches.length > 0) createData();
-    if (data && data.matches && data.matches.length === 0) setLoading(false);
+    if (data && data.matches) createData();
     if (Object.prototype.hasOwnProperty.call(profileUser, '_id'))
       checkIfIsFriend();
   }, [data]);
@@ -137,6 +135,12 @@ const ProfileScreen = ({
   };
 
   const createData = () => {
+    if (data.matches.length === 0) {
+      setDataProvider(null);
+      setLoading(false);
+      return;
+    }
+
     const dividedMatches = [[{ _id: 'headerIndex' }]];
     const numberOfRows = Math.ceil(matches.length / 3);
     let sliceFrom = 0;
@@ -374,6 +378,7 @@ const ProfileScreen = ({
             dataProvider={dataProvider}
             rowRenderer={rowRenderer}
             onScroll={handleScroll}
+            extendedState={profileUser}
             scrollViewProps={{
               showsVerticalScrollIndicator: false,
               refreshControl: (
