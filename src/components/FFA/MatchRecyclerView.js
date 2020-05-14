@@ -116,11 +116,13 @@ const MatchRecyclerView = ({
   const openRetry = _id => () => setRetryID(_id);
   const hideRetry = () => setRetryID('');
 
-  const openShare = url => () => {
+  const openShare = (url, name) => () => {
+    const categoryName = name.toLowerCase().substring(0, name.length - 1);
     const options = {
-      title: 'Charades',
-      subject: 'Charades',
-      message: 'Can you guess the word?',
+      title: `Guess the ${categoryName}!`,
+      subject: `Guess the ${categoryName}!`,
+      message:
+        'Can you guess what I just acted? To play more download Charades bit.ly/CHRDS',
       url
     };
 
@@ -254,7 +256,7 @@ const MatchRecyclerView = ({
         openProModal={openProModal}
         isSelf={isSelf}
         openRetry={openRetry}
-        openShare={openShare(cloudFrontVideo || video)}
+        openShare={openShare(cloudFrontVideo || video, category.name)}
       />
     ) : (
       <EmptyRow key={_id} createOwn={handleEmptyCreate} />

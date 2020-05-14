@@ -262,10 +262,15 @@ const CameraScreen = ({
   };
 
   const openShare = () => {
+    const categoryName = category.name
+      .toLowerCase()
+      .substring(0, category.name.length - 1);
+    console.log(categoryName);
     const options = {
-      title: 'Some title',
-      subject: 'Some title',
-      message: 'Can you guess what I just acted?',
+      title: `Guess the ${categoryName}!`,
+      subject: `Guess the ${categoryName}!`,
+      message:
+        'Can you guess what I just acted? To play more download Charades bit.ly/CHRDS',
       url: videoUri
     };
 
