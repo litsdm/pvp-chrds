@@ -239,6 +239,7 @@ const MatchRecyclerView = ({
         active={index === activeIndex}
         usingCF={!!cloudFrontVideo}
         username={sender.displayName}
+        allowShare={sender.allowShare}
         categoryName={category.name}
         word={actedWord}
         openCoinShop={openCoinShop}

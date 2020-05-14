@@ -12,6 +12,8 @@ import ToggleOption from '../../components/Settings/ToggleOption';
 import GET_DATA from '../../graphql/queries/getPrivacyData';
 import UPDATE_USER from '../../graphql/mutations/updateUser';
 
+import { AllowShareTypes } from '../../constants/Types';
+
 const mapDispatchToProps = dispatch => ({
   displayBadge: (message, type) => dispatch(toggleBadge(true, message, type))
 });
@@ -24,21 +26,30 @@ const PrivacyScreen = ({ navigation, displayBadge }) => {
 
   const goBack = () => navigation.goBack();
 
-  const updateAllowRandom = async () => {
+  const update = async newProperties => {
     try {
-      const properties = JSON.stringify({
-        allowRandom: !user.allowRandom
-      });
+      const properties = JSON.stringify(newProperties);
 
       await updateProperties({ variables: { id: userID, properties } });
       refetch();
     } catch (exception) {
       const message = exception.message.startsWith('GraphQL error: ')
         ? exception.message.substring(14)
-        : 'There was an error updating your username';
+        : 'There was an error updating your settings';
       displayBadge(message, 'error');
       console.log(exception.message);
     }
+  };
+
+  const updateAllowRandom = () => update({ allowRandom: !user.allowRandom });
+
+  const updateAllowShare = () => {
+    const allowShare =
+      user.allowShare === AllowShareTypes.EVERYONE
+        ? AllowShareTypes.SELF_ONLY
+        : AllowShareTypes.EVERYONE;
+
+    update({ allowShare });
   };
 
   return (
@@ -53,6 +64,13 @@ const PrivacyScreen = ({ navigation, displayBadge }) => {
             label="Allow random opponent games"
             isActive={user.allowRandom}
             onPress={updateAllowRandom}
+          />
+        </View>
+        <View style={styles.group}>
+          <ToggleOption
+            label="Allow anyone to share your FFA videos"
+            isActive={user.allowShare === AllowShareTypes.EVERYONE}
+            onPress={updateAllowShare}
           />
         </View>
       </View>

@@ -13,6 +13,7 @@ export default gql`
       sender {
         _id
         displayName
+        allowShare
       }
       actedWord {
         _id

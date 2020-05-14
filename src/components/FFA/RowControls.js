@@ -5,7 +5,7 @@ import { bool, func, number, string } from 'prop-types';
 
 import VideoButton from '../VideoButton';
 
-import { GuessedTypes } from '../../constants/Types';
+import { GuessedTypes, AllowShareTypes } from '../../constants/Types';
 
 const RowControls = ({
   username,
@@ -15,7 +15,8 @@ const RowControls = ({
   showOptions,
   isSelf,
   openRetry,
-  openShare
+  openShare,
+  allowShare
 }) => {
   const guessedData = () => {
     if (guessedResult === GuessedTypes.SUCCESS)
@@ -26,6 +27,16 @@ const RowControls = ({
       return { text: 'Failed', icon: 'ios-sad', color: '#FF5252' };
 
     return { text: 'Guess', icon: 'chevron-right', color: '#7c4dff' };
+  };
+
+  const renderShareButton = () => {
+    if (allowShare === AllowShareTypes.EVERYONE || isSelf)
+      return (
+        <TouchableOpacity style={styles.share} onPress={openShare}>
+          <FontAwesome5 name="share" size={30} color="#fff" />
+        </TouchableOpacity>
+      );
+    return null;
   };
 
   const { text, icon, color } = guessedData();
@@ -41,12 +52,12 @@ const RowControls = ({
       </View>
       {!isSelf ? (
         <>
-          <TouchableOpacity style={styles.options} onPress={showOptions}>
-            <Ionicons name="ios-options" size={30} color="#fff" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.share} onPress={openShare}>
-            <FontAwesome5 name="share" size={30} color="#fff" />
-          </TouchableOpacity>
+          <View style={styles.actionContainer}>
+            <TouchableOpacity onPress={showOptions}>
+              <Ionicons name="ios-options" size={30} color="#fff" />
+            </TouchableOpacity>
+            {renderShareButton()}
+          </View>
           {didGuess ? (
             <View style={styles.button}>
               <Text
@@ -73,9 +84,7 @@ const RowControls = ({
           )}
         </>
       ) : (
-        <TouchableOpacity style={styles.share} onPress={openShare}>
-          <FontAwesome5 name="share" size={30} color="#fff" />
-        </TouchableOpacity>
+        <View style={styles.actionContainer}>{renderShareButton()}</View>
       )}
     </>
   );
@@ -128,17 +137,14 @@ const styles = StyleSheet.create({
   disabled: {
     color: '#afafaf'
   },
-  share: {
+  actionContainer: {
     bottom: 90,
     position: 'absolute',
     right: 18,
     zIndex: 1
   },
-  options: {
-    bottom: 114,
-    position: 'absolute',
-    right: 18,
-    zIndex: 1
+  share: {
+    marginTop: 12
   }
 });
 
@@ -150,11 +156,13 @@ RowControls.propTypes = {
   guessedResult: number,
   isSelf: bool.isRequired,
   openRetry: func.isRequired,
-  openShare: func.isRequired
+  openShare: func.isRequired,
+  allowShare: number
 };
 
 RowControls.defaultProps = {
-  guessedResult: 0
+  guessedResult: 0,
+  allowShare: AllowShareTypes.EVERYONE
 };
 
 export default RowControls;

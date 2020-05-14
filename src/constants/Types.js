@@ -5,3 +5,9 @@ export const GuessedTypes = {
   RETRY: 3,
   FAIL_RETRY: 4
 };
+
+export const AllowShareTypes = {
+  EVERYONE: 1,
+  FRIENDS_ONLY: 2,
+  SELF_ONLY: 3
+};

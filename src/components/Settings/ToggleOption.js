@@ -29,7 +29,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontFamily: 'sf-medium',
-    fontSize: 16
+    fontSize: 16,
+    maxWidth: '80%'
   }
 });
 

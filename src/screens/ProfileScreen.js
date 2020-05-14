@@ -56,6 +56,8 @@ const provider = new DataProvider((a, b) => a[0]._id !== b[0]._id);
 
 const PRE_ICON = Platform.OS === 'ios' ? 'ios' : 'md';
 
+// let profileUserID = '';
+
 const ProfileScreen = ({
   navigation,
   thumbnailCache,
@@ -64,8 +66,9 @@ const ProfileScreen = ({
   displayBadge,
   openShop
 }) => {
-  const userID = navigation.getParam('userID', '');
   const profileUserID = navigation.getParam('profileUserID', '');
+  const userID = navigation.getParam('userID', '');
+
   const { data, refetch } = useQuery(GET_DATA, {
     variables: { _id: profileUserID, userID }
   });
@@ -91,6 +94,7 @@ const ProfileScreen = ({
   useEffect(() => {
     createLayoutProvider();
     analytics.setCurrentScreen('Profile');
+    if (data) refetch();
   }, []);
 
   useEffect(() => {

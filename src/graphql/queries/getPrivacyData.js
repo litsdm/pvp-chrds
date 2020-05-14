@@ -5,6 +5,7 @@ export default gql`
     user(_id: $_id) {
       _id
       allowRandom
+      allowShare
     }
   }
 `;
