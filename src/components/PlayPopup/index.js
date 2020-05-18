@@ -4,6 +4,7 @@ import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import AsyncStorage from '@react-native-community/async-storage';
 import jwtDecode from 'jwt-decode';
 import Fuse from 'fuse.js';
+import dayjs from 'dayjs';
 import { func, string } from 'prop-types';
 
 import callApi from '../../helpers/apiCaller';
@@ -176,7 +177,8 @@ const PlayPopup = ({
       score: JSON.stringify({ [user._id]: 0, [opponent]: 0 })
     };
 
-    const properties = JSON.stringify({ lives: user.lives - 1 });
+    const lifeDate = user.lifeDate || dayjs().toString();
+    const properties = JSON.stringify({ lives: user.lives - 1, lifeDate });
 
     analytics.logEvent('match_create_versus', {
       category: finalCategory,

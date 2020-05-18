@@ -9,6 +9,7 @@ export default gql`
       ffaGuessed
       blockedUsers
       lives
+      lifeDate
       isPro
       xp
       allowShare

@@ -24,6 +24,7 @@ export default gql`
       coins
       isPro
       lives
+      lifeDate
     }
   }
 `;

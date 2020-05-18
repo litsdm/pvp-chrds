@@ -18,7 +18,7 @@ import {
   IAPResponseCode
 } from 'expo-in-app-purchases';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import { bool, func, number, object, shape, string } from 'prop-types';
@@ -40,6 +40,7 @@ import {
 import { setRefetchUser } from '../actions/user';
 
 import { analytics, messaging } from '../helpers/firebaseClients';
+import { useDateCountdown } from '../helpers/hooks';
 
 import AnimatedCircle from '../components/AnimatedCircle';
 import MatchRow from '../components/MatchRow';
@@ -80,96 +81,120 @@ const Header = ({
   navigateToProfile,
   notificationCount,
   openPlay,
-  openShop
-}) => (
-  <>
-    <View style={styles.header}>
-      <AnimatedCircle
-        color="#7C4DFF"
-        size={152}
-        animationType="position-opacity"
-        endPosition={{ y: 152 - 152 / 4, x: -152 + 152 / 3 }}
-        circleStyle={{ right: -152, top: -152 }}
-      />
-      <AnimatedCircle
-        color="#FFC107"
-        size={115}
-        animationType="position-opacity"
-        delay={150}
-        endPosition={{ y: 115 - 115 / 3.5, x: 0 }}
-        circleStyle={{ top: -115, right: 42 }}
-      />
-      <AnimatedCircle
-        color="#FF5252"
-        size={90}
-        animationType="position-opacity"
-        delay={300}
-        endPosition={{ y: 90 - 90 / 1.8, x: 0 }}
-        circleStyle={{ top: -90, left: 42 }}
-        empty
-      />
-      <View style={styles.leftSide}>
-        <Text style={styles.greeting} numberOfLines={2} ellipsizeMode="tail">
-          Hello {user.displayName},
-        </Text>
-        <Text style={styles.subtitle}>Ready to Play?</Text>
+  openShop,
+  onCountdownEnd
+}) => {
+  const countdown = user.lifeDate
+    ? useDateCountdown(
+        dayjs(),
+        dayjs(user.lifeDate).add(4, 'h'),
+        onCountdownEnd
+      )
+    : '00:00';
+  return (
+    <>
+      <View style={styles.header}>
+        <AnimatedCircle
+          color="#7C4DFF"
+          size={152}
+          animationType="position-opacity"
+          endPosition={{ y: 152 - 152 / 4, x: -152 + 152 / 3 }}
+          circleStyle={{ right: -152, top: -152 }}
+        />
+        <AnimatedCircle
+          color="#FFC107"
+          size={115}
+          animationType="position-opacity"
+          delay={150}
+          endPosition={{ y: 115 - 115 / 3.5, x: 0 }}
+          circleStyle={{ top: -115, right: 42 }}
+        />
+        <AnimatedCircle
+          color="#FF5252"
+          size={90}
+          animationType="position-opacity"
+          delay={300}
+          endPosition={{ y: 90 - 90 / 1.8, x: 0 }}
+          circleStyle={{ top: -90, left: 42 }}
+          empty
+        />
+        <View style={styles.leftSide}>
+          <Text style={styles.greeting} numberOfLines={2} ellipsizeMode="tail">
+            Hello {user.displayName},
+          </Text>
+          <Text style={styles.subtitle}>Ready to Play?</Text>
+          <View style={styles.livesContainer}>
+            <View style={styles.livesIconWrapper}>
+              <FontAwesome5 name="heart" color="#FF5252" size={10} solid />
+            </View>
+            <Text style={styles.livesText}>
+              <Text style={{ fontFamily: 'sf-bold' }}>{user.lives}</Text> lives
+              {user.lifeDate && user.lives < 5 ? (
+                <Text style={{ color: '#bbb' }}> | {countdown}</Text>
+              ) : null}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.rightSide}>
+          <TouchableOpacity
+            style={styles.imgButton}
+            onPress={navigateToProfile}
+          >
+            <Image
+              resizeMode="cover"
+              source={{ uri: user.profilePic }}
+              style={styles.profilePic}
+            />
+            {notificationCount > 0 ? (
+              <View style={styles.badge}>
+                <Text
+                  style={[
+                    styles.badgeText,
+                    { fontSize: notificationCount < 10 ? 12 : 10 }
+                  ]}
+                >
+                  {notificationCount < 10 ? notificationCount : '9+'}
+                </Text>
+              </View>
+            ) : null}
+            {user.isPro ? (
+              <View style={styles.proBadge}>
+                <Crown width={12} height={12} />
+              </View>
+            ) : null}
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.rightSide}>
-        <TouchableOpacity style={styles.imgButton} onPress={navigateToProfile}>
-          <Image
-            resizeMode="cover"
-            source={{ uri: user.profilePic }}
-            style={styles.profilePic}
-          />
-          {notificationCount > 0 ? (
-            <View style={styles.badge}>
-              <Text
-                style={[
-                  styles.badgeText,
-                  { fontSize: notificationCount < 10 ? 12 : 10 }
-                ]}
-              >
-                {notificationCount < 10 ? notificationCount : '9+'}
-              </Text>
-            </View>
-          ) : null}
-          {user.isPro ? (
-            <View style={styles.proBadge}>
-              <Crown width={12} height={12} />
-            </View>
-          ) : null}
+      <View style={styles.createWrapper}>
+        <Text style={styles.title}>Create a Match</Text>
+        <TouchableOpacity style={styles.shopButton} onPress={openShop}>
+          <Ionicons name={`${PRE_ICON}-cart`} size={16} color="#7c4dff" />
+          <Text style={styles.shopText}>Shop</Text>
         </TouchableOpacity>
       </View>
-    </View>
-    <View style={styles.createWrapper}>
-      <Text style={styles.title}>Create a Match</Text>
-      <TouchableOpacity style={styles.shopButton} onPress={openShop}>
-        <Ionicons name={`${PRE_ICON}-cart`} size={16} color="#7c4dff" />
-        <Text style={styles.shopText}>Shop</Text>
-      </TouchableOpacity>
-    </View>
-    <View style={styles.createSection}>
-      <TouchableOpacity style={styles.createRow} onPress={openPlay('ffa')}>
-        <View style={styles.iconWrapper}>
-          <FFAIcon width={60} height={60} />
-        </View>
-        <Text style={styles.createRowText}>Create Free for All match</Text>
-      </TouchableOpacity>
-      <View style={styles.verticalDivider} />
-      <TouchableOpacity style={styles.createRow} onPress={openPlay('versus')}>
-        <View
-          style={[
-            styles.iconWrapper,
-            { backgroundColor: 'rgba(255,82,82, 0.2)' }
-          ]}
-        >
-          <VersusIcon width={60} height={60} />
-        </View>
-        <Text style={styles.createRowText}>Create 1 VS 1 match</Text>
-      </TouchableOpacity>
-    </View>
-  </>
-);
+      <View style={styles.createSection}>
+        <TouchableOpacity style={styles.createRow} onPress={openPlay('ffa')}>
+          <View style={styles.iconWrapper}>
+            <FFAIcon width={60} height={60} />
+          </View>
+          <Text style={styles.createRowText}>Create Free for All match</Text>
+        </TouchableOpacity>
+        <View style={styles.verticalDivider} />
+        <TouchableOpacity style={styles.createRow} onPress={openPlay('versus')}>
+          <View
+            style={[
+              styles.iconWrapper,
+              { backgroundColor: 'rgba(255,82,82, 0.2)' }
+            ]}
+          >
+            <VersusIcon width={60} height={60} />
+          </View>
+          <Text style={styles.createRowText}>Create 1 VS 1 match</Text>
+        </TouchableOpacity>
+      </View>
+    </>
+  );
+};
 
 const HomeScreen = ({
   navigation,
@@ -250,7 +275,11 @@ const HomeScreen = ({
   useEffect(() => {
     if (Object.prototype.hasOwnProperty.call(user, '_id') && !user.acceptedEula)
       displayTermsIfNeeded();
-    if (Object.prototype.hasOwnProperty.call(user, '_id') && user.lifeDate)
+    if (
+      Object.prototype.hasOwnProperty.call(user, '_id') &&
+      user.lifeDate &&
+      user.lives < 5
+    )
       handleLivesCheck();
     if (Object.prototype.hasOwnProperty.call(user, '_id') && !didCheckHistory)
       checkPurchaseHistory();
@@ -313,11 +342,7 @@ const HomeScreen = ({
     const firebaseToken = await messaging.getToken();
     const properties = JSON.stringify({ firebaseToken });
 
-    console.log(firebaseToken);
-
     if (!firebaseToken) return;
-
-    console.log('should update');
 
     await updateUser({ variables: { id: user._id, properties } });
     AsyncStorage.setItem(`${user._id}-fbtokenExists`, 'true');
@@ -426,10 +451,16 @@ const HomeScreen = ({
 
     if (count === 0) return;
 
-    if (user.lives + count < 5) lifeDate = date.subtract(4, 'hour').toString();
+    if (user.lives + count < 5) lifeDate = date.toString();
 
     const properties = JSON.stringify({ lives: user.lives + count, lifeDate });
 
+    await updateUser({ variables: { id: user._id, properties } });
+    refetch();
+  };
+
+  const handleCountdownEnd = async () => {
+    const properties = JSON.stringify({ lives: user.lives + 1 });
     await updateUser({ variables: { id: user._id, properties } });
     refetch();
   };
@@ -594,6 +625,7 @@ const HomeScreen = ({
         notificationCount={friendRequests.length}
         openPlay={handleOpenPlay}
         openShop={openShop}
+        onCountdownEnd={handleCountdownEnd}
       />
     );
   }, [user]);
@@ -784,6 +816,22 @@ const styles = StyleSheet.create({
     color: '#7c4dff',
     fontFamily: 'sf-medium',
     marginLeft: 6
+  },
+  livesContainer: {
+    alignItems: 'center',
+    flexDirection: 'row'
+  },
+  livesIconWrapper: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(255,82,82, 0.2)',
+    borderRadius: 18 / 2,
+    height: 18,
+    justifyContent: 'center',
+    width: 18
+  },
+  livesText: {
+    fontFamily: 'sf-regular',
+    marginLeft: 6
   }
 });
 
@@ -811,7 +859,8 @@ Header.propTypes = {
     nextXP: number
   }).isRequired,
   notificationCount: number.isRequired,
-  openShop: func.isRequired
+  openShop: func.isRequired,
+  onCountdownEnd: func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

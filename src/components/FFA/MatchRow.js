@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ActivityIndicator, Platform, StyleSheet, View } from 'react-native';
 import { Video } from 'expo-av';
 import { LinearGradient } from 'expo-linear-gradient';
+import dayjs from 'dayjs';
 import { bool, func, number, object, string, shape } from 'prop-types';
 
 import { analytics } from '../../helpers/firebaseClients';
@@ -128,9 +129,11 @@ const FFAMatchRow = ({
         ? GuessedTypes.FAIL_RETRY
         : GuessedTypes.FAIL;
     const ffaGuessed = JSON.stringify({ ...guessed, [_id]: guessedResult });
+    const lifeDate = user.lifeDate || dayjs().toString();
     const properties = JSON.stringify({
       ffaPoints: user.ffaPoints ? user.ffaPoints - 5 : 0,
       lives: user.lives - 1,
+      lifeDate,
       ffaGuessed
     });
     const message =
