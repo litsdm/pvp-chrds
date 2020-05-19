@@ -144,7 +144,17 @@ const PurchasePopup = ({ close, displayBadge }) => {
   };
 
   const handleAdReward = async () => {
-    // give user new life
+    const properties = JSON.stringify({ lives: user.lives + 1 });
+
+    try {
+      await updateUser({ variables: { id: user._id, properties } });
+      refetch();
+
+      displayBadge('+1 life!', 'success');
+      handleClose();
+    } catch (exception) {
+      console.log(exception.message);
+    }
     analytics.logEvent('adLife', { location: 'store' });
   };
 
@@ -227,7 +237,7 @@ const PurchasePopup = ({ close, displayBadge }) => {
             name={tierNames[index]}
             index={index}
             key={priceAmountMicros}
-            currencyCode={priceCurrencyCode}
+            currencyCode={Platform.OS === 'ios' ? priceCurrencyCode : ''}
           />
         );
         return result;

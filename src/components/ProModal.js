@@ -6,9 +6,15 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import { AdMobRewarded, setTestDeviceIDAsync } from 'expo-ads-admob';
 import { FontAwesome5 } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-community/async-storage';
+import JwtDecode from 'jwt-decode';
 import { func, string } from 'prop-types';
+
+import UPDATE_USER from '../graphql/mutations/updateUser';
+import GET_DATA from '../graphql/queries/getProModalData';
 
 import { analytics } from '../helpers/firebaseClients';
 import AdData from '../constants/AdData';
@@ -18,13 +24,19 @@ import Modal from './Modal';
 import Crown from '../../assets/icons/crown.svg';
 
 const ProModal = ({ close, openShop, type, displayBadge }) => {
+  const [fetchUser, { data, refetch }] = useLazyQuery(GET_DATA);
+  const [updateUser] = useMutation(UPDATE_USER);
   const iconAnimValue = useRef(new Animated.Value(0)).current;
   const titleAnimValue = useRef(new Animated.Value(0)).current;
   const descriptionAnimValue = useRef(new Animated.Value(0)).current;
   const dividerAnimValue = useRef(new Animated.Value(0)).current;
   const footerAnimValue = useRef(new Animated.Value(0)).current;
 
+  const user = data ? data.user : {};
+  console.log(user);
+
   useEffect(() => {
+    fetchData();
     analytics.logEvent('show_pro_offer', { type });
 
     const config = {
@@ -56,6 +68,11 @@ const ProModal = ({ close, openShop, type, displayBadge }) => {
     };
   }, []);
 
+  const fetchData = async () => {
+    const { _id } = JwtDecode(await AsyncStorage.getItem('CHRDS_TOKEN'));
+    fetchUser({ variables: { _id } });
+  };
+
   const animateOpacity = value => ({
     opacity: value.interpolate({
       inputRange: [0, 1],
@@ -81,7 +98,17 @@ const ProModal = ({ close, openShop, type, displayBadge }) => {
   const footerAnimation = animateOpacity(footerAnimValue);
 
   const handleAdReward = async () => {
-    // give user new life
+    const properties = JSON.stringify({ lives: user.lives + 1 });
+
+    try {
+      await updateUser({ variables: { id: user._id, properties } });
+      refetch();
+
+      displayBadge('+1 life!', 'success');
+      close();
+    } catch (exception) {
+      console.log(exception.message);
+    }
     analytics.logEvent('adLife', { location: 'store' });
   };
 
