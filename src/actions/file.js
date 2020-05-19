@@ -1,6 +1,5 @@
 import { readAsStringAsync, EncodingType, deleteAsync } from 'expo-file-system';
 import AsyncStorage from '@react-native-community/async-storage';
-import { ProcessingManager } from 'react-native-video-processing';
 
 import client from '../apolloStore';
 import callApi, { uploadFile, uploadChunk } from '../helpers/apiCaller';
@@ -51,19 +50,6 @@ const finishVideoUpload = () => ({
 const finishPicUpload = () => ({
   type: FINISH_PIC_UPLOAD
 });
-
-const compressVideo = async (videoUri, useAudio) => {
-  const options = {
-    width: 720,
-    height: 1280,
-    bitrateMultiplier: 3,
-    minimumBitrate: 500000,
-    removeAudio: !useAudio
-  };
-
-  const videoData = await ProcessingManager.compress(videoUri, options);
-  return typeof videoData === 'object' ? videoData.source : videoData;
-};
 
 const getSignedRequest = async ({ name, type }, folder, isStatic = false) => {
   try {
