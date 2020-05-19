@@ -171,7 +171,12 @@ const PopupManager = ({
         <SuggestPopup close={closeSuggest} displayBadge={displayBadge} />
       ) : null}
       {displayPro ? (
-        <ProModal close={closePro} openShop={openStore} type={proType} />
+        <ProModal
+          close={closePro}
+          openShop={openStore}
+          type={proType}
+          displayBadge={displayBadge}
+        />
       ) : null}
     </>
   );
@@ -247,7 +252,4 @@ PopupManager.defaultProps = {
   termsData: {}
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PopupManager);
+export default connect(mapStateToProps, mapDispatchToProps)(PopupManager);

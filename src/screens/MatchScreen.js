@@ -105,6 +105,7 @@ const MatchScreen = ({ navigation, openCoinShop, displayBadge }) => {
       BackHandler.removeEventListener('hardwareBackPress');
       AdMobRewarded.removeEventListener('rewardedVideoDidRewardUser');
       AdMobRewarded.removeEventListener('rewardedVideoDidFailToLoad');
+      AdMobRewarded.removeEventListener('rewardedVideoDidLoad');
     };
   }, []);
 

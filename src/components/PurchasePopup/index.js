@@ -18,6 +18,7 @@ import {
   IAPResponseCode,
   getBillingResponseCodeAsync
 } from 'expo-in-app-purchases';
+import { AdMobRewarded, setTestDeviceIDAsync } from 'expo-ads-admob';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-community/async-storage';
 import jwtDecode from 'jwt-decode';
@@ -34,6 +35,7 @@ import Loader from '../Loader';
 import { analytics } from '../../helpers/firebaseClients';
 import { useAnimation } from '../../helpers/hooks';
 import Layout from '../../constants/Layout';
+import AdData from '../../constants/AdData';
 
 import Crown from '../../../assets/icons/crown.svg';
 import Heart from '../../../assets/icons/heart.svg';
@@ -93,7 +95,21 @@ const PurchasePopup = ({ close, displayBadge }) => {
   useEffect(() => {
     fetchData();
     connectIAP();
-    return () => disconnectAsync();
+
+    AdMobRewarded.setAdUnitID(AdData.lifeUnitID);
+    setTestDeviceIDAsync(AdData.deviceID);
+
+    AdMobRewarded.addEventListener(
+      'rewardedVideoDidRewardUser',
+      handleAdReward
+    );
+    AdMobRewarded.addEventListener('rewardedVideoDidFailToLoad', handleAdFail);
+    return () => {
+      disconnectAsync();
+
+      AdMobRewarded.removeEventListener('rewardedVideoDidRewardUser');
+      AdMobRewarded.removeEventListener('rewardedVideoDidFailToLoad');
+    };
   }, []);
 
   useEffect(() => {
@@ -125,6 +141,21 @@ const PurchasePopup = ({ close, displayBadge }) => {
     const { _id } = jwtDecode(token);
 
     getData({ variables: { _id } });
+  };
+
+  const handleAdReward = async () => {
+    // give user new life
+    analytics.logEvent('adLife', { location: 'store' });
+  };
+
+  const handleAdFail = () => {
+    displayBadge('Ad failed to load.', 'error');
+  };
+
+  const handleAdLife = async () => {
+    displayBadge('Loading reward ad.', 'default');
+    await AdMobRewarded.requestAdAsync();
+    await AdMobRewarded.showAdAsync();
   };
 
   const select = index => () => {
@@ -259,17 +290,31 @@ const PurchasePopup = ({ close, displayBadge }) => {
     const disabledType = getDisabledType();
     const isDisabled = disabledType !== null;
 
-    return (
+    return isDisabled ? (
       <TouchableOpacity
-        style={[styles.button, isDisabled ? styles.disabled : {}]}
+        style={[styles.button, styles.disabled]}
         onPress={buyLives}
         disabled={isDisabled}
       >
         <Text style={styles.buttonText}>{life.buttonText}</Text>
-        <Text style={styles.buttonSubtext}>
-          {isDisabled ? disabledType : `Buy for ${life.price} in-game coins`}
-        </Text>
+        <Text style={styles.buttonSubtext}>{disabledType}</Text>
       </TouchableOpacity>
+    ) : (
+      <View style={styles.adFooter}>
+        <TouchableOpacity
+          style={[styles.button, styles.buttonFlex]}
+          onPress={buyLives}
+        >
+          <Text style={styles.buttonText}>{life.buttonText}</Text>
+          <Text style={styles.buttonSubtext}>
+            {`Buy for ${life.price} in-game coins`}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonSecondary} onPress={handleAdLife}>
+          <Text style={styles.secondButtonText}>Watch an ad</Text>
+          <Text style={styles.secondButtonSubtext}>To get 1 life</Text>
+        </TouchableOpacity>
+      </View>
     );
   };
 
@@ -469,6 +514,34 @@ const styles = StyleSheet.create({
     fontSize: 12,
     opacity: 0.5,
     textDecorationLine: 'underline'
+  },
+  adFooter: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%'
+  },
+  buttonSecondary: {
+    alignItems: 'center',
+    borderColor: '#7c4dff',
+    borderWidth: 1,
+    borderRadius: 8,
+    height: 54,
+    justifyContent: 'center',
+    width: '30%'
+  },
+  secondButtonText: {
+    color: '#7c4dff',
+    fontFamily: 'sf-medium'
+  },
+  secondButtonSubtext: {
+    color: '#7c4dff',
+    fontFamily: 'sf-light',
+    fontSize: 12,
+    opacity: 0.7
+  },
+  buttonFlex: {
+    width: '68%'
   }
 });
 
