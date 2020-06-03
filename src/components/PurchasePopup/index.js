@@ -70,7 +70,7 @@ const coins = [180, 80, 500, 1200];
 const tierNames = ['Pro Monthly', 'Tier 1', 'Tier 2', 'Tier 3'];
 const items = Platform.select({
   ios: [
-    'dev.products.pro',
+    'com.charades.pro',
     'dev.products.coins_small',
     'dev.products.coins_medium',
     'dev.products.coins_large'
@@ -127,7 +127,7 @@ const PurchasePopup = ({ close, displayBadge }) => {
     const { responseCode, results } = await getProductsAsync(items);
 
     results.forEach(result => {
-      if (result.productId.match(/dev.products.pro|pro_monthly/))
+      if (result.productId.match(/com.charades.pro|pro_monthly/))
         subscription = result;
       else otherIAP.push(result);
     });
@@ -226,8 +226,9 @@ const PurchasePopup = ({ close, displayBadge }) => {
 
   const renderTiers = () =>
     data.reduce(
-      (result, { price, priceAmountMicros, priceCurrencyCode }, index) => {
-        if (index === 0) return result;
+      (result, item, index) => {
+        if (index === 0 || item === undefined) return result;
+        const { price, priceAmountMicros, priceCurrencyCode } = item;
         result.push(
           <Tier
             selected={index === selected}
@@ -269,7 +270,7 @@ const PurchasePopup = ({ close, displayBadge }) => {
             <>
               <Text style={styles.buttonText}>Buy Charades Pro</Text>
               <Text style={styles.buttonSubtext}>
-                {data.length > 0
+                {data.length > 0 && data[0] !== undefined
                   ? `${formatPrice(data[0].price)} ${data[0].priceCurrencyCode}`
                   : ''}{' '}
                 billed monthly
@@ -350,36 +351,38 @@ const PurchasePopup = ({ close, displayBadge }) => {
         <View style={styles.divider} />
         {data.length > 0 ? (
           <ScrollView contentContainerStyle={styles.contentContainer}>
-            <TouchableWithoutFeedback onPress={select(0)}>
-              <View
-                style={[
-                  styles.subscription,
-                  selected === 0 ? styles.selected : {}
-                ]}
-              >
-                <Crown width={24} height={24} />
-                <Text style={styles.subscTitle}>Charades Pro</Text>
-                <View style={styles.benefits}>
-                  <Text style={styles.benefit}>• 180 Coins monthly</Text>
-                  <Text style={styles.benefit}>• Unlock all categories</Text>
-                  <Text style={styles.benefit}>
-                    • Submit your own word/category ideas
-                  </Text>
-                  <Text style={styles.benefit}>• Unlimited lives</Text>
+            {data[0] !== undefined ? (
+              <TouchableWithoutFeedback onPress={select(0)}>
+                <View
+                  style={[
+                    styles.subscription,
+                    selected === 0 ? styles.selected : {}
+                  ]}
+                >
+                  <Crown width={24} height={24} />
+                  <Text style={styles.subscTitle}>Charades Pro</Text>
+                  <View style={styles.benefits}>
+                    <Text style={styles.benefit}>• 180 Coins monthly</Text>
+                    <Text style={styles.benefit}>• Unlock all categories</Text>
+                    <Text style={styles.benefit}>
+                      • Submit your own word/category ideas
+                    </Text>
+                    <Text style={styles.benefit}>• Unlimited lives</Text>
+                  </View>
+                  <View style={styles.priceWrapper}>
+                    <Text style={styles.subPrice}>
+                      {formatPrice(data[0].price)}
+                    </Text>
+                    <Text style={styles.subpriceText}>
+                      {data[0].priceCurrencyCode} per month
+                    </Text>
+                  </View>
                 </View>
-                <View style={styles.priceWrapper}>
-                  <Text style={styles.subPrice}>
-                    {formatPrice(data[0].price)}
-                  </Text>
-                  <Text style={styles.subpriceText}>
-                    {data[0].priceCurrencyCode} per month
-                  </Text>
-                </View>
-              </View>
-            </TouchableWithoutFeedback>
+              </TouchableWithoutFeedback>
+            ) : null}
             <TouchableWithoutFeedback>
               <View style={{ width: '100%' }}>
-                <View style={styles.divider} />
+                {data[0] !== undefined ? <View style={styles.divider} /> : null}
                 <Text style={styles.subtitle}>Coins</Text>
                 <View style={styles.tiers}>{renderTiers()}</View>
               </View>

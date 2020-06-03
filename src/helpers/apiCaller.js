@@ -84,7 +84,7 @@ export const getCFSignedUrl = async url => {
 
 export const getApiUrl = (isSocket = false) =>
   __DEV__
-    ? `${isSocket ? 'ws' : 'http'}://192.168.15.13:8080`
+    ? `${isSocket ? 'ws' : 'http'}://192.168.15.7:8080`
     : `${isSocket ? 'ws' : 'https'}://morning-lake-75927.herokuapp.com`;
 
 export default callApi;
