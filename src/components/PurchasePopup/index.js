@@ -225,26 +225,23 @@ const PurchasePopup = ({ close, displayBadge }) => {
   };
 
   const renderTiers = () =>
-    data.reduce(
-      (result, item, index) => {
-        if (index === 0 || item === undefined) return result;
-        const { price, priceAmountMicros, priceCurrencyCode } = item;
-        result.push(
-          <Tier
-            selected={index === selected}
-            select={select(index)}
-            cost={price}
-            coins={coins[index]}
-            name={tierNames[index]}
-            index={index}
-            key={priceAmountMicros}
-            currencyCode={Platform.OS === 'ios' ? priceCurrencyCode : ''}
-          />
-        );
-        return result;
-      },
-      []
-    );
+    data.reduce((result, item, index) => {
+      if (index === 0 || item === undefined) return result;
+      const { price, priceAmountMicros, priceCurrencyCode } = item;
+      result.push(
+        <Tier
+          selected={index === selected}
+          select={select(index)}
+          cost={price}
+          coins={coins[index]}
+          name={tierNames[index]}
+          index={index}
+          key={priceAmountMicros}
+          currencyCode={Platform.OS === 'ios' ? priceCurrencyCode : ''}
+        />
+      );
+      return result;
+    }, []);
 
   const renderLifeTiers = () =>
     livesData.map((life, index) => (

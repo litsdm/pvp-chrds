@@ -1,55 +1,29 @@
 import gql from 'graphql-tag';
 
 export default gql`
-  query GetFFAData($userID: String!, $skip: Int!, $stopFilter: Boolean!) {
-    FFAData: FFAMatches(_id: $userID, skip: $skip, stopFilter: $stopFilter) {
-      newMatches {
+  query GetFFAData($userID: String!, $skip: Int!) {
+    newMatches: FFAMatchesBasic(_id: $userID, skip: $skip) {
+      _id
+      createdOn
+      cameraType
+      cloudFrontVideo
+      video
+      viewedHash
+      uniqueViewCount
+      sender {
         _id
-        createdOn
-        cameraType
-        cloudFrontVideo
-        video
-        viewedHash
-        uniqueViewCount
-        sender {
-          _id
-          displayName
-          allowShare
-        }
-        actedWord {
-          _id
-          text
-          hint
-        }
-        category {
-          _id
-          name
-        }
+        displayName
+        allowShare
       }
-      seenMatches {
+      actedWord {
         _id
-        createdOn
-        cameraType
-        cloudFrontVideo
-        video
-        viewedHash
-        uniqueViewCount
-        sender {
-          _id
-          displayName
-        }
-        actedWord {
-          _id
-          text
-          hint
-        }
-        category {
-          _id
-          name
-        }
+        text
+        hint
       }
-      stopFilter
-      skip
+      category {
+        _id
+        name
+      }
     }
   }
 `;
