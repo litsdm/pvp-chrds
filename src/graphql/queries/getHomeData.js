@@ -18,10 +18,15 @@ export default gql`
       lives
       lifeDate
       proDate
+      email
+      isMember
+      ffaCount
+      tookTrial
     }
     friendRequests(_id: $_id) {
       _id
     }
     ffaMatchCount(_id: $_id)
+    memberCount
   }
 `;

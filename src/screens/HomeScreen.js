@@ -30,12 +30,14 @@ import UPDATED_MATCH from '../graphql/subscriptions/updatedMatch';
 import UPDATE_MATCH from '../graphql/mutations/updateMatch';
 import UPDATE_USER from '../graphql/mutations/updateUser';
 import DELETE_MATCH from '../graphql/mutations/deleteMatch';
+import MAKE_MEMBER from '../graphql/mutations/makeMember';
 
 import {
   togglePlay,
   toggleNetworkModal,
   toggleTerms,
-  togglePurchasePopup
+  togglePurchasePopup,
+  toggleBadge
 } from '../actions/popup';
 import { setRefetchUser } from '../actions/user';
 
@@ -49,6 +51,7 @@ import Loader from '../components/Loader';
 import Empty from '../components/Empty';
 import FFARow from '../components/FFARow';
 import NotificationModal from '../components/FFA/NotificationModal';
+import MemberModal from '../components/MemberModal';
 
 import Crown from '../../assets/icons/crown.svg';
 import FFAIcon from '../../assets/icons/ffa.svg';
@@ -61,7 +64,8 @@ const mapDispatchToProps = dispatch => ({
   closeNetworkModal: () => dispatch(toggleNetworkModal(false)),
   openTerms: data => dispatch(toggleTerms(true, data)),
   didRefetch: () => dispatch(setRefetchUser(false)),
-  openShop: () => dispatch(togglePurchasePopup(true))
+  openShop: () => dispatch(togglePurchasePopup(true)),
+  displayBadge: (message, type) => dispatch(toggleBadge(true, message, type))
 });
 
 const mapStateToProps = ({
@@ -204,7 +208,8 @@ const HomeScreen = ({
   openTerms,
   didRefetch,
   refetchUser,
-  openShop
+  openShop,
+  displayBadge
 }) => {
   const userID = navigation.getParam('userID', '');
   const playFromFFA = navigation.getParam('playFromFFA', false);
@@ -227,9 +232,11 @@ const HomeScreen = ({
   const [didCheckLives, setCheckLives] = useState(false);
   const [didCheckHistory, setCheckHistory] = useState(false);
   const [displayProfileModal, setDisplayProfileModal] = useState(false);
+  const [displayMemberModal, setDisplayMemberModal] = useState(false);
   const [updateMatch] = useMutation(UPDATE_MATCH);
   const [deleteMatch] = useMutation(DELETE_MATCH);
   const [updateUser] = useMutation(UPDATE_USER);
+  const [makeMember] = useMutation(MAKE_MEMBER);
 
   const user = data ? data.user : {};
   const friendRequests = data ? data.friendRequests : [];
@@ -283,6 +290,8 @@ const HomeScreen = ({
       handleLivesCheck();
     if (Object.prototype.hasOwnProperty.call(user, '_id') && !didCheckHistory)
       checkPurchaseHistory();
+    if (Object.prototype.hasOwnProperty.call(user, '_id') && !user.email)
+      displayMemberModalIfNeeded();
   }, [user]);
 
   useEffect(() => {
@@ -374,6 +383,20 @@ const HomeScreen = ({
     refetch();
   };
 
+  const checkMemberTrial = async () => {
+    const nextTwoMonths = dayjs(user.proDate).add(2, 'month');
+
+    if (dayjs().isAfter(nextTwoMonths)) {
+      const properties = JSON.stringify({
+        isPro: false,
+        proDate: null,
+        tookTrial: true
+      });
+
+      await updateUser({ variables: { id: user._id, properties } });
+    }
+  };
+
   const checkPurchaseHistory = async () => {
     const proDate = dayjs(user.proDate);
     const nextMonth = dayjs(user.proDate).add(1, 'month');
@@ -381,6 +404,11 @@ const HomeScreen = ({
     setCheckHistory(true);
 
     if (!user.isPro) return;
+
+    if (user.isMember && !user.tookTrial) {
+      checkMemberTrial();
+      return;
+    }
 
     if (dayjs().isBetween(proDate, nextMonth, 'day', '[]')) return;
 
@@ -425,6 +453,11 @@ const HomeScreen = ({
 
     openTerms({ userID, onAccept });
     await AsyncStorage.setItem('eula', 'true');
+  };
+
+  const displayMemberModalIfNeeded = () => {
+    const display = !user.email && user.ffaCount > 0 && data.memberCount < 100;
+    setDisplayMemberModal(display);
   };
 
   const openProfileModalIfNeeded = async () => {
@@ -517,6 +550,16 @@ const HomeScreen = ({
 
   const openProfileModal = () => setDisplayProfileModal(true);
   const closeProfileModal = () => setDisplayProfileModal(false);
+
+  const closeMemberModal = () => setDisplayMemberModal(false);
+  const handleMemberReject = async () => {
+    const properties = JSON.stringify({ email: 'rejected' });
+    await updateUser({ variables: { id: user._id, properties } });
+  };
+  const handleMakeMember = async email => {
+    await makeMember({ variables: { _id: user._id, coins: 180, email } });
+    refetch();
+  };
 
   const handlePlay = (match, opponent) => () => {
     const newRoute = match.state === 'play' ? 'Camera' : 'Match';
@@ -666,6 +709,14 @@ const HomeScreen = ({
               ListHeaderComponent={renderHeader}
               ListEmptyComponent={renderEmpty}
             />
+            {displayMemberModal ? (
+              <MemberModal
+                close={closeMemberModal}
+                handleReject={handleMemberReject}
+                makeMember={handleMakeMember}
+                displayBadge={displayBadge}
+              />
+            ) : null}
             {displayProfileModal ? (
               <NotificationModal
                 close={closeProfileModal}
@@ -843,7 +894,8 @@ HomeScreen.propTypes = {
   openTerms: func.isRequired,
   didRefetch: func.isRequired,
   refetchUser: bool.isRequired,
-  openShop: func.isRequired
+  openShop: func.isRequired,
+  displayBadge: func.isRequired
 };
 
 Header.propTypes = {
