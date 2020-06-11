@@ -165,11 +165,8 @@ export const upload = (file, finishCB = null) => async dispatch => {
 
   dispatch(toggleProgressBadge(true));
 
-  // const compressedUri = await compressVideo(file.uri, file.useAudio);
+  const compressedFile = await compressVideo(file);
   const { signedRequest, url: s3Url } = await getSignedRequest(file, folder);
-
-  // file.oldUri = file.uri;
-  // file.uri = compressedUri;
 
   const handleProgress = (name, progress, uploadedBytes) =>
     dispatch(updateProgress(name, progress, uploadedBytes));
@@ -177,11 +174,17 @@ export const upload = (file, finishCB = null) => async dispatch => {
   const handleFinish = doneFile => {
     dispatch(uploadVideoComplete(doneFile));
     deleteAsync(doneFile.uri, { idempotent: true });
+    deleteAsync(doneFile.oldUri, { idempotent: true });
     if (finishCB) finishCB(doneFile);
     AsyncStorage.removeItem('brokenUploadData');
   };
 
-  const composeFile = { ...file, s3Url, progress: 0, uploadedBytes: 0 };
+  const composeFile = {
+    ...compressedFile,
+    s3Url,
+    progress: 0,
+    uploadedBytes: 0
+  };
 
   dispatch(addVideoToQueue(composeFile));
   uploadFile(composeFile, signedRequest, handleProgress, handleFinish);
@@ -203,6 +206,7 @@ export const uploadFFA = file => async dispatch => {
   const handleFinish = doneFile => {
     dispatch(uploadFFAVideoComplete(doneFile));
     deleteAsync(doneFile.uri, { idempotent: true });
+    deleteAsync(doneFile.oldUri, { idempotent: true });
     AsyncStorage.removeItem('brokenUploadData');
   };
 
