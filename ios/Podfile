@@ -36,6 +36,7 @@ target 'charades' do
   pod 'glog', :podspec => "#{rnPrefix}/third-party-podspecs/glog.podspec"
   pod 'Folly', :podspec => "#{rnPrefix}/third-party-podspecs/Folly.podspec"
   pod 'GoogleAppMeasurement', '= 6.1.6'
+  pod 'react-native-ffmpeg/min-gpl', :podspec => '../node_modules/react-native-ffmpeg/react-native-ffmpeg.podspec'
 
   # Other native modules
 

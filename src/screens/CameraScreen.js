@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import * as Brightness from 'expo-brightness';
-import { getInfoAsync, deleteAsync } from 'expo-file-system';
+import { deleteAsync } from 'expo-file-system';
 import { func, object } from 'prop-types';
 
 import callApi from '../helpers/apiCaller';
@@ -312,7 +312,6 @@ const CameraScreen = ({
   };
 
   const handleVersusSend = async () => {
-    const { size } = await getInfoAsync(videoUri, { size: true });
     const extension = videoUri.split('.').pop();
     const name = `${match._id}-round.${extension}`;
 
@@ -321,7 +320,6 @@ const CameraScreen = ({
     const file = {
       uri: videoUri,
       name,
-      size,
       type: mime(extension),
       matchID: match._id,
       opponentID: opponent._id,
@@ -346,7 +344,6 @@ const CameraScreen = ({
   };
 
   const handleFFASend = async () => {
-    const { size } = await getInfoAsync(videoUri, { size: true });
     const extension = videoUri.split('.').pop();
     const digits = Math.floor(1000 + Math.random() * 9000);
     const name = `${user._id}-ffa-${digits}.${extension}`;
@@ -356,7 +353,6 @@ const CameraScreen = ({
     const file = {
       uri: videoUri,
       name,
-      size,
       type: mime(extension),
       actedWord: word._id,
       sender: user._id,

@@ -1,5 +1,12 @@
-import { readAsStringAsync, EncodingType, deleteAsync } from 'expo-file-system';
+import {
+  readAsStringAsync,
+  EncodingType,
+  deleteAsync,
+  getInfoAsync,
+  documentDirectory
+} from 'expo-file-system';
 import AsyncStorage from '@react-native-community/async-storage';
+import { RNFFmpeg } from 'react-native-ffmpeg';
 
 import client from '../apolloStore';
 import callApi, { uploadFile, uploadChunk } from '../helpers/apiCaller';
@@ -50,6 +57,18 @@ const finishVideoUpload = () => ({
 const finishPicUpload = () => ({
   type: FINISH_PIC_UPLOAD
 });
+
+export const compressVideo = async file => {
+  const { uri, name } = file;
+  const outputUri = `${documentDirectory}${name}`;
+
+  await RNFFmpeg.execute(`-i ${uri} -vcodec libx265 ${outputUri}`);
+  const { size } = await getInfoAsync(outputUri, { size: true });
+
+  const newFile = { ...file, oldUri: file.uri, size, uri: outputUri };
+
+  return newFile;
+};
 
 const getSignedRequest = async ({ name, type }, folder, isStatic = false) => {
   try {
@@ -173,11 +192,10 @@ export const uploadFFA = file => async dispatch => {
 
   dispatch(toggleProgressBadge(true));
 
-  // const compressedUri = await compressVideo(file.uri, file.useAudio);
+  const compressedFile = await compressVideo(file);
   const { signedRequest, url: s3Url } = await getSignedRequest(file, folder);
 
   // file.oldUri = file.uri;
-  // file.uri = compressedUri;
 
   const handleProgress = (name, progress, uploadedBytes) =>
     dispatch(updateProgress(name, progress, uploadedBytes));
@@ -188,7 +206,12 @@ export const uploadFFA = file => async dispatch => {
     AsyncStorage.removeItem('brokenUploadData');
   };
 
-  const composeFile = { ...file, s3Url, progress: 0, uploadedBytes: 0 };
+  const composeFile = {
+    ...compressedFile,
+    s3Url,
+    progress: 0,
+    uploadedBytes: 0
+  };
 
   dispatch(addVideoToQueue(composeFile));
   uploadFile(composeFile, signedRequest, handleProgress, handleFinish);
