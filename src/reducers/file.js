@@ -5,19 +5,21 @@ import {
   FINISH_PIC_UPLOAD,
   UPDATE_PIC_PROGRESS,
   START_PIC_UPLOAD,
-  COMPLETE_VIDEO
+  COMPLETE_VIDEO,
+  SET_MESSAGE
 } from '../actions/file';
 
 const initialState = {
   videos: {},
   completedCount: 0,
   uploadingPic: false,
-  picProgress: 0
+  picProgress: 0,
+  message: ''
 };
 
 const fileReducer = (
   state = initialState,
-  { type, file, progress, count, name, uploadedBytes }
+  { type, file, progress, count, name, uploadedBytes, message }
 ) => {
   switch (type) {
     case ADD_VIDEO_TO_QUEUE:
@@ -40,6 +42,8 @@ const fileReducer = (
           }
         }
       };
+    case SET_MESSAGE:
+      return { ...state, message };
     case FINISH_VIDEO_UPLOAD:
       return { ...state, videos: {}, completedCount: 0 };
     case FINISH_PIC_UPLOAD:

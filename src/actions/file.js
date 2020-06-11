@@ -23,6 +23,7 @@ export const FINISH_PIC_UPLOAD = 'FINISH_PIC_UPLOAD';
 export const UPDATE_PIC_PROGRESS = 'UPDATE_PIC_PROGRESS';
 export const START_PIC_UPLOAD = 'START_PIC_UPLOAD';
 export const COMPLETE_VIDEO = 'COMPLETE_VIDEO';
+export const SET_MESSAGE = 'SET_MESSAGE';
 
 export const updateProgress = (name, progress, uploadedBytes) => ({
   name,
@@ -56,6 +57,11 @@ const finishVideoUpload = () => ({
 
 const finishPicUpload = () => ({
   type: FINISH_PIC_UPLOAD
+});
+
+const setMessage = message => ({
+  message,
+  type: SET_MESSAGE
 });
 
 export const compressVideo = async file => {
@@ -165,7 +171,10 @@ export const upload = (file, finishCB = null) => async dispatch => {
 
   dispatch(toggleProgressBadge(true));
 
+  dispatch(setMessage('Preparing video...'));
   const compressedFile = await compressVideo(file);
+  dispatch(setMessage(''));
+
   const { signedRequest, url: s3Url } = await getSignedRequest(file, folder);
 
   const handleProgress = (name, progress, uploadedBytes) =>
@@ -195,7 +204,10 @@ export const uploadFFA = file => async dispatch => {
 
   dispatch(toggleProgressBadge(true));
 
+  dispatch(setMessage('Preparing video...'));
   const compressedFile = await compressVideo(file);
+  dispatch(setMessage(''));
+
   const { signedRequest, url: s3Url } = await getSignedRequest(file, folder);
 
   // file.oldUri = file.uri;

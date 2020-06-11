@@ -20,7 +20,6 @@ import {
 import CategoryPopup from './CategoryPopup';
 import AddFriendPopup from './AddFriendPopup';
 import Badge from './Badge';
-import ProgressBadge from './ProgressBadge';
 import NetworkErrorModal from './NetworkErrorModal';
 import PurchasePopup from './PurchasePopup';
 import CategoryPurchase from './CategoryPurchase';
@@ -29,6 +28,7 @@ import TermsPopup from './TermsPopup';
 import FeedbackPopup from './Settings/FeedbackPopup';
 import SuggestPopup from './SuggestPopup';
 import ProModal from './ProModal';
+import UploadBar from './UploadBar';
 
 const mapDispatchToProps = dispatch => ({
   closeAdd: () => dispatch(toggleAdd(false)),
@@ -69,7 +69,7 @@ const mapStateToProps = ({
     displayPro,
     proType
   },
-  file: { videos }
+  file: { videos, message }
 }) => ({
   displayCategory,
   categoryPopupData,
@@ -88,7 +88,8 @@ const mapStateToProps = ({
   displayFeedback,
   displaySuggest,
   displayPro,
-  proType
+  proType,
+  uploadMessage: message
 });
 
 const PopupManager = ({
@@ -124,7 +125,8 @@ const PopupManager = ({
   closeSuggest,
   displayPro,
   proType,
-  closePro
+  closePro,
+  uploadMessage
 }) => {
   const openPlay = _id => () => showPlay({ playCategory: _id });
 
@@ -141,9 +143,6 @@ const PopupManager = ({
         />
       ) : null}
       {badge.display ? <Badge close={closeBadge} {...badge} /> : null}
-      {displayProgressBadge ? (
-        <ProgressBadge close={closeProgressBadge} videos={videos} />
-      ) : null}
       {displayNetworkModal ? <NetworkErrorModal /> : null}
       {displayCategoryPurchase ? (
         <CategoryPurchase
@@ -176,6 +175,13 @@ const PopupManager = ({
           openShop={openStore}
           type={proType}
           displayBadge={displayBadge}
+        />
+      ) : null}
+      {displayProgressBadge ? (
+        <UploadBar
+          close={closeProgressBadge}
+          videos={videos}
+          message={uploadMessage}
         />
       ) : null}
     </>
@@ -240,7 +246,8 @@ PopupManager.propTypes = {
   closeSuggest: func.isRequired,
   displayPro: bool.isRequired,
   proType: string.isRequired,
-  closePro: func.isRequired
+  closePro: func.isRequired,
+  uploadMessage: string
 };
 
 PopupManager.defaultProps = {
@@ -249,7 +256,8 @@ PopupManager.defaultProps = {
   videos: {},
   pickUsernameData: {},
   categoryPopupData: {},
-  termsData: {}
+  termsData: {},
+  uploadMessage: ''
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PopupManager);
