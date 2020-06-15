@@ -26,5 +26,8 @@ export default gql`
       _id
       blockedUsers
     }
+    friendRequests(_id: $_id) {
+      _id
+    }
   }
 `;

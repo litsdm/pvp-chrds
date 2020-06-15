@@ -20,6 +20,8 @@ const Header = ({
   onChallengePress,
   onMorePress,
   navigateToSettings,
+  navigateToFriends,
+  notificationCount,
   openShop
 }) => (
   <View style={styles.header}>
@@ -32,6 +34,24 @@ const Header = ({
           <TouchableOpacity style={styles.shopButton} onPress={openShop}>
             <Ionicons name={`${PRE_ICON}-cart`} size={16} color="#7c4dff" />
             <Text style={styles.shopText}>Shop</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.friendsButton}
+            onPress={navigateToFriends}
+          >
+            {notificationCount > 0 ? (
+              <View style={styles.badge}>
+                <Text
+                  style={[
+                    styles.badgeText,
+                    { fontSize: notificationCount < 10 ? 12 : 10 }
+                  ]}
+                >
+                  {notificationCount < 10 ? notificationCount : '9+'}
+                </Text>
+              </View>
+            ) : null}
+            <Ionicons name={`${PRE_ICON}-people`} size={28} color="#000" />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.settingsButton}
@@ -144,6 +164,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     width: 30
   },
+  friendsButton: {
+    alignItems: 'center',
+    height: 30,
+    justifyContent: 'flex-end',
+    marginRight: 8,
+    width: 30
+  },
   coins: {
     marginRight: 6,
     top: -3
@@ -249,6 +276,23 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 2,
     width: '20%'
+  },
+  badge: {
+    alignItems: 'center',
+    backgroundColor: '#FF5252',
+    borderRadius: 18 / 2,
+    height: 18,
+    justifyContent: 'center',
+    position: 'absolute',
+    left: -6,
+    top: -6,
+    width: 18,
+    zIndex: 1
+  },
+  badgeText: {
+    color: '#fff',
+    fontFamily: 'sf-bold',
+    fontSize: 4
   }
 });
 
@@ -260,7 +304,9 @@ Header.propTypes = {
   onChallengePress: func.isRequired,
   onMorePress: func.isRequired,
   navigateToSettings: func.isRequired,
-  openShop: func.isRequired
+  openShop: func.isRequired,
+  navigateToFriends: func.isRequired,
+  notificationCount: number.isRequired
 };
 
 export default Header;

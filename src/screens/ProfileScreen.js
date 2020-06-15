@@ -90,6 +90,7 @@ const ProfileScreen = ({
   const user = data ? data.user : {};
   const profileUser = data ? data.profileUser : {};
   const matches = data ? data.matches : [];
+  const friendRequests = data ? data.friendRequests : [];
 
   useEffect(() => {
     createLayoutProvider();
@@ -285,6 +286,7 @@ const ProfileScreen = ({
       initialRenderIndex: index
     });
   const goToSettings = () => navigation.navigate('Settings');
+  const goToFriends = () => navigation.navigate('Friends');
 
   const renderHeader = () => (
     <Header
@@ -295,6 +297,8 @@ const ProfileScreen = ({
       onChallengePress={handleOpenPlay}
       onMorePress={openMore}
       navigateToSettings={goToSettings}
+      navigateToFriends={goToFriends}
+      notificationCount={friendRequests.length}
       openShop={openShop}
     />
   );
