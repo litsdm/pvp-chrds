@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import Fuse from 'fuse.js';
 import jwtDecode from 'jwt-decode';
+import Share from 'react-native-share';
 import { func } from 'prop-types';
 
 import GET_SEARCH_FRIENDS from '../../graphql/queries/getSearchFriends';
@@ -72,6 +73,17 @@ const AddFriendPopup = ({ close }) => {
     await createFriendRequest({ variables: { to: friendID, from: _id } });
   };
 
+  const handleInvite = async () => {
+    const options = {
+      message:
+        'Play Charades with me! Just download the app at bit.ly/CHRDS to start playing.',
+      title: 'Play Charades online',
+      subject: 'Play Charades online'
+    };
+
+    await Share.open(options);
+  };
+
   const renderItem = args => {
     const { _id, displayName, profilePic } = args.item.item;
     return (
@@ -106,7 +118,7 @@ const AddFriendPopup = ({ close }) => {
               <Empty
                 title="No results for your search."
                 description="Are your friends not on CHRDS? Invite them!"
-                action={() => {}}
+                action={handleInvite}
                 actionTitle="Invite a Friend"
               />
             )}
