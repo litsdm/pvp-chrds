@@ -34,6 +34,7 @@ const AddFriendPopup = ({ close }) => {
   const [createFriendRequest] = useMutation(CREATE_FRIEND_REQUEST);
   const [search, setSearch] = useState('');
   const [added, setAdded] = useState({});
+  const [userID, setUserID] = useState('');
   const searchFriends = data ? data.searchFriends : [];
 
   const fuse = new Fuse(searchFriends, fuzzyOptions);
@@ -41,16 +42,25 @@ const AddFriendPopup = ({ close }) => {
   const results = fuse.search(search);
 
   useEffect(() => {
-    fetchSearchFriends();
+    fetchUserID();
   }, []);
 
-  const fetchSearchFriends = async () => {
+  const fetchUserID = async () => {
     const token = await AsyncStorage.getItem('CHRDS_TOKEN');
     const { _id } = jwtDecode(token);
-    getSearchFriends({ variables: { _id } });
+    setUserID(_id);
   };
 
-  const handleTextChange = text => setSearch(text);
+  const fetchSearchFriends = async text => {
+    getSearchFriends({ variables: { _id: userID, text } });
+  };
+
+  const handleTextChange = text => {
+    if (text && text.length < 3) {
+      fetchSearchFriends(text.toLowerCase());
+    }
+    setSearch(text);
+  };
 
   const handleAdd = friendID => async () => {
     if (added[friendID]) return;
@@ -63,10 +73,10 @@ const AddFriendPopup = ({ close }) => {
   };
 
   const renderItem = args => {
-    const { _id, username, profilePic } = args.item;
+    const { _id, displayName, profilePic } = args.item.item;
     return (
       <FriendRow
-        username={username}
+        username={displayName}
         uri={profilePic}
         add={handleAdd(_id)}
         added={added[_id]}
@@ -80,27 +90,29 @@ const AddFriendPopup = ({ close }) => {
       contentStyles={styles.popupContent}
       avoidKeyboard={false}
     >
-      {loading ? (
-        <Loader />
-      ) : (
-        <View style={styles.container}>
-          <SearchBar search={search} onChangeText={handleTextChange} />
-          {results.length > 0 ? (
-            <FlatList
-              data={results}
-              keyExtractor={item => item._id}
-              renderItem={renderItem}
-            />
-          ) : (
-            <Empty
-              title="No results for your search."
-              description="Are your friends not on CHRDS? Invite them!"
-              action={() => {}}
-              actionTitle="Invite a Friend"
-            />
-          )}
-        </View>
-      )}
+      <View style={styles.container}>
+        <SearchBar search={search} onChangeText={handleTextChange} />
+        {loading ? (
+          <Loader containerStyle={styles.loaderStyles} />
+        ) : (
+          <>
+            {results.length > 0 ? (
+              <FlatList
+                data={results}
+                keyExtractor={item => item._id}
+                renderItem={renderItem}
+              />
+            ) : (
+              <Empty
+                title="No results for your search."
+                description="Are your friends not on CHRDS? Invite them!"
+                action={() => {}}
+                actionTitle="Invite a Friend"
+              />
+            )}
+          </>
+        )}
+      </View>
     </Popup>
   );
 };
@@ -112,6 +124,9 @@ const styles = StyleSheet.create({
   },
   popupContent: {
     height: Layout.window.height - 104
+  },
+  loaderStyles: {
+    marginTop: 120
   }
 });
 
