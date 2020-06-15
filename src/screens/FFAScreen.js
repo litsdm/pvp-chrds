@@ -18,6 +18,7 @@ const ITEMS = 15;
 const provider = new DataProvider((a, b) => a._id !== b._id);
 
 let _guessing = false;
+let _activeIndex = 0;
 const _history = {};
 
 const FFAScreen = ({ navigation }) => {
@@ -40,6 +41,7 @@ const FFAScreen = ({ navigation }) => {
 
   // Expose these variables to goBack & background event listeners, need to find a better way but for now this is the easiest I came up with.
   _guessing = guessing;
+  _activeIndex = activeIndex;
 
   useEffect(() => {
     AppState.addEventListener('change', handleStateChange);
@@ -139,14 +141,17 @@ const FFAScreen = ({ navigation }) => {
     _history[match._id] = { ..._history[match._id], [userID]: true };
   };
 
-  const handleIndexChange = indeces => {
+  const handleIndexChange = async indeces => {
+    let index;
     if (indeces.length === 1) {
-      const index = indeces[0];
-      setActiveIndex(index);
-      addToHistory(matches[index]);
-
-      if (_guessing) setGuessing(false);
+      [index] = indeces;
+    } else {
+      index = _activeIndex === indeces[0] ? indeces[1] : indeces[0];
     }
+    setActiveIndex(index);
+    addToHistory(matches[index]);
+
+    if (_guessing) setGuessing(false);
   };
 
   return (

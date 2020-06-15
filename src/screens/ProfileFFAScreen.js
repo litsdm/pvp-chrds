@@ -13,6 +13,7 @@ import MatchRecyclerView from '../components/FFA/MatchRecyclerView';
 const provider = new DataProvider((a, b) => a._id !== b._id);
 
 let _guessing;
+let _activeIndex;
 
 const ProfileFFAScreen = ({ navigation }) => {
   const userID = navigation.getParam('userID', '');
@@ -30,6 +31,7 @@ const ProfileFFAScreen = ({ navigation }) => {
   const user = userData ? userData.user : {};
 
   _guessing = guessing;
+  _activeIndex = activeIndex;
 
   useEffect(() => {
     analytics.setCurrentScreen('ProfileFFA');
@@ -66,8 +68,16 @@ const ProfileFFAScreen = ({ navigation }) => {
   const handleCreateOwn = () =>
     navigation.navigate('Home', { userID, playFromFFA: true });
 
-  const handleIndexChange = indeces => {
-    if (indeces.length === 1) setActiveIndex(indeces[0]);
+  const handleIndexChange = async indeces => {
+    let index;
+    if (indeces.length === 1) {
+      [index] = indeces;
+    } else {
+      index = _activeIndex === indeces[0] ? indeces[1] : indeces[0];
+    }
+    setActiveIndex(index);
+
+    if (_guessing) setGuessing(false);
   };
 
   return (
