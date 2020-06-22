@@ -115,7 +115,7 @@ const PlayPopup = ({
 
   const getFinalCategory = actualCategory => {
     let finalCategory = actualCategory;
-    if (selectedCategory === '-1') {
+    if (actualCategory === '-1') {
       const randomIndex = Math.floor(Math.random() * user.categories.length);
       finalCategory = user.categories[randomIndex];
       setSelectedCategory(finalCategory);
